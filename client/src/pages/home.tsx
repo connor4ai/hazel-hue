@@ -488,7 +488,7 @@ export default function Home() {
             onClick={() => setLocation('/checkout')}
             className="bg-terracotta hover:bg-terracotta/90 text-white px-12 py-4 rounded-full font-semibold text-xl h-auto shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            Get My Analysis - $29
+            Get My Analysis
           </Button>
           <div className="mt-4 text-sm text-warm-gray">
             <Shield className="h-4 w-4 inline mr-2 text-sage" />
