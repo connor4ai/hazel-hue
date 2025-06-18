@@ -18,8 +18,8 @@ import {
   ChevronDown,
   Lock
 } from "lucide-react";
+import seasonalColorTypes from "@/assets/seasonal-color-types.svg";
 import { useState } from "react";
-import colorAnalysisImage from "@assets/4140a481-9f00-4a43-b3bf-162a152c5c15_1750216174625.jpg";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -98,8 +98,8 @@ export default function Home() {
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src={colorAnalysisImage} 
-                  alt="Personal Color Analysis seasonal types with color palettes" 
+                  src={seasonalColorTypes} 
+                  alt="16 seasonal color types - Spring, Summer, Autumn, Winter with color palettes" 
                   className="w-full h-auto object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
