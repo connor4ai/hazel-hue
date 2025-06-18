@@ -73,14 +73,14 @@ export default function Home() {
                 <br />Color Palette
               </h1>
               <p className="text-lg md:text-xl text-warm-gray mb-8 leading-relaxed">
-                Unlock your most flattering colors with our AI-powered personal color analysis. Get professional results in just 2 minutes.
+                Unlock your most flattering colors with our AI-powered personal color analysis. Upload 3 selfies and get professional results in just 2 minutes.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
                   onClick={() => scrollToSection('pricing')}
                   className="bg-terracotta hover:bg-terracotta/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Get My Analysis - $29
+                  Get My Analysis
                 </Button>
                 <Button 
                   variant="outline"
@@ -143,7 +143,7 @@ export default function Home() {
               </div>
               <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">2. Upload Photos</h3>
               <p className="text-warm-gray">
-                Upload 3 clear selfies in different lighting conditions
+                Upload 3 clear selfies in different lighting conditions - that's it!
               </p>
             </div>
             
@@ -179,10 +179,10 @@ export default function Home() {
                   <FileText className="h-6 w-6 text-terracotta" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Detailed PDF Report
+                  10–15 Page PDF Report
                 </h3>
                 <p className="text-warm-gray">
-                  10-15 page comprehensive analysis with your seasonal color type and detailed explanations
+                  Your season explained in plain language with undertone, value & chroma breakdown plus visual color examples
                 </p>
               </CardContent>
             </Card>
@@ -193,10 +193,10 @@ export default function Home() {
                   <Palette className="h-6 w-6 text-sage" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  3 Color Palettes
+                  3 High-Resolution Palettes
                 </h3>
                 <p className="text-warm-gray">
-                  PNG swatches for Core Neutrals, Accent Lights, and Accent Brights
+                  PNG swatches for Core Neutrals, Accent Lights & Accent Brights optimized for phone screens
                 </p>
               </CardContent>
             </Card>
@@ -207,10 +207,10 @@ export default function Home() {
                   <Shirt className="h-6 w-6 text-marigold" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Wardrobe Guide
+                  Wardrobe Ideas
                 </h3>
                 <p className="text-warm-gray">
-                  Mix-and-match grid with outfit ideas tailored to your color season
+                  Specific garment types with suggested colors plus mix-and-match grid showing six outfit combinations
                 </p>
               </CardContent>
             </Card>
@@ -221,10 +221,10 @@ export default function Home() {
                   <Heart className="h-6 w-6 text-lagoon" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Style Lookbook
+                  Outfit-Inspiration Lookbook
                 </h3>
                 <p className="text-warm-gray">
-                  Curated outfit inspiration with clickable product links
+                  Styled photos illustrating three day-to-night outfits using your palette with clickable product links
                 </p>
               </CardContent>
             </Card>
@@ -235,10 +235,10 @@ export default function Home() {
                   <Gem className="h-6 w-6 text-terracotta" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Finishing Touches
+                  Finishing-Touch Guide
                 </h3>
                 <p className="text-warm-gray">
-                  Metal, eyewear, and makeup recommendations for your color type
+                  Best metals, eyewear frames, leather tones and makeup starting points plus quick "do's & don'ts" cheat sheet
                 </p>
               </CardContent>
             </Card>
@@ -252,7 +252,7 @@ export default function Home() {
                   Digital Swatch Card
                 </h3>
                 <p className="text-warm-gray">
-                  Mobile wallet card for shopping reference on-the-go
+                  Mobile wallet image with one-tap reference whenever you're in a fitting room
                 </p>
               </CardContent>
             </Card>
