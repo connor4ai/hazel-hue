@@ -42,7 +42,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Palette className="h-8 w-8 text-terracotta mr-3" />
-              <span className="font-serif text-xl font-semibold text-warm-gray-dark">ColorMuse</span>
+              <span className="font-serif text-xl font-semibold text-warm-gray-dark">HueMatcher</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('how-it-works')} className="text-warm-gray hover:text-terracotta transition-colors">
@@ -78,7 +78,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
                   onClick={() => scrollToSection('pricing')}
-                  className="bg-terracotta hover:bg-terracotta/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Get My Analysis
                 </Button>
@@ -179,7 +179,7 @@ export default function Home() {
                   <FileText className="h-6 w-6 text-terracotta" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  10–15 Page PDF Report
+                  In Depth PDF Report
                 </h3>
                 <p className="text-warm-gray">
                   Your season explained in plain language with undertone, value & chroma breakdown plus visual color examples
@@ -363,11 +363,7 @@ export default function Home() {
           </div>
           
           <Card className="relative border-2 border-terracotta/20 shadow-2xl">
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-              <Badge className="bg-terracotta text-white px-6 py-2 text-sm font-semibold">
-                Most Popular
-              </Badge>
-            </div>
+
             
             <CardContent className="p-8 text-center">
               <h3 className="font-serif text-2xl font-bold text-warm-gray-dark mb-4">
@@ -382,7 +378,7 @@ export default function Home() {
               <div className="space-y-4 mb-8 text-left">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">10-15 page detailed PDF report</span>
+                  <span className="text-warm-gray">In depth PDF report</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
@@ -412,7 +408,7 @@ export default function Home() {
               
               <Button 
                 onClick={() => setLocation('/checkout')}
-                className="w-full bg-terracotta hover:bg-terracotta/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl mb-4 transition-all duration-300"
+                className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl mb-4 transition-all duration-300"
               >
                 Get My Analysis Now
               </Button>
@@ -486,7 +482,7 @@ export default function Home() {
           </p>
           <Button 
             onClick={() => setLocation('/checkout')}
-            className="bg-terracotta hover:bg-terracotta/90 text-white px-12 py-4 rounded-full font-semibold text-xl h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+            className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-12 py-4 rounded-full font-semibold text-xl h-auto shadow-lg hover:shadow-xl transition-all duration-300"
           >
             Get My Analysis
           </Button>

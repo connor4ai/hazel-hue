@@ -58,7 +58,7 @@ class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1 style="color: #6B5B47; margin: 0;">🎨 ColorMuse</h1>
+            <h1 style="color: #6B5B47; margin: 0;">🎨 HueMatcher</h1>
             <div class="season">You are a ${analysisResult.season}!</div>
             <p>${analysisResult.description}</p>
           </div>
@@ -95,8 +95,8 @@ class EmailService {
           </div>
           
           <div class="footer">
-            <p>Your complete 15-page analysis report is attached to this email.</p>
-            <p>Thank you for choosing ColorMuse! 💕</p>
+            <p>Your complete in depth analysis report is attached to this email.</p>
+            <p>Thank you for choosing HueMatcher! 💕</p>
           </div>
         </div>
       </body>
