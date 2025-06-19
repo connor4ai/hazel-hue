@@ -165,24 +165,17 @@ export default function CheckoutEnhanced() {
       return;
     }
 
-    const files = JSON.parse(storedFiles);
-    setUploadedFiles(files.map((fileData: any) => {
-      // Handle different file data formats
-      if (fileData.data && typeof fileData.data === 'string' && fileData.data.includes(',')) {
-        const byteCharacters = atob(fileData.data.split(',')[1]);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        return new File([byteArray], fileData.name, { type: fileData.type });
-      } else if (fileData instanceof File) {
-        return fileData;
-      } else {
-        // Create a placeholder file if data format is unexpected
-        return new File([''], fileData.name || 'photo.jpg', { type: fileData.type || 'image/jpeg' });
-      }
-    }));
+    // Get actual file objects from memory
+    const actualFiles = (window as any).uploadedFiles;
+    if (actualFiles && actualFiles.length > 0) {
+      setUploadedFiles(actualFiles);
+    } else {
+      // Fallback to metadata if files not in memory
+      const fileMetadata = JSON.parse(storedFiles);
+      setUploadedFiles(fileMetadata.map((metadata: any) => 
+        new File([''], metadata.name, { type: metadata.type })
+      ));
+    }
 
     createPaymentIntent();
   }, []);

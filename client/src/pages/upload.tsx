@@ -61,7 +61,7 @@ export default function UploadPage() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleContinue = async () => {
+  const handleContinue = () => {
     if (files.length < 3) {
       toast({
         title: "Not enough photos",
@@ -71,27 +71,18 @@ export default function UploadPage() {
       return;
     }
 
-    // Convert files to base64 for storage
-    const fileDataPromises = files.map(file => {
-      return new Promise<any>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          resolve({
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            lastModified: file.lastModified,
-            data: reader.result as string
-          });
-        };
-        reader.readAsDataURL(file);
-      });
-    });
-
-    const fileData = await Promise.all(fileDataPromises);
-    sessionStorage.setItem('uploadedFiles', JSON.stringify(fileData));
+    // Store minimal file metadata in sessionStorage
+    const fileMetadata = files.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified
+    }));
     
-    // Store actual file objects for later upload
+    sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
+    sessionStorage.setItem('fileCount', files.length.toString());
+    
+    // Store actual file objects in memory for checkout page
     (window as any).uploadedFiles = files;
     
     // Navigate to checkout
