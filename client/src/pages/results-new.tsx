@@ -82,12 +82,12 @@ export default function ResultsNew() {
   const { toast } = useToast();
 
   const { data: order, isLoading } = useQuery<Order>({
-    queryKey: ['/api/orders', orderId, 'status'],
+    queryKey: [`/api/orders/${orderId}/status`],
     enabled: !!orderId,
   });
 
   const { data: outfits } = useQuery<OutfitLook[]>({
-    queryKey: ['/api/outfits', orderId],
+    queryKey: [`/api/outfits/${orderId}`],
     enabled: !!orderId && order?.status === 'completed',
   });
 
