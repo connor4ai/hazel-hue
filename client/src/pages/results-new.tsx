@@ -43,6 +43,7 @@ interface Order {
   id: number;
   status: string;
   result: AnalysisResult | null;
+  analysisResult?: AnalysisResult | null;
   pdfPath: string | null;
   createdAt: string;
 }
@@ -83,9 +84,6 @@ export default function ResultsNew() {
   const { data: order, isLoading } = useQuery<Order>({
     queryKey: ['/api/orders', orderId, 'status'],
     enabled: !!orderId,
-    refetchInterval: (query) => {
-      return query.state.data?.status === 'completed' ? false : 2000;
-    },
   });
 
   const { data: outfits } = useQuery<OutfitLook[]>({
@@ -134,7 +132,7 @@ export default function ResultsNew() {
     );
   }
 
-  if (order.status !== 'completed' || !order.result) {
+  if (order.status !== 'completed' || (!order.result && !order.analysisResult)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
         <div className="text-center space-y-4">
@@ -146,7 +144,7 @@ export default function ResultsNew() {
     );
   }
 
-  const result = order.result;
+  const result = order.result || order.analysisResult;
   const allColors = [...result.coreNeutrals, ...result.accentLights, ...result.accentBrights];
   const wowColors = result.accentBrights?.slice(0, 6) || [];
 
