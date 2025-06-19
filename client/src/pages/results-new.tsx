@@ -41,7 +41,7 @@ interface OutfitLook {
 interface Order {
   id: number;
   status: string;
-  analysisResult: AnalysisResult | null;
+  result: AnalysisResult | null;
   pdfPath: string | null;
   createdAt: string;
 }
@@ -54,17 +54,17 @@ export default function ResultsNew() {
   const [currentOutfit, setCurrentOutfit] = useState(0);
   const [highlightedOutfit, setHighlightedOutfit] = useState<string | null>(null);
 
-  const orderId = params?.orderId ? parseInt(params.orderId) : null;
+  const orderId = params?.orderId || null;
 
   const { data: order, isLoading } = useQuery<Order>({
-    queryKey: ['/api/orders', orderId],
+    queryKey: [`/api/orders/${orderId}/status`],
     enabled: !!orderId,
   });
 
   // Get outfit data from server - using actual fashion API integration
   const { data: outfitLooks = [] } = useQuery<OutfitLook[]>({
-    queryKey: ['/api/outfits', orderId],
-    enabled: !!orderId && !!order?.analysisResult,
+    queryKey: [`/api/outfits/${orderId}`],
+    enabled: !!orderId && !!order?.result,
   });
 
   if (isLoading) {
@@ -78,7 +78,7 @@ export default function ResultsNew() {
     );
   }
 
-  if (!order || !order.analysisResult) {
+  if (!order || !order.result) {
     return (
       <div className="min-h-screen bg-[#FAF4EE] flex items-center justify-center">
         <div className="text-center">
@@ -93,7 +93,7 @@ export default function ResultsNew() {
     );
   }
 
-  const result = order.analysisResult;
+  const result = order.result;
 
   const handleDownload = async () => {
     try {
