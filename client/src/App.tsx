@@ -10,7 +10,7 @@ import Upload from "@/pages/upload";
 import Payment from "@/pages/payment";
 import Loading from "@/pages/loading";
 import Processing from "@/pages/processing";
-import Results from "@/pages/results";
+import Results from "@/pages/results-new";
 import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import Login from "@/pages/login";

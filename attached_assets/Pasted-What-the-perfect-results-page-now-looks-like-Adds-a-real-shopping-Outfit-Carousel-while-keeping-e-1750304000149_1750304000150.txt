@@ -1,0 +1,41 @@
+What the perfect results page now looks like
+(Adds a real-shopping “Outfit Carousel” while keeping everything else we already specified.)
+
+Layer	What the user actually sees	Why it feels valuable
+Swipe Card 1 — Season Badge	Bold line with season name + a one-sentence “why.”	Instant clarity / bragging-rights.
+Swipe Card 2 — Full Palette	30-40 swatches, neutrals strip, metallic strip.	Day-to-day reference.
+Swipe Card 3 — “Wow” Colors	6 hero swatches framed in black.	Quick wins for standout pieces.
+Swipe Card 4 — Shop-the-Look Carousel	A horizontally swipeable rail (3–5 looks) where every tile shows: 
+• Outfit image (flat-lay or model).
+• Short label (“Warm-office look”).
+• Three bullet chips: brand, price range, key color (“✓ Coral #F26F63”).
+• A single “Shop this look” button that opens a pre-filtered retailer page in a new tab.	Turns theory into an immediate shopping list—the #1 feature users request after seeing their colors.
+Buttons under the deck	• Download PDF (print-ready CMYK cheatsheet).
+• Share (copy link).	Portability & virality.
+How the outfit tiles stay “on-palette”
+
+Color-filtered product calls
+The server pings a fashion-search API (e.g., ShopStyle Collective, Amazon PA-API, or a visual-search service like Ximilar) with a color or HEX filter that comes straight from the user’s palette.
+• ShopStyle supports ftsColor or minPrice/maxPrice in its /products endpoint. 
+pypi.org
+
+• Amazon’s PA-API SearchItems call lets you pass Color as a variation dimension.
+webservices.amazon.com
+
+• Services such as Ximilar or Lykdat add AI tagging if you need more granular hue matching.
+ximilar.com
+Outfit assembly logic
+Pick 2–4 complementary colors from the palette (e.g., one neutral + one wow) → pull tops, bottoms, layers, and accessories that match those colors → bundle them as a “look.”
+Behind the scenes you store each look as an array of product URLs; the front-end just renders the hero image and forwards the user if they click.
+Affiliate-ready
+Because links come from ShopStyle/Amazon/etc., every “Shop this look” click can already include your affiliate tag—no extra work later.
+Experience details that delight shoppers
+
+Live price labels – Show $55-$80 pulled from the API, so the user knows it’s real stock, not inspiration.
+Hover / tap color check – On desktop, hovering any outfit tile outlines the parts that match the user’s palette; on mobile, a quick tap toggles the highlight overlay.
+Out-of-stock fallback – If a product 404s, auto-replace it with the nearest-color alternative before rendering.
+Privacy & cleanup – PDFs and uploaded selfies auto-purge after 24 h; product links stay live because they’re hosted by the retailer.
+Net result for the end user
+They learn what colors suit them (Cards 1–3).
+They can instantly buy clothes that already match those colors (Card 4).
+They can print, share, or revisit whenever they like (buttons + share link).

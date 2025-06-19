@@ -9,6 +9,7 @@ import { storage } from "./storage";
 import { emailService } from "./services/emailService";
 import { pdfService } from "./services/pdfService";
 import { colorAnalysisService } from "./services/colorAnalysisService";
+import { fashionApiService } from "./services/fashionApiService";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -584,6 +585,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error sending email:", error);
       res.status(500).json({ message: "Failed to send email: " + error.message });
+    }
+  });
+
+  // Get outfit recommendations based on analysis results
+  app.get("/api/outfits/:orderId", async (req, res) => {
+    try {
+      const orderId = parseInt(req.params.orderId);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order || !order.analysisResult) {
+        return res.status(404).json({ message: "Analysis not found" });
+      }
+
+      const outfitLooks = await fashionApiService.generateOutfitLooks(order.analysisResult as any);
+      res.json(outfitLooks);
+    } catch (error: any) {
+      console.error("Error fetching outfits:", error);
+      res.status(500).json({ message: "Failed to fetch outfits: " + error.message });
     }
   });
 
