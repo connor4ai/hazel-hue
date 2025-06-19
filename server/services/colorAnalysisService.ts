@@ -76,7 +76,7 @@ export class ColorAnalysisService {
         })
       );
 
-      // Call OpenAI with o1-preview model (which has vision capabilities)
+      // Call OpenAI with GPT-4o vision model
       const response = await openai.chat.completions.create({
         model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
