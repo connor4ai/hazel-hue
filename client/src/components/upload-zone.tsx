@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Upload, CheckCircle } from "lucide-react";
@@ -23,6 +23,7 @@ export default function UploadZone({
   className 
 }: UploadZoneProps) {
   const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -44,22 +45,41 @@ export default function UploadZone({
     }
   };
 
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      onFileSelect(files[0]);
+    }
+  };
+
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const getImagePreview = (file: File) => {
     return URL.createObjectURL(file);
   };
 
   return (
-    <Card 
-      className={cn(
-        "upload-zone cursor-pointer transition-all duration-300",
-        isDragOver ? "dragover" : "",
-        className
-      )}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      onClick={onUploadClick}
-    >
+    <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/jpg,image/png"
+        onChange={handleFileInputChange}
+        style={{ display: 'none' }}
+      />
+      <Card 
+        className={cn(
+          "upload-zone cursor-pointer transition-all duration-300",
+          isDragOver ? "dragover" : "",
+          className
+        )}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={handleClick}
+      >
       <CardContent className="p-6 h-full flex flex-col items-center justify-center">
         {file ? (
           <div className="w-full h-full flex flex-col items-center">
@@ -88,5 +108,6 @@ export default function UploadZone({
         )}
       </CardContent>
     </Card>
+    </>
   );
 }
