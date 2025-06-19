@@ -92,25 +92,45 @@ export default function ResultsPremium() {
 
   const downloadPDF = async () => {
     try {
+      console.log('Starting PDF download for order:', orderId);
       const response = await fetch(`/api/orders/${orderId}/pdf`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('PDF download failed:', response.status, errorText);
+        throw new Error(`Download failed: ${response.status}`);
+      }
+      
       const blob = await response.blob();
+      console.log('PDF blob received, size:', blob.size);
+      
+      if (blob.size === 0) {
+        throw new Error('Empty PDF received');
+      }
+      
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${analysisResult?.season.replace(/\s+/g, '-')}-Color-Analysis.pdf`;
+      a.download = `${analysisResult?.season.replace(/\s+/g, '-')}-Professional-Report.pdf`;
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      
+      // Clean up
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
       
       toast({
         title: "Professional Report Downloaded",
         description: "Your comprehensive color analysis is ready for printing.",
       });
     } catch (error) {
+      console.error('PDF download error:', error);
       toast({
         title: "Download Failed",
-        description: "Please try again in a moment.",
+        description: error instanceof Error ? error.message : "Please try again in a moment.",
         variant: "destructive",
       });
     }
