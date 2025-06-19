@@ -1,0 +1,60 @@
+1 Good intentions, but too shallow
+Only three palette tiers—“Foundation Neutrals / Accent Lights / Statement Brights”—give users ~18 swatches total. Most 16-season enthusiasts expect 30-40 colours, grouped by purpose (neutrals · accent lights · accent brights · wow colours · metals). The report feels incomplete because those extra groups are missing. 
+
+Generic wardrobe and beauty advice (“Opt for cool-toned lip colours like berry or plum”) tells every Winter, Autumn, etc. the same thing. Without named shades, ΔE or HEX references, users can’t shop confidently. 
+
+Long boiler-plate chapters (2-12) repeat colour-theory basics, yet add nothing personal. Worse, they contradict the declared season (“Warm Autumn” text in a Light Spring file). That erodes trust. 
+
+Actionable fix
+
+Deliver a full palette (30-40 swatches) plus six “wow” colours and a metallic row, each in a clearly labelled bar.
+
+Swap filler paragraphs for season-specific, SKU-level tips: three lipstick shades, two metal finishes, one printable outfit formula.
+
+Delete the boiler-plate chapters and replace with one “How to use your palette” checklist.
+
+2 Missing critical guidance users look for
+High-value element	Why users expect it	How to add it
+Contrast dial (Low / Medium / High with numeric ΔE example)	Teaches how much light-dark separation flatters them.	One simple gauge (“Your best gap ≈ 35 ΔE ≅ black blazer on ice-blue blouse”).
+Hair-colour map	70 % of buyers plan a salon visit.	Table: “Natural base → consider warm honey balayage, avoid ash.”
+Named cosmetics list	Users screenshot the PDF in stores.	List 3 lipsticks, 2 blushes, 1 eyeshadow quad per season, each with brand & shade.
+Shoppable outfit collage	Turns theory into action and drives sharing.	Three flat-lay thumbnails, colour-matched, each hyperlinked to a live product list.
+Print & texture rules	People get confused about sheen vs. matte.	Bullet list: “Silks ok if clear/bold… avoid mottled heather knits.”
+
+3 Contradictory or confusing statements
+Page 1 calls the user Cool Winter, but later chapters explain Warm Autumn qualities. 
+ 
+
+Palette neutrals are six greys—fine for Winters, wrong for warm seasons. Because the PDF reuses the same grey strip for every season, Summers/Autumns feel ignored.
+
+Actionable fix
+
+Insert a season consistency check in generation logic: if the headline and body disagree, regenerate.
+
+Pull neutrals from the same season template (cool charcoal for Winters, camel for Autumns, ivory for Springs/Summers).
+
+4 Under-personalised language
+Frequent “your colouring” statements read like canned copy.
+
+No reference to the user’s uploaded selfies—no cropped portrait or side-by-side example.
+
+Actionable fix
+
+Embed a circular selfie thumbnail on page 1.
+
+Use second-person active language: “Swap black tees for espresso brown. Screenshot page 2 before your next shop.”
+
+5 PDF usability gaps
+No clickable outline/bookmarks; on mobile the 12-page scroll is painful.
+
+Hex labels are black even on black (#000000) chips—illegible.
+
+No embedded ICC profile, so home printers shift colours.
+
+Actionable fix
+
+Create bookmarks: Season ▸ Palette ▸ Wow Colours ▸ Wardrobe Tips ▸ Shop Looks.
+
+Auto-switch label text to white when background L* < 40.
+
+Embed sRGB or FOGRA39 in export settings.

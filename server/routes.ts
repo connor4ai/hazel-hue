@@ -7,7 +7,7 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { emailService } from "./services/emailService";
-import { workingPdfService } from "./services/workingPdfService";
+import { professionalPdfService } from "./services/professionalPdfService";
 import { premiumPdfService } from "./services/pdfServicePremium";
 import { walletCardService } from "./services/walletCardService";
 import { colorAnalysisService } from "./services/colorAnalysisService";
@@ -77,7 +77,7 @@ async function processColorAnalysisWorker(jobId: number) {
     console.log(`OpenAI analysis completed for job ${jobId}`);
 
     // Generate PDF report
-    const pdfPath = await workingPdfService.generateReport(order, analysisResult);
+    const pdfPath = await professionalPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
     // Save outputs and mark as completed
@@ -501,7 +501,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.log('Generating PDF for order:', order.id, 'with analysis:', order.analysisResult);
-      const pdfPath = await workingPdfService.generateReport(order, order.analysisResult);
+      const pdfPath = await professionalPdfService.generateReport(order, order.analysisResult);
       
       if (!fs.existsSync(pdfPath)) {
         return res.status(500).json({ message: "Failed to generate PDF" });
@@ -842,7 +842,7 @@ async function processColorAnalysis(orderId: number) {
     };
 
     // Generate PDF report
-    const pdfPath = await workingPdfService.generateReport(order, analysisResult);
+    const pdfPath = await professionalPdfService.generateReport(order, analysisResult);
     
     // Update order with analysis results
     await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
