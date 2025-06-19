@@ -145,8 +145,22 @@ export default function ResultsNew() {
   }
 
   const result = order.result || order.analysisResult;
-  const allColors = [...result.coreNeutrals, ...result.accentLights, ...result.accentBrights];
-  const wowColors = result.accentBrights?.slice(0, 6) || [];
+  if (!result) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mx-auto"></div>
+          <p className="text-amber-800 font-medium">Loading your analysis...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Type assertion since we know result exists at this point
+  const analysisResult = result as AnalysisResult;
+  
+  const allColors = [...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights];
+  const wowColors = analysisResult.accentBrights?.slice(0, 6) || [];
 
   const cards = [
     {
@@ -156,7 +170,7 @@ export default function ResultsNew() {
         <div className="text-center space-y-6">
           <div className="space-y-3">
             <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-              You are a {result.season}!
+              You are a {analysisResult.season}!
             </h1>
             <div className="flex justify-center gap-2 text-lg font-medium text-gray-600">
               <span>fresh</span>
@@ -168,7 +182,7 @@ export default function ResultsNew() {
           </div>
           <div className="bg-amber-50 rounded-xl p-6 border border-amber-200">
             <p className="text-gray-700 leading-relaxed text-base">
-              {result.description}
+              {analysisResult.description}
             </p>
           </div>
         </div>
@@ -182,7 +196,7 @@ export default function ResultsNew() {
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Core Neutrals</h3>
             <div className="grid grid-cols-6 gap-3">
-              {result.coreNeutrals.map((color, index) => (
+              {analysisResult.coreNeutrals.map((color, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div 
                     className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
@@ -200,7 +214,7 @@ export default function ResultsNew() {
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Accent Lights</h3>
             <div className="grid grid-cols-6 gap-3">
-              {result.accentLights.map((color, index) => (
+              {analysisResult.accentLights.map((color, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div 
                     className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
@@ -218,7 +232,7 @@ export default function ResultsNew() {
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Accent Brights</h3>
             <div className="grid grid-cols-6 gap-3">
-              {result.accentBrights.map((color, index) => (
+              {analysisResult.accentBrights.map((color, index) => (
                 <div key={index} className="group cursor-pointer">
                   <div 
                     className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
@@ -318,17 +332,17 @@ export default function ResultsNew() {
           <div className="space-y-4">
             <div className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg p-4 border border-yellow-200">
               <h4 className="font-semibold text-gray-900 mb-2">Best Metals</h4>
-              <p className="text-sm text-gray-700">{result.recommendations.metals}</p>
+              <p className="text-sm text-gray-700">{analysisResult.recommendations.metals}</p>
             </div>
             
             <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg p-4 border border-rose-200">
               <h4 className="font-semibold text-gray-900 mb-2">Makeup Colors</h4>
-              <p className="text-sm text-gray-700">{result.recommendations.makeup}</p>
+              <p className="text-sm text-gray-700">{analysisResult.recommendations.makeup}</p>
             </div>
             
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
               <h4 className="font-semibold text-gray-900 mb-2">Eyewear Frames</h4>
-              <p className="text-sm text-gray-700">{result.recommendations.eyewear}</p>
+              <p className="text-sm text-gray-700">{analysisResult.recommendations.eyewear}</p>
             </div>
           </div>
           
