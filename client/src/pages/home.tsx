@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   Palette, 
   CreditCard, 
@@ -16,7 +17,9 @@ import {
   Clock,
   Shield,
   ChevronDown,
-  Lock
+  Lock,
+  User,
+  LogIn
 } from "lucide-react";
 import seasonalColorTypes from "@/assets/seasonal-color-types.svg";
 import { useState } from "react";
@@ -24,6 +27,7 @@ import { useState } from "react";
 export default function Home() {
   const [, setLocation] = useLocation();
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const { user, isAuthenticated } = useAuth();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -54,9 +58,38 @@ export default function Home() {
               <button onClick={() => scrollToSection('testimonials')} className="text-warm-gray hover:text-terracotta transition-colors">
                 Reviews
               </button>
-              <button onClick={() => scrollToSection('pricing')} className="text-warm-gray hover:text-terracotta transition-colors">
-                Pricing
-              </button>
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-warm-gray text-sm">
+                    Welcome, {user?.firstName || user?.email}
+                  </span>
+                  <Button
+                    onClick={() => setLocation('/account')}
+                    variant="outline"
+                    className="text-terracotta border-terracotta hover:bg-terracotta hover:text-white"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    My Account
+                  </Button>
+                  <Button onClick={() => setLocation('/checkout')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                    Get Analysis - $29
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <Button
+                    onClick={() => setLocation('/login')}
+                    variant="ghost"
+                    className="text-warm-gray hover:text-warm-gray-dark"
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Button>
+                  <Button onClick={() => setLocation('/register')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                    Get Started - $29
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>

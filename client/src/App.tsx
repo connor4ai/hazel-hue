@@ -3,11 +3,15 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthContext, useAuthProvider } from "@/hooks/useAuth";
 import Home from "@/pages/home";
 import Checkout from "@/pages/checkout";
 import Upload from "@/pages/upload";
 import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
+import Account from "@/pages/account";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,18 +22,28 @@ function Router() {
       <Route path="/upload/:orderId" component={Upload} />
       <Route path="/analysis/:orderId" component={Analysis} />
       <Route path="/admin" component={Admin} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/account" component={Account} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
+function AuthProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuthProvider();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
