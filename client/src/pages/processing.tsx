@@ -123,7 +123,7 @@ export default function Processing() {
       if (response.ok) {
         const data = await response.json();
         
-        if (data.status === 'completed' && data.analysisResult) {
+        if (data.status === 'completed' && data.result) {
           setAnalysisComplete(true);
           setProgress(100);
           
