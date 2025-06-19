@@ -211,30 +211,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { email } = req.body;
-      
-      if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-      }
-
-      // Create or get user
-      let user = await storage.getUserByEmail(email);
-      if (!user) {
-        user = await storage.createUser({ email });
-      }
-
       const paymentIntent = await stripe!.paymentIntents.create({
         amount: 2900, // $29.00 in cents
         currency: "usd",
-        payment_method_types: ['card', 'apple_pay'],
+        payment_method_types: ['card'],
         metadata: {
-          userId: user.id.toString(),
+          service: 'color-analysis',
         },
       });
 
-      // Create order record
+      // Create order record with default user
       await storage.createOrder({
-        userId: user.id,
+        userId: 1, // Default user for guest orders
         paymentIntentId: paymentIntent.id,
         amount: 2900,
         status: 'pending',
