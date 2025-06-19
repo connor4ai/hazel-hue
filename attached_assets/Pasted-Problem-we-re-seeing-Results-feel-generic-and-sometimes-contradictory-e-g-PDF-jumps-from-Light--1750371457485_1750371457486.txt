@@ -1,0 +1,57 @@
+Problem we’re seeing
+• Results feel generic and sometimes contradictory (e.g., PDF jumps from Light Spring to Warm Autumn).
+• Palette sections are incomplete or mis-labelled.
+• Text is word-heavy; missing the concise, structured blocks we specced.
+• UI cards show colours, but the PDF still contains filler “Chapter 2-12” boiler-plate.
+
+High-level goals
+
+Use the full 16-season decision guide and strict output contract we wrote earlier.
+
+Force the model to send only that structure—no extra chapters, no off-season text.
+
+Upgrade from gpt-4o-mini to gpt-4o for higher vision accuracy.
+
+Post-process the model’s JSON blocks so UI and PDF stay perfectly in sync.
+
+Keep copy short, specific, and season-correct.
+
+Step-by-step tasks (for you, Replit Agent)
+
+1 ‒ Prompt overhaul
+• Replace the current system prompt with the “in-depth 16-season guide” and output contract we supplied on the last ChatGPT turn.
+• Add two few-shot examples inside the system prompt—one light, one dark complexion—so the model mimics the tight format.
+• Set model to gpt-4o, temperature 0.35, top_p 0.9.
+
+2 ‒ Strict validation before parsing
+• After the OpenAI response, automatically scan for the three fenced JSON blocks (palette, wow_colors, neutrals).
+• If any block is missing, malformed, or empty, request a regeneration once (pass the same messages back with “Regenerate – blocks missing”).
+
+3 ‒ Season consistency check
+• Read the first bold line (Season Badge).
+• Verify that the PDF header, the wardrobe copy, and the shoppable-outfit titles all reference that same season.
+• If mismatch → mark job error and prompt the model to regenerate.
+
+4 ‒ Trim the PDF
+• Strip the filler “Chapter 2-12” boiler-plate.
+• PDF should contain only:
+① Season badge + tone triangle
+② Core Neutrals, Accent Lights, Accent Brights swatches (with HEX)
+③ Wow-color page
+④ One-page wardrobe cheat-sheet (make-up, hair, metals, contrast dial, 3 outfit recipes)
+• Keep it to ≤ 4 pages total for clarity.
+
+5 ‒ UI tweaks
+• Make the dot navigation show five cards (Season, Palette, Wow, Shop-Look, Tips).
+• On the Palette card, group swatches under the same headings used in the PDF: Core Neutrals, Accent Lights, Accent Brights.
+• On the Shop-Look card, list brand + live price + the HEX that triggered the match (“✓ color #F5E6CC”).
+
+6 ‒ Use the full model, not mini
+• Update the OpenAI call to model:"gpt-4o" for improved colour judgement.
+• Keep retry logic limited to 1 extra regeneration to avoid runaway costs.
+
+7 ‒ QA checklist for each build
+• Upload three test images → Confirm output passes JSON-block check and season consistency.
+• Verify UI cards and PDF carry identical palettes.
+• Ensure text length stays within brief (no extra chapters).
+• Spot-check the share link after purge (404 as expected).
