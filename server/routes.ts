@@ -685,8 +685,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Download PDF report
   app.get("/api/orders/:orderId/pdf", async (req, res) => {
     try {
-      const orderId = parseInt(req.params.orderId);
-      const order = await storage.getOrder(orderId);
+      const paymentIntentId = req.params.orderId;
+      const order = await storage.getOrderByPaymentIntent(paymentIntentId);
       
       if (!order || !order.pdfPath) {
         return res.status(404).json({ message: "Report not found" });
@@ -696,7 +696,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Report file not found" });
       }
 
-      res.download(order.pdfPath, `color-analysis-${orderId}.pdf`);
+      res.download(order.pdfPath, `color-analysis-${order.id}.pdf`);
     } catch (error: any) {
       res.status(500).json({ message: "Error downloading report: " + error.message });
     }
@@ -705,8 +705,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Email report
   app.post("/api/orders/:orderId/email", async (req, res) => {
     try {
-      const orderId = parseInt(req.params.orderId);
-      const order = await storage.getOrder(orderId);
+      const paymentIntentId = req.params.orderId;
+      const order = await storage.getOrderByPaymentIntent(paymentIntentId);
       
       if (!order || !order.analysisResult || !order.pdfPath) {
         return res.status(404).json({ message: "Complete analysis not found" });
@@ -719,7 +719,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       await emailService.sendAnalysisReport(email, order.analysisResult, order.pdfPath);
-      await storage.updateOrderEmailSent(orderId);
+      await storage.updateOrderEmailSent(order.id);
 
       res.json({ message: "Email sent successfully" });
     } catch (error: any) {
@@ -731,8 +731,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get outfit recommendations based on analysis results
   app.get("/api/outfits/:orderId", async (req, res) => {
     try {
-      const orderId = parseInt(req.params.orderId);
-      const order = await storage.getOrder(orderId);
+      const paymentIntentId = req.params.orderId;
+      const order = await storage.getOrderByPaymentIntent(paymentIntentId);
       
       if (!order || !order.analysisResult) {
         return res.status(404).json({ message: "Analysis not found" });
