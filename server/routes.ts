@@ -218,10 +218,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Apply promo code discounts
       if (promoCode) {
         const validPromoCodes: Record<string, number> = {
-          'FIRST10': 10, // 10% off
-          'SAVE5': 5,    // 5% off
-          'WELCOME': 15, // 15% off
-          'STUDENT': 20, // 20% off
+          'CONNOR': 100, // 100% off (free)
         };
 
         if (validPromoCodes[promoCode.toUpperCase()]) {
@@ -230,35 +227,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      const paymentIntent = await stripe!.paymentIntents.create({
-        amount,
-        currency: "usd",
-        automatic_payment_methods: {
-          enabled: true,
-        },
-        metadata: {
-          service: 'color-analysis',
-          originalAmount: '2900',
-          promoCode: promoCode || '',
-          discount: discount.toString(),
-          amount: amount.toString(),
-        },
-      });
+      // Handle free orders (100% discount)
+      if (amount === 0) {
+        // Create a mock payment intent ID for free orders
+        const freeOrderId = `free_order_${Date.now()}`;
+        
+        // Create order record for free order
+        await storage.createOrder({
+          userId: 1, // Default user for guest orders
+          paymentIntentId: freeOrderId,
+          amount: 0,
+          status: 'completed',
+        });
 
-      // Create order record with default user
-      await storage.createOrder({
-        userId: 1, // Default user for guest orders
-        paymentIntentId: paymentIntent.id,
-        amount: 2900,
-        status: 'pending',
-      });
+        res.json({ 
+          clientSecret: null, // No payment required
+          paymentIntentId: freeOrderId,
+          amount: 0,
+          discount: discount,
+          isFree: true
+        });
+      } else {
+        const paymentIntent = await stripe!.paymentIntents.create({
+          amount,
+          currency: "usd",
+          automatic_payment_methods: {
+            enabled: true,
+          },
+          metadata: {
+            service: 'color-analysis',
+            originalAmount: '2900',
+            promoCode: promoCode || '',
+            discount: discount.toString(),
+            amount: amount.toString(),
+          },
+        });
 
-      res.json({ 
-        clientSecret: paymentIntent.client_secret,
-        paymentIntentId: paymentIntent.id,
-        amount: paymentIntent.amount,
-        discount: discount
-      });
+        // Create order record with default user
+        await storage.createOrder({
+          userId: 1, // Default user for guest orders
+          paymentIntentId: paymentIntent.id,
+          amount: 2900,
+          status: 'pending',
+        });
+
+        res.json({ 
+          clientSecret: paymentIntent.client_secret,
+          paymentIntentId: paymentIntent.id,
+          amount: paymentIntent.amount,
+          discount: discount
+        });
+      }
     } catch (error: any) {
       res.status(500).json({ message: "Error creating payment intent: " + error.message });
     }

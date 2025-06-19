@@ -187,6 +187,14 @@ export default function CheckoutEnhanced() {
     createPaymentIntent();
   }, []);
 
+  const handleFreeOrderCompletion = (paymentIntentId: string) => {
+    // Store the payment intent ID for the results page
+    sessionStorage.setItem('paymentIntentId', paymentIntentId);
+    
+    // Navigate directly to processing/loading page for free orders
+    setLocation(`/processing/${paymentIntentId}`);
+  };
+
   const createPaymentIntent = async (promoCodeToApply = '') => {
     try {
       setIsCreatingPayment(true);
@@ -201,12 +209,25 @@ export default function CheckoutEnhanced() {
         setFinalAmount(data.amount);
         setDiscount(data.discount);
         
+        // Store the order ID for free orders
+        if (data.isFree) {
+          sessionStorage.setItem('currentOrderId', data.paymentIntentId);
+        }
+        
         if (promoCodeToApply && data.discount > 0) {
           setAppliedPromoCode(promoCodeToApply);
-          toast({
-            title: "Promo Code Applied!",
-            description: `You saved $${((originalAmount - data.amount) / 100).toFixed(2)} with code "${promoCodeToApply}"`,
-          });
+          
+          if (data.isFree) {
+            toast({
+              title: "Free Analysis!",
+              description: `Code "${promoCodeToApply}" gives you a completely free color analysis!`,
+            });
+          } else {
+            toast({
+              title: "Promo Code Applied!",
+              description: `You saved $${((originalAmount - data.amount) / 100).toFixed(2)} with code "${promoCodeToApply}"`,
+            });
+          }
         } else if (promoCodeToApply && data.discount === 0) {
           toast({
             title: "Invalid Promo Code",
@@ -267,7 +288,7 @@ export default function CheckoutEnhanced() {
     }
   };
 
-  if (isCreatingPayment && !clientSecret) {
+  if (isCreatingPayment && !clientSecret && finalAmount > 0) {
     return (
       <div className="min-h-screen bg-[#FAF4EE] flex items-center justify-center">
         <div className="text-center">
@@ -407,7 +428,27 @@ export default function CheckoutEnhanced() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {clientSecret && (
+              {finalAmount === 0 ? (
+                <div className="text-center py-8">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+                    <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-3" />
+                    <h3 className="text-lg font-semibold text-green-800 mb-2">Free Color Analysis!</h3>
+                    <p className="text-green-700">Your promo code covers the full cost. No payment required.</p>
+                  </div>
+                  
+                  <Button
+                    onClick={() => handleFreeOrderCompletion(sessionStorage.getItem('currentOrderId') || `free_order_${Date.now()}`)}
+                    className="w-full h-12 text-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white"
+                  >
+                    <CheckCircle className="w-5 h-5 mr-2" />
+                    Start Free Analysis
+                  </Button>
+                  
+                  <p className="text-center text-sm text-gray-500 mt-4">
+                    Your analysis will begin immediately after clicking the button above.
+                  </p>
+                </div>
+              ) : clientSecret ? (
                 <Elements 
                   stripe={stripePromise} 
                   options={{ 
@@ -430,6 +471,11 @@ export default function CheckoutEnhanced() {
                     onPaymentSuccess={handlePaymentSuccess}
                   />
                 </Elements>
+              ) : (
+                <div className="text-center py-8">
+                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-orange-500" />
+                  <p className="text-gray-600">Setting up payment...</p>
+                </div>
               )}
             </CardContent>
           </Card>
