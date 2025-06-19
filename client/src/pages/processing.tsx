@@ -127,10 +127,8 @@ export default function Processing() {
           setAnalysisComplete(true);
           setProgress(100);
           
-          // Smooth transition to results
-          setTimeout(() => {
-            setLocation(`/results/${orderId}`);
-          }, 2000);
+          // Immediate redirect to results - user has been waiting
+          setLocation(`/results/${orderId}`);
         } else if (data.status === 'failed') {
           toast({
             title: "Analysis Failed",

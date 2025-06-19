@@ -83,8 +83,8 @@ export default function ResultsNew() {
   const { data: order, isLoading } = useQuery<Order>({
     queryKey: ['/api/orders', orderId, 'status'],
     enabled: !!orderId,
-    refetchInterval: (data) => {
-      return data?.status === 'completed' ? false : 2000;
+    refetchInterval: (query) => {
+      return query.state.data?.status === 'completed' ? false : 2000;
     },
   });
 
