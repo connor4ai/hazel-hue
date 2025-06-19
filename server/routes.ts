@@ -1,4 +1,5 @@
 import type { Express, Request, Response, NextFunction } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
 import multer from "multer";
@@ -47,6 +48,39 @@ const authenticateUser = async (req: any, res: any, next: any) => {
   req.user = user;
   next();
 };
+
+// Worker function that processes the job after photos are uploaded
+async function processColorAnalysisWorker(jobId: number) {
+  try {
+    console.log(`Starting worker for job ${jobId}`);
+    
+    const order = await storage.getOrder(jobId);
+    if (!order || !order.images) {
+      throw new Error('Job or images not found');
+    }
+
+    // Update status to processing
+    await storage.updateOrderStatus(jobId, 'processing');
+
+    // Call OpenAI with the images
+    const imagePaths = Array.isArray(order.images) ? order.images : [];
+    const analysisResult = await colorAnalysisService.analyzePhotos(imagePaths);
+    console.log(`OpenAI analysis completed for job ${jobId}`);
+
+    // Generate PDF report
+    const pdfPath = await pdfService.generateReport(order, analysisResult);
+    console.log(`PDF generated for job ${jobId}`);
+
+    // Save outputs and mark as done
+    await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
+    await storage.updateOrderStatus(jobId, 'done');
+
+    console.log(`Job ${jobId} completed successfully`);
+  } catch (error: any) {
+    console.error(`Error processing job ${jobId}:`, error);
+    await storage.updateOrderStatus(jobId, 'failed');
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -347,71 +381,163 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create order with photos and start real-time analysis
-  app.post("/api/create-order-with-analysis", upload.array('images', 3), async (req, res) => {
+  // Step 1: Create checkout session for payment (before photos)
+  app.post("/api/create-checkout", async (req, res) => {
     try {
-      const { paymentIntentId } = req.body;
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not configured" });
+      }
+
+      // Create a checkout session that redirects to loading page
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: 'Personal Color Analysis',
+                description: 'Professional 16-season color analysis with personalized PDF report',
+              },
+              unit_amount: 2900, // $29.00
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${req.headers.origin}/loading?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin}/upload`,
+        automatic_tax: { enabled: false },
+      });
+
+      res.json({ url: session.url });
+    } catch (error: any) {
+      console.error("Error creating checkout:", error);
+      res.status(500).json({ message: "Failed to create checkout: " + error.message });
+    }
+  });
+
+  // Step 2: Handle successful payment webhook from Stripe
+  app.post("/api/webhook", express.raw({type: 'application/json'}), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event;
+
+    try {
+      if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
+        return res.status(400).send('Webhook secret not configured');
+      }
+      
+      event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET);
+    } catch (err: any) {
+      console.log(`Webhook signature verification failed.`, err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+      console.log('Payment succeeded for session:', session.id);
+      
+      // Create job entry in database
+      const order = await storage.createOrder({
+        userId: 1, // Default user for now
+        paymentIntentId: session.payment_intent as string,
+        amount: 2900,
+        status: 'queued',
+      });
+
+      console.log(`Created job ${order.id} for payment session ${session.id}`);
+    }
+
+    res.json({received: true});
+  });
+
+  // Step 3: Upload photos after payment
+  app.put("/api/job/:jobId/photos", upload.array('photos', 3), async (req, res) => {
+    try {
+      const jobId = parseInt(req.params.jobId);
       const files = req.files as Express.Multer.File[];
 
       if (!files || files.length < 3) {
         return res.status(400).json({ message: "At least 3 photos are required" });
       }
 
-      if (!paymentIntentId) {
-        return res.status(400).json({ message: "Payment intent ID is required" });
+      const order = await storage.getOrder(jobId);
+      if (!order) {
+        return res.status(404).json({ message: "Job not found" });
       }
 
-      // Verify payment intent with Stripe
-      if (stripe) {
-        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-        if (paymentIntent.status !== 'succeeded') {
-          return res.status(400).json({ message: "Payment not completed" });
-        }
+      if (order.status !== 'queued') {
+        return res.status(400).json({ message: "Job not ready for photos" });
       }
 
-      // Create order
-      const order = await storage.createOrder({
-        userId: 1, // Use a default user ID for now
-        paymentIntentId,
-        amount: 2900, // $29.00 in cents
-        status: 'processing',
-        images: files.map(f => f.path),
-      });
+      // Save photo paths and update status
+      await storage.updateOrderImages(jobId, files.map(f => f.path));
+      await storage.updateOrderStatus(jobId, 'files_uploaded');
 
-      // Start analysis in background
-      setImmediate(() => processColorAnalysisRealtime(order.id, files.map(f => f.path)));
+      // Start processing worker
+      setImmediate(() => processColorAnalysisWorker(jobId));
 
       res.json({ 
-        orderId: order.id,
-        status: 'processing',
-        message: 'Order created successfully. Analysis starting...'
+        message: 'Photos uploaded successfully',
+        status: 'files_uploaded'
       });
     } catch (error: any) {
-      console.error("Error creating order:", error);
-      res.status(500).json({ message: "Failed to create order: " + error.message });
+      console.error("Error uploading photos:", error);
+      res.status(500).json({ message: "Failed to upload photos: " + error.message });
     }
   });
 
-  // Get order status for real-time updates
-  app.get("/api/orders/:orderId/status", async (req, res) => {
+  // Step 4: Poll job status (what loading page calls every 3s)
+  app.get("/api/job/:jobId/status", async (req, res) => {
     try {
-      const orderId = parseInt(req.params.orderId);
-      const order = await storage.getOrder(orderId);
+      const jobId = parseInt(req.params.jobId);
+      const order = await storage.getOrder(jobId);
 
       if (!order) {
-        return res.status(404).json({ message: "Order not found" });
+        return res.status(404).json({ message: "Job not found" });
       }
 
-      res.json({
-        orderId: order.id,
+      const response: any = {
+        jobId: order.id,
         status: order.status,
-        analysisResult: order.analysisResult,
-        pdfPath: order.pdfPath,
         updatedAt: order.updatedAt
-      });
+      };
+
+      // Include results when done
+      if (order.status === 'done' && order.analysisResult) {
+        response.result = order.analysisResult;
+        response.pdfUrl = `/api/pdf/${order.id}`;
+      }
+
+      res.json(response);
     } catch (error: any) {
-      console.error("Error getting order status:", error);
-      res.status(500).json({ message: "Failed to get order status" });
+      console.error("Error getting job status:", error);
+      res.status(500).json({ message: "Failed to get job status" });
+    }
+  });
+
+  // Get job ID from session ID (for loading page)
+  app.get("/api/session/:sessionId/job", async (req, res) => {
+    try {
+      const sessionId = req.params.sessionId;
+      
+      if (!stripe) {
+        return res.status(500).json({ message: "Stripe not configured" });
+      }
+
+      // Get session details from Stripe
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      
+      // Find order by payment intent
+      const order = await storage.getOrderByPaymentIntent(session.payment_intent as string);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Job not found for this session" });
+      }
+
+      res.json({ jobId: order.id });
+    } catch (error: any) {
+      console.error("Error finding job for session:", error);
+      res.status(500).json({ message: "Failed to find job" });
     }
   });
 
@@ -463,38 +589,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const httpServer = createServer(app);
   return httpServer;
-}
-
-// Real-time color analysis using OpenAI
-async function processColorAnalysisRealtime(orderId: number, imagePaths: string[]) {
-  try {
-    console.log(`Starting real-time color analysis for order ${orderId}`);
-    
-    const order = await storage.getOrder(orderId);
-    if (!order) {
-      throw new Error('Order not found');
-    }
-
-    // Update status to processing
-    await storage.updateOrderStatus(orderId, 'processing');
-
-    // Perform OpenAI color analysis
-    const analysisResult = await colorAnalysisService.analyzePhotos(imagePaths);
-    
-    console.log(`OpenAI analysis completed for order ${orderId}`);
-
-    // Generate PDF report
-    const pdfPath = await pdfService.generateReport(order, analysisResult);
-
-    // Update order with results
-    await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
-    await storage.updateOrderStatus(orderId, 'completed');
-
-    console.log(`Analysis and PDF generation completed for order ${orderId}`);
-  } catch (error: any) {
-    console.error(`Error processing analysis for order ${orderId}:`, error);
-    await storage.updateOrderStatus(orderId, 'failed');
-  }
 }
 
 // Color analysis processing function

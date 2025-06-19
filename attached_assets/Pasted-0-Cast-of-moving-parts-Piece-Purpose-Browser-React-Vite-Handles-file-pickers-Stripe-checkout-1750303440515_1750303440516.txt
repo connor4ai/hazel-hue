@@ -1,0 +1,123 @@
+0. Cast of moving parts
+
+Piece
+
+Purpose
+
+Browser (React/Vite)
+
+Handles file-pickers, Stripe checkout, loading spinner and results UI.
+
+App server (Express/TS)
+
+Receives uploads, triggers OpenAI + outfit search, saves PDFs.
+
+Object storage (e.g., S3 or Replit’s uploads folder)
+
+Holds the selfies and the finished PDF for ~24 h.
+
+Queue / worker (optional but wise)
+
+Does the heavylifting so the main server thread isn’t blocked.
+
+OpenAI GPT
+
+Returns the season, palette JSON, markdown text.
+
+Fashion search API
+
+Finds real, in-stock items in the user’s palette.
+
+Stripe (or similar)
+
+Takes payment and tells the backend when it succeeds.
+
+Database / KV store
+
+Keeps a job_id → status / data / pdf_path record.
+
+1. Upload Photos screen
+
+User actionClicks “Choose files,” selects  three or more images.
+
+Browser work
+
+Validates there are three files, each < 10 MB, mime-type = image.
+
+Stores them in a FileList object; nothing leaves the laptop yet.
+
+2. Payment page
+
+Frontend callPOST /api/create-checkout → backend tells Stripe: “Create a one-time checkout session for $X, and redirect back to /loading?session_id=… after success.”
+
+StripeServes its hosted card form.  No PCI headaches for you.
+
+SuccessStripe redirects the browser to /loading and also pings your backend via a secure webhook (payment_intent.succeeded).
+
+3. Loading page (what the user sees)
+
+Big spinner + friendly text (“Analyzing your colors—this usually takes <2 min”).
+
+A tiny chunk of JS polls /api/job/:job_id/status every 3 s, or opens a WebSocket.
+
+4. What the backend starts doing after the webhook
+
+Step 0 Create a fresh job_id, set DB row { status:"queued" }.
+
+Receive the selfies
+
+The frontend now sends the three files via PUT /api/job/:job_id/photos.
+
+Server streams them straight into object storage and records their private URLs.
+
+DB row → { status:"files_uploaded", photos:[…] }.
+
+Kick a worker jobPush { job_id, photo_urls } onto a Redis/Rabbit queue; set status =processing.
+
+Inside the worker
+
+Call GPT with the fixed prompt + the three image URLs.Gets back markdown containing palette + wow color JSON blocks.
+
+Parse those JSON blocks.
+
+Generate CMYK PDF with a PDF library (ReportLab/PDFKit).
+
+Hit fashion API (e.g., ShopStyle) three or four times, each time requesting products that match a palette color.  Assemble 3–5 “looks,” each as an array of product URLs + price + thumbnail.
+
+Save outputs
+
+Upload the PDF to /uploads/<job_id>.pdf.
+
+Save a single JSON blob: { markdown, palette[], wowColors[], outfits[] }.
+
+DB row → { status:"done", pdf_url:"…", result_blob:"…" }.
+
+5. Loading page auto-refresh
+
+Poll/WebSocket returns status:"done" → spinner disappears.
+
+Browser GETs the result blob, parses it, and renders:
+
+Swiper deck (Badge • Full Palette • Wow Colors • Outfit Carousel).
+
+Download PDF button → opens /pdf/<job_id>.
+
+Share button → copies /share/<job_id>.
+
+Whole trip feels instant to the user because:
+
+Upload = a few seconds.
+
+Payment = Stripe’s speed.
+
+Processing = ~15–30 s (GPT, PDF, product search).
+
+Loading page hides the wait behind an engaging spinner.
+
+6. After-life & housekeeping
+
+Auto-purge cron deletes selfies and PDFs older than 24 h (privacy).
+
+Share link 404s gracefully after purge.
+
+Stripe webhooks remain idempotent; double-posts just see the job already exists.
