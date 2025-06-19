@@ -71,8 +71,8 @@ export default function Home() {
                     <User className="w-4 h-4 mr-2" />
                     My Account
                   </Button>
-                  <Button onClick={() => setLocation('/checkout')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-                    Get Analysis - $29
+                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                    Get My Analysis - $29
                   </Button>
                 </div>
               ) : (
@@ -85,8 +85,8 @@ export default function Home() {
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
                   </Button>
-                  <Button onClick={() => setLocation('/register')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-                    Get Started - $29
+                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                    Get My Analysis - $29
                   </Button>
                 </div>
               )}
@@ -110,10 +110,11 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
-                  onClick={() => scrollToSection('pricing')}
+                  onClick={() => setLocation('/upload')}
                   className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Get My Analysis
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Get My Analysis - $29
                 </Button>
                 <Button 
                   variant="outline"

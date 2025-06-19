@@ -7,6 +7,7 @@ import fs from "fs";
 import { storage } from "./storage";
 import { emailService } from "./services/emailService";
 import { pdfService } from "./services/pdfService";
+import { colorAnalysisService } from "./services/colorAnalysisService";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -190,6 +191,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const paymentIntent = await stripe!.paymentIntents.create({
         amount: 2900, // $29.00 in cents
         currency: "usd",
+        payment_method_types: ['card', 'apple_pay'],
         metadata: {
           userId: user.id.toString(),
         },
@@ -345,8 +347,154 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create order with photos and start real-time analysis
+  app.post("/api/create-order-with-analysis", upload.array('images', 3), async (req, res) => {
+    try {
+      const { paymentIntentId } = req.body;
+      const files = req.files as Express.Multer.File[];
+
+      if (!files || files.length < 3) {
+        return res.status(400).json({ message: "At least 3 photos are required" });
+      }
+
+      if (!paymentIntentId) {
+        return res.status(400).json({ message: "Payment intent ID is required" });
+      }
+
+      // Verify payment intent with Stripe
+      if (stripe) {
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+        if (paymentIntent.status !== 'succeeded') {
+          return res.status(400).json({ message: "Payment not completed" });
+        }
+      }
+
+      // Create order
+      const order = await storage.createOrder({
+        userId: 1, // Use a default user ID for now
+        paymentIntentId,
+        amount: 2900, // $29.00 in cents
+        status: 'processing',
+        images: files.map(f => f.path),
+      });
+
+      // Start analysis in background
+      setImmediate(() => processColorAnalysisRealtime(order.id, files.map(f => f.path)));
+
+      res.json({ 
+        orderId: order.id,
+        status: 'processing',
+        message: 'Order created successfully. Analysis starting...'
+      });
+    } catch (error: any) {
+      console.error("Error creating order:", error);
+      res.status(500).json({ message: "Failed to create order: " + error.message });
+    }
+  });
+
+  // Get order status for real-time updates
+  app.get("/api/orders/:orderId/status", async (req, res) => {
+    try {
+      const orderId = parseInt(req.params.orderId);
+      const order = await storage.getOrder(orderId);
+
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      res.json({
+        orderId: order.id,
+        status: order.status,
+        analysisResult: order.analysisResult,
+        pdfPath: order.pdfPath,
+        updatedAt: order.updatedAt
+      });
+    } catch (error: any) {
+      console.error("Error getting order status:", error);
+      res.status(500).json({ message: "Failed to get order status" });
+    }
+  });
+
+  // Download PDF report
+  app.get("/api/orders/:orderId/pdf", async (req, res) => {
+    try {
+      const orderId = parseInt(req.params.orderId);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order || !order.pdfPath) {
+        return res.status(404).json({ message: "Report not found" });
+      }
+
+      if (!fs.existsSync(order.pdfPath)) {
+        return res.status(404).json({ message: "Report file not found" });
+      }
+
+      res.download(order.pdfPath, `color-analysis-${orderId}.pdf`);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error downloading report: " + error.message });
+    }
+  });
+
+  // Email report
+  app.post("/api/orders/:orderId/email", async (req, res) => {
+    try {
+      const orderId = parseInt(req.params.orderId);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order || !order.analysisResult || !order.pdfPath) {
+        return res.status(404).json({ message: "Complete analysis not found" });
+      }
+
+      // For now, we'll need an email address from the request body or user context
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ message: "Email address required" });
+      }
+
+      await emailService.sendAnalysisReport(email, order.analysisResult, order.pdfPath);
+      await storage.updateOrderEmailSent(orderId);
+
+      res.json({ message: "Email sent successfully" });
+    } catch (error: any) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ message: "Failed to send email: " + error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
+}
+
+// Real-time color analysis using OpenAI
+async function processColorAnalysisRealtime(orderId: number, imagePaths: string[]) {
+  try {
+    console.log(`Starting real-time color analysis for order ${orderId}`);
+    
+    const order = await storage.getOrder(orderId);
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    // Update status to processing
+    await storage.updateOrderStatus(orderId, 'processing');
+
+    // Perform OpenAI color analysis
+    const analysisResult = await colorAnalysisService.analyzePhotos(imagePaths);
+    
+    console.log(`OpenAI analysis completed for order ${orderId}`);
+
+    // Generate PDF report
+    const pdfPath = await pdfService.generateReport(order, analysisResult);
+
+    // Update order with results
+    await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
+    await storage.updateOrderStatus(orderId, 'completed');
+
+    console.log(`Analysis and PDF generation completed for order ${orderId}`);
+  } catch (error: any) {
+    console.error(`Error processing analysis for order ${orderId}:`, error);
+    await storage.updateOrderStatus(orderId, 'failed');
+  }
 }
 
 // Color analysis processing function

@@ -64,6 +64,8 @@ export const insertOrderSchema = createInsertSchema(orders).pick({
   paymentIntentId: true,
   amount: true,
   status: true,
+}).extend({
+  images: z.array(z.string()).optional(),
 });
 
 export const insertSessionSchema = createInsertSchema(userSessions).pick({

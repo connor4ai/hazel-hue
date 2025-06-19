@@ -7,6 +7,8 @@ import { AuthContext, useAuthProvider } from "@/hooks/useAuth";
 import Home from "@/pages/home";
 import Checkout from "@/pages/checkout";
 import Upload from "@/pages/upload";
+import Processing from "@/pages/processing";
+import Results from "@/pages/results";
 import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import Login from "@/pages/login";
@@ -18,8 +20,10 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/upload" component={Upload} />
       <Route path="/checkout" component={Checkout} />
-      <Route path="/upload/:orderId" component={Upload} />
+      <Route path="/processing/:orderId" component={Processing} />
+      <Route path="/results/:orderId" component={Results} />
       <Route path="/analysis/:orderId" component={Analysis} />
       <Route path="/admin" component={Admin} />
       <Route path="/login" component={Login} />

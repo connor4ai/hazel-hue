@@ -1,199 +1,258 @@
-import { useState, useRef } from "react";
-import { useParams, useLocation } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { Camera, Upload, CheckCircle, X } from "lucide-react";
-import UploadZone from "@/components/upload-zone";
+import { useState } from 'react';
+import { useLocation } from 'wouter';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import UploadZone from '@/components/upload-zone';
+import { 
+  Upload, 
+  CheckCircle, 
+  AlertCircle, 
+  Camera, 
+  Sparkles, 
+  ArrowLeft,
+  Sun,
+  User,
+  RotateCcw,
+  Shirt
+} from 'lucide-react';
 
 export default function UploadPage() {
-  const { orderId } = useParams();
   const [, setLocation] = useLocation();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
-  const [uploadedFiles, setUploadedFiles] = useState<(File | null)[]>([null, null, null]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const fileInputRefs = useRef<(HTMLInputElement | null)[]>([null, null, null]);
+  const [files, setFiles] = useState<File[]>([]);
 
-  const handleFileSelect = (index: number, file: File | null) => {
-    if (!file) return;
+  const handleFileSelect = (file: File) => {
+    if (files.length >= 3) {
+      toast({
+        title: "Maximum files reached",
+        description: "You can upload up to 3 photos",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Each photo must be under 10MB",
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Validate file type
-    if (!file.type.match(/^image\/(jpeg|png)$/)) {
+    if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png'))) {
       toast({
-        title: "Invalid File Type",
+        title: "Invalid file type",
         description: "Please upload only JPEG or PNG files",
         variant: "destructive",
       });
       return;
     }
 
-    // Validate file size (10MB)
-    if (file.size > 10 * 1024 * 1024) {
+    setFiles(prev => [...prev, file]);
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleContinue = () => {
+    if (files.length < 3) {
       toast({
-        title: "File Too Large",
-        description: "File size must be less than 10MB",
+        title: "Not enough photos",
+        description: "Please upload at least 3 photos for accurate analysis",
         variant: "destructive",
       });
       return;
     }
 
-    const newFiles = [...uploadedFiles];
-    newFiles[index] = file;
-    setUploadedFiles(newFiles);
-  };
-
-  const removeFile = (index: number) => {
-    const newFiles = [...uploadedFiles];
-    newFiles[index] = null;
-    setUploadedFiles(newFiles);
+    // Store files in sessionStorage to pass to checkout
+    const fileData = files.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: file.lastModified
+    }));
     
-    // Clear the file input
-    if (fileInputRefs.current[index]) {
-      fileInputRefs.current[index]!.value = '';
-    }
+    sessionStorage.setItem('uploadedFiles', JSON.stringify(fileData));
+    
+    // Create temporary URLs for the files and store them
+    const fileUrls = files.map(file => URL.createObjectURL(file));
+    sessionStorage.setItem('uploadedFileUrls', JSON.stringify(fileUrls));
+    
+    // Store actual file objects for later upload
+    (window as any).uploadedFiles = files;
+    
+    // Navigate to checkout
+    setLocation('/checkout');
   };
-
-  const triggerFileUpload = (index: number) => {
-    fileInputRefs.current[index]?.click();
-  };
-
-  const allFilesUploaded = uploadedFiles.every(file => file !== null);
-
-  const handleSubmit = async () => {
-    if (!allFilesUploaded) return;
-
-    setIsSubmitting(true);
-
-    try {
-      const formData = new FormData();
-      uploadedFiles.forEach((file, index) => {
-        if (file) {
-          formData.append('images', file);
-        }
-      });
-
-      await apiRequest("POST", `/api/upload-images/${orderId}`, formData);
-      
-      toast({
-        title: "Upload Successful",
-        description: "Your photos have been uploaded. Starting analysis...",
-      });
-
-      setLocation(`/analysis/${orderId}`);
-    } catch (error: any) {
-      toast({
-        title: "Upload Failed",
-        description: error.message || "Failed to upload images",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const uploadInstructions = [
-    {
-      title: "Natural Light",
-      description: "Selfie in daylight",
-      icon: <Camera className="h-8 w-8 text-sage" />
-    },
-    {
-      title: "Indoor Light", 
-      description: "Selfie indoors",
-      icon: <Camera className="h-8 w-8 text-sage" />
-    },
-    {
-      title: "Soft Light",
-      description: "Selfie in gentle light", 
-      icon: <Camera className="h-8 w-8 text-sage" />
-    }
-  ];
 
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
-              Upload Your Photos
-            </CardTitle>
-            <p className="text-lg text-warm-gray">
-              Upload 3 clear selfies for your personalized color analysis
-            </p>
-          </CardHeader>
+    <div className="min-h-screen bg-cream paper-texture">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <Button
+            variant="ghost"
+            onClick={() => setLocation('/')}
+            className="text-warm-gray hover:text-warm-gray-dark mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
           
-          <CardContent className="p-8">
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              {uploadInstructions.map((instruction, index) => (
-                <div key={index} className="relative">
+          <div className="text-center">
+            <h1 className="font-serif text-4xl font-bold text-warm-gray-dark mb-4">
+              Upload Your Photos
+            </h1>
+            <p className="text-lg text-warm-gray max-w-2xl mx-auto">
+              Upload 3 high-quality selfies for your personal color analysis. Follow our guidelines for the most accurate results.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Upload Section */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Camera className="w-5 h-5 mr-2 text-terracotta" />
+                  Upload Photos ({files.length}/3)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {files.length < 3 && (
                   <UploadZone
-                    onFileSelect={(file) => handleFileSelect(index, file)}
-                    onUploadClick={() => triggerFileUpload(index)}
-                    file={uploadedFiles[index]}
-                    instruction={instruction}
-                    className="h-64"
-                  />
-                  
-                  {uploadedFiles[index] && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFile(index)}
-                      className="absolute top-2 right-2 h-8 w-8 p-0 bg-white/80 hover:bg-white"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  )}
-                  
-                  <input
-                    ref={(el) => fileInputRefs.current[index] = el}
-                    type="file"
-                    accept="image/jpeg,image/png"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) handleFileSelect(index, file);
+                    onFileSelect={handleFileSelect}
+                    onUploadClick={() => {}}
+                    file={null}
+                    instruction={{
+                      title: "Choose a photo",
+                      description: "JPEG or PNG up to 10MB",
+                      icon: <Upload className="w-8 h-8 text-terracotta" />
                     }}
                   />
-                </div>
-              ))}
-            </div>
-            
-            <div className="text-center">
-              <Button
-                onClick={handleSubmit}
-                disabled={!allFilesUploaded || isSubmitting}
-                className={`px-8 py-4 rounded-full font-semibold text-lg h-auto ${
-                  allFilesUploaded 
-                    ? 'bg-terracotta hover:bg-terracotta/90 text-white' 
-                    : 'bg-gray-400 text-white cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Upload className="h-5 w-5 mr-2 animate-spin" />
-                    Uploading...
-                  </>
-                ) : allFilesUploaded ? (
-                  <>
-                    <CheckCircle className="h-5 w-5 mr-2" />
-                    Analyze My Colors
-                  </>
-                ) : (
-                  'Upload All 3 Photos to Continue'
                 )}
-              </Button>
-            </div>
-            
-            <div className="mt-6 text-center text-sm text-warm-gray">
-              <p>• Photos should be clear and well-lit</p>
-              <p>• Remove makeup for best results</p>
-              <p>• Maximum file size: 10MB per photo</p>
-              <p>• Supported formats: JPEG, PNG</p>
-            </div>
-          </CardContent>
-        </Card>
+
+                {files.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-warm-gray-dark">Selected Photos:</h4>
+                    {files.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border">
+                        <div className="flex items-center space-x-3">
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                          <div>
+                            <p className="text-sm font-medium">{file.name}</p>
+                            <p className="text-xs text-warm-gray">
+                              {(file.size / 1024 / 1024).toFixed(1)} MB
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => removeFile(index)}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleContinue}
+                  disabled={files.length < 3}
+                  className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Continue to Payment - $29
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Guidelines */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <AlertCircle className="w-5 h-5 mr-2 text-lagoon" />
+                  Photo Guidelines
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <Sun className="w-5 h-5 text-marigold mt-1" />
+                    <div>
+                      <p className="font-semibold text-warm-gray-dark">Natural Lighting</p>
+                      <p className="text-sm text-warm-gray">Take photos in bright, natural daylight near a window. Avoid artificial lighting or harsh shadows.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <User className="w-5 h-5 text-terracotta mt-1" />
+                    <div>
+                      <p className="font-semibold text-warm-gray-dark">No Makeup</p>
+                      <p className="text-sm text-warm-gray">Clean face with no makeup or very minimal makeup. This helps us see your natural skin tone.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <RotateCcw className="w-5 h-5 text-sage mt-1" />
+                    <div>
+                      <p className="font-semibold text-warm-gray-dark">Different Angles</p>
+                      <p className="text-sm text-warm-gray">Upload 3 photos: front view, side profile, and another angle. Hair pulled back shows more of your face.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Shirt className="w-5 h-5 text-lagoon mt-1" />
+                    <div>
+                      <p className="font-semibold text-warm-gray-dark">Neutral Clothing</p>
+                      <p className="text-sm text-warm-gray">Wear neutral colors (white, beige, gray) to avoid color reflection on your face.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-gradient-to-r from-terracotta/10 to-marigold/10 rounded-lg">
+                  <h4 className="font-semibold text-warm-gray-dark mb-2">Example Photos</h4>
+                  <div className="grid grid-cols-3 gap-2 text-xs text-warm-gray">
+                    <div className="text-center">
+                      <div className="w-full h-16 bg-gradient-to-b from-terracotta/20 to-terracotta/10 rounded mb-1"></div>
+                      <p>Front View</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-full h-16 bg-gradient-to-b from-marigold/20 to-marigold/10 rounded mb-1"></div>
+                      <p>Side Profile</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-full h-16 bg-gradient-to-b from-lagoon/20 to-lagoon/10 rounded mb-1"></div>
+                      <p>3/4 View</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <h4 className="font-semibold text-green-800 mb-2">Pro Tips for Best Results</h4>
+                  <ul className="text-sm text-green-700 space-y-1">
+                    <li>• Stand 2-3 feet from a window for soft, even lighting</li>
+                    <li>• Face the light source directly to avoid shadows</li>
+                    <li>• Remove accessories like hats or sunglasses</li>
+                    <li>• Ensure your face fills most of the frame</li>
+                    <li>• Photos should be clear and not blurry</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
