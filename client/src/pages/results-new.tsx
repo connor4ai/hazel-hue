@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, Share, ChevronLeft, ChevronRight, ExternalLink, Sparkles, Copy, Check, Shield } from 'lucide-react';
+import { Download, Share, ChevronLeft, ChevronRight, ExternalLink, Sparkles, Copy, Check, Shield, CreditCard, Smartphone, Palette, Star } from 'lucide-react';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";

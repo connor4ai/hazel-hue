@@ -10,7 +10,7 @@ import Upload from "@/pages/upload";
 import Payment from "@/pages/payment";
 import Loading from "@/pages/loading";
 import Processing from "@/pages/processing";
-import ResultsNew from "@/pages/results-new";
+import ResultsPremium from "@/pages/results-premium";
 import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import Login from "@/pages/login";
@@ -27,7 +27,7 @@ function Router() {
       <Route path="/loading" component={Loading} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/processing/:orderId" component={Processing} />
-      <Route path="/results/:orderId" component={ResultsNew} />
+      <Route path="/results/:orderId" component={ResultsPremium} />
       <Route path="/analysis/:orderId" component={Analysis} />
       <Route path="/admin" component={Admin} />
       <Route path="/login" component={Login} />

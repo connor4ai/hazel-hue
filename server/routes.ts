@@ -8,6 +8,8 @@ import fs from "fs";
 import { storage } from "./storage";
 import { emailService } from "./services/emailService";
 import { pdfService } from "./services/pdfService";
+import { premiumPdfService } from "./services/pdfServicePremium";
+import { walletCardService } from "./services/walletCardService";
 import { colorAnalysisService } from "./services/colorAnalysisService";
 import { fashionApiService } from "./services/fashionApiService";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
@@ -482,23 +484,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Download PDF report
-  app.get("/api/download-report/:orderId", async (req, res) => {
+  // Download premium PDF report
+  app.get("/api/orders/:orderId/pdf", async (req, res) => {
     try {
       const { orderId } = req.params;
-      const order = await storage.getOrder(parseInt(orderId));
+      let order;
       
-      if (!order || !order.pdfPath) {
-        return res.status(404).json({ message: "Report not found" });
+      if (orderId.startsWith('free_order_')) {
+        order = await storage.getOrderByPaymentIntent(orderId);
+      } else {
+        order = await storage.getOrder(parseInt(orderId));
+      }
+      
+      if (!order || order.status !== 'completed' || !order.analysisResult) {
+        return res.status(404).json({ message: "Analysis not found" });
       }
 
-      if (!fs.existsSync(order.pdfPath)) {
-        return res.status(404).json({ message: "Report file not found" });
+      const pdfPath = await premiumPdfService.generateProfessionalReport(order, order.analysisResult);
+      
+      if (!fs.existsSync(pdfPath)) {
+        return res.status(500).json({ message: "Failed to generate PDF" });
       }
 
-      res.download(order.pdfPath, `color-analysis-report-${orderId}.pdf`);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${order.analysisResult.season.replace(/\s+/g, '-')}-Professional-Report.pdf"`);
+      
+      const fileStream = fs.createReadStream(pdfPath);
+      fileStream.pipe(res);
+      
+      fileStream.on('end', () => {
+        setTimeout(() => {
+          if (fs.existsSync(pdfPath)) {
+            fs.unlinkSync(pdfPath);
+          }
+        }, 1000);
+      });
     } catch (error: any) {
-      res.status(500).json({ message: "Error downloading report: " + error.message });
+      console.error("Error generating premium PDF:", error);
+      res.status(500).json({ message: "Failed to generate professional report" });
+    }
+  });
+
+  // Generate Apple Wallet card
+  app.get("/api/orders/:orderId/wallet-card", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      let order;
+      
+      if (orderId.startsWith('free_order_')) {
+        order = await storage.getOrderByPaymentIntent(orderId);
+      } else {
+        order = await storage.getOrder(parseInt(orderId));
+      }
+      
+      if (!order || order.status !== 'completed' || !order.analysisResult) {
+        return res.status(404).json({ message: "Analysis not found" });
+      }
+
+      const walletCardPath = await walletCardService.generateWalletPass(order.analysisResult, orderId);
+      
+      if (!fs.existsSync(walletCardPath)) {
+        return res.status(500).json({ message: "Failed to generate wallet card" });
+      }
+
+      res.setHeader('Content-Type', 'application/vnd.apple.pkpass');
+      res.setHeader('Content-Disposition', `attachment; filename="${order.analysisResult.season.replace(/\s+/g, '-')}-Color-Card.pkpass"`);
+      
+      const fileStream = fs.createReadStream(walletCardPath);
+      fileStream.pipe(res);
+      
+      fileStream.on('end', () => {
+        setTimeout(() => {
+          if (fs.existsSync(walletCardPath)) {
+            fs.unlinkSync(walletCardPath);
+          }
+        }, 1000);
+      });
+    } catch (error: any) {
+      console.error("Error generating wallet card:", error);
+      res.status(500).json({ message: "Failed to generate wallet card" });
     }
   });
 
