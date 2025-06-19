@@ -1,0 +1,83 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "pass.com.huematcher.colorcard",
+  "serialNumber": "color-analysis-free_order_1750375586658-1750375872337",
+  "teamIdentifier": "HUEMATCHER",
+  "organizationName": "HueMatcher",
+  "description": "Bright Winter Color Analysis Card",
+  "logoText": "HueMatcher",
+  "backgroundColor": "rgb(255, 255, 255)",
+  "foregroundColor": "rgb(33, 37, 41)",
+  "labelColor": "rgb(108, 117, 125)",
+  "generic": {
+    "primaryFields": [
+      {
+        "key": "season",
+        "label": "Your Season",
+        "value": "Bright Winter"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "neutrals-count",
+        "label": "Foundation Colors",
+        "value": "6 colors"
+      },
+      {
+        "key": "brights-count",
+        "label": "Statement Colors",
+        "value": "6 colors"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "usage",
+        "label": "Usage",
+        "value": "Color matching for shopping"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "neutrals-title",
+        "label": "Foundation Neutrals",
+        "value": "True Black (C0 M0 Y0 K100)\nCharcoal (C0 M0 Y0 K80)\nSteel Gray (C0 M0 Y0 K60)\nSilver Gray (C0 M0 Y0 K40)\nLight Gray (C0 M0 Y0 K20)\nPure White (C0 M0 Y0 K0)"
+      },
+      {
+        "key": "lights-title",
+        "label": "Accent Lights",
+        "value": "#E0FFFF (C12 M0 Y0 K0)\n#F0E68C (C0 M4 Y42 K6)\n#F5F5DC (C0 M0 Y10 K4)\n#FFE4E1 (C0 M11 Y12 K0)\n#FFFACD (C0 M2 Y20 K0)\n#FAFAD2 (C0 M0 Y16 K2)"
+      },
+      {
+        "key": "brights-title",
+        "label": "Statement Brights",
+        "value": "#FF69B4 (C0 M59 Y29 K0)\n#FF4500 (C0 M73 Y100 K0)\n#32CD32 (C76 M0 Y76 K20)\n#1E90FF (C88 M44 Y0 K0)\n#FFD700 (C0 M16 Y100 K0)\n#8A2BE2 (C39 M81 Y0 K11)"
+      },
+      {
+        "key": "instructions",
+        "label": "How to Use",
+        "value": "Hold this card up to clothing items when shopping. Colors that closely match any color on this card will be flattering on you. Focus on colors nearest to your face for maximum impact."
+      },
+      {
+        "key": "cmyk-note",
+        "label": "Color Accuracy",
+        "value": "All colors are CMYK calibrated for accurate real-world matching across different lighting conditions."
+      }
+    ]
+  },
+  "barcodes": [
+    {
+      "message": "huematcher://color-card/free_order_1750375586658",
+      "format": "PKBarcodeFormatQR",
+      "messageEncoding": "iso-8859-1"
+    }
+  ],
+  "locations": [
+    {
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "relevantText": "Perfect for shopping in fashion districts!"
+    }
+  ],
+  "maxDistance": 1000,
+  "relevantDate": "2026-06-19T23:31:12.337Z"
+}
