@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthContext, useAuthProvider } from "@/hooks/useAuth";
 import Home from "@/pages/home";
-import Checkout from "@/pages/checkout";
+import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import Payment from "@/pages/payment";
 import Loading from "@/pages/loading";

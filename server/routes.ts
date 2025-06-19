@@ -211,12 +211,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      const { promoCode } = req.body;
+      let amount = 2900; // $29.00 in cents
+      let discount = 0;
+
+      // Apply promo code discounts
+      if (promoCode) {
+        const validPromoCodes: Record<string, number> = {
+          'FIRST10': 10, // 10% off
+          'SAVE5': 5,    // 5% off
+          'WELCOME': 15, // 15% off
+          'STUDENT': 20, // 20% off
+        };
+
+        if (validPromoCodes[promoCode.toUpperCase()]) {
+          discount = validPromoCodes[promoCode.toUpperCase()];
+          amount = Math.round(amount * (1 - discount / 100));
+        }
+      }
+
       const paymentIntent = await stripe!.paymentIntents.create({
-        amount: 2900, // $29.00 in cents
+        amount,
         currency: "usd",
-        payment_method_types: ['card'],
+        automatic_payment_methods: {
+          enabled: true,
+        },
         metadata: {
           service: 'color-analysis',
+          originalAmount: '2900',
+          promoCode: promoCode || '',
+          discount: discount.toString(),
+          amount: amount.toString(),
         },
       });
 
@@ -230,10 +255,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ 
         clientSecret: paymentIntent.client_secret,
-        paymentIntentId: paymentIntent.id 
+        paymentIntentId: paymentIntent.id,
+        amount: paymentIntent.amount,
+        discount: discount
       });
     } catch (error: any) {
       res.status(500).json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  // Get payment intent details
+  app.get("/api/payment-intent/:paymentIntentId", async (req, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ 
+          message: "Payment processing temporarily unavailable." 
+        });
+      }
+
+      const { paymentIntentId } = req.params;
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      res.json({
+        id: paymentIntent.id,
+        amount: paymentIntent.amount,
+        metadata: paymentIntent.metadata
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Error retrieving payment intent: " + error.message });
     }
   });
 
