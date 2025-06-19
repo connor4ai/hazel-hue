@@ -7,7 +7,7 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { emailService } from "./services/emailService";
-import { pdfService } from "./services/pdfService";
+import { workingPdfService } from "./services/workingPdfService";
 import { premiumPdfService } from "./services/pdfServicePremium";
 import { walletCardService } from "./services/walletCardService";
 import { colorAnalysisService } from "./services/colorAnalysisService";
@@ -77,7 +77,7 @@ async function processColorAnalysisWorker(jobId: number) {
     console.log(`OpenAI analysis completed for job ${jobId}`);
 
     // Generate PDF report
-    const pdfPath = await pdfService.generateReport(order, analysisResult);
+    const pdfPath = await workingPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
     // Save outputs and mark as completed
@@ -500,14 +500,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Analysis not found" });
       }
 
-      const pdfPath = await premiumPdfService.generateProfessionalReport(order, order.analysisResult);
+      console.log('Generating PDF for order:', order.id, 'with analysis:', order.analysisResult);
+      const pdfPath = await workingPdfService.generateReport(order, order.analysisResult);
       
       if (!fs.existsSync(pdfPath)) {
         return res.status(500).json({ message: "Failed to generate PDF" });
       }
 
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename="${order.analysisResult.season.replace(/\s+/g, '-')}-Professional-Report.pdf"`);
+      const seasonName = (order.analysisResult as any)?.season || 'Color-Analysis';
+      res.setHeader('Content-Disposition', `attachment; filename="${seasonName.replace(/\s+/g, '-')}-Professional-Report.pdf"`);
       
       const fileStream = fs.createReadStream(pdfPath);
       fileStream.pipe(res);
@@ -521,7 +523,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error: any) {
       console.error("Error generating premium PDF:", error);
-      res.status(500).json({ message: "Failed to generate professional report" });
+      console.error("Error stack:", error.stack);
+      res.status(500).json({ message: "Failed to generate professional report", error: error.message });
     }
   });
 
@@ -548,7 +551,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       res.setHeader('Content-Type', 'application/vnd.apple.pkpass');
-      res.setHeader('Content-Disposition', `attachment; filename="${order.analysisResult.season.replace(/\s+/g, '-')}-Color-Card.pkpass"`);
+      const walletSeasonName = (order.analysisResult as any)?.season || 'Color-Analysis';
+      res.setHeader('Content-Disposition', `attachment; filename="${walletSeasonName.replace(/\s+/g, '-')}-Color-Card.pkpass"`);
       
       const fileStream = fs.createReadStream(walletCardPath);
       fileStream.pipe(res);
@@ -838,7 +842,7 @@ async function processColorAnalysis(orderId: number) {
     };
 
     // Generate PDF report
-    const pdfPath = await pdfService.generateReport(order, analysisResult);
+    const pdfPath = await workingPdfService.generateReport(order, analysisResult);
     
     // Update order with analysis results
     await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);

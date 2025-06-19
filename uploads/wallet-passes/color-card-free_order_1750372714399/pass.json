@@ -1,0 +1,83 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "pass.com.huematcher.colorcard",
+  "serialNumber": "color-analysis-free_order_1750372714399-1750374261960",
+  "teamIdentifier": "HUEMATCHER",
+  "organizationName": "HueMatcher",
+  "description": "Cool Winter Color Analysis Card",
+  "logoText": "HueMatcher",
+  "backgroundColor": "rgb(255, 255, 255)",
+  "foregroundColor": "rgb(33, 37, 41)",
+  "labelColor": "rgb(108, 117, 125)",
+  "generic": {
+    "primaryFields": [
+      {
+        "key": "season",
+        "label": "Your Season",
+        "value": "Cool Winter"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "neutrals-count",
+        "label": "Foundation Colors",
+        "value": "6 colors"
+      },
+      {
+        "key": "brights-count",
+        "label": "Statement Colors",
+        "value": "6 colors"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "usage",
+        "label": "Usage",
+        "value": "Color matching for shopping"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "neutrals-title",
+        "label": "Foundation Neutrals",
+        "value": "True Black (C0 M0 Y0 K100)\nCharcoal (C0 M0 Y0 K80)\nSteel Gray (C0 M0 Y0 K60)\nSilver Gray (C0 M0 Y0 K40)\nLight Gray (C0 M0 Y0 K20)\nPure White (C0 M0 Y0 K0)"
+      },
+      {
+        "key": "lights-title",
+        "label": "Accent Lights",
+        "value": "Platinum (C0 M0 Y0 K12)\nPearl White (C0 M0 Y0 K4)\nCloud Gray (C0 M0 Y0 K17)\nSnow White (C0 M0 Y0 K2)\nIvory (C0 M0 Y0 K6)\nWhisper Gray (C0 M0 Y0 K9)"
+      },
+      {
+        "key": "brights-title",
+        "label": "Statement Brights",
+        "value": "Royal Blue (C100 M80 Y0 K0)\nDeep Purple (C50 M100 Y0 K20)\nFuchsia Pink (C0 M100 Y60 K0)\nCrimson Red (C0 M80 Y100 K0)\nElectric Blue (C100 M40 Y0 K0)\nEmerald Green (C75 M0 Y75 K20)"
+      },
+      {
+        "key": "instructions",
+        "label": "How to Use",
+        "value": "Hold this card up to clothing items when shopping. Colors that closely match any color on this card will be flattering on you. Focus on colors nearest to your face for maximum impact."
+      },
+      {
+        "key": "cmyk-note",
+        "label": "Color Accuracy",
+        "value": "All colors are CMYK calibrated for accurate real-world matching across different lighting conditions."
+      }
+    ]
+  },
+  "barcodes": [
+    {
+      "message": "huematcher://color-card/free_order_1750372714399",
+      "format": "PKBarcodeFormatQR",
+      "messageEncoding": "iso-8859-1"
+    }
+  ],
+  "locations": [
+    {
+      "latitude": 37.7749,
+      "longitude": -122.4194,
+      "relevantText": "Perfect for shopping in fashion districts!"
+    }
+  ],
+  "maxDistance": 1000,
+  "relevantDate": "2026-06-19T23:04:21.961Z"
+}

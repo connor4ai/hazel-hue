@@ -4,7 +4,6 @@ import path from 'path';
 
 class PDFService {
   async generateReport(order: any, analysisResult: any): Promise<string> {
-    const doc = new PDFDocument({ margin: 40 });
     const filename = `color-analysis-${order.id}-${Date.now()}.pdf`;
     const filePath = path.join('uploads', 'reports', filename);
     
@@ -14,30 +13,66 @@ class PDFService {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    doc.pipe(fs.createWriteStream(filePath));
+    return new Promise((resolve, reject) => {
+      try {
+        const doc = new PDFDocument({ margin: 40 });
+        const stream = fs.createWriteStream(filePath);
+        
+        doc.pipe(stream);
 
-    // Page 1: Season Badge + Description
-    this.generateCoverPage(doc, analysisResult);
-    
-    // Page 2: Complete Color Palette
-    doc.addPage();
-    this.generatePalettePage(doc, analysisResult);
-    
-    // Page 3: Style Guide & Recommendations
-    doc.addPage();
-    this.generateStyleGuidePage(doc, analysisResult);
+        // Page 1: Season Badge + Description
+        this.generateCoverPage(doc, analysisResult);
+        
+        // Page 2: Complete Color Palette
+        doc.addPage();
+        this.generatePalettePage(doc, analysisResult);
+        
+        // Page 3: Style Guide & Recommendations
+        doc.addPage();
+        this.generateStyleGuidePage(doc, analysisResult);
 
-    doc.end();
-    return filePath;
+        doc.end();
+        
+        stream.on('finish', () => {
+          console.log('PDF generated successfully at:', filePath);
+          resolve(filePath);
+        });
+        
+        stream.on('error', (error) => {
+          console.error('PDF generation error:', error);
+          reject(error);
+        });
+        
+        doc.on('error', (error) => {
+          console.error('PDFKit error:', error);
+          reject(error);
+        });
+      } catch (error) {
+        console.error('PDF setup error:', error);
+        reject(error);
+      }
+    });
   }
 
   private generateCoverPage(doc: PDFKit.PDFDocument, analysisResult: any) {
-    // Season badge
-    doc.fontSize(36)
-       .fillColor('#2C3E50')
-       .text(analysisResult.season, 50, 150, { align: 'center' });
+    // Premium header
+    doc.fontSize(14)
+       .fillColor('#64748B')
+       .text('HUEMATCHER PROFESSIONAL COLOR ANALYSIS', 50, 50, { align: 'center' });
     
-    // Description
+    // Season badge with enhanced styling
+    doc.fontSize(42)
+       .fillColor('#1E293B')
+       .font('Helvetica-Bold')
+       .text(analysisResult.season || 'Color Analysis', 50, 120, { align: 'center' });
+    
+    // Tagline
+    doc.fontSize(16)
+       .fillColor('#475569')
+       .font('Helvetica')
+       .text('Bold, Dramatic, Sophisticated', 50, 180, { align: 'center' });
+    
+    // Description box
     doc.fontSize(14)
        .fillColor('#34495E')
        .text(analysisResult.description, 80, 250, { 
