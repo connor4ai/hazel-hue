@@ -18,6 +18,12 @@ if (process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 }
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Configure multer for file uploads
 const upload = multer({
   dest: 'uploads/',
@@ -72,9 +78,9 @@ async function processColorAnalysisWorker(jobId: number) {
     const pdfPath = await pdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
-    // Save outputs and mark as done
+    // Save outputs and mark as completed
     await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
-    await storage.updateOrderStatus(jobId, 'done');
+    await storage.updateOrderStatus(jobId, 'completed');
 
     console.log(`Job ${jobId} completed successfully`);
   } catch (error: any) {
@@ -338,6 +344,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Start free order analysis with images from memory
+  app.post("/api/start-free-analysis/:orderId", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const { images } = req.body; // Base64 image data
+      
+      if (!images || images.length < 3) {
+        return res.status(400).json({ message: "At least 3 images are required" });
+      }
+
+      // Get the free order
+      const order = await storage.getOrderByPaymentIntent(orderId);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      // Save images to disk for processing
+      const imagePaths: string[] = [];
+      for (let i = 0; i < images.length; i++) {
+        const imageData = images[i];
+        const fileName = `${orderId}_${i + 1}.jpg`;
+        const filePath = path.join(uploadsDir, fileName);
+        
+        // Convert base64 to file
+        const base64Data = imageData.replace(/^data:image\/[a-z]+;base64,/, '');
+        fs.writeFileSync(filePath, base64Data, 'base64');
+        imagePaths.push(filePath);
+      }
+
+      // Update order with images
+      await storage.updateOrderImages(order.id, imagePaths);
+      await storage.updateOrderStatus(order.id, 'processing');
+
+      // Start analysis
+      setImmediate(() => processColorAnalysisWorker(order.id));
+
+      res.json({ message: "Analysis started", status: "processing" });
+    } catch (error: any) {
+      console.error("Error starting free analysis:", error);
+      res.status(500).json({ message: "Error starting analysis: " + error.message });
+    }
+  });
+
   // Upload images
   app.post("/api/upload-images/:orderId", upload.array('images', 3), async (req, res) => {
     try {
@@ -382,7 +431,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get order status
+  // Get order status (for free orders too)
+  app.get("/api/orders/:orderId/status", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      
+      // Handle free order IDs (string format)
+      let order;
+      if (orderId.startsWith('free_order_')) {
+        order = await storage.getOrderByPaymentIntent(orderId);
+      } else {
+        order = await storage.getOrder(parseInt(orderId));
+      }
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      const response: any = {
+        id: order.id,
+        status: order.status,
+        updatedAt: order.updatedAt
+      };
+
+      // Include results when done
+      if (order.status === 'completed' && order.analysisResult) {
+        response.result = order.analysisResult;
+        response.pdfPath = order.pdfPath;
+      }
+
+      res.json(response);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching order: " + error.message });
+    }
+  });
+
+  // Get order by ID
   app.get("/api/order/:orderId", async (req, res) => {
     try {
       const { orderId } = req.params;

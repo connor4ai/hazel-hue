@@ -180,12 +180,52 @@ export default function CheckoutEnhanced() {
     createPaymentIntent();
   }, []);
 
-  const handleFreeOrderCompletion = (paymentIntentId: string) => {
-    // Store the payment intent ID for the results page
-    sessionStorage.setItem('paymentIntentId', paymentIntentId);
-    
-    // Navigate directly to processing/loading page for free orders
-    setLocation(`/processing/${paymentIntentId}`);
+  const handleFreeOrderCompletion = async (paymentIntentId: string) => {
+    try {
+      // Get uploaded files from memory
+      const files = (window as any).uploadedFiles;
+      if (!files || files.length < 3) {
+        toast({
+          title: "Missing Images",
+          description: "Please upload your photos first",
+          variant: "destructive",
+        });
+        setLocation('/upload');
+        return;
+      }
+
+      // Convert files to base64
+      const imagePromises = files.map((file: File) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const imageData = await Promise.all(imagePromises);
+
+      // Start the analysis
+      const response = await apiRequest("POST", `/api/start-free-analysis/${paymentIntentId}`, {
+        images: imageData
+      });
+
+      if (response.ok) {
+        // Store the payment intent ID for the results page
+        sessionStorage.setItem('paymentIntentId', paymentIntentId);
+        
+        // Navigate to processing/loading page
+        setLocation(`/processing/${paymentIntentId}`);
+      } else {
+        throw new Error('Failed to start analysis');
+      }
+    } catch (error: any) {
+      toast({
+        title: "Analysis Failed",
+        description: "Could not start your color analysis. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const createPaymentIntent = async (promoCodeToApply = '') => {
