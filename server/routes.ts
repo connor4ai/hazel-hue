@@ -9,11 +9,11 @@ import { emailService } from "./services/emailService";
 import { pdfService } from "./services/pdfService";
 import { insertUserSchema, insertOrderSchema } from "@shared/schema";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+// Initialize Stripe only if key is available
+let stripe: Stripe | null = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 }
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Configure multer for file uploads
 const upload = multer({
@@ -35,6 +35,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create payment intent
   app.post("/api/create-payment-intent", async (req, res) => {
     try {
+      if (!stripe) {
+        return res.status(503).json({ 
+          message: "Payment processing temporarily unavailable. Please configure Stripe keys." 
+        });
+      }
+
       const { email } = req.body;
       
       if (!email) {
@@ -47,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         user = await storage.createUser({ email });
       }
 
-      const paymentIntent = await stripe.paymentIntents.create({
+      const paymentIntent = await stripe!.paymentIntents.create({
         amount: 2900, // $29.00 in cents
         currency: "usd",
         metadata: {
@@ -75,13 +81,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Verify payment and get order details
   app.post("/api/verify-payment", async (req, res) => {
     try {
+      if (!stripe) {
+        return res.status(503).json({ 
+          message: "Payment processing temporarily unavailable. Please configure Stripe keys." 
+        });
+      }
+
       const { paymentIntentId } = req.body;
       
       if (!paymentIntentId) {
         return res.status(400).json({ message: "Payment intent ID is required" });
       }
 
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      const paymentIntent = await stripe!.paymentIntents.retrieve(paymentIntentId);
       
       if (paymentIntent.status === 'succeeded') {
         const order = await storage.getOrderByPaymentIntent(paymentIntentId);
