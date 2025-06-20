@@ -30,8 +30,8 @@
   --sage: hsl(139, 23%, 64%);
   --marigold: hsl(42, 78%, 72%);
   --lagoon: hsl(175, 44%, 51%);
-  --warm-gray: hsl(32, 15%, 45%);
-  --warm-gray-dark: hsl(32, 25%, 35%);
+  --warm-gray: hsl(32, 15%, 55%);
+  --warm-gray-dark: hsl(32, 40%, 25%);
 }
 
 .dark {

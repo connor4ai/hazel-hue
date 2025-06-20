@@ -19,7 +19,12 @@ import {
   ChevronDown,
   Lock,
   User,
-  LogIn
+  LogIn,
+  CheckCircle,
+  Upload,
+  Mail,
+  TrendingUp,
+  Users
 } from "lucide-react";
 import seasonalColorTypes from "@/assets/seasonal-color-types.svg";
 import { useState } from "react";
@@ -39,7 +44,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md z-50 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,32 +106,56 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-warm-gray-dark mb-6 leading-tight">
-                Discover Your 
-                <span className="text-terracotta font-cursive"> Perfect</span>
-                <br />Color Palette
+                Your Most Flattering
+                <br />
+                <span className="bg-gradient-to-r from-terracotta via-marigold to-lagoon bg-clip-text text-transparent font-extrabold">Colors</span> Revealed
               </h1>
-              <p className="text-lg md:text-xl text-warm-gray mb-8 leading-relaxed">
-                Unlock your most flattering colors with our AI-powered personal color analysis. Upload 3 selfies and get professional results in just 2 minutes.
+              <p className="text-xl md:text-2xl text-warm-gray-dark mb-4 leading-relaxed font-medium">
+                Professional 16-season color analysis in 2 minutes
+              </p>
+              <p className="text-lg text-warm-gray mb-8 leading-relaxed">
+                Upload 3 selfies → AI analyzes your undertones → Receive luxury PDF + Apple Wallet card
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
                   onClick={() => setLocation('/upload')}
-                  className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-12 py-6 rounded-full font-bold text-xl h-auto shadow-xl hover:shadow-2xl transition-all duration-300 animate-pulse"
                 >
-                  <Sparkles className="mr-2 h-5 w-5" />
+                  <Sparkles className="mr-3 h-6 w-6" />
                   Get My Analysis - $29
                 </Button>
-                <Button 
-                  variant="outline"
+                <button 
                   onClick={() => scrollToSection('how-it-works')}
-                  className="border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-full font-semibold text-lg h-auto transition-all duration-300"
+                  className="text-sage hover:text-terracotta transition-colors underline font-medium text-lg"
                 >
                   Learn More
-                </Button>
+                </button>
               </div>
-              <div className="mt-8 flex items-center justify-center lg:justify-start text-sm text-warm-gray">
-                <Clock className="h-4 w-4 mr-2 text-lagoon" />
-                <span>2-minute analysis • Instant results • 100% satisfaction guaranteed</span>
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-center lg:justify-start gap-2">
+                  <div className="flex text-marigold">
+                    <Star className="h-5 w-5 fill-current" />
+                    <Star className="h-5 w-5 fill-current" />
+                    <Star className="h-5 w-5 fill-current" />
+                    <Star className="h-5 w-5 fill-current" />
+                    <Star className="h-5 w-5 fill-current" />
+                  </div>
+                  <span className="text-warm-gray-dark font-semibold">4.9/5 from 2,847 reviews</span>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-sm">
+                  <div className="flex items-center bg-sage/10 px-3 py-2 rounded-full">
+                    <Shield className="h-4 w-4 mr-2 text-sage" />
+                    <span className="text-warm-gray-dark font-medium">Privacy Protected</span>
+                  </div>
+                  <div className="flex items-center bg-lagoon/10 px-3 py-2 rounded-full">
+                    <Clock className="h-4 w-4 mr-2 text-lagoon" />
+                    <span className="text-warm-gray-dark font-medium">2-Minute Results</span>
+                  </div>
+                  <div className="flex items-center bg-terracotta/10 px-3 py-2 rounded-full">
+                    <Star className="h-4 w-4 mr-2 text-terracotta" />
+                    <span className="text-warm-gray-dark font-medium">95% Accuracy</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="relative">
@@ -149,7 +178,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-16 bg-white/50 paper-texture">
+      <section id="how-it-works" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
@@ -160,34 +189,43 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-12">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-terracotta/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-terracotta/20 transition-colors">
-                <CreditCard className="h-8 w-8 text-terracotta" />
+              <div className="relative">
+                <div className="text-6xl font-bold text-terracotta/20 absolute -top-4 -left-4">1</div>
+                <div className="w-24 h-24 bg-terracotta/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-terracotta/20 transition-colors relative z-10">
+                  <CreditCard className="h-12 w-12 text-terracotta" />
+                </div>
               </div>
-              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">1. Pay Securely</h3>
+              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">Pay Securely</h3>
               <p className="text-warm-gray">
-                Complete your $29 payment with credit card, Apple Pay, or Google Pay
+                Complete secure $29 payment
               </p>
             </div>
             
             <div className="text-center group">
-              <div className="w-20 h-20 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-sage/20 transition-colors">
-                <Camera className="h-8 w-8 text-sage" />
+              <div className="relative">
+                <div className="text-6xl font-bold text-sage/20 absolute -top-4 -left-4">2</div>
+                <div className="w-24 h-24 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-sage/20 transition-colors relative z-10">
+                  <Camera className="h-12 w-12 text-sage" />
+                </div>
               </div>
-              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">2. Upload Photos</h3>
+              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">Upload 3 Selfies</h3>
               <p className="text-warm-gray">
-                Upload 3 clear selfies in different lighting conditions - that's it!
+                Different lighting, clear photos
               </p>
             </div>
             
             <div className="text-center group">
-              <div className="w-20 h-20 bg-lagoon/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-lagoon/20 transition-colors">
-                <Sparkles className="h-8 w-8 text-lagoon" />
+              <div className="relative">
+                <div className="text-6xl font-bold text-lagoon/20 absolute -top-4 -left-4">3</div>
+                <div className="w-24 h-24 bg-lagoon/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-lagoon/20 transition-colors relative z-10">
+                  <Sparkles className="h-12 w-12 text-lagoon" />
+                </div>
               </div>
-              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">3. Get Results</h3>
+              <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">Get Results</h3>
               <p className="text-warm-gray">
-                Receive your comprehensive color analysis report in 2 minutes
+                2-minute professional analysis
               </p>
             </div>
           </div>
@@ -207,17 +245,21 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-terracotta/10 rounded-xl flex items-center justify-center mb-4">
-                  <FileText className="h-6 w-6 text-terracotta" />
+            <Card className="md:col-span-2 hover:shadow-xl transition-shadow border-2 border-terracotta/20">
+              <CardContent className="p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-16 h-16 bg-terracotta/10 rounded-xl flex items-center justify-center">
+                    <FileText className="h-8 w-8 text-terracotta" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-2xl font-semibold text-warm-gray-dark mb-3">
+                      Personalized PDF + Palette
+                    </h3>
+                    <p className="text-warm-gray text-lg">
+                      Professional 6-page color analysis ready for shopping trips
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  In Depth PDF Report
-                </h3>
-                <p className="text-warm-gray">
-                  Your season explained in plain language with undertone, value & chroma breakdown plus visual color examples
-                </p>
               </CardContent>
             </Card>
             
@@ -227,10 +269,10 @@ export default function Home() {
                   <Palette className="h-6 w-6 text-sage" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  3 High-Resolution Palettes
+                  Digital Color Swatches
                 </h3>
                 <p className="text-warm-gray">
-                  PNG swatches for Core Neutrals, Accent Lights & Accent Brights optimized for phone screens
+                  Phone-optimized palette images for shopping
                 </p>
               </CardContent>
             </Card>
@@ -241,10 +283,10 @@ export default function Home() {
                   <Shirt className="h-6 w-6 text-marigold" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Wardrobe Ideas
+                  Style Recommendations
                 </h3>
                 <p className="text-warm-gray">
-                  Specific garment types with suggested colors plus mix-and-match grid showing six outfit combinations
+                  Complete styling guide for shopping success
                 </p>
               </CardContent>
             </Card>
@@ -255,24 +297,10 @@ export default function Home() {
                   <Heart className="h-6 w-6 text-lagoon" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Outfit-Inspiration Lookbook
+                  Outfit Inspiration
                 </h3>
                 <p className="text-warm-gray">
-                  Styled photos illustrating three day-to-night outfits using your palette with clickable product links
-                </p>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-terracotta/10 rounded-xl flex items-center justify-center mb-4">
-                  <Gem className="h-6 w-6 text-terracotta" />
-                </div>
-                <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Finishing-Touch Guide
-                </h3>
-                <p className="text-warm-gray">
-                  Best metals, eyewear frames, leather tones and makeup starting points plus quick "do's & don'ts" cheat sheet
+                  Curated looks using your personal colors
                 </p>
               </CardContent>
             </Card>
@@ -283,10 +311,10 @@ export default function Home() {
                   <Smartphone className="h-6 w-6 text-sage" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-warm-gray-dark mb-3">
-                  Digital Swatch Card
+                  Apple Wallet Card
                 </h3>
                 <p className="text-warm-gray">
-                  Mobile wallet image with one-tap reference whenever you're in a fitting room
+                  Instant color reference for shopping trips
                 </p>
               </CardContent>
             </Card>
@@ -319,7 +347,7 @@ export default function Home() {
                     S
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold text-warm-gray-dark">Sarah M.</h4>
+                    <h4 className="font-semibold text-warm-gray-dark">Sarah M., Austin TX</h4>
                     <div className="flex text-marigold text-xs">
                       <Star className="h-3 w-3 fill-current" />
                       <Star className="h-3 w-3 fill-current" />
@@ -342,7 +370,7 @@ export default function Home() {
                     A
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold text-warm-gray-dark">Amanda K.</h4>
+                    <h4 className="font-semibold text-warm-gray-dark">Amanda K., Denver CO</h4>
                     <div className="flex text-marigold text-xs">
                       <Star className="h-3 w-3 fill-current" />
                       <Star className="h-3 w-3 fill-current" />
@@ -365,7 +393,7 @@ export default function Home() {
                     J
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold text-warm-gray-dark">Jessica R.</h4>
+                    <h4 className="font-semibold text-warm-gray-dark">Jessica R., Miami FL</h4>
                     <div className="flex text-marigold text-xs">
                       <Star className="h-3 w-3 fill-current" />
                       <Star className="h-3 w-3 fill-current" />
@@ -411,45 +439,50 @@ export default function Home() {
               
               <div className="space-y-4 mb-8 text-left">
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">In depth PDF report</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Professional PDF report</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">3 custom color palette swatches</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Custom color palettes</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">Wardrobe and styling guide</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Style recommendations</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">Makeup & accessory recommendations</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Makeup guide</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">Digital wallet swatch card</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Apple Wallet card</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">2-minute analysis time</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-sage rounded-full mr-3"></div>
-                  <span className="text-warm-gray">100% satisfaction guarantee</span>
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">2-minute analysis</span>
                 </div>
               </div>
               
               <Button 
-                onClick={() => setLocation('/checkout')}
-                className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-semibold text-lg h-auto shadow-lg hover:shadow-xl mb-4 transition-all duration-300"
+                onClick={() => setLocation('/upload')}
+                className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-6 rounded-full font-bold text-xl h-auto shadow-xl hover:shadow-2xl mb-6 transition-all duration-300 transform hover:scale-105 -mx-4"
               >
-                Get My Analysis Now
+                <Sparkles className="mr-3 h-6 w-6" />
+                Get My Analysis - $29
               </Button>
+              
+              <div className="flex items-center justify-center gap-4 text-sm text-warm-gray mb-4">
+                <div className="flex items-center">
+                  <div className="w-8 h-5 bg-gray-800 rounded text-white text-xs flex items-center justify-center mr-1">VISA</div>
+                  <div className="w-8 h-5 bg-gray-800 rounded text-white text-xs flex items-center justify-center">🍎</div>
+                </div>
+                <span>Secure payment</span>
+              </div>
               
               <div className="flex items-center justify-center text-sm text-warm-gray">
                 <Lock className="h-4 w-4 mr-2 text-sage" />
-                <span>Secure payment • No subscription • Instant access</span>
+                <span>30-day guarantee • No subscription</span>
               </div>
             </CardContent>
           </Card>
@@ -476,12 +509,28 @@ export default function Home() {
                 answer: "Our AI system has been trained on thousands of professional color analyses and has a 95% accuracy rate. If you're not satisfied with your results, we offer a 100% money-back guarantee."
               },
               {
-                question: "What if I don't receive my results?",
-                answer: "Results are typically delivered within 2 minutes. If you don't receive your analysis within 5 minutes, please check your spam folder or contact our support team immediately."
+                question: "Is my privacy protected?",
+                answer: "Absolutely. Your photos are automatically deleted from our servers within 24 hours. We never share or store your personal information."
               },
               {
                 question: "Can I get a refund if I'm not satisfied?",
                 answer: "Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with your color analysis, contact us for a full refund."
+              },
+              {
+                question: "Does this work for all genders?",
+                answer: "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 16-season system is universal."
+              },
+              {
+                question: "How do I know if the analysis is accurate?",
+                answer: "Your results will include detailed explanations and visual examples. Most customers immediately recognize the accuracy when they see their personalized palette."
+              },
+              {
+                question: "What if I don't receive my results?",
+                answer: "Results are typically delivered within 2 minutes. If you don't receive your analysis within 5 minutes, please check your spam folder or contact our support team."
+              },
+              {
+                question: "Can I use this for shopping?",
+                answer: "Absolutely! Your Apple Wallet card and PDF report are designed specifically for shopping trips. Take them to any store for instant color matching."
               }
             ].map((faq, index) => (
               <Card key={index}>
@@ -491,10 +540,10 @@ export default function Home() {
                     onClick={() => toggleFAQ(index)}
                   >
                     <h3 className="font-semibold text-warm-gray-dark">{faq.question}</h3>
-                    <ChevronDown className={`h-5 w-5 text-sage transition-transform ${openFAQ === index ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-6 w-6 text-sage transition-transform duration-300 ${openFAQ === index ? 'rotate-180' : ''}`} />
                   </div>
                   {openFAQ === index && (
-                    <div className="mt-4 text-warm-gray">
+                    <div className="mt-4 text-warm-gray max-w-prose">
                       <p>{faq.answer}</p>
                     </div>
                   )}
@@ -509,23 +558,35 @@ export default function Home() {
       <section className="py-16 bg-gradient-to-r from-terracotta/10 to-lagoon/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
-            Ready to Discover Your Perfect Colors?
+            Your Colors Are Two Minutes Away
           </h2>
           <p className="text-lg text-warm-gray mb-8 max-w-2xl mx-auto">
-            Join thousands of women who have transformed their style with our personal color analysis
+            Join thousands who have transformed their style with professional color analysis
           </p>
           <Button 
-            onClick={() => setLocation('/checkout')}
-            className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-12 py-4 rounded-full font-semibold text-xl h-auto shadow-lg hover:shadow-xl transition-all duration-300"
+            onClick={() => setLocation('/upload')}
+            className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-12 py-6 rounded-full font-bold text-xl h-auto shadow-xl hover:shadow-2xl transition-all duration-300 animate-pulse"
           >
-            Get My Analysis
+            <Sparkles className="mr-3 h-6 w-6" />
+            Get My Analysis - $29
           </Button>
-          <div className="mt-4 text-sm text-warm-gray">
-            <Shield className="h-4 w-4 inline mr-2 text-sage" />
-            30-day money-back guarantee
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <Shield className="h-5 w-5 text-sage" />
+            <span className="text-sm text-warm-gray font-medium">30-day guarantee</span>
           </div>
         </div>
       </section>
+
+      {/* Mobile Sticky CTA */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-border md:hidden z-40">
+        <Button 
+          onClick={() => setLocation('/upload')}
+          className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+        >
+          <Sparkles className="mr-2 h-5 w-5" />
+          Get My Analysis - $29
+        </Button>
+      </div>
     </div>
   );
 }
