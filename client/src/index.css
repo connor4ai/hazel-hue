@@ -32,6 +32,11 @@
   --lagoon: hsl(175, 44%, 51%);
   --warm-gray: hsl(32, 15%, 55%);
   --warm-gray-dark: hsl(32, 40%, 25%);
+  --espresso: hsl(26, 40%, 14%);
+  --soft-teal: hsl(175, 35%, 45%);
+  --bright-white: hsl(0, 0%, 100%);
+  --peach-gradient-start: hsl(16, 65%, 63%);
+  --peach-gradient-end: hsl(25, 78%, 56%);
 }
 
 .dark {
@@ -63,17 +68,71 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    background-color: hsl(var(--cream));
+    background-color: hsl(var(--bright-white));
     background-image: 
-      radial-gradient(circle at 20% 50%, hsla(139, 23%, 64%, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsla(42, 78%, 72%, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, hsla(16, 65%, 63%, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 10% 20%, hsla(175, 35%, 45%, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, hsla(16, 65%, 63%, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, hsla(25, 78%, 56%, 0.05) 0%, transparent 60%);
   }
 }
 
 @layer components {
   .paper-texture {
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F5E6D3' fill-opacity='0.2'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .section-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 16px;
+  }
+
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .parallax-grid {
+    transform: translateY(var(--scroll-y, 0) * -0.2);
+    transition: transform 0.1s ease-out;
+  }
+
+  .floating-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .floating-icon:hover {
+    transform: translateY(-4px);
+  }
+
+  .pulse-cta {
+    animation: pulse-scale 6s infinite;
+  }
+
+  @keyframes pulse-scale {
+    0%, 90%, 100% { transform: scale(1); }
+    95% { transform: scale(1.05); }
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--peach-gradient-start)), hsl(var(--peach-gradient-end)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .peach-blob {
+    background: radial-gradient(ellipse at center, hsla(16, 65%, 63%, 0.15) 0%, transparent 70%);
+    filter: blur(40px);
+  }
+
+  .teal-icon-bg {
+    background: hsl(var(--soft-teal));
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .upload-zone {
@@ -115,6 +174,22 @@
   
   .text-lagoon {
     color: hsl(var(--lagoon));
+  }
+  
+  .text-espresso {
+    color: hsl(var(--espresso));
+  }
+  
+  .text-soft-teal {
+    color: hsl(var(--soft-teal));
+  }
+  
+  .bg-espresso {
+    background-color: hsl(var(--espresso));
+  }
+  
+  .bg-soft-teal {
+    background-color: hsl(var(--soft-teal));
   }
   
   .text-warm-gray {

@@ -1,0 +1,68 @@
+Design-upgrade goal
+Make the HueMatcher site feel as polished and animated as the reference sites — turn.io (clean gradients, subtle parallax) and elef.studio (layered depth, micro-animations) — while keeping our own warm-peach brand vibe and the conversion-centric structure we already have.
+
+Top-level visual direction
+• Keep our colour DNA (peach accent + espresso headings), but add a cool counter-tone (soft teal) and bright whites so elements pop.
+• Replace flat beige fills with light radial gradients and blurred colour “blobs” in section corners — same style as Turn.io hero.
+• Introduce real depth: 8-16 px drop-shadows on cards, cards lift + scale 1.02 on hover.
+• Use solid or duotone icons in the teal accent; ditch thin outline icons.
+• Adopt a consistent 64 px top/bottom section padding and a max-width container of 1100 px for desktop.
+
+Motion & interaction (inspired by elef.studio)
+
+Page load – fade-in hero headline from 0–100 % over 400 ms; CTA button slides up 20 px with spring ease.
+
+Scroll cues – hero dot grid moves at 0.8× scroll speed (simple parallax).
+
+Card hover – lift 8 px, shadow increases, icon gently floats (translateY −4 px).
+
+Accordion – arrow rotates 180°, answer panel fades/expands (200 ms ease).
+
+CTA pulse – primary buttons scale 1.05 for 250 ms every 6 s to draw the eye.
+
+Section-by-section tasks
+
+Hero
+• Rewrite headline to two lines; apply espresso colour.
+• Apply diagonal peach→orange gradient to CTA; increase size; demote “Learn More” to underlined text link.
+• Drop frosted palette panel; instead, place the 16-season tile on a bright-white card with 12 px radius and 16 px shadow; bleed that card 40 px over the next section for layered feel.
+
+How It Works
+• Replace dot grid under this band with clean white background.
+• Enlarge icons to 64 px, sit inside 32 px teal circles with subtle inner shadow.
+• Add large numerals (“1 2 3”) above each icon; rewrite captions to single-line benefits.
+
+What You’ll Receive
+• Make “Personalized PDF + Palette” a double-width feature card; add blurred peach blob behind it for focus.
+• Convert the six cards into a 3-2 responsive grid; on mobile, render as swipe carousel (snap-scroll).
+• Swap outline icons for filled icons; lift cards 8 px on hover.
+
+Testimonials
+• Insert low-opacity circular client photos or initials + city; keep teal star icons.
+• Link the rating badge to a placeholder “/reviews” page for authenticity.
+
+Pricing
+• Card stays white; button overflows card left/right edges by 4 px (orange gradient).
+• Prepend each bullet with a peach checkmark icon; trim each line to ≤6 words.
+• Add Visa / MC / Apple Pay logo row under button.
+
+FAQ
+• Expand to at least 7 Q’s (photo tips, privacy, gender, refund, accuracy, timing, support).
+• Enlarge chevron to 20 px; accent colour on hover; smooth rotate.
+
+Final CTA band
+• New headline: “Your colours are two minutes away.”
+• Keep button sticky at bottom of mobile viewport once user scrolls past hero.
+• Add a 30-day money-back badge left of button (peach outline).
+
+Accessibility & performance
+• Ensure all text passes WCAG AA contrast (darken espresso to #3B2A1A, lighten beige background where needed).
+• Optimise hero graphics as ≤30 KB WebP; lazy-load images below the fold.
+• Retain focus rings on interactive elements; provide alt text for all icons and images.
+
+Animation library
+Use a lightweight option (Framer-Motion or GSAP) — whichever integrates fastest with our Vite/React stack — but keep total JS under 35 KB gzipped.
+
+Hand-off
+After implementing, run Lighthouse for Performance ≥ 90 and Accessibility ≥ 95.
+Then reply: “🎨 New visual system + motion layer deployed.”

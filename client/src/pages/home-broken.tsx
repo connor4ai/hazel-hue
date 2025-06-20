@@ -57,34 +57,37 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
-        <div className="section-container">
-          <div className="flex justify-between items-center h-20">
+      <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-md z-50 border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Palette className="h-8 w-8 text-orange-500 mr-3" />
-              <span className="font-serif text-2xl font-bold" style={{ color: 'hsl(var(--espresso))' }}>HueMatcher</span>
+              <Palette className="h-8 w-8 text-terracotta mr-3" />
+              <span className="font-serif text-xl font-semibold text-warm-gray-dark">HueMatcher</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
+              <button onClick={() => scrollToSection('how-it-works')} className="text-warm-gray hover:text-terracotta transition-colors">
                 How It Works
               </button>
-              <button onClick={() => scrollToSection('deliverables')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
+              <button onClick={() => scrollToSection('deliverables')} className="text-warm-gray hover:text-terracotta transition-colors">
                 What You Get
               </button>
-              <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
-                FAQ
+              <button onClick={() => scrollToSection('testimonials')} className="text-warm-gray hover:text-terracotta transition-colors">
+                Reviews
               </button>
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
+                  <span className="text-warm-gray text-sm">
+                    Welcome, {user?.firstName || user?.email}
+                  </span>
                   <Button
                     onClick={() => setLocation('/account')}
-                    variant="ghost"
-                    className="text-gray-600 hover:text-orange-500"
+                    variant="outline"
+                    className="text-terracotta border-terracotta hover:bg-terracotta hover:text-white"
                   >
                     <User className="w-4 h-4 mr-2" />
                     My Account
                   </Button>
-                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
                     Get My Analysis - $29
                   </Button>
                 </div>
@@ -93,12 +96,12 @@ export default function Home() {
                   <Button
                     onClick={() => setLocation('/login')}
                     variant="ghost"
-                    className="text-gray-600 hover:text-orange-500"
+                    className="text-warm-gray hover:text-warm-gray-dark"
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
                   </Button>
-                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
                     Get My Analysis - $29
                   </Button>
                 </div>
@@ -424,22 +427,183 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-16 bg-white/50 paper-texture">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
+              What Our Customers Say
+            </h2>
+            <div className="flex justify-center items-center text-marigold mb-4">
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <span className="ml-2 text-warm-gray">4.9/5 from 2,847 reviews</span>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-terracotta rounded-full flex items-center justify-center text-white font-semibold">
+                    S
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-warm-gray-dark">Sarah M., Austin TX</h4>
+                    <div className="flex text-marigold text-xs">
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                    </div>
+                  </div>
+                </div>
+                <p className="text-warm-gray text-sm italic">
+                  "I've been wearing the wrong colors for years! This analysis completely transformed my wardrobe. I get compliments every day now."
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-sage rounded-full flex items-center justify-center text-white font-semibold">
+                    A
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-warm-gray-dark">Amanda K., Denver CO</h4>
+                    <div className="flex text-marigold text-xs">
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                    </div>
+                  </div>
+                </div>
+                <p className="text-warm-gray text-sm italic">
+                  "So fast and accurate! The PDF report was incredibly detailed and the color swatches are perfect for shopping."
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-lagoon rounded-full flex items-center justify-center text-white font-semibold">
+                    J
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-warm-gray-dark">Jessica R., Miami FL</h4>
+                    <div className="flex text-marigold text-xs">
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                      <Star className="h-3 w-3 fill-current" />
+                    </div>
+                  </div>
+                </div>
+                <p className="text-warm-gray text-sm italic">
+                  "Worth every penny! The makeup recommendations alone saved me from so many wrong purchases. Highly recommend!"
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-lg text-warm-gray">
+              Professional color analysis at a fraction of the cost
+            </p>
+          </div>
+          
+          <Card className="relative border-2 border-terracotta/20 shadow-2xl">
+
+            
+            <CardContent className="p-8 text-center">
+              <h3 className="font-serif text-2xl font-bold text-warm-gray-dark mb-4">
+                Personal Color Analysis
+              </h3>
+              
+              <div className="mb-6">
+                <span className="text-5xl font-bold text-terracotta">$29</span>
+                <span className="text-warm-gray ml-2">one-time</span>
+              </div>
+              
+              <div className="space-y-4 mb-8 text-left">
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Professional PDF report</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Custom color palettes</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Style recommendations</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Makeup guide</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">Apple Wallet card</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sage mr-3">✓</div>
+                  <span className="text-warm-gray font-medium">2-minute analysis</span>
+                </div>
+              </div>
+              
+              <Button 
+                onClick={() => setLocation('/upload')}
+                className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-6 rounded-full font-bold text-xl h-auto shadow-xl hover:shadow-2xl mb-6 transition-all duration-300 transform hover:scale-105 -mx-4"
+              >
+                <Sparkles className="mr-3 h-6 w-6" />
+                Get My Analysis - $29
+              </Button>
+              
+              <div className="flex items-center justify-center gap-4 text-sm text-warm-gray mb-4">
+                <div className="flex items-center">
+                  <div className="w-8 h-5 bg-gray-800 rounded text-white text-xs flex items-center justify-center mr-1">VISA</div>
+                  <div className="w-8 h-5 bg-gray-800 rounded text-white text-xs flex items-center justify-center">🍎</div>
+                </div>
+                <span>Secure payment</span>
+              </div>
+              
+              <div className="flex items-center justify-center text-sm text-warm-gray">
+                <Lock className="h-4 w-4 mr-2 text-sage" />
+                <span>30-day guarantee • No subscription</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section id="faq" className="bg-white">
-        <div className="section-container">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
+      <section id="faq" className="py-16 bg-white/50 paper-texture">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
               Frequently Asked Questions
             </h2>
-          </motion.div>
+          </div>
           
-          <div className="max-w-3xl mx-auto space-y-6">
+          <div className="space-y-6">
             {[
               {
                 question: "What photos should I upload?",
@@ -468,87 +632,61 @@ export default function Home() {
               {
                 question: "What if I don't receive my results?",
                 answer: "Results are typically delivered within 2 minutes. If you don't receive your analysis within 5 minutes, please check your spam folder or contact our support team."
+              },
+              {
+                question: "Can I use this for shopping?",
+                answer: "Absolutely! Your Apple Wallet card and PDF report are designed specifically for shopping trips. Take them to any store for instant color matching."
               }
             ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <Card className="card-hover">
-                  <CardContent className="p-8">
-                    <div 
-                      className="flex items-center justify-between cursor-pointer" 
-                      onClick={() => toggleFAQ(index)}
-                    >
-                      <h3 className="font-semibold text-lg" style={{ color: 'hsl(var(--espresso))' }}>{faq.question}</h3>
-                      <motion.div
-                        animate={{ rotate: openFAQ === index ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <ChevronDown className="h-6 w-6" style={{ color: 'hsl(var(--soft-teal))' }} />
-                      </motion.div>
+              <Card key={index}>
+                <CardContent className="p-6">
+                  <div 
+                    className="flex items-center justify-between cursor-pointer" 
+                    onClick={() => toggleFAQ(index)}
+                  >
+                    <h3 className="font-semibold text-warm-gray-dark">{faq.question}</h3>
+                    <ChevronDown className={`h-6 w-6 text-sage transition-transform duration-300 ${openFAQ === index ? 'rotate-180' : ''}`} />
+                  </div>
+                  {openFAQ === index && (
+                    <div className="mt-4 text-warm-gray max-w-prose">
+                      <p>{faq.answer}</p>
                     </div>
-                    {openFAQ === index && (
-                      <motion.div 
-                        className="mt-6 text-gray-600 max-w-prose"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <p>{faq.answer}</p>
-                      </motion.div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  )}
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-teal-50"></div>
-        <div className="section-container relative">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
+      <section className="py-16 bg-gradient-to-r from-terracotta/10 to-lagoon/10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-warm-gray-dark mb-4">
+            Your Colors Are Two Minutes Away
+          </h2>
+          <p className="text-lg text-warm-gray mb-8 max-w-2xl mx-auto">
+            Join thousands who have transformed their style with professional color analysis
+          </p>
+          <Button 
+            onClick={() => setLocation('/upload')}
+            className="bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-12 py-6 rounded-full font-bold text-xl h-auto shadow-xl hover:shadow-2xl transition-all duration-300 animate-pulse"
           >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6" style={{ color: 'hsl(var(--espresso))' }}>
-              Your Colors Are Two Minutes Away
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands who have transformed their style with professional color analysis
-            </p>
-            <Button 
-              onClick={() => setLocation('/upload')}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 pulse-cta"
-              style={{ margin: '0 -4px' }}
-            >
-              <Sparkles className="mr-4 h-7 w-7" />
-              Get My Analysis - $29
-            </Button>
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <div className="flex items-center bg-green-50 px-4 py-3 rounded-full border border-green-100">
-                <Shield className="h-5 w-5 mr-2 text-green-500" />
-                <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>30-day guarantee</span>
-              </div>
-            </div>
-          </motion.div>
+            <Sparkles className="mr-3 h-6 w-6" />
+            Get My Analysis - $29
+          </Button>
+          <div className="mt-6 flex items-center justify-center gap-2">
+            <Shield className="h-5 w-5 text-sage" />
+            <span className="text-sm text-warm-gray font-medium">30-day guarantee</span>
+          </div>
         </div>
       </section>
 
       {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-gray-100 md:hidden z-40">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-border md:hidden z-40">
         <Button 
           onClick={() => setLocation('/upload')}
-          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+          className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
         >
           <Sparkles className="mr-2 h-5 w-5" />
           Get My Analysis - $29
