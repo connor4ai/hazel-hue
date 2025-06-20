@@ -142,7 +142,7 @@ export default function Home() {
                 Professional 16-season color analysis in 2 minutes
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Upload 3 selfies → AI analyzes your undertones → Receive luxury PDF + Apple Wallet card
+                Simply upload 3 photos
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
@@ -153,7 +153,7 @@ export default function Home() {
                 >
                   <Button 
                     onClick={() => setLocation('/upload')}
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 pulse-cta"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
                     style={{ margin: '0 -4px' }}
                   >
                     <Sparkles className="mr-4 h-7 w-7" />
@@ -185,10 +185,6 @@ export default function Home() {
                 <div className="flex items-center bg-orange-50 px-4 py-3 rounded-full border border-orange-100">
                   <Clock className="h-4 w-4 mr-2 text-orange-500" />
                   <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>2-Minute Results</span>
-                </div>
-                <div className="flex items-center bg-green-50 px-4 py-3 rounded-full border border-green-100">
-                  <Award className="h-4 w-4 mr-2 text-green-500" />
-                  <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>95% Accuracy</span>
                 </div>
               </div>
             </motion.div>
@@ -238,21 +234,21 @@ export default function Home() {
             {[
               {
                 number: "1",
-                icon: <Upload className="h-16 w-16 text-white" />,
+                icon: <Camera className="h-16 w-16 text-white" />,
                 title: "Upload Photos",
-                description: "Three clear selfies in different lighting"
+                description: ""
               },
               {
                 number: "2", 
                 icon: <Zap className="h-16 w-16 text-white" />,
                 title: "AI Analysis",
-                description: "Advanced color theory in 2 minutes"
+                description: ""
               },
               {
                 number: "3",
                 icon: <FileText className="h-16 w-16 text-white" />,
                 title: "Get Results", 
-                description: "Luxury PDF + Apple Wallet card"
+                description: ""
               }
             ].map((step, index) => (
               <motion.div 
@@ -277,9 +273,11 @@ export default function Home() {
                 <h3 className="text-2xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
                   {step.title}
                 </h3>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  {step.description}
-                </p>
+                {step.description && (
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    {step.description}
+                  </p>
+                )}
               </motion.div>
             ))}
           </div>
@@ -443,7 +441,7 @@ export default function Home() {
             {[
               {
                 question: "What photos should I upload?",
-                answer: "Upload 3 clear selfies: one in natural daylight, one in indoor lighting, and one in soft lighting. Make sure your face is well-lit and makeup-free for the most accurate analysis."
+                answer: "For the best results, we recommend uploading 3 clear selfies: one in natural daylight, one in indoor lighting, and one in soft lighting. Make sure your face is well-lit and makeup-free for the most accurate analysis."
               },
               {
                 question: "How accurate is the AI analysis?",
@@ -454,12 +452,8 @@ export default function Home() {
                 answer: "Absolutely. Your photos are automatically deleted from our servers within 24 hours. We never share or store your personal information."
               },
               {
-                question: "Can I get a refund if I'm not satisfied?",
-                answer: "Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with your color analysis, contact us for a full refund."
-              },
-              {
-                question: "Does this work for all genders?",
-                answer: "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 16-season system is universal."
+                question: "Does this work for all genders and ethnicities?",
+                answer: "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 16-season system is universal and designed to work across all skin tones and backgrounds."
               },
               {
                 question: "How do I know if the analysis is accurate?",
@@ -528,7 +522,7 @@ export default function Home() {
             </p>
             <Button 
               onClick={() => setLocation('/upload')}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 pulse-cta"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
               style={{ margin: '0 -4px' }}
             >
               <Sparkles className="mr-4 h-7 w-7" />
