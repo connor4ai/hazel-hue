@@ -128,7 +128,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <motion.h1 
-                className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+                className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
                 style={{ color: 'hsl(var(--espresso))' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -138,7 +138,7 @@ export default function Home() {
                 <br />
                 <span className="gradient-text">Colors</span> Revealed
               </motion.h1>
-              <p className="text-2xl md:text-3xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
+              <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
                 Professional 16-season color analysis in 2 minutes
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -305,35 +305,30 @@ export default function Home() {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Double-width feature card */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Personalized PDF + Palette */}
             <motion.div
-              className="lg:col-span-2"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
               <Card className="h-full bg-white card-hover shadow-xl border-0">
-                <CardContent className="p-12">
-                  <div className="flex items-center gap-6">
-                    <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
-                      <FileText className="h-10 w-10 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-serif text-3xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                        Personalized PDF + Palette
-                      </h3>
-                      <p className="text-xl text-gray-600 leading-relaxed">
-                        Professional 6-page color analysis with shopping-ready swatches and styling recommendations
-                      </p>
-                    </div>
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                    <FileText className="h-8 w-8 text-white" />
                   </div>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                    Personalized PDF + Palette
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Professional 6-page color analysis with shopping-ready swatches and styling recommendations
+                  </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Apple Wallet card */}
+            {/* Digital Color Palette */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -342,45 +337,24 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 teal-icon-bg rounded-xl flex items-center justify-center mb-6">
-                    <Smartphone className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Apple Wallet Card
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Digital color card for instant shopping reference
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-            
-            {/* Additional cards in 3-2 grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
                   <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
                     <Palette className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Digital Swatches
+                    Digital Color Palette
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Phone-optimized color palette for shopping
+                    Phone-optimized color palette for shopping - Apple Wallet integrated
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
+            {/* Style Guide */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
@@ -398,10 +372,11 @@ export default function Home() {
               </Card>
             </motion.div>
             
+            {/* Outfit Ideas */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
