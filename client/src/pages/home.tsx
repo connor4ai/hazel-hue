@@ -109,7 +109,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden">
+      <section id="hero" className="relative overflow-hidden pt-20 md:pt-24">
         {/* Parallax background elements */}
         <div 
           className="absolute inset-0 opacity-30"
@@ -120,7 +120,7 @@ export default function Home() {
         </div>
 
         <div className="section-container relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[600px]">
+          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[550px]">
             <motion.div 
               className="text-center lg:text-left"
               initial={{ opacity: 0, y: 20 }}
@@ -134,9 +134,9 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                Your Most Flattering
+                Detailed Color
                 <br />
-                <span className="gradient-text">Colors</span> Revealed
+                <span className="gradient-text">Analysis</span>
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
                 Professional 12-season color analysis in 2 minutes
