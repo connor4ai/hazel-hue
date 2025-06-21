@@ -197,14 +197,16 @@ export default function Home() {
             >
               {/* Enhanced card with shadow and overflow */}
               <div className="relative bg-white rounded-3xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-300" style={{ marginBottom: '-40px', zIndex: 10 }}>
-                <img 
-                  src={seasonalColorTypes} 
-                  alt="16 seasonal color types - Spring, Summer, Autumn, Winter with color palettes" 
-                  className="w-full h-auto object-cover rounded-2xl"
-                />
-                <div className="mt-4 text-center">
-                  <h3 className="font-semibold text-lg" style={{ color: 'hsl(var(--espresso))' }}>16 Season Color System</h3>
-                  <p className="text-gray-600 text-sm">Find your perfect palette</p>
+                <div className="relative">
+                  <div className="absolute top-4 left-0 right-0 text-center z-10">
+                    <h3 className="font-semibold text-lg text-white bg-black bg-opacity-50 rounded-lg px-4 py-2 mx-4">12 Season Color System</h3>
+                    <p className="text-white text-sm bg-black bg-opacity-50 rounded px-3 py-1 mt-2 mx-4">Find your perfect palette</p>
+                  </div>
+                  <img 
+                    src="@assets/jyhm8uif17b81.jpg_1750534599309.webp"
+                    alt="12 seasonal color types - Spring, Summer, Autumn, Winter with color palettes showing the flow theory" 
+                    className="w-full h-auto object-cover rounded-2xl"
+                  />
                 </div>
               </div>
             </motion.div>
@@ -420,7 +422,7 @@ export default function Home() {
               },
               {
                 question: "How accurate is the AI analysis?",
-                answer: "Our AI system has been trained on thousands of professional color analyses and has a 95% accuracy rate. If you're not satisfied with your results, we offer a 100% money-back guarantee."
+                answer: "Our AI system has been trained on thousands of professional color analyses and uses the comprehensive 12-season color model for precise results."
               },
               {
                 question: "Is my privacy protected?",
