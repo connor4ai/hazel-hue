@@ -139,7 +139,7 @@ export default function Home() {
                 <span className="gradient-text">Colors</span> Revealed
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
-                Professional 16-season color analysis in 2 minutes
+                Professional 12-season color analysis in 2 minutes
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 Simply upload 3 photos
@@ -428,7 +428,7 @@ export default function Home() {
               },
               {
                 question: "Does this work for all genders and ethnicities?",
-                answer: "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 16-season system is universal and designed to work across all skin tones and backgrounds."
+                answer: "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 12-season system is universal and designed to work across all skin tones and backgrounds."
               },
               {
                 question: "How do I know if the analysis is accurate?",

@@ -17,46 +17,170 @@ interface ColorAnalysisResult {
 
 class HTMLPDFService {
   private readonly expandedColorPalettes: { [key: string]: any } = {
-    'Cool Winter': {
+    // Spring seasons
+    'Light Spring': {
+      coreNeutrals: ['#F4E4BC', '#E8DCC6', '#DEB887', '#D2B48C', '#BC9A6A', '#A0855B', '#8B7355', '#654321'],
+      accentLights: ['#FFE4E1', '#FFEFD5', '#FFF8DC', '#FFFACD', '#F0E68C', '#E6E6FA', '#F5DEB3', '#FAEBD7'],
+      accentBrights: ['#FFA500', '#FF7F50', '#32CD32', '#00CED1', '#FFD700', '#FF6347', '#DA70D6', '#20B2AA'],
+      contrastLevel: 'Low-Medium',
+      temperatureRating: 'Warm',
+      hairColors: ['Light Blonde', 'Honey Blonde', 'Light Brown', 'Golden Brown']
+    },
+    'True Spring': {
+      coreNeutrals: ['#FFE4B5', '#DEB887', '#D2B48C', '#BC9A6A', '#A0855B', '#8B7355', '#654321', '#2F4F4F'],
+      accentLights: ['#FFFACD', '#F0E68C', '#FFEFD5', '#FFE4E1', '#E0FFFF', '#F0F8FF', '#FAFAD2', '#F5DEB3'],
+      accentBrights: ['#FFA500', '#32CD32', '#FF6347', '#FFD700', '#00CED1', '#FF4500', '#DA70D6', '#20B2AA'],
+      contrastLevel: 'Medium',
+      temperatureRating: 'Warm',
+      hairColors: ['Golden Blonde', 'Auburn', 'Golden Brown', 'Copper Red']
+    },
+    'Bright Spring': {
+      coreNeutrals: ['#FFFFE0', '#F0F8FF', '#E0FFFF', '#F5F5DC', '#FAFAD2', '#E6E6FA', '#F0E68C', '#2F4F4F'],
+      accentLights: ['#E0FFFF', '#F0E68C', '#F5F5DC', '#FFE4E1', '#FFFACD', '#FAFAD2', '#E6E6FA', '#F0F8FF'],
+      accentBrights: ['#FF6347', '#00CED1', '#FFD700', '#32CD32', '#FF4500', '#DA70D6', '#FF1493', '#20B2AA'],
+      contrastLevel: 'High',
+      temperatureRating: 'Warm',
+      hairColors: ['Medium Brown', 'Dark Blonde', 'Auburn', 'Dark Golden Brown']
+    },
+    // Summer seasons
+    'Light Summer': {
+      coreNeutrals: ['#F0F8FF', '#E6E6FA', '#D3D3D3', '#C0C0C0', '#A9A9A9', '#808080', '#696969', '#2F4F4F'],
+      accentLights: ['#E0E0E0', '#F5F5F5', '#D3D3D3', '#FAFAFA', '#F0F0F0', '#E8E8E8', '#ECF0F1', '#BDC3C7'],
+      accentBrights: ['#9370DB', '#6495ED', '#87CEEB', '#B0C4DE', '#DDA0DD', '#E6E6FA', '#F0E68C', '#98FB98'],
+      contrastLevel: 'Low',
+      temperatureRating: 'Cool',
+      hairColors: ['Ash Blonde', 'Light Ash Brown', 'Platinum Blonde', 'Cool Light Brown']
+    },
+    'True Summer': {
+      coreNeutrals: ['#E0E0E0', '#D3D3D3', '#C0C0C0', '#A9A9A9', '#808080', '#696969', '#2F4F4F', '#000000'],
+      accentLights: ['#E0E0E0', '#F5F5F5', '#D3D3D3', '#FAFAFA', '#F0F0F0', '#E8E8E8', '#ECF0F1', '#BDC3C7'],
+      accentBrights: ['#9370DB', '#6495ED', '#4682B4', '#B0C4DE', '#DDA0DD', '#E6E6FA', '#87CEEB', '#98FB98'],
+      contrastLevel: 'Medium-Low',
+      temperatureRating: 'Cool',
+      hairColors: ['Ash Brown', 'Cool Medium Brown', 'Ash Blonde', 'Cool Dark Blonde']
+    },
+    'Soft Summer': {
+      coreNeutrals: ['#F5F5DC', '#DCDCDC', '#D3D3D3', '#BC8F8F', '#A9A9A9', '#808080', '#696969', '#2F4F4F'],
+      accentLights: ['#FAFAFA', '#F0F0F0', '#E8E8E8', '#DCDCDC', '#D3D3D3', '#C0C0C0', '#B0C4DE', '#E6E6FA'],
+      accentBrights: ['#BC8F8F', '#DDA0DD', '#9370DB', '#87CEEB', '#B0C4DE', '#D2B48C', '#F0E68C', '#98FB98'],
+      contrastLevel: 'Low',
+      temperatureRating: 'Cool-Neutral',
+      hairColors: ['Mousy Brown', 'Ash Brown', 'Cool Medium Brown', 'Soft Blonde']
+    },
+    // Autumn seasons
+    'Soft Autumn': {
+      coreNeutrals: ['#DEB887', '#D2B48C', '#BC8F8F', '#CD853F', '#A0522D', '#8B4513', '#654321', '#2F1B14'],
+      accentLights: ['#F5DEB3', '#FAEBD7', '#FFE4E1', '#FFEFD5', '#F0E68C', '#E6E6FA', '#DDA0DD', '#D2B48C'],
+      accentBrights: ['#CD853F', '#D2691E', '#B8860B', '#DAA520', '#BC8F8F', '#A0522D', '#8B4513', '#556B2F'],
+      contrastLevel: 'Low-Medium',
+      temperatureRating: 'Warm-Neutral',
+      hairColors: ['Soft Brown', 'Light Auburn', 'Golden Brown', 'Mousy Brown']
+    },
+    'True Autumn': {
+      coreNeutrals: ['#D2691E', '#CD853F', '#B8860B', '#A0522D', '#8B4513', '#654321', '#2F1B14', '#000000'],
+      accentLights: ['#F5DEB3', '#FAEBD7', '#FFE4E1', '#FFEFD5', '#F0E68C', '#DDA0DD', '#D2B48C', '#BC8F8F'],
+      accentBrights: ['#D2691E', '#CD853F', '#B8860B', '#DAA520', '#FF8C00', '#FF4500', '#DC143C', '#556B2F'],
+      contrastLevel: 'Medium',
+      temperatureRating: 'Warm',
+      hairColors: ['Auburn', 'Rich Brown', 'Golden Brown', 'Copper Red']
+    },
+    'Dark Autumn': {
+      coreNeutrals: ['#8B4513', '#A0522D', '#654321', '#2F1B14', '#000000', '#2F4F4F', '#696969', '#D2691E'],
+      accentLights: ['#DEB887', '#D2B48C', '#BC8F8F', '#CD853F', '#F5DEB3', '#FAEBD7', '#FFE4E1', '#A0522D'],
+      accentBrights: ['#D2691E', '#B8860B', '#DAA520', '#FF8C00', '#DC143C', '#8B0000', '#556B2F', '#2E8B57'],
+      contrastLevel: 'High',
+      temperatureRating: 'Warm',
+      hairColors: ['Dark Brown', 'Dark Auburn', 'Black-Brown', 'Deep Red-Brown']
+    },
+    // Winter seasons  
+    'Dark Winter': {
+      coreNeutrals: ['#000000', '#2F4F4F', '#696969', '#A9A9A9', '#C0C0C0', '#D3D3D3', '#E0E0E0', '#FFFFFF'],
+      accentLights: ['#E0E0E0', '#F5F5F5', '#D3D3D3', '#FAFAFA', '#F0F0F0', '#E8E8E8', '#ECF0F1', '#BDC3C7'],
+      accentBrights: ['#0000FF', '#8A2BE2', '#DC143C', '#FF1493', '#00CED1', '#32CD32', '#FFD700', '#FF4500'],
+      contrastLevel: 'Very High',
+      temperatureRating: 'Cool',
+      hairColors: ['Black', 'Very Dark Brown', 'Dark Ash Brown', 'Platinum (dyed)']
+    },
+    'True Winter': {
       coreNeutrals: ['#000000', '#333333', '#666666', '#999999', '#CCCCCC', '#FFFFFF', '#2C3E50', '#34495E'],
       accentLights: ['#E0E0E0', '#F5F5F5', '#D3D3D3', '#FAFAFA', '#F0F0F0', '#E8E8E8', '#ECF0F1', '#BDC3C7'],
       accentBrights: ['#0033FF', '#6600CC', '#FF0066', '#FF3300', '#0099FF', '#33CC33', '#E74C3C', '#9B59B6'],
-      extendedPalette: [
-        '#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD',
-        '#E74C3C', '#C0392B', '#E67E22', '#D35400', '#F39C12', '#F1C40F', '#95A5A6', '#7F8C8D',
-        '#34495E', '#2C3E50', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'
-      ],
       contrastLevel: 'High',
       temperatureRating: 'Cool',
-      hairColors: ['Ash Brown', 'Platinum Blonde', 'True Black', 'Cool Dark Brown'],
-      makeupBrands: {
-        foundation: ['MAC Studio Fix NC15', 'Fenty Beauty 120', 'NARS Siberia'],
-        lipstick: ['MAC Russian Red', 'Charlotte Tilbury Very Victoria', 'Tom Ford Cherry Lush'],
-        eyeshadow: ['Urban Decay Naked Smoky', 'Pat McGrath MTHRSHP Bronze Temptation']
-      }
+      hairColors: ['Black', 'Dark Brown', 'Ash Brown', 'Platinum Blonde']
     },
     'Bright Winter': {
       coreNeutrals: ['#000000', '#333333', '#666666', '#999999', '#CCCCCC', '#FFFFFF', '#2C3E50', '#34495E'],
       accentLights: ['#E0FFFF', '#F0E68C', '#F5F5DC', '#FFE4E1', '#FFFACD', '#FAFAD2', '#E6E6FA', '#F0F8FF'],
       accentBrights: ['#FF69B4', '#FF4500', '#32CD32', '#1E90FF', '#FFD700', '#8A2BE2', '#FF1493', '#00CED1'],
-      extendedPalette: [
-        '#FF69B4', '#FF4500', '#32CD32', '#1E90FF', '#FFD700', '#8A2BE2', '#FF1493', '#00CED1',
-        '#FF6347', '#DA70D6', '#00FA9A', '#4169E1', '#FFA500', '#9932CC', '#FF0000', '#008B8B',
-        '#FF8C00', '#BA55D3', '#ADFF2F', '#6495ED', '#FFFF00', '#8B008B', '#DC143C', '#20B2AA'
-      ],
       contrastLevel: 'High',
       temperatureRating: 'Cool',
-      hairColors: ['Platinum Blonde', 'True Black', 'Ash Brown', 'Silver'],
-      makeupBrands: {
-        foundation: ['MAC Studio Fix NC20', 'Fenty Beauty 150', 'NARS Mont Blanc'],
-        lipstick: ['MAC Ruby Woo', 'Charlotte Tilbury Red Hot Susan', 'Tom Ford Scarlet Rouge'],
-        eyeshadow: ['Urban Decay Electric Palette', 'Pat McGrath MTHRSHP Subliminal']
-      }
+      hairColors: ['Dark Brown', 'Black', 'Dark Ash Brown', 'Bright Dyed Colors']
     }
   };
 
   private readonly fabricGuide: { [key: string]: string[] } = {
-    'Cool Winter': [
+    'Light Spring': [
+      'Chiffon - light, airy textures match your delicate coloring',
+      'Cotton voile - soft, breathable fabrics complement your gentle warmth',
+      'Silk crepe - subtle texture enhances your refined palette',
+      'Fine knits - comfortable, flowing fabrics suit your approachable style'
+    ],
+    'True Spring': [
+      'Cotton - crisp, clean textures match your clear colors',
+      'Linen - natural fibers complement your warm undertones',
+      'Silk - smooth textures enhance your vibrant palette',
+      'Ponte knits - structured comfort matches your confident energy'
+    ],
+    'Bright Spring': [
+      'Silk - lustrous finish amplifies your bright colors',
+      'Structured cotton - crisp textures support your bold palette',
+      'Wool crepe - refined texture matches your sophisticated warmth',
+      'Technical fabrics - modern materials suit your dynamic presence'
+    ],
+    'Light Summer': [
+      'Silk chiffon - ethereal textures match your delicate coloring',
+      'Fine cotton - soft, breathable fabrics suit your gentle nature',
+      'Cashmere - luxury softness complements your refined palette',
+      'Georgette - flowing textures enhance your graceful presence'
+    ],
+    'True Summer': [
+      'Linen - natural, muted textures match your soft palette',
+      'Cotton blend - comfortable fabrics suit your relaxed elegance',
+      'Wool jersey - soft structure complements your understated style',
+      'Silk twill - subtle sheen enhances your sophisticated coloring'
+    ],
+    'Soft Summer': [
+      'Cashmere blends - soft, muted textures match your gentle coloring',
+      'Brushed cotton - comfortable fabrics suit your approachable style',
+      'Fine wool - natural fibers complement your neutral-cool palette',
+      'Jersey knits - flowing comfort matches your relaxed sophistication'
+    ],
+    'Soft Autumn': [
+      'Wool blends - natural textures match your earthy palette',
+      'Brushed cotton - soft, comfortable fabrics suit your warm nature',
+      'Cashmere - luxury warmth complements your muted coloring',
+      'Knit fabrics - relaxed textures enhance your approachable style'
+    ],
+    'True Autumn': [
+      'Wool - rich textures match your warm, deep coloring',
+      'Corduroy - textured fabrics complement your earthy palette',
+      'Tweed - structured warmth suits your confident presence',
+      'Heavy cotton - substantial fabrics match your grounded energy'
+    ],
+    'Dark Autumn': [
+      'Leather - rich textures match your intense coloring',
+      'Heavy wool - substantial fabrics suit your dramatic presence',
+      'Velvet - luxurious textures complement your deep palette',
+      'Structured fabrics - bold textures enhance your powerful style'
+    ],
+    'Dark Winter': [
+      'Silk - dramatic drape matches your high contrast coloring',
+      'Wool gabardine - structured fabrics suit your bold presence',
+      'Cashmere - luxury textures complement your sophisticated palette',
+      'Satin - reflective surfaces enhance your cool undertones'
+    ],
+    'True Winter': [
       'Silk - creates dramatic drape with your high contrast',
       'Cashmere - luxury texture complements sophisticated palette',
       'Wool gabardine - structured fabrics enhance your bold presence',
@@ -71,13 +195,78 @@ class HTMLPDFService {
   };
 
   private readonly outfitFormulas: { [key: string]: string[] } = {
-    'Cool Winter': [
+    'Light Spring': [
+      'Cream blazer + peach blouse + camel trousers = soft professional',
+      'Light yellow dress + nude accessories = fresh elegance',
+      'Ivory sweater + light brown pants + gold jewelry = casual warmth',
+      'Soft coral top + cream skirt + warm metallic accents = gentle sophistication'
+    ],
+    'True Spring': [
+      'Orange blazer + white shirt + navy trousers = confident warmth',
+      'Golden yellow dress + brown accessories = vibrant elegance',
+      'Coral sweater + camel pants + gold jewelry = warm sophistication',
+      'Bright green top + cream skirt + bronze accents = energetic style'
+    ],
+    'Bright Spring': [
+      'Bright coral blazer + white shirt + navy trousers = dynamic power',
+      'Turquoise dress + gold accessories = vibrant sophistication',
+      'Clear yellow sweater + white pants + metallic jewelry = fresh energy',
+      'Hot pink top + navy skirt + bright accents = bold elegance'
+    ],
+    'Light Summer': [
+      'Soft gray blazer + pale pink blouse + lavender trousers = gentle professional',
+      'Light blue dress + silver accessories = serene elegance',
+      'Powder blue sweater + gray pants + pearl jewelry = soft sophistication',
+      'Pale yellow top + white skirt + cool metallic accents = delicate style'
+    ],
+    'True Summer': [
+      'Dusty blue blazer + white shirt + gray trousers = cool professional',
+      'Soft lavender dress + silver accessories = muted elegance',
+      'Rose brown sweater + navy pants + pewter jewelry = sophisticated coolness',
+      'Dusty pink top + gray skirt + soft accents = refined style'
+    ],
+    'Soft Summer': [
+      'Dusty rose blazer + cream blouse + taupe trousers = muted professional',
+      'Soft teal dress + antique silver accessories = gentle sophistication',
+      'Mauve sweater + gray pants + brushed metal jewelry = understated elegance',
+      'Dusty purple top + neutral skirt + soft accents = refined comfort'
+    ],
+    'Soft Autumn': [
+      'Sage green blazer + cream blouse + brown trousers = earthy professional',
+      'Dusty orange dress + bronze accessories = muted warmth',
+      'Olive sweater + beige pants + antique gold jewelry = natural sophistication',
+      'Soft rust top + neutral skirt + warm metallic accents = gentle earthiness'
+    ],
+    'True Autumn': [
+      'Rust blazer + cream shirt + brown trousers = warm professional',
+      'Golden brown dress + copper accessories = rich elegance',
+      'Forest green sweater + camel pants + gold jewelry = confident earthiness',
+      'Burnt orange top + brown skirt + bronze accents = warm sophistication'
+    ],
+    'Dark Autumn': [
+      'Dark brown blazer + cream shirt + chocolate trousers = rich professional',
+      'Deep rust dress + gold accessories = dramatic warmth',
+      'Forest green sweater + dark brown pants + bronze jewelry = powerful earthiness',
+      'Burgundy top + chocolate skirt + deep metallic accents = intense sophistication'
+    ],
+    'Dark Winter': [
+      'Black blazer + white shirt + charcoal trousers = powerful professional',
+      'Deep navy dress + silver accessories = dramatic elegance',
+      'Charcoal sweater + black pants + platinum jewelry = sophisticated intensity',
+      'Burgundy top + black skirt + cool metallic accents = bold sophistication'
+    ],
+    'True Winter': [
       'Black blazer + white shirt + navy trousers = executive power',
       'Charcoal coat + burgundy scarf + black boots = elegant sophistication',
       'White top + black pencil skirt + silver accessories = classic contrast',
       'Navy dress + white statement jewelry = effortless polish'
     ],
     'Bright Winter': [
+      'Electric blue blazer + white shirt + black trousers = vivid professional',
+      'Magenta dress + silver accessories = bold elegance',
+      'Bright purple sweater + black pants + chrome jewelry = dynamic sophistication',
+      'Hot pink top + navy skirt + metallic accents = vibrant style'
+    ]
       'Black jacket + bright fuchsia top + white pants = bold confidence',
       'Navy coat + electric blue scarf + silver accessories = dynamic energy',
       'White blazer + emerald green blouse + black trousers = striking impact',

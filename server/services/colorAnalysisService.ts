@@ -25,62 +25,61 @@ interface ColorAnalysisResult {
 
 export class ColorAnalysisService {
   private readonly colorAnalysisPrompt = `
-You are an expert seasonal color analyst. Analyze the provided photos to determine the person's exact seasonal color type from the comprehensive 16-season system.
+You are an expert seasonal color analyst using the comprehensive 12-season color analysis system. This system uses three dimensions of color: hue (warm/cool), value (light/dark), and chroma (bright/muted).
 
-## 16-Season Color Analysis Guide
+## 12-Season Color Analysis Guide
 
-### SPRING SEASONS (Warm undertones, clear/bright colors)
-**Bright Spring**: High contrast, warm undertone, vibrant clear colors. Characteristics: Medium to dark hair, bright clear eyes, warm but not golden skin.
-**True Spring**: Classic spring warmth, medium contrast. Characteristics: Golden/honey hair, warm eyes, peachy/golden skin undertones.
-**Light Spring**: Delicate spring warmth, low contrast. Characteristics: Light blonde/light brown hair, light eyes, fair skin with warm undertones.
-**Warm Spring**: Maximum warmth, golden tones. Characteristics: Golden/auburn hair, warm brown/hazel eyes, golden yellow undertones.
+The seasons flow into each other based on shared characteristics:
 
-### SUMMER SEASONS (Cool undertones, muted/soft colors)
-**Light Summer**: Delicate coolness, very low contrast. Characteristics: Ash blonde/light brown hair, light cool eyes, fair skin with pink undertones.
-**True Summer**: Classic summer coolness, medium-low contrast. Characteristics: Ash brown hair, soft blue/gray/green eyes, rose-beige skin.
-**Soft Summer**: Muted coolness, low contrast. Characteristics: Muted hair colors, soft eye colors, neutral-cool skin undertones.
-**Cool Summer**: Maximum coolness, icy tones. Characteristics: Ash hair, cool-toned eyes, pink or blue undertones in skin.
+### SPRING SEASONS (Warm-based, generally light and bright)
+**Light Spring**: Light + Warm. Delicate spring colors with soft warmth. Characteristics: Light blonde/brown hair, light eyes, fair skin with gentle warm undertones.
+**True Spring**: Warm + Bright. Classic spring warmth with clear colors. Characteristics: Golden/honey hair, warm clear eyes, peachy/golden skin undertones.
+**Bright Spring**: Bright + Warm. Intense, saturated warm colors. Characteristics: Medium to dark hair, bright clear eyes, warm skin that can handle vivid colors.
 
-### AUTUMN SEASONS (Warm undertones, muted/earthy colors)
-**Soft Autumn**: Muted warmth, low contrast. Characteristics: Soft brown/auburn hair, muted eyes, neutral-warm skin.
-**True Autumn**: Classic autumn warmth, medium contrast. Characteristics: Rich brown/auburn hair, warm brown/hazel eyes, warm golden skin.
-**Deep Autumn**: Rich warmth with depth, high contrast. Characteristics: Dark brown/black hair, dark eyes, rich warm skin tones.
-**Warm Autumn**: Maximum warmth, golden earth tones. Characteristics: Golden brown/red hair, warm eyes, golden yellow undertones.
+### SUMMER SEASONS (Cool-based, generally light and muted)
+**Light Summer**: Light + Cool. Pale, soft cool colors. Characteristics: Ash blonde/light brown hair, light cool eyes, fair skin with pink undertones.
+**True Summer**: Cool + Muted. Classic cool, grayed colors. Characteristics: Ash brown hair, soft blue/gray/green eyes, rose-beige skin.
+**Soft Summer**: Muted + Cool. Dusty, subdued cool colors. Characteristics: Muted hair colors, soft eye colors, neutral-cool skin undertones.
 
-### WINTER SEASONS (Cool undertones, clear/bold colors)
-**Deep Winter**: Maximum depth and coolness, very high contrast. Characteristics: Very dark hair, dark eyes, cool undertones with high contrast.
-**True Winter**: Classic winter coolness, high contrast. Characteristics: Dark hair, clear cool eyes, clear cool skin undertones.
-**Bright Winter**: High contrast with some warmth, vivid colors. Characteristics: Dark hair, bright clear eyes, neutral-cool undertones.
-**Cool Winter**: Maximum coolness, icy clarity. Characteristics: Dark hair, cool-toned eyes, pink or blue undertones, high contrast.
+### AUTUMN SEASONS (Warm-based, generally dark and muted)
+**Soft Autumn**: Muted + Warm. Earthy, subdued warm colors. Characteristics: Soft brown/auburn hair, muted warm eyes, neutral-warm skin.
+**True Autumn**: Warm + Muted. Rich, golden warm colors. Characteristics: Rich brown/auburn hair, warm brown/hazel eyes, warm golden skin.
+**Dark Autumn**: Dark + Warm. Deep, intense warm colors. Characteristics: Dark brown/black hair, dark warm eyes, rich warm skin tones.
+
+### WINTER SEASONS (Cool-based, generally dark and bright)
+**Dark Winter**: Dark + Cool. Deep, dramatic cool colors. Characteristics: Very dark hair, dark eyes, cool undertones with high contrast.
+**True Winter**: Cool + Bright. Pure, high-contrast cool colors. Characteristics: Dark hair, clear cool eyes, clear cool skin undertones.
+**Bright Winter**: Bright + Cool. Vivid, clear cool colors. Characteristics: Dark hair, bright clear eyes, can handle intense colors.
+
+## Flow Theory
+Seasons overlap where they share characteristics:
+- Light Spring and Light Summer both share lightness (differ in temperature)
+- Soft Summer and Soft Autumn both share mutedness (differ in temperature)  
+- Dark Autumn and Dark Winter both share depth (differ in temperature)
+- Bright Spring and Bright Winter both share intensity (differ in temperature)
 
 ## Analysis Requirements
-1. Examine skin undertone (warm/golden vs cool/pink vs neutral)
-2. Assess natural hair color and depth
-3. Evaluate eye color, clarity, and warmth/coolness
-4. Determine overall contrast level between features
-5. Match to the EXACT seasonal type that best fits all characteristics
+1. Examine skin undertone using hue dimension (warm yellow-based vs cool blue-based)
+2. Assess value dimension (light vs dark) in hair, eyes, skin
+3. Evaluate chroma dimension (bright/clear vs muted/soft) in natural coloring
+4. Determine overall contrast and intensity level
+5. Consider how different seasonal palettes would harmonize with their natural coloring
 
 ## Required Output Format
-Provide your analysis in this EXACT JSON format:
-
 {
-  "season": "Exact Season Name (e.g., Light Summer, Deep Autumn)",
-  "description": "Brief 1-2 sentence explanation focusing on their specific undertone, contrast level, and why this season suits them.",
+  "season": "Exact Season Name (e.g., Light Summer, Dark Autumn)",
+  "description": "Detailed explanation focusing on the three color dimensions (hue, value, chroma), undertones, contrast level, and how this season's colors harmonize with their natural coloring.",
   "coreNeutrals": ["#hex1", "#hex2", "#hex3", "#hex4", "#hex5", "#hex6"],
   "accentLights": ["#hex1", "#hex2", "#hex3", "#hex4", "#hex5", "#hex6"],
   "accentBrights": ["#hex1", "#hex2", "#hex3", "#hex4", "#hex5", "#hex6"],
   "recommendations": {
-    "metals": "Gold/Silver/Rose Gold and specific reasoning",
-    "makeup": "Specific lip, cheek, and eye color guidance with exact shades",
-    "eyewear": "Frame colors and styles that enhance their natural coloring"
+    "metals": "Gold/Silver/Rose Gold preference with explanation based on undertones and season characteristics",
+    "makeup": "Specific lip, cheek, and eye color guidance that enhances this season's natural coloring",
+    "eyewear": "Frame colors and styles that complement the season's palette and characteristics"
   }
 }
 
-**Light Complexion Example (Light Summer)**: Person with ash blonde hair, light blue-gray eyes, fair skin with pink undertones, delicate features.
-
-**Dark Complexion Example (Deep Autumn)**: Person with dark brown hair, warm brown eyes, rich golden-brown skin, strong warm undertones.
-
-Be precise, season-consistent, and concise. No additional text outside the JSON blocks.
+Use authentic hex codes that represent each season's natural palette. Be precise and detailed in analysis.
   `;
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {

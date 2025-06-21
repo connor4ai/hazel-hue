@@ -17,7 +17,101 @@ interface ColorAnalysisResult {
 
 class DesignerPdfService {
   private readonly luxuryThemes = {
-    'Cool Winter': {
+    // Spring seasons
+    'Light Spring': {
+      primary: '#f4e4bc',
+      secondary: '#e8b4a0',
+      accent: '#d4a574',
+      gold: '#f59e0b',
+      silver: '#fbbf24',
+      textPrimary: '#8b4513',
+      textSecondary: '#a0522d',
+      background: '#fffbeb'
+    },
+    'True Spring': {
+      primary: '#ffe4b5',
+      secondary: '#ffa500',
+      accent: '#32cd32',
+      gold: '#f59e0b',
+      silver: '#fbbf24',
+      textPrimary: '#8b4513',
+      textSecondary: '#a0522d',
+      background: '#fffbeb'
+    },
+    'Bright Spring': {
+      primary: '#ffffe0',
+      secondary: '#ff6347',
+      accent: '#00ced1',
+      gold: '#ffd700',
+      silver: '#c0c0c0',
+      textPrimary: '#2f4f4f',
+      textSecondary: '#696969',
+      background: '#f0ffff'
+    },
+    // Summer seasons
+    'Light Summer': {
+      primary: '#f0f8ff',
+      secondary: '#e6e6fa',
+      accent: '#b0c4de',
+      gold: '#d3d3d3',
+      silver: '#c0c0c0',
+      textPrimary: '#2f4f4f',
+      textSecondary: '#708090',
+      background: '#f8f8ff'
+    },
+    'True Summer': {
+      primary: '#e0e0e0',
+      secondary: '#d3d3d3',
+      accent: '#9370db',
+      gold: '#dda0dd',
+      silver: '#c0c0c0',
+      textPrimary: '#2f4f4f',
+      textSecondary: '#708090',
+      background: '#f5f5f5'
+    },
+    'Soft Summer': {
+      primary: '#f5f5dc',
+      secondary: '#dcdcdc',
+      accent: '#bc8f8f',
+      gold: '#d2b48c',
+      silver: '#c0c0c0',
+      textPrimary: '#696969',
+      textSecondary: '#808080',
+      background: '#faf0e6'
+    },
+    // Autumn seasons
+    'Soft Autumn': {
+      primary: '#deb887',
+      secondary: '#d2b48c',
+      accent: '#cd853f',
+      gold: '#daa520',
+      silver: '#bc8f8f',
+      textPrimary: '#8b4513',
+      textSecondary: '#a0522d',
+      background: '#fdf5e6'
+    },
+    'True Autumn': {
+      primary: '#d2691e',
+      secondary: '#cd853f',
+      accent: '#b8860b',
+      gold: '#daa520',
+      silver: '#bc8f8f',
+      textPrimary: '#8b4513',
+      textSecondary: '#a0522d',
+      background: '#fff8dc'
+    },
+    'Dark Autumn': {
+      primary: '#8b4513',
+      secondary: '#a0522d',
+      accent: '#d2691e',
+      gold: '#b8860b',
+      silver: '#696969',
+      textPrimary: '#ffffff',
+      textSecondary: '#deb887',
+      background: '#2f1b14'
+    },
+    // Winter seasons
+    'Dark Winter': {
       primary: '#0a0f1c',
       secondary: '#1a2332',
       accent: '#2563eb',
@@ -27,7 +121,17 @@ class DesignerPdfService {
       textSecondary: '#94a3b8',
       background: '#f8fafc'
     },
-    'Cool Summer': {
+    'True Winter': {
+      primary: '#000000',
+      secondary: '#2c3e50',
+      accent: '#3498db',
+      gold: '#f1c40f',
+      silver: '#bdc3c7',
+      textPrimary: '#ffffff',
+      textSecondary: '#ecf0f1',
+      background: '#ffffff'
+    },
+    'Bright Winter': {
       primary: '#1e1b4b',
       secondary: '#3730a3',
       accent: '#6366f1',
@@ -36,26 +140,6 @@ class DesignerPdfService {
       textPrimary: '#ffffff',
       textSecondary: '#a5b4fc',
       background: '#faf5ff'
-    },
-    'Warm Spring': {
-      primary: '#92400e',
-      secondary: '#c2410c',
-      accent: '#ea580c',
-      gold: '#f59e0b',
-      silver: '#fbbf24',
-      textPrimary: '#ffffff',
-      textSecondary: '#fed7aa',
-      background: '#fffbeb'
-    },
-    'Warm Autumn': {
-      primary: '#7c2d12',
-      secondary: '#9a3412',
-      accent: '#c2410c',
-      gold: '#d97706',
-      silver: '#f59e0b',
-      textPrimary: '#ffffff',
-      textSecondary: '#fed7aa',
-      background: '#fff7ed'
     }
   };
 

@@ -18,33 +18,93 @@ interface ColorAnalysisResult {
 
 class CanvasPdfService {
   private readonly seasonPalettes = {
-    'Cool Winter': {
+    // Spring seasons
+    'Light Spring': {
+      primary: '#f4e4bc',
+      secondary: '#e8b4a0',
+      accent: '#d4a574',
+      text: '#8b4513',
+      background: '#fffbeb'
+    },
+    'True Spring': {
+      primary: '#ffa500',
+      secondary: '#fbb041',
+      accent: '#32cd32',
+      text: '#8b4513',
+      background: '#fffaf0'
+    },
+    'Bright Spring': {
+      primary: '#ff6347',
+      secondary: '#ffd700',
+      accent: '#00ced1',
+      text: '#2f4f4f',
+      background: '#f0ffff'
+    },
+    // Summer seasons
+    'Light Summer': {
+      primary: '#e6e6fa',
+      secondary: '#b0c4de',
+      accent: '#9370db',
+      text: '#2f4f4f',
+      background: '#f8f8ff'
+    },
+    'True Summer': {
+      primary: '#4a5568',
+      secondary: '#718096',
+      accent: '#805ad5',
+      text: '#2f4f4f',
+      background: '#edf2f7'
+    },
+    'Soft Summer': {
+      primary: '#bc8f8f',
+      secondary: '#d2b48c',
+      accent: '#dda0dd',
+      text: '#696969',
+      background: '#faf0e6'
+    },
+    // Autumn seasons
+    'Soft Autumn': {
+      primary: '#d2b48c',
+      secondary: '#cd853f',
+      accent: '#daa520',
+      text: '#8b4513',
+      background: '#fdf5e6'
+    },
+    'True Autumn': {
+      primary: '#c53030',
+      secondary: '#e53e3e',
+      accent: '#d69e2e',
+      text: '#ffffff',
+      background: '#fed7d7'
+    },
+    'Dark Autumn': {
+      primary: '#8b4513',
+      secondary: '#a0522d',
+      accent: '#d2691e',
+      text: '#ffffff',
+      background: '#2f1b14'
+    },
+    // Winter seasons
+    'Dark Winter': {
       primary: '#1a1a2e',
       secondary: '#16213e',
       accent: '#533483',
       text: '#ffffff',
       background: '#0f3460'
     },
-    'Cool Summer': {
-      primary: '#4a5568',
-      secondary: '#718096',
-      accent: '#805ad5',
+    'True Winter': {
+      primary: '#000000',
+      secondary: '#2c3e50',
+      accent: '#3498db',
       text: '#ffffff',
-      background: '#edf2f7'
+      background: '#ffffff'
     },
-    'Warm Spring': {
-      primary: '#f6ad55',
-      secondary: '#fbb041',
-      accent: '#ed8936',
-      text: '#1a202c',
-      background: '#fffaf0'
-    },
-    'Warm Autumn': {
-      primary: '#c53030',
-      secondary: '#e53e3e',
-      accent: '#d69e2e',
+    'Bright Winter': {
+      primary: '#3730a3',
+      secondary: '#6366f1',
+      accent: '#d946ef',
       text: '#ffffff',
-      background: '#fed7d7'
+      background: '#faf5ff'
     }
   };
 
