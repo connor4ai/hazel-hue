@@ -197,17 +197,11 @@ export default function Home() {
             >
               {/* Enhanced card with shadow and overflow */}
               <div className="relative bg-white rounded-3xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-300" style={{ marginBottom: '-40px', zIndex: 10 }}>
-                <div className="relative">
-                  <div className="absolute top-6 left-0 right-0 text-center z-10">
-                    <h3 className="font-serif text-xl font-bold mb-2" style={{ color: 'hsl(var(--espresso))', textShadow: '0 2px 4px rgba(255,255,255,0.9)' }}>12 Season Color System</h3>
-                    <p className="text-gray-700 text-sm font-medium" style={{ textShadow: '0 1px 2px rgba(255,255,255,0.9)' }}>Find your perfect palette</p>
-                  </div>
-                  <img 
-                    src={seasonalColorTypes}
-                    alt="12 seasonal color types - Spring, Summer, Autumn, Winter with color palettes showing the flow theory" 
-                    className="w-full h-auto object-cover rounded-2xl"
-                  />
-                </div>
+                <img 
+                  src={seasonalColorTypes}
+                  alt="12 seasonal color types - Spring, Summer, Autumn, Winter with color palettes showing the flow theory" 
+                  className="w-full h-auto object-cover rounded-2xl"
+                />
               </div>
             </motion.div>
           </div>
