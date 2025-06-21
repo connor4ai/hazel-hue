@@ -30,7 +30,7 @@ import {
   Award,
   Zap
 } from "lucide-react";
-import seasonalColorTypes from "@/assets/seasonal-color-types.svg";
+import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -203,7 +203,7 @@ export default function Home() {
                     <p className="text-gray-700 text-sm font-medium" style={{ textShadow: '0 1px 2px rgba(255,255,255,0.9)' }}>Find your perfect palette</p>
                   </div>
                   <img 
-                    src="/attached_assets/jyhm8uif17b81.jpg_1750535813161.webp"
+                    src={seasonalColorTypes}
                     alt="12 seasonal color types - Spring, Summer, Autumn, Winter with color palettes showing the flow theory" 
                     className="w-full h-auto object-cover rounded-2xl"
                   />
