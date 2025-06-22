@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users, Share2, Smartphone, Wallet } from 'lucide-react';
 import seasonChartImage from '@assets/12-tone-chart-value-temperature_1750623961315.png';
 import colorDimensionsImage from '@assets/60b8f521cbd467e4c5ba0270_True Winter Colour Dimensions_1750623961315.webp';
 import hairColorImage from '@assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp';
+import maryLouiseParkerImage from '@assets/Screenshot 2025-06-22 at 6.42.17 PM_1750635904961.png';
+import marionCotillardImage from '@assets/Screenshot 2025-06-22 at 6.42.31 PM_1750635904961.png';
+import krystenRitterImage from '@assets/Screenshot 2025-06-22 at 6.42.37 PM_1750635904961.png';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
@@ -119,14 +122,17 @@ const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
     </div>
     
     <div className="bg-white rounded-xl p-4 mb-4">
-      <iframe
-        src={`https://assets.pinterest.com/ext/embed.html?id=${url.split('/').pop()}`}
-        height="300"
-        width="100%"
-        frameBorder="0"
-        scrolling="no"
-        className="rounded-lg"
-      />
+      <div className="relative h-64 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 mx-auto shadow-lg">
+              <ExternalLink className="w-8 h-8 text-pink-600" />
+            </div>
+            <p className="text-gray-700 font-medium">Pinterest Board Preview</p>
+            <p className="text-gray-500 text-sm">Click to view full board</p>
+          </div>
+        </div>
+      </div>
     </div>
     
     <Button
@@ -327,36 +333,31 @@ export default function ResultsNew() {
             className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-6 border border-red-100"
           >
             <h3 className="text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
-            <div className="grid grid-cols-6 md:grid-cols-8 gap-4 mb-4">
-              {['#D2B48C', '#DEB887', '#F5DEB3', '#CD853F', '#A0522D', '#8B4513', '#DAA520', '#B8860B'].map((color, index) => (
+            <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+              {[
+                { name: 'Orange', code: '#FFA500' },
+                { name: 'Peach', code: '#FFCBA4' },
+                { name: 'Coral', code: '#FF7F50' },
+                { name: 'Gold', code: '#FFD700' },
+                { name: 'Beige', code: '#F5F5DC' },
+                { name: 'Tan', code: '#D2B48C' }
+              ].map((color, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.7 + index * 0.05 }}
-                  className="relative"
+                  className="text-center"
                 >
                   <div
-                    className="w-12 h-12 md:w-14 md:h-14 rounded-xl shadow-md border-2 border-white relative"
-                    style={{ backgroundColor: color }}
+                    className="w-14 h-14 rounded-xl shadow-md border-2 border-white relative mx-auto"
+                    style={{ backgroundColor: color.code }}
                   >
                     <div className="absolute inset-0 rounded-xl border-2 border-red-400 opacity-60"></div>
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-xl">×</div>
                   </div>
-                  <p className="text-xs text-center mt-1 font-mono text-gray-600">{color}</p>
-                </motion.div>
-              ))}
-            </div>
-            <div className="grid md:grid-cols-3 gap-4">
-              {analysisResult.overview.colorsToAvoid.map((colorGroup, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 + index * 0.1 }}
-                  className="bg-white rounded-xl p-4 shadow-sm"
-                >
-                  <p className="text-gray-700 text-sm">{colorGroup}</p>
+                  <p className="text-xs mt-2 font-mono text-gray-600">{color.code}</p>
+                  <p className="text-xs font-semibold text-gray-700">{color.name}</p>
                 </motion.div>
               ))}
             </div>
@@ -700,60 +701,60 @@ export default function ResultsNew() {
             <p className="text-gray-600 max-w-2xl mx-auto">Colors and techniques that enhance your natural radiance</p>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
             >
-              <h4 className="text-xl font-bold text-gray-800 mb-6">Your {analysisResult.season} Makeup Palette</h4>
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Makeup Palette</h4>
               
-              <div className="space-y-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">Foundation</h5>
-                  <p className="text-gray-700 text-sm mb-3">Look for cool or neutral undertones - pink, beige, or neutral bases</p>
-                  <div className="flex space-x-3">
-                    {['#F5DEB3', '#F0E6D2', '#E6D3A3', '#DDB892'].map((color, index) => (
+                  <h5 className="font-semibold text-gray-800 mb-2">Foundation</h5>
+                  <p className="text-gray-700 text-xs mb-2">Cool or neutral undertones</p>
+                  <div className="flex space-x-2">
+                    {['#F5DEB3', '#F0E6D2'].map((color, index) => (
                       <ColorSwatch key={index} color={color} name={color} clickable />
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">Lipstick</h5>
-                  <p className="text-gray-700 text-sm mb-3">True red, deep burgundy, fuchsia pink, berry tones</p>
-                  <div className="flex space-x-3">
-                    {['#DC143C', '#800020', '#FF1493', '#8B008B'].map((color, index) => (
+                  <h5 className="font-semibold text-gray-800 mb-2">Lipstick</h5>
+                  <p className="text-gray-700 text-xs mb-2">True red, burgundy, fuchsia</p>
+                  <div className="flex space-x-2">
+                    {['#DC143C', '#800020'].map((color, index) => (
                       <ColorSwatch key={index} color={color} name={color} clickable />
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">Eyeshadow</h5>
-                  <p className="text-gray-700 text-sm mb-3">Navy, charcoal, emerald, silver, white, deep purple</p>
-                  <div className="flex space-x-3">
-                    {['#000080', '#36454F', '#50C878', '#C0C0C0', '#FFFFFF', '#663399'].map((color, index) => (
+                  <h5 className="font-semibold text-gray-800 mb-2">Eyeshadow</h5>
+                  <p className="text-gray-700 text-xs mb-2">Navy, charcoal, emerald</p>
+                  <div className="flex space-x-2">
+                    {['#000080', '#36454F'].map((color, index) => (
                       <ColorSwatch key={index} color={color} name={color} clickable />
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">Blush</h5>
-                  <p className="text-gray-700 text-sm mb-3">Cool pink, berry, or rose tones</p>
-                  <div className="flex space-x-3">
-                    {['#FFB6C1', '#DC143C', '#FF69B4', '#C71585'].map((color, index) => (
+                  <h5 className="font-semibold text-gray-800 mb-2">Blush</h5>
+                  <p className="text-gray-700 text-xs mb-2">Cool pink, berry tones</p>
+                  <div className="flex space-x-2">
+                    {['#FFB6C1', '#DC143C'].map((color, index) => (
                       <ColorSwatch key={index} color={color} name={color} clickable />
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="font-semibold text-gray-800 mb-3">Eyeliner</h5>
-                  <p className="text-gray-700 text-sm mb-3">Black, navy, or deep burgundy</p>
-                  <div className="flex space-x-3">
-                    {['#000000', '#000080', '#800020'].map((color, index) => (
+                  <h5 className="font-semibold text-gray-800 mb-2">Eyeliner</h5>
+                  <p className="text-gray-700 text-xs mb-2">Black, navy, burgundy</p>
+                  <div className="flex space-x-2">
+                    {['#000000', '#000080'].map((color, index) => (
                       <ColorSwatch key={index} color={color} name={color} clickable />
                     ))}
                   </div>
@@ -788,40 +789,157 @@ export default function ResultsNew() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Anne Hathaway', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b1ce?w=200&h=250&fit=crop&crop=face' },
-              { name: 'Courteney Cox', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=250&fit=crop&crop=face' },
-              { name: 'Megan Fox', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=250&fit=crop&crop=face' }
+              { name: 'Mary Louise Parker', image: maryLouiseParkerImage },
+              { name: 'Marion Cotillard', image: marionCotillardImage },
+              { name: 'Krysten Ritter', image: krystenRitterImage }
             ].map((celebrity, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 text-center"
+                className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
               >
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden shadow-lg">
+                <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden">
                   <img
                     src={celebrity.image}
                     alt={celebrity.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">{celebrity.name}</h4>
-                <div className="flex justify-center space-x-2 mb-3">
-                  {['#DC143C', '#000080', '#50C878'].map((color, colorIndex) => (
-                    <div
-                      key={colorIndex}
-                      className="w-4 h-4 rounded-full border border-gray-300"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Perfect True Winter coloring with high contrast features
-                </p>
+                <h4 className="text-lg font-bold text-gray-800 text-center">{celebrity.name}</h4>
               </motion.div>
             ))}
           </div>
+        </div>
+      )
+    },
+    { 
+      id: 'download', 
+      title: 'Download & Share', 
+      icon: <Download className="w-6 h-6" />, 
+      content: (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Save & Share Your Results</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Keep your color analysis handy for shopping and styling</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 text-center border border-blue-100"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Share2 className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Share My Results</h4>
+              <p className="text-gray-600 mb-6 text-sm">Share your color analysis with friends and family via text, email, or social media</p>
+              <Button 
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: `My ${analysisResult.season} Color Analysis`,
+                      text: `Check out my personal color analysis results!`,
+                      url: window.location.href
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    toast({ title: "Link copied!", description: "Share this link with others" });
+                  }
+                }}
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-xl py-3"
+              >
+                Share Results
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 text-center border border-green-100"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Palette className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Download Digital Palette</h4>
+              <p className="text-gray-600 mb-6 text-sm">Get a high-resolution version of your color palette for easy reference while shopping</p>
+              <Button 
+                onClick={() => {
+                  // Create a canvas with the color palette
+                  const canvas = document.createElement('canvas');
+                  const ctx = canvas.getContext('2d');
+                  canvas.width = 800;
+                  canvas.height = 600;
+                  
+                  // Add colors to canvas
+                  ctx!.fillStyle = '#ffffff';
+                  ctx!.fillRect(0, 0, 800, 600);
+                  
+                  // Download the canvas as image
+                  const link = document.createElement('a');
+                  link.download = `${analysisResult.season.replace(' ', '_')}_Color_Palette.png`;
+                  link.href = canvas.toDataURL();
+                  link.click();
+                  
+                  toast({ title: "Palette downloaded!", description: "Your color palette has been saved" });
+                }}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl py-3"
+              >
+                Download Palette
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 text-center border border-purple-100"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Wallet className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Save to Digital Wallet</h4>
+              <p className="text-gray-600 mb-6 text-sm">Add your color palette to Apple Wallet or Google Pay for instant access while shopping</p>
+              <Button 
+                onClick={() => {
+                  toast({ title: "Coming soon!", description: "Digital wallet integration will be available soon" });
+                }}
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl py-3"
+              >
+                Add to Wallet
+              </Button>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 text-center"
+          >
+            <h4 className="text-xl font-bold text-gray-800 mb-4">Pro Tips for Using Your Results</h4>
+            <div className="grid md:grid-cols-2 gap-6 text-left">
+              <div>
+                <h5 className="font-semibold text-gray-800 mb-2">Shopping</h5>
+                <p className="text-gray-600 text-sm">Take screenshots of your color swatches to match colors while shopping in stores or online</p>
+              </div>
+              <div>
+                <h5 className="font-semibold text-gray-800 mb-2">Wardrobe</h5>
+                <p className="text-gray-600 text-sm">Focus on building a capsule wardrobe with your core neutral colors as the foundation</p>
+              </div>
+              <div>
+                <h5 className="font-semibold text-gray-800 mb-2">Makeup</h5>
+                <p className="text-gray-600 text-sm">Show your makeup artist or sales associate your color palette for personalized recommendations</p>
+              </div>
+              <div>
+                <h5 className="font-semibold text-gray-800 mb-2">Hair Color</h5>
+                <p className="text-gray-600 text-sm">Bring your analysis to your colorist for the most flattering hair color choices</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )
     }

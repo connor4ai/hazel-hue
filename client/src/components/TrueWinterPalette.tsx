@@ -32,7 +32,7 @@ const TrueWinterPalette = () => {
     { name: 'Purple', code: '#7A3D7A' },
     
     // Row 3
-    { name: 'Pure White', code: '#FCFCFC' },
+    { name: 'Icy Blue', code: '#F0F8FF' },
     { name: 'True Black', code: '#1C1C1C' },
     { name: 'Bright Yellow', code: '#E8E81C' },
     { name: 'Kelly Green', code: '#3D9B3D' },
@@ -72,7 +72,7 @@ const TrueWinterPalette = () => {
     { name: 'Amethyst', code: '#9966CC' },
     
     // Row 7
-    { name: 'Snow White', code: '#FFFAFA' },
+    { name: 'Cool Beige', code: '#F5F5DC' },
     { name: 'Carbon', code: '#36454F' },
     { name: 'Canary', code: '#FFFF99' },
     { name: 'Viridian', code: '#40826D' },
@@ -115,8 +115,8 @@ const TrueWinterPalette = () => {
               style={{ backgroundColor: color.code }}
             />
             <div className="text-center mt-2">
-              <p className="text-xs font-semibold text-gray-700 truncate">{color.name}</p>
               <p className="text-xs text-gray-500 font-mono">{color.code}</p>
+              <p className="text-xs font-semibold text-gray-700 truncate">{color.name}</p>
             </div>
             
             {copiedColor === color.code && (
