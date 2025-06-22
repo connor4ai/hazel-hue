@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Winter Color Palette</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e4e8 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fefefe;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: #ffffff;
+            color: #2c2c2c;
+            padding: 60px 30px;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 4em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .header p {
+            margin: 12px 0 0 0;
+            font-size: 1em;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666666;
+        }
+        
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 16px;
+            padding: 50px 40px;
+            background: #fefefe;
+        }
+        
+        .color-swatch {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-swatch:hover {
+            transform: translateY(-4px) scale(1.02);
+            z-index: 10;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-top {
+            height: 120px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .color-info {
+            background: white;
+            padding: 12px 8px 8px 8px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .color-name {
+            font-size: 0.7em;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        .color-code {
+            font-size: 0.65em;
+            font-weight: 400;
+            color: #666666;
+            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666666;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, #f0f2f5 0%, #fefefe 100%);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 30px 20px;
+                gap: 12px;
+            }
+            
+            .color-top {
+                height: 100px;
+            }
+            
+            .color-info {
+                padding: 10px 6px 6px 6px;
+            }
+            
+            .color-name {
+                font-size: 0.65em;
+            }
+            
+            .color-code {
+                font-size: 0.6em;
+            }
+            
+            .header h1 {
+                font-size: 2.4em;
+                letter-spacing: 4px;
+            }
+            
+            .header p {
+                font-size: 0.95em;
+                letter-spacing: 1px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .palette-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .color-top {
+                height: 80px;
+            }
+            
+            .color-info {
+                padding: 8px 4px 4px 4px;
+            }
+            
+            .color-name {
+                font-size: 0.6em;
+                margin-bottom: 2px;
+            }
+            
+            .color-code {
+                font-size: 0.55em;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TRUE WINTER</h1>
+            <p>12 Season Color Analysis Palette</p>
+        </div>
+        
+        <div class="palette-grid">
+            <!-- Row 1 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8E8E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Ice White</div>
+                    <div class="color-code">#E8E8E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #6B7B7B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cool Grey</div>
+                    <div class="color-code">#6B7B7B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCE4B8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Icy Yellow</div>
+                    <div class="color-code">#FCE4B8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4D9B4D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Emerald</div>
+                    <div class="color-code">#4D9B4D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #2E5F5F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Teal</div>
+                    <div class="color-code">#2E5F5F</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FFB8E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Bright Pink</div>
+                    <div class="color-code">#FFB8E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E85AA0;"></div>
+                <div class="color-info">
+                    <div class="color-name">Fuchsia</div>
+                    <div class="color-code">#E85AA0</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #5A3D5A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Eggplant</div>
+                    <div class="color-code">#5A3D5A</div>
+                </div>
+            </div>
+            
+            <!-- Row 2 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #D4D4D4;"></div>
+                <div class="color-info">
+                    <div class="color-name">Silver</div>
+                    <div class="color-code">#D4D4D4</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4A4A4A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Charcoal</div>
+                    <div class="color-code">#4A4A4A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCFC1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Lemon</div>
+                    <div class="color-code">#FCFC1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C7A1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Forest Green</div>
+                    <div class="color-code">#1C7A1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C5F7A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Petrol</div>
+                    <div class="color-code">#1C5F7A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E85AA0;"></div>
+                <div class="color-info">
+                    <div class="color-name">Hot Pink</div>
+                    <div class="color-code">#E85AA0</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B8207A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Magenta</div>
+                    <div class="color-code">#B8207A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A3D7A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Purple</div>
+                    <div class="color-code">#7A3D7A</div>
+                </div>
+            </div>
+            
+            <!-- Row 3 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCFCFC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Pure White</div>
+                    <div class="color-code">#FCFCFC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C1C1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">True Black</div>
+                    <div class="color-code">#1C1C1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8E81C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Bright Yellow</div>
+                    <div class="color-code">#E8E81C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #3D9B3D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Kelly Green</div>
+                    <div class="color-code">#3D9B3D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C7A9B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Turquoise</div>
+                    <div class="color-code">#1C7A9B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FFE8FC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Pale Pink</div>
+                    <div class="color-code">#FFE8FC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E85A9B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Shocking Pink</div>
+                    <div class="color-code">#E85A9B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #9B3D9B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Royal Purple</div>
+                    <div class="color-code">#9B3D9B</div>
+                </div>
+            </div>
+            
+            <!-- Row 4 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #A8B4B4;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cool Beige</div>
+                    <div class="color-code">#A8B4B4</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A4A1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Brown</div>
+                    <div class="color-code">#7A4A1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCE84A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Canary</div>
+                    <div class="color-code">#FCE84A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #5AB85A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Mint Green</div>
+                    <div class="color-code">#5AB85A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4A9BE8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cerulean</div>
+                    <div class="color-code">#4A9BE8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8B8E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Lavender</div>
+                    <div class="color-code">#E8B8E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #D4207A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Ruby</div>
+                    <div class="color-code">#D4207A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A207A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Plum</div>
+                    <div class="color-code">#7A207A</div>
+                </div>
+            </div>
+            
+            <!-- Row 5 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B8B8B8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Light Grey</div>
+                    <div class="color-code">#B8B8B8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #3D3D3D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Slate</div>
+                    <div class="color-code">#3D3D3D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8201C;"></div>
+                <div class="color-info">
+                    <div class="color-name">True Red</div>
+                    <div class="color-code">#E8201C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4DE84D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Lime</div>
+                    <div class="color-code">#4DE84D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C7AE8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Royal Blue</div>
+                    <div class="color-code">#1C7AE8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCE8E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Icy Pink</div>
+                    <div class="color-code">#FCE8E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E81C7A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cerise</div>
+                    <div class="color-code">#E81C7A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #5A1C5A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Deep Purple</div>
+                    <div class="color-code">#5A1C5A</div>
+                </div>
+            </div>
+            
+            <!-- Row 6 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #9BB8B8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Pewter</div>
+                    <div class="color-code">#9BB8B8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8E8FC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Ice Blue</div>
+                    <div class="color-code">#E8E8FC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A1C1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Crimson</div>
+                    <div class="color-code">#7A1C1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C7A3D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Pine</div>
+                    <div class="color-code">#1C7A3D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #201CE8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Electric Blue</div>
+                    <div class="color-code">#201CE8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8E8E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Platinum</div>
+                    <div class="color-code">#E8E8E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A1C5A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Burgundy</div>
+                    <div class="color-code">#7A1C5A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #3D1C3D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Midnight</div>
+                    <div class="color-code">#3D1C3D</div>
+                </div>
+            </div>
+            
+            <!-- Row 7 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #7A9B9B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Steel Blue</div>
+                    <div class="color-code">#7A9B9B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B8D4FC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Powder Blue</div>
+                    <div class="color-code">#B8D4FC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E84A4A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cherry</div>
+                    <div class="color-code">#E84A4A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C9B1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Jade</div>
+                    <div class="color-code">#1C9B1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C4AE8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Cobalt</div>
+                    <div class="color-code">#1C4AE8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FCB8FC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Orchid</div>
+                    <div class="color-code">#FCB8FC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #9B1C5A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Maroon</div>
+                    <div class="color-code">#9B1C5A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4A1C4A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Aubergine</div>
+                    <div class="color-code">#4A1C4A</div>
+                </div>
+            </div>
+            
+            <!-- Row 8 -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #5A7A7A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Gunmetal</div>
+                    <div class="color-code">#5A7A7A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #9BD4E8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Sky Blue</div>
+                    <div class="color-code">#9BD4E8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #D41C1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Scarlet</div>
+                    <div class="color-code">#D41C1C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4AE84A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Neon Green</div>
+                    <div class="color-code">#4AE84A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #3D5AE8;"></div>
+                <div class="color-info">
+                    <div class="color-name">Sapphire</div>
+                    <div class="color-code">#3D5AE8</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E8D4FC;"></div>
+                <div class="color-info">
+                    <div class="color-name">Lilac</div>
+                    <div class="color-code">#E8D4FC</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B81C7A;"></div>
+                <div class="color-info">
+                    <div class="color-name">Violet</div>
+                    <div class="color-code">#B81C7A</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #2E1C2E;"></div>
+                <div class="color-info">
+                    <div class="color-name">Blackberry</div>
+                    <div class="color-code">#2E1C2E</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+        </div>
+    </div>
+    
+    <script>
+        // Add click to copy functionality
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', function() {
+                const colorCode = this.querySelector('.color-code').textContent;
+                navigator.clipboard.writeText(colorCode).then(() => {
+                    // Create temporary feedback with true winter styling
+                    const feedback = document.createElement('div');
+                    feedback.textContent = 'Copied!';
+                    feedback.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #e8e8fc 0%, #b8d4fc 100%);
+                        color: #1c1c1c;
+                        padding: 12px 24px;
+                        border-radius: 8px;
+                        z-index: 1000;
+                        font-weight: 500;
+                        font-size: 0.9em;
+                        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+                        backdrop-filter: blur(8px);
+                        border: 1px solid rgba(0, 0, 0, 0.3);
+                    `;
+                    document.body.appendChild(feedback);
+                    setTimeout(() => document.body.removeChild(feedback), 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

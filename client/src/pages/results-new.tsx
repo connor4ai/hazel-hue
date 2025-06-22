@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users } from 'lucide-react';
+import seasonChartImage from '@assets/12-tone-chart-value-temperature_1750623961315.png';
+import colorDimensionsImage from '@assets/60b8f521cbd467e4c5ba0270_True Winter Colour Dimensions_1750623961315.webp';
+import hairColorImage from '@assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import TrueWinterPalette from '@/components/TrueWinterPalette';
 
 interface AnalysisResult {
   season: string;
@@ -104,18 +108,32 @@ const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-8 text-center border border-pink-100"
+    className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 border border-pink-100"
   >
-    <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-      <ExternalLink className="w-8 h-8 text-white" />
+    <div className="text-center mb-4">
+      <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+        <ExternalLink className="w-6 h-6 text-white" />
+      </div>
+      <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
+      <p className="text-gray-600 text-sm mb-4">Curated inspiration board with looks perfect for your coloring</p>
     </div>
-    <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
-    <p className="text-gray-600 mb-4">Curated inspiration board with looks perfect for your coloring</p>
+    
+    <div className="bg-white rounded-xl p-4 mb-4">
+      <iframe
+        src={`https://assets.pinterest.com/ext/embed.html?id=${url.split('/').pop()}`}
+        height="300"
+        width="100%"
+        frameBorder="0"
+        scrolling="no"
+        className="rounded-lg"
+      />
+    </div>
+    
     <Button
       onClick={() => window.open(url, '_blank')}
-      className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full px-6 py-2"
+      className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-xl py-2"
     >
-      View Pinterest Board
+      View Full Pinterest Board
     </Button>
   </motion.div>
 );
@@ -295,7 +313,7 @@ export default function ResultsNew() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 + index * 0.05 }}
                   >
-                    <ColorSwatch color={color} />
+                    <ColorSwatch color={color} name={color} />
                   </motion.div>
                 ))}
               </div>
@@ -309,13 +327,33 @@ export default function ResultsNew() {
             className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-6 border border-red-100"
           >
             <h3 className="text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
+            <div className="grid grid-cols-6 md:grid-cols-8 gap-4 mb-4">
+              {['#D2B48C', '#DEB887', '#F5DEB3', '#CD853F', '#A0522D', '#8B4513', '#DAA520', '#B8860B'].map((color, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7 + index * 0.05 }}
+                  className="relative"
+                >
+                  <div
+                    className="w-12 h-12 md:w-14 md:h-14 rounded-xl shadow-md border-2 border-white relative"
+                    style={{ backgroundColor: color }}
+                  >
+                    <div className="absolute inset-0 rounded-xl border-2 border-red-400 opacity-60"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-xl">×</div>
+                  </div>
+                  <p className="text-xs text-center mt-1 font-mono text-gray-600">{color}</p>
+                </motion.div>
+              ))}
+            </div>
             <div className="grid md:grid-cols-3 gap-4">
               {analysisResult.overview.colorsToAvoid.map((colorGroup, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
+                  transition={{ delay: 0.9 + index * 0.1 }}
                   className="bg-white rounded-xl p-4 shadow-sm"
                 >
                   <p className="text-gray-700 text-sm">{colorGroup}</p>
@@ -332,66 +370,59 @@ export default function ResultsNew() {
       icon: <Palette className="w-6 h-6" />,
       content: (
         <div className="space-y-8">
-          <div className="text-center">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Your Complete Color Palette</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">Click any color to copy its hex code for shopping and styling</p>
-          </div>
-
-          <div className="space-y-8">
-            {[
-              { title: 'Core Neutrals', colors: analysisResult.coreNeutrals, desc: 'Your foundation colors - mix and match with confidence' },
-              { title: 'Accent Lights', colors: analysisResult.accentLights, desc: 'Soft highlights and gentle accents' },
-              { title: 'Accent Brights', colors: analysisResult.accentBrights, desc: 'Bold statement colors for impact' }
-            ].map((section, sectionIndex) => (
-              <motion.div
-                key={section.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: sectionIndex * 0.2 }}
-                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
-              >
-                <h4 className="text-xl font-bold text-gray-800 mb-2">{section.title}</h4>
-                <p className="text-gray-600 mb-6">{section.desc}</p>
-                <div className="grid grid-cols-4 md:grid-cols-6 gap-4 justify-items-center">
-                  {section.colors.map((color, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: sectionIndex * 0.2 + index * 0.05 }}
-                    >
-                      <ColorSwatch color={color} name={color} />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <TrueWinterPalette />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 text-center border border-blue-100"
+            className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-100"
           >
-            <h4 className="text-xl font-bold text-gray-800 mb-4">Color Dimensions</h4>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-              <div className="bg-white rounded-xl p-4">
-                <p className="font-semibold text-gray-800">Temperature</p>
-                <p className="text-gray-600">Cool (blue-based)</p>
+            <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">Color Dimensions</h4>
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div className="space-y-4">
+                <div className="bg-white rounded-xl p-4">
+                  <p className="font-semibold text-gray-800">Temperature</p>
+                  <p className="text-gray-600">Cool (blue-based undertones)</p>
+                </div>
+                <div className="bg-white rounded-xl p-4">
+                  <p className="font-semibold text-gray-800">Saturation</p>
+                  <p className="text-gray-600">High clarity and purity</p>
+                </div>
+                <div className="bg-white rounded-xl p-4">
+                  <p className="font-semibold text-gray-800">Value</p>
+                  <p className="text-gray-600">Medium to deep tones</p>
+                </div>
+                <div className="bg-white rounded-xl p-4">
+                  <p className="font-semibold text-gray-800">Intensity</p>
+                  <p className="text-gray-600">Bold and striking presence</p>
+                </div>
               </div>
-              <div className="bg-white rounded-xl p-4">
-                <p className="font-semibold text-gray-800">Saturation</p>
-                <p className="text-gray-600">High clarity</p>
+              <div className="bg-white rounded-xl p-6 text-center">
+                <img
+                  src={colorDimensionsImage}
+                  alt="True Winter Color Dimensions"
+                  className="w-full max-w-sm mx-auto rounded-lg shadow-sm"
+                />
+                <p className="text-sm text-gray-600 mt-4">Your position on the color analysis spectrum</p>
               </div>
-              <div className="bg-white rounded-xl p-4">
-                <p className="font-semibold text-gray-800">Value</p>
-                <p className="text-gray-600">Medium to deep</p>
-              </div>
-              <div className="bg-white rounded-xl p-4">
-                <p className="font-semibold text-gray-800">Intensity</p>
-                <p className="text-gray-600">Bold & striking</p>
-              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100"
+          >
+            <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">12-Season Color Analysis Chart</h4>
+            <div className="text-center">
+              <img
+                src={seasonChartImage}
+                alt="12-Season Color Analysis Chart"
+                className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
+              />
+              <p className="text-sm text-gray-600 mt-4">True Winter's position in the complete seasonal color system</p>
             </div>
           </motion.div>
         </div>
@@ -458,7 +489,7 @@ export default function ResultsNew() {
             <p className="text-gray-600 max-w-2xl mx-auto">The perfect finishing touches for your coloring</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -468,77 +499,96 @@ export default function ResultsNew() {
                 <Gem className="w-5 h-5 mr-2 text-amber-600" />
                 Best Metals
               </h4>
-              <p className="text-gray-700 leading-relaxed">{analysisResult.accessories.metals}</p>
+              <div className="grid lg:grid-cols-2 gap-6 items-center">
+                <div>
+                  <p className="text-gray-700 leading-relaxed mb-4">{analysisResult.accessories.metals}</p>
+                  <div className="flex space-x-4">
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mb-2 border-2 border-white shadow-md"></div>
+                      <p className="text-xs font-medium text-gray-700">Silver</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mb-2 border-2 border-white shadow-md"></div>
+                      <p className="text-xs font-medium text-gray-700">Platinum</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mb-2 border-2 border-white shadow-md"></div>
+                      <p className="text-xs font-medium text-gray-700">White Gold</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full mb-2 border-2 border-white shadow-md"></div>
+                      <p className="text-xs font-medium text-gray-700">Gunmetal</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-2">💍</div>
+                    <p className="text-sm font-medium text-gray-700">Rings</p>
+                    <p className="text-xs text-gray-500">Clean, geometric designs</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-2">📿</div>
+                    <p className="text-sm font-medium text-gray-700">Necklaces</p>
+                    <p className="text-xs text-gray-500">Bold, statement pieces</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-2">👂</div>
+                    <p className="text-sm font-medium text-gray-700">Earrings</p>
+                    <p className="text-xs text-gray-500">Structured, angular styles</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-2">⌚</div>
+                    <p className="text-sm font-medium text-gray-700">Watches</p>
+                    <p className="text-xs text-gray-500">Modern, sleek faces</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
-            >
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Style</h4>
-              <ul className="space-y-2">
-                {analysisResult.accessories.jewelry.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + index * 0.05 }}
-                    className="flex items-start"
-                  >
-                    <div className="w-2 h-2 bg-rose-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700 text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
+            <div className="grid lg:grid-cols-2 gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              >
+                <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Guidelines</h4>
+                <div className="space-y-3">
+                  {analysisResult.accessories.jewelry.map((item, index) => (
+                    <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
+                  ))}
+                </div>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
-            >
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Watches</h4>
-              <ul className="space-y-2">
-                {analysisResult.accessories.watches.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 + index * 0.05 }}
-                    className="flex items-start"
-                  >
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700 text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
-            >
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Eyewear</h4>
-              <ul className="space-y-2">
-                {analysisResult.accessories.glasses.map((item, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 + index * 0.05 }}
-                    className="flex items-start"
-                  >
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700 text-sm">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              >
+                <h4 className="text-xl font-bold text-gray-800 mb-4">Eyewear Guide</h4>
+                <div className="space-y-3 mb-4">
+                  {analysisResult.accessories.glasses.map((item, index) => (
+                    <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center">
+                    <div className="w-16 h-10 bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg mx-auto mb-2 border border-gray-300"></div>
+                    <p className="text-xs font-medium text-gray-700">Black Frames</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-16 h-10 bg-gradient-to-r from-gray-400 to-gray-500 rounded-lg mx-auto mb-2 border border-gray-300"></div>
+                    <p className="text-xs font-medium text-gray-700">Gunmetal</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-16 h-10 bg-gradient-to-r from-blue-800 to-blue-900 rounded-lg mx-auto mb-2 border border-gray-300"></div>
+                    <p className="text-xs font-medium text-gray-700">Navy Frames</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       )
@@ -574,19 +624,27 @@ export default function ResultsNew() {
                 <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
                 Best Hair Colors
               </h4>
-              <ul className="space-y-3">
+              <div className="space-y-4">
                 {analysisResult.hairColor.bestColors.map((color, index) => (
-                  <motion.li
+                  <motion.p
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + index * 0.1 }}
-                    className="text-gray-700"
+                    className="text-gray-700 leading-relaxed"
                   >
                     {color}
-                  </motion.li>
+                  </motion.p>
                 ))}
-              </ul>
+              </div>
+              <div className="mt-6">
+                <img
+                  src={hairColorImage}
+                  alt="Hair Color Examples"
+                  className="w-full rounded-lg shadow-sm"
+                />
+                <p className="text-xs text-gray-600 text-center mt-2">Natural hair color examples for True Winter</p>
+              </div>
             </motion.div>
 
             <motion.div
@@ -599,19 +657,33 @@ export default function ResultsNew() {
                 <div className="w-3 h-3 bg-red-500 rounded-full mr-3"></div>
                 Colors to Avoid
               </h4>
-              <ul className="space-y-3">
+              <div className="space-y-4">
                 {analysisResult.hairColor.avoidColors.map((color, index) => (
-                  <motion.li
+                  <motion.p
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
-                    className="text-gray-700"
+                    className="text-gray-700 leading-relaxed"
                   >
                     {color}
-                  </motion.li>
+                  </motion.p>
                 ))}
-              </ul>
+              </div>
+              <div className="mt-6 grid grid-cols-4 gap-3">
+                {['#D2B48C', '#CD853F', '#DEB887', '#F4A460'].map((color, index) => (
+                  <div key={index} className="text-center">
+                    <div
+                      className="w-12 h-12 rounded-full mx-auto mb-2 border-2 border-red-300 relative"
+                      style={{ backgroundColor: color }}
+                    >
+                      <div className="absolute inset-0 rounded-full border-2 border-red-500 opacity-60"></div>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-lg">×</div>
+                    </div>
+                    <p className="text-xs text-gray-600">Warm tones</p>
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </div>
@@ -628,39 +700,75 @@ export default function ResultsNew() {
             <p className="text-gray-600 max-w-2xl mx-auto">Colors and techniques that enhance your natural radiance</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="space-y-8">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
             >
-              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-                <h4 className="text-xl font-bold text-gray-800 mb-4">Makeup Guidelines</h4>
-                <ul className="space-y-3">
-                  {analysisResult.makeup.guidelines.map((guideline, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-start"
-                    >
-                      <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-700 text-sm">{guideline}</span>
-                    </motion.li>
-                  ))}
-                </ul>
+              <h4 className="text-xl font-bold text-gray-800 mb-6">Your {analysisResult.season} Makeup Palette</h4>
+              
+              <div className="space-y-6">
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-3">Foundation</h5>
+                  <p className="text-gray-700 text-sm mb-3">Look for cool or neutral undertones - pink, beige, or neutral bases</p>
+                  <div className="flex space-x-3">
+                    {['#F5DEB3', '#F0E6D2', '#E6D3A3', '#DDB892'].map((color, index) => (
+                      <ColorSwatch key={index} color={color} name={color} clickable />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-3">Lipstick</h5>
+                  <p className="text-gray-700 text-sm mb-3">True red, deep burgundy, fuchsia pink, berry tones</p>
+                  <div className="flex space-x-3">
+                    {['#DC143C', '#800020', '#FF1493', '#8B008B'].map((color, index) => (
+                      <ColorSwatch key={index} color={color} name={color} clickable />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-3">Eyeshadow</h5>
+                  <p className="text-gray-700 text-sm mb-3">Navy, charcoal, emerald, silver, white, deep purple</p>
+                  <div className="flex space-x-3">
+                    {['#000080', '#36454F', '#50C878', '#C0C0C0', '#FFFFFF', '#663399'].map((color, index) => (
+                      <ColorSwatch key={index} color={color} name={color} clickable />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-3">Blush</h5>
+                  <p className="text-gray-700 text-sm mb-3">Cool pink, berry, or rose tones</p>
+                  <div className="flex space-x-3">
+                    {['#FFB6C1', '#DC143C', '#FF69B4', '#C71585'].map((color, index) => (
+                      <ColorSwatch key={index} color={color} name={color} clickable />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-800 mb-3">Eyeliner</h5>
+                  <p className="text-gray-700 text-sm mb-3">Black, navy, or deep burgundy</p>
+                  <div className="flex space-x-3">
+                    {['#000000', '#000080', '#800020'].map((color, index) => (
+                      <ColorSwatch key={index} color={color} name={color} clickable />
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
               <PinterestEmbed 
                 url={analysisResult.makeup.pinterestUrl} 
-                title="Makeup Looks" 
+                title="True Winter Makeup Looks" 
               />
             </motion.div>
           </div>
@@ -679,7 +787,11 @@ export default function ResultsNew() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {analysisResult.celebrities.map((celebrity, index) => (
+            {[
+              { name: 'Anne Hathaway', image: 'https://images.unsplash.com/photo-1494790108755-2616b612b1ce?w=200&h=250&fit=crop&crop=face' },
+              { name: 'Courteney Cox', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=250&fit=crop&crop=face' },
+              { name: 'Megan Fox', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=250&fit=crop&crop=face' }
+            ].map((celebrity, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -687,44 +799,29 @@ export default function ResultsNew() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 text-center"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 text-purple-600" />
+                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden shadow-lg">
+                  <img
+                    src={celebrity.image}
+                    alt={celebrity.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 mb-2">{celebrity}</h4>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">{celebrity.name}</h4>
+                <div className="flex justify-center space-x-2 mb-3">
+                  {['#DC143C', '#000080', '#50C878'].map((color, colorIndex) => (
+                    <div
+                      key={colorIndex}
+                      className="w-4 h-4 rounded-full border border-gray-300"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
                 <p className="text-gray-600 text-sm">
-                  Study their color choices in red carpet looks and everyday styling
+                  Perfect True Winter coloring with high contrast features
                 </p>
               </motion.div>
             ))}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 border border-blue-100"
-          >
-            <h4 className="text-xl font-bold text-gray-800 mb-4 text-center">Style Study Tips</h4>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                "Notice their makeup choices and how they complement their natural coloring",
-                "Observe their jewelry and accessory selections",
-                "Study how they use color in their red carpet looks",
-                "Look for patterns in their most flattering outfits"
-              ].map((tip, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  className="flex items-start"
-                >
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span className="text-gray-700 text-sm">{tip}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       )
     }
