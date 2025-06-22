@@ -7,9 +7,9 @@ import path from "path";
 import fs from "fs";
 import { storage } from "./storage";
 import { emailService } from "./services/emailService";
-import { designerPdfService } from "./services/designerPdfService";
+import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
-import { colorAnalysisService } from "./services/colorAnalysisService";
+import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
 import { fashionApiService } from "./services/fashionApiService";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
@@ -72,11 +72,11 @@ async function processColorAnalysisWorker(jobId: number) {
 
     // Call OpenAI with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    const analysisResult = await colorAnalysisService.analyzePhotos(imagePaths);
+    const analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
     console.log(`OpenAI analysis completed for job ${jobId}`);
 
     // Generate PDF report
-    const pdfPath = await designerPdfService.generateReport(order, analysisResult);
+    const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
     // Save outputs and mark as completed
@@ -841,7 +841,7 @@ async function processColorAnalysis(orderId: number) {
     };
 
     // Generate PDF report
-    const pdfPath = await designerPdfService.generateReport(order, analysisResult);
+    const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
     
     // Update order with analysis results
     await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
