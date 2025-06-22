@@ -386,6 +386,325 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       "Courteney Cox", 
       "Megan Fox"
     ]
+  },
+
+  "Cool Winter": {
+    season: "Cool Winter",
+    overview: {
+      keyCharacteristics: [
+        "Undertone: Cool (blue, pink undertones)",
+        "Contrast Level: Medium to High",
+        "Chroma: Clear but slightly softer than True Winter",
+        "Value: Medium with some lightness tolerance"
+      ],
+      signatureColors: [
+        "#4B0082", // Indigo
+        "#708090", // Slate Gray
+        "#20B2AA", // Light Sea Green
+        "#F0F8FF", // Alice Blue
+        "#8B008B", // Dark Magenta
+        "#4682B4", // Steel Blue
+        "#2F4F4F", // Dark Slate Gray
+        "#DA70D6"  // Orchid
+      ],
+      colorsToAvoid: [
+        "Orange, Coral, Warm Yellow, Golden Brown",
+        "Rust, Terracotta, Warm Red, Peach",
+        "Olive, Mustard, Cream, Ivory"
+      ],
+      description: "Cool Winter combines high contrast with slightly softened intensity. You have cool undertones with medium to high contrast that can handle clear, sophisticated colors with a touch more subtlety than True Winter."
+    },
+    colorPalette: {
+      htmlContent: `<!-- Cool Winter HTML palette would go here -->`,
+      coreNeutrals: ["#2F4F4F", "#F0F8FF", "#708090", "#696969"],
+      accentLights: ["#E6E6FA", "#B0C4DE", "#D8BFD8", "#F0FFFF"],
+      accentBrights: ["#4B0082", "#20B2AA", "#8B008B", "#4682B4"]
+    },
+    clothing: {
+      pinterestUrl: "https://pinterest.com/coolwinter",
+      guidelines: [
+        "Choose sophisticated blues and purples as your foundation",
+        "Gray serves as your perfect neutral - from charcoal to light gray",
+        "Cool pinks and roses work beautifully for feminine touches",
+        "Avoid warm undertones but can handle slightly muted versions of clear colors"
+      ]
+    },
+    accessories: {
+      metals: "Silver and white gold are ideal. Cool-toned metals complement your refined coloring.",
+      jewelry: ["Silver statement pieces", "Cool-toned gemstones", "Sophisticated geometric designs"],
+      watches: ["Silver or white gold", "Cool gray leather straps", "Classic, refined designs"],
+      glasses: ["Silver or cool gray frames", "Sophisticated shapes", "Avoid warm tones"]
+    },
+    hairColor: {
+      bestColors: ["Ash brown", "Cool black", "Silver highlights", "Cool blonde shades"],
+      avoidColors: ["Golden blonde", "Warm browns", "Auburn", "Copper tones"],
+      guidance: "Cool undertones are essential. Your hair should complement your sophisticated, cool coloring."
+    },
+    makeup: {
+      pinterestUrl: "https://pinterest.com/coolwintermakeup",
+      guidelines: [
+        "Cool-toned foundation with pink or neutral undertones",
+        "Berry and cool pink lipsticks",
+        "Cool gray and purple eyeshadows",
+        "Silver and cool-toned highlighters"
+      ]
+    },
+    celebrities: ["Sandra Bullock", "Reese Witherspoon", "Jamie Lee Curtis"]
+  },
+
+  "Deep Winter": {
+    season: "Deep Winter",
+    overview: {
+      keyCharacteristics: [
+        "Undertone: Cool to neutral-cool",
+        "Contrast Level: High",
+        "Chroma: Deep and rich",
+        "Value: Deep and saturated"
+      ],
+      signatureColors: [
+        "#000080", // Navy
+        "#800080", // Purple
+        "#008B8B", // Dark Cyan
+        "#FFFFFF", // White
+        "#8B0000", // Dark Red
+        "#2F4F4F", // Dark Slate Gray
+        "#191970", // Midnight Blue
+        "#8B008B"  // Dark Magenta
+      ],
+      colorsToAvoid: [
+        "Light pastels, Warm yellows, Orange",
+        "Peach, Coral, Golden tones",
+        "Light warm colors, Beige, Cream"
+      ],
+      description: "Deep Winter has the richest, most saturated coloring. You can wear the deepest, most intense colors with confidence and look stunning in dramatic contrasts."
+    },
+    colorPalette: {
+      htmlContent: `<!-- Deep Winter HTML palette would go here -->`,
+      coreNeutrals: ["#000080", "#FFFFFF", "#2F4F4F", "#191970"],
+      accentLights: ["#E0E0E0", "#F0F8FF", "#E6E6FA", "#F5F5F5"],
+      accentBrights: ["#800080", "#008B8B", "#8B0000", "#8B008B"]
+    },
+    clothing: {
+      pinterestUrl: "https://pinterest.com/deepwinter",
+      guidelines: [
+        "Embrace deep, rich colors as your signature",
+        "Navy and deep gray are your perfect neutrals",
+        "Rich jewel tones look incredible on you",
+        "Avoid light, washed-out colors that diminish your natural intensity"
+      ]
+    },
+    accessories: {
+      metals: "Silver, white gold, and platinum enhance your deep coloring beautifully.",
+      jewelry: ["Bold silver pieces", "Deep gemstones", "Dramatic designs"],
+      watches: ["Silver or black metal", "Deep colored straps", "Bold, substantial designs"],
+      glasses: ["Black or silver frames", "Bold, dramatic shapes", "Avoid light colors"]
+    },
+    hairColor: {
+      bestColors: ["Deep black", "Dark brown", "Deep burgundy", "Rich chocolate"],
+      avoidColors: ["Light blonde", "Golden tones", "Light brown", "Warm highlights"],
+      guidance: "Your hair should match your natural depth and intensity. Deep, rich colors are most flattering."
+    },
+    makeup: {
+      pinterestUrl: "https://pinterest.com/deepwintermakeup",
+      guidelines: [
+        "Rich, deep foundation tones",
+        "Bold, deep lip colors",
+        "Dramatic eye makeup",
+        "Deep, rich color palette throughout"
+      ]
+    },
+    celebrities: ["Demi Moore", "Catherine Zeta-Jones", "Lucy Liu"]
+  },
+
+  "True Summer": {
+    season: "True Summer",
+    overview: {
+      keyCharacteristics: [
+        "Undertone: Cool (blue, pink undertones)",
+        "Contrast Level: Medium",
+        "Chroma: Soft and muted",
+        "Value: Medium with gentle lightness"
+      ],
+      signatureColors: [
+        "#6495ED", // Cornflower Blue
+        "#DDA0DD", // Plum
+        "#20B2AA", // Light Sea Green
+        "#F0F8FF", // Alice Blue
+        "#CD5C5C", // Indian Red
+        "#9370DB", // Medium Purple
+        "#778899", // Light Slate Gray
+        "#FFB6C1"  // Light Pink
+      ],
+      colorsToAvoid: [
+        "Orange, Bright yellow, Black",
+        "Warm browns, Rust, Terracotta",
+        "Bright, harsh colors, Pure white"
+      ],
+      description: "True Summer has gentle, muted coloring with cool undertones. You look best in soft, sophisticated colors that enhance your natural elegance without overwhelming your delicate features."
+    },
+    colorPalette: {
+      htmlContent: `<!-- True Summer HTML palette would go here -->`,
+      coreNeutrals: ["#778899", "#F0F8FF", "#696969", "#E6E6FA"],
+      accentLights: ["#E0E0E0", "#F5F5DC", "#FFE4E1", "#F0FFFF"],
+      accentBrights: ["#6495ED", "#DDA0DD", "#20B2AA", "#CD5C5C"]
+    },
+    clothing: {
+      pinterestUrl: "https://pinterest.com/truesummer",
+      guidelines: [
+        "Soft blues and purples are your signature colors",
+        "Gray is your perfect neutral in all its variations",
+        "Muted colors work better than bright, harsh tones",
+        "Cool pinks and roses complement your gentle coloring"
+      ]
+    },
+    accessories: {
+      metals: "Silver and white gold are most flattering for your cool, gentle coloring.",
+      jewelry: ["Delicate silver pieces", "Soft-colored gemstones", "Elegant, refined designs"],
+      watches: ["Silver with soft straps", "Gentle colors", "Classic, elegant styles"],
+      glasses: ["Silver or soft gray frames", "Gentle, rounded shapes", "Avoid harsh angles"]
+    },
+    hairColor: {
+      bestColors: ["Ash blonde", "Cool brown", "Soft gray", "Cool highlights"],
+      avoidColors: ["Golden blonde", "Warm brown", "Red tones", "Harsh black"],
+      guidance: "Soft, cool tones that complement your gentle coloring work best. Avoid harsh contrasts."
+    },
+    makeup: {
+      pinterestUrl: "https://pinterest.com/truesummermakeup",
+      guidelines: [
+        "Soft, cool-toned foundation",
+        "Muted pink and rose lipsticks",
+        "Gentle gray and purple eyeshadows",
+        "Soft, blended makeup application"
+      ]
+    },
+    celebrities: ["Grace Kelly", "Gwyneth Paltrow", "Cate Blanchett"]
+  },
+
+  "Light Summer": {
+    season: "Light Summer",
+    overview: {
+      keyCharacteristics: [
+        "Undertone: Cool with light, delicate coloring",
+        "Contrast Level: Low to Medium",
+        "Chroma: Light and soft",
+        "Value: Light with gentle depth"
+      ],
+      signatureColors: [
+        "#E6E6FA", // Lavender
+        "#B0E0E6", // Powder Blue
+        "#F0E68C", // Khaki (cool version)
+        "#FFFFFF", // White
+        "#DDA0DD", // Plum
+        "#87CEEB", // Sky Blue
+        "#D3D3D3", // Light Gray
+        "#FFB6C1"  // Light Pink
+      ],
+      colorsToAvoid: [
+        "Black, Deep colors, Orange",
+        "Bright yellow, Red, Dark brown",
+        "Heavy, intense colors"
+      ],
+      description: "Light Summer has the most delicate coloring with cool undertones and low contrast. You shine in light, airy colors that complement your ethereal beauty."
+    },
+    colorPalette: {
+      htmlContent: `<!-- Light Summer HTML palette would go here -->`,
+      coreNeutrals: ["#D3D3D3", "#FFFFFF", "#E6E6FA", "#F5F5F5"],
+      accentLights: ["#E0E0E0", "#F0F8FF", "#FFE4E1", "#F0FFFF"],
+      accentBrights: ["#B0E0E6", "#DDA0DD", "#87CEEB", "#FFB6C1"]
+    },
+    clothing: {
+      pinterestUrl: "https://pinterest.com/lightsummer",
+      guidelines: [
+        "Light blues and lavenders are perfect for you",
+        "White and light gray are your ideal neutrals",
+        "Soft pastels enhance your delicate beauty",
+        "Avoid dark, heavy colors that overpower your gentle features"
+      ]
+    },
+    accessories: {
+      metals: "Silver and white gold in delicate styles complement your light coloring.",
+      jewelry: ["Delicate silver chains", "Light-colored gemstones", "Feminine, airy designs"],
+      watches: ["Light metals", "Soft, light-colored straps", "Delicate, refined styles"],
+      glasses: ["Light silver or clear frames", "Soft, gentle shapes", "Avoid bold, dark frames"]
+    },
+    hairColor: {
+      bestColors: ["Light ash blonde", "Platinum", "Light gray", "Cool light brown"],
+      avoidColors: ["Dark colors", "Warm tones", "Golden blonde", "Red"],
+      guidance: "Light, cool colors that maintain your delicate, ethereal appearance work best."
+    },
+    makeup: {
+      pinterestUrl: "https://pinterest.com/lightsummermakeup",
+      guidelines: [
+        "Light, cool-toned foundation",
+        "Soft pink and rose lip colors",
+        "Light, shimmery eyeshadows",
+        "Gentle, natural makeup application"
+      ]
+    },
+    celebrities: ["Naomi Watts", "Scarlett Johansson", "Michelle Pfeiffer"]
+  },
+
+  "Soft Summer": {
+    season: "Soft Summer",
+    overview: {
+      keyCharacteristics: [
+        "Undertone: Cool with muted qualities",
+        "Contrast Level: Low",
+        "Chroma: Soft and muted",
+        "Value: Medium with gentle tones"
+      ],
+      signatureColors: [
+        "#9370DB", // Medium Purple
+        "#708090", // Slate Gray
+        "#20B2AA", // Light Sea Green
+        "#F5F5DC", // Beige
+        "#CD5C5C", // Indian Red
+        "#6495ED", // Cornflower Blue
+        "#BC8F8F", // Rosy Brown
+        "#DDA0DD"  // Plum
+      ],
+      colorsToAvoid: [
+        "Bright, clear colors, Black, Orange",
+        "Bright yellow, Pure white",
+        "Harsh, contrasting colors"
+      ],
+      description: "Soft Summer has the most muted coloring with cool undertones and gentle contrast. You look beautiful in soft, blended colors that harmonize with your natural subtlety."
+    },
+    colorPalette: {
+      htmlContent: `<!-- Soft Summer HTML palette would go here -->`,
+      coreNeutrals: ["#708090", "#F5F5DC", "#BC8F8F", "#D3D3D3"],
+      accentLights: ["#E6E6FA", "#F0F8FF", "#FFE4E1", "#F5F5F5"],
+      accentBrights: ["#9370DB", "#20B2AA", "#CD5C5C", "#6495ED"]
+    },
+    clothing: {
+      pinterestUrl: "https://pinterest.com/softsummer",
+      guidelines: [
+        "Muted blues and purples are your signature",
+        "Soft gray and muted beige work as neutrals",
+        "Blended, harmonious colors suit you best",
+        "Avoid high contrast and bright, clear colors"
+      ]
+    },
+    accessories: {
+      metals: "Muted silver and soft metals complement your gentle coloring.",
+      jewelry: ["Soft silver pieces", "Muted gemstones", "Harmonious, blended designs"],
+      watches: ["Soft metals", "Muted straps", "Gentle, understated styles"],
+      glasses: ["Soft gray or muted frames", "Gentle shapes", "Avoid stark contrasts"]
+    },
+    hairColor: {
+      bestColors: ["Soft brown", "Muted blonde", "Cool gray", "Gentle highlights"],
+      avoidColors: ["Bright colors", "Golden tones", "Harsh black", "Vivid red"],
+      guidance: "Soft, muted colors that blend with your natural coloring are most flattering."
+    },
+    makeup: {
+      pinterestUrl: "https://pinterest.com/softsummermakeup",
+      guidelines: [
+        "Muted, cool-toned foundation",
+        "Soft, muted lip colors",
+        "Blended, harmonious eyeshadows",
+        "Gentle, natural makeup look"
+      ]
+    },
+    celebrities: ["Sarah Jessica Parker", "Meryl Streep", "Jennifer Aniston"]
   }
-  // Additional seasons will be added here
 };
