@@ -103,13 +103,16 @@ export class PreloadedColorAnalysisService {
 
     const detectedSeason = response.choices[0].message.content?.trim() || 'True Winter';
     
+    // Clean up the response to extract just the season name
+    const cleanSeason = detectedSeason.split('\n')[0].trim();
+    
     // Validate the detected season
-    if (!this.allSeasons.includes(detectedSeason)) {
-      console.warn(`Invalid season detected: ${detectedSeason}, defaulting to True Winter`);
+    if (!this.allSeasons.includes(cleanSeason)) {
+      console.warn(`Invalid season detected: ${cleanSeason}, defaulting to True Winter`);
       return 'True Winter';
     }
     
-    return detectedSeason;
+    return cleanSeason;
   }
 
   private getPreloadedResult(season: string): ColorAnalysisResult {

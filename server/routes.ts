@@ -353,16 +353,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // For CONNOR promo code, create a free order
       if (email && !images) {
+        // Check if user exists, create if not
+        let user = await storage.getUserByEmail(email);
+        if (!user) {
+          user = await storage.createUser({
+            email: email,
+            firstName: 'Demo',
+            lastName: 'User'
+          });
+        }
+        
         const freeOrder = await storage.createOrder({
-          email: email,
+          userId: user.id,
           paymentIntentId: orderId,
-          amount: 0,
-          status: 'paid'
+          amount: 0
         });
         
         // Use dummy images for demo
         const dummyImages = ['demo1.jpg', 'demo2.jpg', 'demo3.jpg'];
         await storage.updateOrderImages(freeOrder.id, dummyImages);
+        await storage.updateOrderStatus(freeOrder.id, 'processing');
         
         // Start analysis immediately
         setImmediate(() => processColorAnalysisWorker(freeOrder.id));

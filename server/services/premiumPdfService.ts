@@ -71,7 +71,8 @@ class PremiumPdfService {
       this.generatePage7(pdf, analysisResult);
 
       // Save PDF
-      fs.writeFileSync(outputPath, Buffer.from(pdf.output('arraybuffer')));
+      const pdfBytes = pdf.output();
+      fs.writeFileSync(outputPath, pdfBytes, 'binary');
       console.log(`Premium PDF generated: ${outputPath}`);
       
       return outputPath;
