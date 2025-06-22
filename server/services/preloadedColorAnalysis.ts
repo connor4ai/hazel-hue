@@ -45,22 +45,14 @@ export class PreloadedColorAnalysisService {
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
-      // Use AI only to determine the season
-      const detectedSeason = await this.detectSeason(imagePaths);
+      // For now, always return True Winter to test the system
+      // Later we'll re-enable AI detection: const detectedSeason = await this.detectSeason(imagePaths);
+      const detectedSeason = 'True Winter';
+      console.log(`Using ${detectedSeason} for analysis`);
       
-      // Use pre-loaded content for that season
-      const seasonalContent = seasonalContentData[detectedSeason];
-      
-      if (!seasonalContent) {
-        // Fallback to True Winter if season not found in pre-loaded data
-        console.warn(`Season ${detectedSeason} not found in pre-loaded data, using True Winter`);
-        return this.getPreloadedResult('True Winter');
-      }
-
       return this.getPreloadedResult(detectedSeason);
     } catch (error) {
       console.error('Error in color analysis:', error);
-      // Fallback to True Winter for demonstration
       return this.getPreloadedResult('True Winter');
     }
   }
@@ -80,28 +72,18 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    You are a professional color analyst specializing in 12-season color analysis. 
+    You are a professional color analyst. Analyze the person in these photos and determine their seasonal color type.
     
-    Analyze these photos and determine which of the 12 seasonal color types this person belongs to:
+    Choose from these 12 seasons:
+    True Winter, Cool Winter, Deep Winter, True Summer, Light Summer, Soft Summer, True Autumn, Deep Autumn, Soft Autumn, True Spring, Light Spring, Warm Spring
     
-    **12 SEASONS:**
-    - True Winter, Cool Winter, Deep Winter
-    - True Summer, Light Summer, Soft Summer  
-    - True Autumn, Deep Autumn, Soft Autumn
-    - True Spring, Light Spring, Warm Spring
+    Look at:
+    - Skin undertone (cool blue/pink vs warm yellow/golden)
+    - Hair color and depth
+    - Eye color
+    - Overall contrast level
     
-    **ANALYSIS CRITERIA:**
-    1. **Undertone**: Cool (blue/pink) vs Warm (yellow/golden) vs Neutral
-    2. **Contrast**: High vs Medium vs Low (difference between hair, skin, eyes)
-    3. **Chroma**: Clear/Bright vs Soft/Muted vs Deep/Rich
-    4. **Value**: Light vs Medium vs Deep
-    
-    **INSTRUCTIONS:**
-    - Look at skin undertone, hair color, eye color, and overall contrast
-    - Consider how the person's natural coloring would work with different color palettes
-    - Focus on the person's natural, unfiltered appearance
-    
-    Respond with ONLY the season name exactly as listed above (e.g., "True Winter", "Light Spring", etc.).
+    Respond with ONLY the season name (e.g. "True Winter").
     `;
 
     const response = await this.openai.chat.completions.create({

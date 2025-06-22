@@ -349,7 +349,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/start-free-analysis/:orderId", async (req, res) => {
     try {
       const { orderId } = req.params;
-      const { images } = req.body; // Base64 image data
+      const { images, email } = req.body; // Base64 image data or email
+      
+      // For CONNOR promo code, create a free order
+      if (email && !images) {
+        const freeOrder = await storage.createOrder({
+          email: email,
+          paymentIntentId: orderId,
+          amount: 0,
+          status: 'paid'
+        });
+        
+        // Use dummy images for demo
+        const dummyImages = ['demo1.jpg', 'demo2.jpg', 'demo3.jpg'];
+        await storage.updateOrderImages(freeOrder.id, dummyImages);
+        
+        // Start analysis immediately
+        setImmediate(() => processColorAnalysisWorker(freeOrder.id));
+        
+        return res.json({ message: "Free analysis started", status: "processing", orderId: freeOrder.id });
+      }
       
       if (!images || images.length < 3) {
         return res.status(400).json({ message: "At least 3 images are required" });

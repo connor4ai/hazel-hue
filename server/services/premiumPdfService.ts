@@ -1,4 +1,4 @@
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import fs from 'fs';
 import path from 'path';
 import { seasonalContentData } from '../data/seasonalContent';
@@ -71,7 +71,7 @@ class PremiumPdfService {
       this.generatePage7(pdf, analysisResult);
 
       // Save PDF
-      fs.writeFileSync(outputPath, pdf.output('arraybuffer'));
+      fs.writeFileSync(outputPath, Buffer.from(pdf.output('arraybuffer')));
       console.log(`Premium PDF generated: ${outputPath}`);
       
       return outputPath;
