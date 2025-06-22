@@ -496,7 +496,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get order by ID
+  // Get order by ID (handles both numeric IDs and free order strings)
+  app.get("/api/orders/:orderId", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      
+      let order;
+      if (orderId.startsWith('free_order_')) {
+        order = await storage.getOrderByPaymentIntent(orderId);
+      } else {
+        order = await storage.getOrder(parseInt(orderId));
+      }
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      res.json({ order });
+    } catch (error: any) {
+      console.error('Error fetching order:', error);
+      res.status(500).json({ message: "Error fetching order: " + error.message });
+    }
+  });
+
+  // Legacy route for backward compatibility
   app.get("/api/order/:orderId", async (req, res) => {
     try {
       const { orderId } = req.params;
