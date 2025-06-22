@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useRoute } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Download, Share, ChevronLeft, ChevronRight, ExternalLink, Sparkles, Copy, Check, Shield, CreditCard, Smartphone, Palette, Star } from 'lucide-react';
-import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+import { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'wouter';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { apiRequest } from '@/lib/queryClient';
 
 interface AnalysisResult {
   season: string;
@@ -20,457 +17,817 @@ interface AnalysisResult {
     eyewear: string;
     makeup: string;
   };
-}
-
-interface OutfitLook {
-  id: string;
-  name: string;
-  image: string;
-  brand: string;
-  priceRange: string;
-  keyColor: string;
-  keyColorHex: string;
-  shopUrl: string;
-  products: {
-    name: string;
-    price: string;
-    url: string;
-    color: string;
-  }[];
+  overview: {
+    keyCharacteristics: string[];
+    signatureColors: string[];
+    colorsToAvoid: string[];
+    description: string;
+  };
+  colorPalette: {
+    htmlContent: string;
+    coreNeutrals: string[];
+    accentLights: string[];
+    accentBrights: string[];
+  };
+  clothing: {
+    pinterestUrl: string;
+    guidelines: string[];
+  };
+  accessories: {
+    metals: string;
+    jewelry: string[];
+    watches: string[];
+    glasses: string[];
+  };
+  hairColor: {
+    bestColors: string[];
+    avoidColors: string[];
+    guidance: string;
+  };
+  makeup: {
+    pinterestUrl: string;
+    guidelines: string[];
+  };
+  celebrities: string[];
 }
 
 interface Order {
   id: number;
   status: string;
-  result: AnalysisResult | null;
-  analysisResult?: AnalysisResult | null;
+  analysisResult: AnalysisResult | null;
   pdfPath: string | null;
   createdAt: string;
 }
 
-// Enhanced color names mapping
-const getColorName = (hex: string): string => {
-  const colorNames: { [key: string]: string } = {
-    '#F5E6CC': 'Warm Cream',
-    '#EADDCA': 'Soft Ivory',
-    '#D6C3AA': 'Gentle Beige',
-    '#BFA891': 'Light Taupe',
-    '#A48D7B': 'Warm Stone',
-    '#8B7365': 'Soft Mushroom',
-    '#FAE6BE': 'Peach Silk',
-    '#F7DB99': 'Golden Cream',
-    '#F2D284': 'Soft Butter',
-    '#EACE6B': 'Light Gold',
-    '#E0C85A': 'Warm Yellow',
-    '#CABB4A': 'Gentle Lime',
-    '#FFDDA1': 'Coral Glow',
-    '#FFBD6D': 'Warm Peach',
-    '#F9A44C': 'Sunset Orange',
-    '#E68B30': 'Vibrant Coral',
-    '#CF7C1F': 'Rich Amber',
-    '#B56E0A': 'Deep Gold'
+const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: string; clickable?: boolean }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleClick = () => {
+    if (!clickable) return;
+    navigator.clipboard.writeText(color);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1000);
   };
-  return colorNames[hex] || hex;
+
+  return (
+    <motion.div
+      className={`relative group ${clickable ? 'cursor-pointer' : ''}`}
+      onClick={handleClick}
+      whileHover={clickable ? { scale: 1.05 } : {}}
+      whileTap={clickable ? { scale: 0.95 } : {}}
+    >
+      <div
+        className="w-16 h-16 md:w-20 md:h-20 rounded-2xl shadow-lg border-2 border-white"
+        style={{ backgroundColor: color }}
+      />
+      {name && (
+        <div className="text-center mt-2">
+          <p className="text-xs font-medium text-gray-700">{name}</p>
+          <p className="text-xs text-gray-500 font-mono">{color}</p>
+        </div>
+      )}
+      {copied && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs"
+        >
+          Copied!
+        </motion.div>
+      )}
+    </motion.div>
+  );
 };
 
+const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-8 text-center border border-pink-100"
+  >
+    <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+      <ExternalLink className="w-8 h-8 text-white" />
+    </div>
+    <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
+    <p className="text-gray-600 mb-4">Curated inspiration board with looks perfect for your coloring</p>
+    <Button
+      onClick={() => window.open(url, '_blank')}
+      className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full px-6 py-2"
+    >
+      View Pinterest Board
+    </Button>
+  </motion.div>
+);
+
 export default function ResultsNew() {
-  const [, params] = useRoute("/results/:orderId");
-  const orderId = params?.orderId;
-  const [currentCard, setCurrentCard] = useState(0);
-  const [shareLink, setShareLink] = useState("");
-  const [copied, setCopied] = useState(false);
+  const params = useParams();
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const [order, setOrder] = useState<Order | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
 
-  const { data: order, isLoading } = useQuery<Order>({
-    queryKey: [`/api/orders/${orderId}/status`],
-    enabled: !!orderId,
-  });
-
-  const { data: outfits } = useQuery<OutfitLook[]>({
-    queryKey: [`/api/outfits/${orderId}`],
-    enabled: !!orderId && order?.status === 'completed',
-  });
+  const orderId = params.orderId;
 
   useEffect(() => {
-    if (order?.result?.season) {
-      const url = `${window.location.origin}/results/${orderId}`;
-      setShareLink(url);
+    if (!orderId) {
+      setLocation('/');
+      return;
     }
-  }, [order, orderId]);
+    fetchOrderResults();
+  }, [orderId]);
 
-  const handleShare = async () => {
+  const fetchOrderResults = async () => {
     try {
-      await navigator.clipboard.writeText(shareLink);
-      setCopied(true);
+      const response = await apiRequest('GET', `/api/orders/${orderId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setOrder(data.order);
+        
+        if (data.order.status !== 'completed' || !data.order.analysisResult) {
+          toast({
+            title: "Analysis Not Ready",
+            description: "Your color analysis is still processing",
+            variant: "destructive",
+          });
+          setLocation(`/processing/${orderId}`);
+        }
+      } else {
+        throw new Error('Order not found');
+      }
+    } catch (error) {
       toast({
-        title: "Link copied!",
-        description: "Share your color analysis with friends",
+        title: "Error",
+        description: "Failed to load your results",
+        variant: "destructive",
       });
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      toast({
-        title: "Share link ready",
-        description: shareLink,
-      });
+      setLocation('/');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleDownloadPDF = () => {
-    if (order?.pdfPath) {
-      window.open(`/api/orders/${orderId}/pdf`, '_blank');
+  const handleDownloadPDF = async () => {
+    if (!order) return;
+    
+    setIsDownloading(true);
+    try {
+      const response = await fetch(`/api/orders/${orderId}/pdf`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${order.analysisResult?.season}-color-analysis.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        toast({
+          title: "Download Started",
+          description: "Your color analysis PDF is downloading",
+        });
+      } else {
+        throw new Error('Download failed');
+      }
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Unable to download PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
     }
   };
 
-  if (isLoading || !order) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mx-auto"></div>
-          <p className="text-amber-800 font-medium">Loading your results...</p>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-rose-300 border-t-rose-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading your results...</p>
         </div>
       </div>
     );
   }
 
-  if (order.status !== 'completed' || (!order.result && !order.analysisResult)) {
+  if (!order || !order.analysisResult) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mx-auto"></div>
-          <p className="text-amber-800 font-medium">Analyzing your colors...</p>
-          <p className="text-amber-600 text-sm">This usually takes 30-60 seconds</p>
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl text-gray-700">No results found</p>
         </div>
       </div>
     );
   }
 
-  const result = order.result || order.analysisResult;
-  if (!result) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mx-auto"></div>
-          <p className="text-amber-800 font-medium">Loading your analysis...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  // Type assertion since we know result exists at this point
-  const analysisResult = result as AnalysisResult;
-  
-  const allColors = [...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights];
-  const wowColors = analysisResult.accentBrights?.slice(0, 6) || [];
+  const analysisResult = order.analysisResult;
 
-  const cards = [
+  const steps = [
     {
-      id: 'season-badge',
-      title: 'Your Season',
-      content: (
-        <div className="text-center space-y-6">
-          <div className="space-y-3">
-            <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-              You are a {analysisResult.season}!
-            </h1>
-            <div className="flex justify-center gap-2 text-lg font-medium text-gray-600">
-              <span>fresh</span>
-              <span>•</span>
-              <span>warm</span>
-              <span>•</span>
-              <span>light contrast</span>
-            </div>
-          </div>
-          <div className="bg-amber-50 rounded-xl p-6 border border-amber-200">
-            <p className="text-gray-700 leading-relaxed text-base">
-              {analysisResult.description}
-            </p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'complete-palette',
-      title: 'Complete Palette',
+      id: 'overview',
+      title: 'Your Season Overview',
+      icon: <Star className="w-6 h-6" />,
       content: (
         <div className="space-y-8">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Core Neutrals</h3>
-            <div className="grid grid-cols-6 gap-3">
-              {analysisResult.coreNeutrals.map((color, index) => (
-                <div key={index} className="group cursor-pointer">
-                  <div 
-                    className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: color }}
-                    title={getColorName(color)}
-                  />
-                  <p className="text-xs text-gray-500 mt-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    {getColorName(color)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Accent Lights</h3>
-            <div className="grid grid-cols-6 gap-3">
-              {analysisResult.accentLights.map((color, index) => (
-                <div key={index} className="group cursor-pointer">
-                  <div 
-                    className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: color }}
-                    title={getColorName(color)}
-                  />
-                  <p className="text-xs text-gray-500 mt-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    {getColorName(color)}
-                  </p>
-                </div>
-              ))}
-            </div>
+          <div className="text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-4"
+            >
+              {analysisResult.season}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed"
+            >
+              {analysisResult.overview.description}
+            </motion.p>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Accent Brights</h3>
-            <div className="grid grid-cols-6 gap-3">
-              {analysisResult.accentBrights.map((color, index) => (
-                <div key={index} className="group cursor-pointer">
-                  <div 
-                    className="w-14 h-14 rounded-lg border-2 border-gray-200 shadow-sm transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: color }}
-                    title={getColorName(color)}
-                  />
-                  <p className="text-xs text-gray-500 mt-1 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    {getColorName(color)}
-                  </p>
-                </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
+            >
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <Palette className="w-5 h-5 mr-2 text-rose-600" />
+                Key Characteristics
+              </h3>
+              <ul className="space-y-3">
+                {analysisResult.overview.keyCharacteristics.map((char, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    className="flex items-start"
+                  >
+                    <div className="w-2 h-2 bg-rose-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-gray-700">{char}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
+            >
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Signature Colors</h3>
+              <div className="grid grid-cols-4 gap-3">
+                {analysisResult.overview.signatureColors.slice(0, 8).map((color, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5 + index * 0.05 }}
+                  >
+                    <ColorSwatch color={color} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-6 border border-red-100"
+          >
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              {analysisResult.overview.colorsToAvoid.map((colorGroup, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  className="bg-white rounded-xl p-4 shadow-sm"
+                >
+                  <p className="text-gray-700 text-sm">{colorGroup}</p>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       )
     },
     {
-      id: 'wow-colors',
-      title: 'Wow Colors',
+      id: 'palette',
+      title: 'Color Palette',
+      icon: <Palette className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Start here for statement pieces</h3>
-            <p className="text-gray-600">These colors will make you absolutely glow</p>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Your Complete Color Palette</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Click any color to copy its hex code for shopping and styling</p>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {wowColors.map((color, index) => (
-              <div key={index} className="group cursor-pointer text-center">
-                <div 
-                  className="w-20 h-20 rounded-xl border-4 border-amber-300 shadow-lg mx-auto transition-transform group-hover:scale-110"
-                  style={{ backgroundColor: color }}
-                />
-                <p className="text-sm font-medium text-gray-700 mt-2">
-                  {getColorName(color)}
-                </p>
-                <p className="text-xs text-gray-500">{color}</p>
+
+          <div className="space-y-8">
+            {[
+              { title: 'Core Neutrals', colors: analysisResult.coreNeutrals, desc: 'Your foundation colors - mix and match with confidence' },
+              { title: 'Accent Lights', colors: analysisResult.accentLights, desc: 'Soft highlights and gentle accents' },
+              { title: 'Accent Brights', colors: analysisResult.accentBrights, desc: 'Bold statement colors for impact' }
+            ].map((section, sectionIndex) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: sectionIndex * 0.2 }}
+                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              >
+                <h4 className="text-xl font-bold text-gray-800 mb-2">{section.title}</h4>
+                <p className="text-gray-600 mb-6">{section.desc}</p>
+                <div className="grid grid-cols-4 md:grid-cols-6 gap-4 justify-items-center">
+                  {section.colors.map((color, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: sectionIndex * 0.2 + index * 0.05 }}
+                    >
+                      <ColorSwatch color={color} name={color} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 text-center border border-blue-100"
+          >
+            <h4 className="text-xl font-bold text-gray-800 mb-4">Color Dimensions</h4>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+              <div className="bg-white rounded-xl p-4">
+                <p className="font-semibold text-gray-800">Temperature</p>
+                <p className="text-gray-600">Cool (blue-based)</p>
               </div>
-            ))}
-          </div>
+              <div className="bg-white rounded-xl p-4">
+                <p className="font-semibold text-gray-800">Saturation</p>
+                <p className="text-gray-600">High clarity</p>
+              </div>
+              <div className="bg-white rounded-xl p-4">
+                <p className="font-semibold text-gray-800">Value</p>
+                <p className="text-gray-600">Medium to deep</p>
+              </div>
+              <div className="bg-white rounded-xl p-4">
+                <p className="font-semibold text-gray-800">Intensity</p>
+                <p className="text-gray-600">Bold & striking</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )
     },
     {
-      id: 'shop-looks',
-      title: 'Shop Your Look',
+      id: 'clothing',
+      title: 'Clothing Overview',
+      icon: <Shirt className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Curated outfits in your colors</h3>
-            <p className="text-gray-600">Real pieces, live prices, instant shopping</p>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Wardrobe</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Build a cohesive wardrobe that enhances your natural beauty</p>
           </div>
-          <div className="space-y-4">
-            {outfits?.slice(0, 3).map((outfit) => (
-              <Card key={outfit.id} className="overflow-hidden border border-gray-200 hover:border-amber-300 transition-colors">
-                <CardContent className="p-4">
-                  <div className="flex gap-4">
-                    <img 
-                      src={outfit.image} 
-                      alt={outfit.name}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                    <div className="flex-1 space-y-2">
-                      <div className="flex justify-between items-start">
-                        <h4 className="font-semibold text-gray-900">{outfit.name}</h4>
-                        <Badge variant="secondary" className="text-xs">{outfit.priceRange}</Badge>
-                      </div>
-                      <p className="text-sm text-gray-600">{outfit.brand}</p>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded-full border border-gray-300"
-                          style={{ backgroundColor: outfit.keyColorHex }}
-                        />
-                        <span className="text-xs text-gray-500">{outfit.keyColor}</span>
-                      </div>
-                      <Button 
-                        size="sm" 
-                        className="w-full bg-amber-600 hover:bg-amber-700"
-                        onClick={() => window.open(outfit.shopUrl, '_blank')}
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Shop This Look
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
+                <h4 className="text-xl font-bold text-gray-800 mb-4">Style Guidelines</h4>
+                <ul className="space-y-3">
+                  {analysisResult.clothing.guidelines.map((guideline, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start"
+                    >
+                      <div className="w-2 h-2 bg-rose-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{guideline}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <PinterestEmbed 
+                url={analysisResult.clothing.pinterestUrl} 
+                title="Clothing Inspiration" 
+              />
+            </motion.div>
           </div>
         </div>
       )
     },
     {
-      id: 'quick-tips',
-      title: 'Quick-Start Tips',
+      id: 'accessories',
+      title: 'Metals, Jewelry & Glasses',
+      icon: <Gem className="w-6 h-6" />,
       content: (
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg p-4 border border-yellow-200">
-              <h4 className="font-semibold text-gray-900 mb-2">Best Metals</h4>
-              <p className="text-sm text-gray-700">{analysisResult.recommendations.metals}</p>
-            </div>
-            
-            <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg p-4 border border-rose-200">
-              <h4 className="font-semibold text-gray-900 mb-2">Makeup Colors</h4>
-              <p className="text-sm text-gray-700">{analysisResult.recommendations.makeup}</p>
-            </div>
-            
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
-              <h4 className="font-semibold text-gray-900 mb-2">Eyewear Frames</h4>
-              <p className="text-sm text-gray-700">{analysisResult.recommendations.eyewear}</p>
-            </div>
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Accessories Guide</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">The perfect finishing touches for your coloring</p>
           </div>
-          
-          <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-            <h4 className="font-semibold text-gray-900 mb-3">Style Cheats</h4>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>• Mix warm neutrals with one bright accent</li>
-              <li>• Choose gold jewelry over silver</li>
-              <li>• Avoid cool, harsh colors that wash you out</li>
-              <li>• Layer textures in your neutral palette</li>
-            </ul>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-6 border border-amber-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <Gem className="w-5 h-5 mr-2 text-amber-600" />
+                Best Metals
+              </h4>
+              <p className="text-gray-700 leading-relaxed">{analysisResult.accessories.metals}</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Style</h4>
+              <ul className="space-y-2">
+                {analysisResult.accessories.jewelry.map((item, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + index * 0.05 }}
+                    className="flex items-start"
+                  >
+                    <div className="w-2 h-2 bg-rose-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-gray-700 text-sm">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Watches</h4>
+              <ul className="space-y-2">
+                {analysisResult.accessories.watches.map((item, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + index * 0.05 }}
+                    className="flex items-start"
+                  >
+                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-gray-700 text-sm">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Eyewear</h4>
+              <ul className="space-y-2">
+                {analysisResult.accessories.glasses.map((item, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + index * 0.05 }}
+                    className="flex items-start"
+                  >
+                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span className="text-gray-700 text-sm">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
           </div>
+        </div>
+      )
+    },
+    {
+      id: 'hair',
+      title: 'Hair Color',
+      icon: <Scissors className="w-6 h-6" />,
+      content: (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Hair Color Guide</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Colors that harmonize with your natural beauty</p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-6 border border-purple-100 text-center"
+          >
+            <h4 className="text-xl font-bold text-gray-800 mb-4">Professional Guidance</h4>
+            <p className="text-gray-700 leading-relaxed">{analysisResult.hairColor.guidance}</p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-green-50 rounded-3xl p-6 border border-green-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                Best Hair Colors
+              </h4>
+              <ul className="space-y-3">
+                {analysisResult.hairColor.bestColors.map((color, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                    className="text-gray-700"
+                  >
+                    {color}
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-red-50 rounded-3xl p-6 border border-red-100"
+            >
+              <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <div className="w-3 h-3 bg-red-500 rounded-full mr-3"></div>
+                Colors to Avoid
+              </h4>
+              <ul className="space-y-3">
+                {analysisResult.hairColor.avoidColors.map((color, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    className="text-gray-700"
+                  >
+                    {color}
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'makeup',
+      title: 'Makeup',
+      icon: <Sparkles className="w-6 h-6" />,
+      content: (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Makeup Palette</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Colors and techniques that enhance your natural radiance</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-6"
+            >
+              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
+                <h4 className="text-xl font-bold text-gray-800 mb-4">Makeup Guidelines</h4>
+                <ul className="space-y-3">
+                  {analysisResult.makeup.guidelines.map((guideline, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start"
+                    >
+                      <div className="w-2 h-2 bg-pink-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700 text-sm">{guideline}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <PinterestEmbed 
+                url={analysisResult.makeup.pinterestUrl} 
+                title="Makeup Looks" 
+              />
+            </motion.div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'celebrities',
+      title: 'Celebrity Inspiration',
+      icon: <Star className="w-6 h-6" />,
+      content: (
+        <div className="space-y-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">{analysisResult.season} Celebrities</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">Study how these celebrities use color to enhance their natural beauty</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {analysisResult.celebrities.map((celebrity, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100 text-center"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Star className="w-8 h-8 text-purple-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2">{celebrity}</h4>
+                <p className="text-gray-600 text-sm">
+                  Study their color choices in red carpet looks and everyday styling
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 border border-blue-100"
+          >
+            <h4 className="text-xl font-bold text-gray-800 mb-4 text-center">Style Study Tips</h4>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                "Notice their makeup choices and how they complement their natural coloring",
+                "Observe their jewelry and accessory selections",
+                "Study how they use color in their red carpet looks",
+                "Look for patterns in their most flattering outfits"
+              ].map((tip, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + index * 0.1 }}
+                  className="flex items-start"
+                >
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-gray-700 text-sm">{tip}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       )
     }
   ];
 
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
-      {/* Hero reveal animation */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 animate-pulse" />
-        
-        {/* Main container */}
-        <div className="relative max-w-md mx-auto px-4 py-8">
-          {/* Privacy badge */}
-          <div className="flex justify-center mb-6">
-            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-gray-300">
-              <Shield className="w-3 h-3 mr-1" />
-              Photos auto-delete in 24h
-            </Badge>
-          </div>
-
-          {/* Card deck */}
-          <div className="relative">
-            <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl min-h-[600px]">
-              <CardContent className="p-6">
-                {/* Card content with slide animation */}
-                <div 
-                  className="transition-all duration-300 ease-in-out"
-                  style={{ 
-                    transform: `translateX(${currentCard * -100}%)`,
-                    display: 'flex',
-                    width: `${cards.length * 100}%`
-                  }}
-                >
-                  {cards.map((card, index) => (
-                    <div 
-                      key={card.id} 
-                      className="w-full flex-shrink-0 px-2"
-                      style={{ width: `${100 / cards.length}%` }}
-                    >
-                      <div className="space-y-4">
-                        <div className="text-center">
-                          <h2 className="text-xl font-bold text-gray-900">{card.title}</h2>
-                          <div className="flex justify-center gap-1 mt-2">
-                            {cards.map((_, i) => (
-                              <div
-                                key={i}
-                                className={cn(
-                                  "w-2 h-2 rounded-full transition-colors",
-                                  i === currentCard ? "bg-amber-500" : "bg-gray-300"
-                                )}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="overflow-y-auto max-h-[480px]">
-                          {card.content}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Navigation arrows */}
-            {currentCard > 0 && (
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border-gray-300 shadow-lg"
-                onClick={() => setCurrentCard(currentCard - 1)}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-            )}
-            
-            {currentCard < cards.length - 1 && (
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border-gray-300 shadow-lg"
-                onClick={() => setCurrentCard(currentCard + 1)}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
-
-          {/* Hero buttons */}
-          <div className="mt-6 space-y-3">
-            <Button 
-              className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold py-3"
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b border-rose-100">
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
+              <p className="text-gray-600">Step {currentStep + 1} of {steps.length}</p>
+            </div>
+            <Button
               onClick={handleDownloadPDF}
+              disabled={isDownloading}
+              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-full px-6 py-2"
             >
               <Download className="w-4 h-4 mr-2" />
-              Download PDF
+              {isDownloading ? 'Downloading...' : 'Download PDF'}
             </Button>
-            
-            <Button 
-              variant="outline" 
-              className="w-full border-amber-300 text-amber-700 hover:bg-amber-50 font-semibold py-3"
-              onClick={handleShare}
-            >
-              {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
-              {copied ? 'Link Copied!' : 'Share'}
-            </Button>
-          </div>
-
-          {/* Swipe indicator */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500">
-              Swipe or use arrows to explore • {currentCard + 1} of {cards.length}
-            </p>
           </div>
         </div>
+      </div>
+
+      {/* Navigation Dots */}
+      <div className="flex justify-center py-6">
+        <div className="flex space-x-2">
+          {steps.map((step, index) => (
+            <button
+              key={step.id}
+              onClick={() => setCurrentStep(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentStep 
+                  ? 'bg-rose-500 scale-125' 
+                  : index < currentStep 
+                    ? 'bg-rose-300' 
+                    : 'bg-gray-200'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Step Navigation */}
+      <div className="max-w-6xl mx-auto px-4 mb-8">
+        <div className="flex items-center justify-between bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
+          <Button
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            variant="outline"
+            className="flex items-center space-x-2 border-rose-200 text-rose-600 hover:bg-rose-50"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </Button>
+
+          <div className="flex items-center space-x-3 text-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white">
+              {steps[currentStep].icon}
+            </div>
+            <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
+          </div>
+
+          <Button
+            onClick={nextStep}
+            disabled={currentStep === steps.length - 1}
+            variant="outline"
+            className="flex items-center space-x-2 border-rose-200 text-rose-600 hover:bg-rose-50"
+          >
+            <span>Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-4 pb-12">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {steps[currentStep].content}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -529,7 +529,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.log('Generating PDF for order:', order.id, 'with analysis:', order.analysisResult);
-      const pdfPath = await designerPdfService.generateReport(order, order.analysisResult);
+      const pdfPath = await premiumPdfService.generateReport(order, order.analysisResult);
       
       if (!fs.existsSync(pdfPath)) {
         return res.status(500).json({ message: "Failed to generate PDF" });
