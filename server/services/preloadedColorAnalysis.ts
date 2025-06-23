@@ -45,7 +45,19 @@ export class PreloadedColorAnalysisService {
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
-      // Use OpenAI to detect the actual season from photos
+      // Check if this is a demo order (with demo images)
+      const isDemoOrder = imagePaths.some(path => path.includes('demo'));
+      
+      if (isDemoOrder) {
+        // For demo orders, randomly select from available seasons for testing
+        const availableSeasons = ['True Winter', 'Bright Winter'];
+        const randomIndex = Math.floor(Math.random() * availableSeasons.length);
+        const selectedSeason = availableSeasons[randomIndex];
+        console.log(`Demo order - randomly selected ${selectedSeason} for demonstration`);
+        return this.getPreloadedResult(selectedSeason);
+      }
+      
+      // Use OpenAI to detect the actual season from real uploaded photos
       const detectedSeason = await this.detectSeason(imagePaths);
       console.log(`AI detected season: ${detectedSeason}`);
       
@@ -64,7 +76,23 @@ export class PreloadedColorAnalysisService {
   }
 
   private async detectSeason(imagePaths: string[]): Promise<string> {
-    const images = imagePaths.map(imagePath => {
+    console.log(`Analyzing ${imagePaths.length} images:`, imagePaths);
+    
+    // Check if files exist
+    const validPaths = imagePaths.filter(path => {
+      const exists = fs.existsSync(path);
+      if (!exists) {
+        console.warn(`Image file not found: ${path}`);
+      }
+      return exists;
+    });
+    
+    if (validPaths.length === 0) {
+      console.error('No valid image files found for analysis');
+      throw new Error('No valid images available for analysis');
+    }
+    
+    const images = validPaths.map(imagePath => {
       const imageBuffer = fs.readFileSync(imagePath);
       const base64Image = imageBuffer.toString('base64');
       const mimeType = this.getMimeType(imagePath);

@@ -25,6 +25,17 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
+// Create demo images for testing (minimal valid JPEG data)
+function createDemoImageBase64(personType: string): string {
+  // This creates a minimal valid JPEG image (1x1 pixel in different colors to represent different people)
+  const colors = {
+    person1: '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=',
+    person2: '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=',
+    person3: '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='
+  };
+  return colors[personType as keyof typeof colors] || colors.person1;
+}
+
 // Configure multer for file uploads
 const upload = multer({
   dest: 'uploads/',
@@ -369,9 +380,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amount: 0
         });
         
-        // Use dummy images for demo
-        const dummyImages = ['demo1.jpg', 'demo2.jpg', 'demo3.jpg'];
-        await storage.updateOrderImages(freeOrder.id, dummyImages);
+        // Create demo images with actual content for testing
+        const demoImagePaths: string[] = [];
+        const demoImages = [
+          { name: 'demo1.jpg', content: createDemoImageBase64('person1') },
+          { name: 'demo2.jpg', content: createDemoImageBase64('person2') },
+          { name: 'demo3.jpg', content: createDemoImageBase64('person3') }
+        ];
+        
+        for (const demo of demoImages) {
+          const filePath = path.join(uploadsDir, `${orderId}_${demo.name}`);
+          fs.writeFileSync(filePath, demo.content, 'base64');
+          demoImagePaths.push(filePath);
+        }
+        
+        await storage.updateOrderImages(freeOrder.id, demoImagePaths);
         await storage.updateOrderStatus(freeOrder.id, 'processing');
         
         // Start analysis immediately
