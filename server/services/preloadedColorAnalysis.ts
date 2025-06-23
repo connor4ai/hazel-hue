@@ -28,10 +28,10 @@ export class PreloadedColorAnalysisService {
   
   // All 12 seasons for season determination
   private readonly allSeasons = [
-    'True Winter', 'Cool Winter', 'Deep Winter',
+    'True Winter', 'Bright Winter', 'Dark Winter',
     'True Summer', 'Light Summer', 'Soft Summer', 
-    'True Autumn', 'Deep Autumn', 'Soft Autumn',
-    'True Spring', 'Light Spring', 'Warm Spring'
+    'True Autumn', 'Soft Autumn', 'Dark Autumn',
+    'True Spring', 'Bright Spring', 'Light Spring'
   ];
 
   constructor() {
@@ -45,12 +45,16 @@ export class PreloadedColorAnalysisService {
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
-      // Use random season selection from available seasons
-      const availableSeasons = ['True Winter', 'Bright Winter'];
-      const randomIndex = Math.floor(Math.random() * availableSeasons.length);
-      const detectedSeason = availableSeasons[randomIndex];
+      // Use OpenAI to detect the actual season from photos
+      const detectedSeason = await this.detectSeason(imagePaths);
+      console.log(`AI detected season: ${detectedSeason}`);
       
-      console.log(`Randomly selected ${detectedSeason} from available seasons: [${availableSeasons.join(', ')}]`);
+      // Check if we have content for the detected season
+      const availableSeasons = ['True Winter', 'Bright Winter'];
+      if (!availableSeasons.includes(detectedSeason)) {
+        console.warn(`Season "${detectedSeason}" not yet implemented. Using True Winter as fallback.`);
+        return this.getPreloadedResult('True Winter');
+      }
       
       return this.getPreloadedResult(detectedSeason);
     } catch (error) {
@@ -74,18 +78,37 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    You are a professional color analyst. Analyze the person in these photos and determine their seasonal color type.
+    You are a professional color analyst specializing in 12-season color analysis. Analyze the person in these photos to determine their seasonal color type.
     
-    Choose from these 12 seasons:
-    True Winter, Cool Winter, Deep Winter, True Summer, Light Summer, Soft Summer, True Autumn, Deep Autumn, Soft Autumn, True Spring, Light Spring, Warm Spring
+    Examine these key factors:
+    1. SKIN UNDERTONE: Cool (blue/pink) vs Warm (yellow/golden) vs Neutral
+    2. HAIR COLOR: Natural color, depth, and warmth/coolness
+    3. EYE COLOR: Hue, clarity, and intensity
+    4. OVERALL CONTRAST: High contrast (dark hair + light skin) vs Low contrast (similar tones)
+    5. CHROMA NEEDS: Can they handle bright, saturated colors or do they need muted tones?
     
-    Look at:
-    - Skin undertone (cool blue/pink vs warm yellow/golden)
-    - Hair color and depth
-    - Eye color
-    - Overall contrast level
+    12 Seasons to choose from:
+    - WINTER FAMILY (cool undertones, can handle high contrast):
+      * True Winter: High contrast, cool undertones, handles pure colors
+      * Bright Winter: Very high contrast, cool undertones, needs electric/bright colors  
+      * Dark Winter: High contrast but can handle some warmth, deep colors
     
-    Respond with ONLY the season name (e.g. "True Winter").
+    - SUMMER FAMILY (cool undertones, soft contrast):
+      * True Summer: Cool, medium contrast, soft colors
+      * Light Summer: Cool, light, delicate colors
+      * Soft Summer: Cool-neutral, muted, gentle colors
+    
+    - AUTUMN FAMILY (warm undertones):
+      * True Autumn: Warm, rich, earthy colors
+      * Soft Autumn: Warm-neutral, muted, gentle warmth
+      * Dark Autumn: Warm-neutral, deep, rich colors
+    
+    - SPRING FAMILY (warm undertones, bright):
+      * True Spring: Warm, bright, clear colors
+      * Bright Spring: Very warm, electric bright colors
+      * Light Spring: Warm, light, fresh colors
+    
+    Based on your analysis, respond with ONLY the exact season name (e.g., "True Winter" or "Bright Winter").
     `;
 
     const response = await this.openai.chat.completions.create({
@@ -108,7 +131,7 @@ export class PreloadedColorAnalysisService {
     // Clean up the response to extract just the season name
     const cleanSeason = detectedSeason.split('\n')[0].trim();
     
-    // Validate the detected season
+    // Validate the detected season against all 12 seasons
     if (!this.allSeasons.includes(cleanSeason)) {
       console.warn(`Invalid season detected: ${cleanSeason}, defaulting to True Winter`);
       return 'True Winter';
