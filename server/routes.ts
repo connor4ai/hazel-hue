@@ -865,6 +865,198 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Download color palette PDF
+  app.post("/api/orders/:orderId/download-palette", async (req: Request, res: Response) => {
+    try {
+      const order = await storage.getOrder(parseInt(req.params.orderId));
+      if (!order || !order.analysisResult) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      // Create PDF with jsPDF
+      const { jsPDF } = require('jspdf');
+      const pdf = new jsPDF();
+      
+      // Title
+      pdf.setFontSize(24);
+      pdf.text("TRUE WINTER COLOR PALETTE", 20, 30);
+      
+      // Subtitle
+      pdf.setFontSize(12);
+      pdf.text("Complete 64-Color Professional Palette", 20, 45);
+      
+      // Color grid with full palette
+      const colors = [
+        { name: 'Ice White', code: '#E8E8E8' },
+        { name: 'Cool Grey', code: '#6B7B7B' },
+        { name: 'Icy Yellow', code: '#FCE4B8' },
+        { name: 'Emerald', code: '#4D9B4D' },
+        { name: 'Teal', code: '#2E5F5F' },
+        { name: 'Bright Pink', code: '#FFB8E8' },
+        { name: 'Fuchsia', code: '#E85AA0' },
+        { name: 'Eggplant', code: '#5A3D5A' },
+        { name: 'Silver', code: '#D4D4D4' },
+        { name: 'Charcoal', code: '#4A4A4A' },
+        { name: 'Lemon', code: '#FCFC1C' },
+        { name: 'Forest Green', code: '#1C7A1C' },
+        { name: 'Petrol', code: '#1C5F7A' },
+        { name: 'Hot Pink', code: '#E85AA0' },
+        { name: 'Magenta', code: '#B8207A' },
+        { name: 'Purple', code: '#7A3D7A' },
+        { name: 'Icy Blue', code: '#F0F8FF' },
+        { name: 'True Black', code: '#1C1C1C' },
+        { name: 'Bright Yellow', code: '#E8E81C' },
+        { name: 'Kelly Green', code: '#3D9B3D' },
+        { name: 'Turquoise', code: '#1C7A9B' },
+        { name: 'Pale Pink', code: '#FFE8FC' },
+        { name: 'Shocking Pink', code: '#E85A9B' },
+        { name: 'Royal Purple', code: '#9B3D9B' },
+        { name: 'Light Grey', code: '#B8B8B8' },
+        { name: 'Graphite', code: '#2C2C2C' },
+        { name: 'Electric Blue', code: '#1CE8FC' },
+        { name: 'Pine Green', code: '#0F4F0F' },
+        { name: 'Navy Blue', code: '#1C1C7A' },
+        { name: 'Rose Pink', code: '#FC9BE8' },
+        { name: 'Burgundy', code: '#7A1C3D' },
+        { name: 'Deep Purple', code: '#4F1C4F' },
+        { name: 'Pearl', code: '#F0F0F0' },
+        { name: 'Jet Black', code: '#0A0A0A' },
+        { name: 'Acid Yellow', code: '#D4FC1C' },
+        { name: 'Jade', code: '#1C9B5F' },
+        { name: 'Cobalt', code: '#1C3D7A' },
+        { name: 'Orchid', code: '#DA70D6' },
+        { name: 'Wine', code: '#5F1C1C' },
+        { name: 'Violet', code: '#3D1C5F' },
+        { name: 'Platinum', code: '#E5E4E2' },
+        { name: 'Obsidian', code: '#141414' },
+        { name: 'Citrine', code: '#E4D00A' },
+        { name: 'Malachite', code: '#0BDA51' },
+        { name: 'Sapphire', code: '#0F52BA' },
+        { name: 'Peony', code: '#F8BBD9' },
+        { name: 'Crimson', code: '#DC143C' },
+        { name: 'Amethyst', code: '#9966CC' },
+        { name: 'Cool Beige', code: '#F5F5DC' },
+        { name: 'Carbon', code: '#36454F' },
+        { name: 'Canary', code: '#FFFF99' },
+        { name: 'Viridian', code: '#40826D' },
+        { name: 'Steel Blue', code: '#4682B4' },
+        { name: 'Blush', code: '#DE5D83' },
+        { name: 'Maroon', code: '#800000' },
+        { name: 'Indigo', code: '#4B0082' },
+        { name: 'Frost', code: '#DEE3E0' },
+        { name: 'Slate', code: '#708090' },
+        { name: 'Lime', code: '#32CD32' },
+        { name: 'Seafoam', code: '#71EEB8' },
+        { name: 'Cerulean', code: '#007BA7' },
+        { name: 'Cotton Candy', code: '#FFBCD9' },
+        { name: 'Ruby', code: '#E0115F' },
+        { name: 'Plum', code: '#8E4585' }
+      ];
+
+      let x = 20;
+      let y = 60;
+      const colorSize = 12;
+      const spacing = 25;
+
+      colors.forEach((color, index) => {
+        // Convert hex to RGB
+        const rgb = hexToRgb(color.code);
+        if (rgb) {
+          pdf.setFillColor(rgb.r, rgb.g, rgb.b);
+          pdf.rect(x, y, colorSize, colorSize, 'F');
+          
+          // Add border
+          pdf.setDrawColor(0, 0, 0);
+          pdf.rect(x, y, colorSize, colorSize, 'S');
+        }
+        
+        // Add color info
+        pdf.setFontSize(7);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(color.code, x, y + colorSize + 6);
+        pdf.text(color.name, x, y + colorSize + 12);
+        
+        x += spacing * 2;
+        if ((index + 1) % 8 === 0) {
+          x = 20;
+          y += 30;
+        }
+      });
+
+      // Add footer
+      pdf.setFontSize(10);
+      pdf.text("Professional Color Analysis • True Winter Palette", 20, y + 20);
+
+      const pdfBuffer = Buffer.from(pdf.output('arraybuffer'));
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="True_Winter_Color_Palette.pdf"');
+      res.send(pdfBuffer);
+      
+    } catch (error) {
+      console.error("Error generating palette PDF:", error);
+      res.status(500).json({ message: "Failed to generate palette PDF" });
+    }
+  });
+
+  // Update order email
+  app.post("/api/orders/update-email", async (req: Request, res: Response) => {
+    try {
+      const { paymentIntentId, email } = req.body;
+      
+      if (!paymentIntentId || !email) {
+        return res.status(400).json({ message: "Payment intent ID and email are required" });
+      }
+
+      const order = await storage.getOrderByPaymentIntent(paymentIntentId);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      // Update order with email
+      await storage.updateOrderEmail(order.id, email);
+      
+      res.json({ success: true, message: "Email updated successfully" });
+      
+    } catch (error) {
+      console.error("Error updating email:", error);
+      res.status(500).json({ message: "Failed to update email" });
+    }
+  });
+
+  // Email results to user
+  app.post("/api/orders/:orderId/email-results", async (req: Request, res: Response) => {
+    try {
+      const order = await storage.getOrder(parseInt(req.params.orderId));
+      if (!order || !order.analysisResult) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      if (!order.email) {
+        return res.status(400).json({ message: "No email address found" });
+      }
+
+      await emailService.sendResultsEmail(order);
+      await storage.updateOrderEmailSent(order.id);
+      
+      res.json({ success: true, message: "Results emailed successfully" });
+      
+    } catch (error) {
+      console.error("Error emailing results:", error);
+      res.status(500).json({ message: "Failed to email results" });
+    }
+  });
+
+  // Helper function for hex to RGB conversion
+  function hexToRgb(hex: string) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -28,6 +28,7 @@ export interface IStorage {
   updateOrderStatus(id: number, status: string): Promise<Order>;
   updateOrderImages(id: number, images: string[]): Promise<Order>;
   updateOrderAnalysis(id: number, analysisResult: any, pdfPath: string): Promise<Order>;
+  updateOrderEmail(id: number, email: string): Promise<Order>;
   updateOrderEmailSent(id: number): Promise<Order>;
   getAllOrders(): Promise<Order[]>;
 }

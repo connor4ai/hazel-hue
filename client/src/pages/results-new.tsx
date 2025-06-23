@@ -163,6 +163,13 @@ export default function ResultsNew() {
     fetchOrderResults();
   }, [orderId]);
 
+  useEffect(() => {
+    // Auto-email results when they're ready
+    if (order && order.status === 'completed' && !order.emailSent) {
+      emailResults();
+    }
+  }, [order]);
+
   const fetchOrderResults = async () => {
     try {
       const response = await apiRequest('GET', `/api/orders/${orderId}`);
@@ -191,6 +198,14 @@ export default function ResultsNew() {
       setLocation('/');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const emailResults = async () => {
+    try {
+      await apiRequest('POST', `/api/orders/${orderId}/email-results`);
+    } catch (error) {
+      console.error('Failed to email results:', error);
     }
   };
 
@@ -340,7 +355,13 @@ export default function ResultsNew() {
                 { name: 'Coral', code: '#FF7F50' },
                 { name: 'Gold', code: '#FFD700' },
                 { name: 'Beige', code: '#F5F5DC' },
-                { name: 'Tan', code: '#D2B48C' }
+                { name: 'Tan', code: '#D2B48C' },
+                { name: 'Rust', code: '#B7410E' },
+                { name: 'Camel', code: '#C19A6B' },
+                { name: 'Olive', code: '#808000' },
+                { name: 'Yellow Green', code: '#9ACD32' },
+                { name: 'Salmon', code: '#FA8072' },
+                { name: 'Burnt Orange', code: '#CC5500' }
               ].map((color, index) => (
                 <motion.div
                   key={index}
@@ -823,6 +844,13 @@ export default function ResultsNew() {
           <div className="text-center">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">Save & Share Your Results</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">Keep your color analysis handy for shopping and styling</p>
+            {order?.email && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4 max-w-md mx-auto">
+                <p className="text-sm text-blue-700">
+                  ✉️ Results have been emailed to <strong>{order.email}</strong>
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -867,24 +895,23 @@ export default function ResultsNew() {
               <h4 className="text-xl font-bold text-gray-800 mb-4">Download Digital Palette</h4>
               <p className="text-gray-600 mb-6 text-sm">Get a high-resolution version of your color palette for easy reference while shopping</p>
               <Button 
-                onClick={() => {
-                  // Create a canvas with the color palette
-                  const canvas = document.createElement('canvas');
-                  const ctx = canvas.getContext('2d');
-                  canvas.width = 800;
-                  canvas.height = 600;
-                  
-                  // Add colors to canvas
-                  ctx!.fillStyle = '#ffffff';
-                  ctx!.fillRect(0, 0, 800, 600);
-                  
-                  // Download the canvas as image
-                  const link = document.createElement('a');
-                  link.download = `${analysisResult.season.replace(' ', '_')}_Color_Palette.png`;
-                  link.href = canvas.toDataURL();
-                  link.click();
-                  
-                  toast({ title: "Palette downloaded!", description: "Your color palette has been saved" });
+                onClick={async () => {
+                  try {
+                    const response = await apiRequest('POST', `/api/orders/${orderId}/download-palette`);
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${analysisResult.season.replace(' ', '_')}_Color_Palette.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    toast({ title: "Palette downloaded!", description: "Your color palette PDF has been saved" });
+                  } catch (error) {
+                    toast({ title: "Download failed", description: "Please try again", variant: "destructive" });
+                  }
                 }}
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl py-3"
               >
@@ -918,9 +945,24 @@ export default function ResultsNew() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 text-center"
+            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-100"
           >
-            <h4 className="text-xl font-bold text-gray-800 mb-4">Pro Tips for Using Your Results</h4>
+            <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">Create Your Account</h4>
+            <div className="text-center mb-6">
+              <p className="text-gray-600 mb-4">Save your results permanently and access them anytime</p>
+              <Button 
+                onClick={() => {
+                  // This would typically open a registration modal
+                  toast({ 
+                    title: "Account Creation", 
+                    description: "Registration feature coming soon! Your results are saved for now." 
+                  });
+                }}
+                className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white px-8 py-3 rounded-xl"
+              >
+                Create Free Account
+              </Button>
+            </div>
             <div className="grid md:grid-cols-2 gap-6 text-left">
               <div>
                 <h5 className="font-semibold text-gray-800 mb-2">Shopping</h5>

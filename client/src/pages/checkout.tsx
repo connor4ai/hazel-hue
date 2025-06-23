@@ -37,6 +37,20 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
       return;
     }
 
+    // Get email from form
+    const form = e.target as HTMLFormElement;
+    const emailInput = form.querySelector('#email') as HTMLInputElement;
+    const email = emailInput?.value;
+
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -55,6 +69,15 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
           variant: "destructive",
         });
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Update order with email before redirecting
+        try {
+          await apiRequest('POST', '/api/orders/update-email', {
+            paymentIntentId: paymentIntent.id,
+            email: email
+          });
+        } catch (emailError) {
+          console.error('Failed to update email:', emailError);
+        }
         onPaymentSuccess(paymentIntent.id);
       }
     } catch (error: any) {
@@ -71,6 +94,20 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
   return (
     <form onSubmit={handlePayment} className="space-y-6">
       <div className="space-y-4">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            Email Address *
+          </label>
+          <input
+            type="email"
+            id="email"
+            required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="your@email.com"
+          />
+          <p className="text-xs text-gray-500 mt-1">We'll email your results to this address</p>
+        </div>
+        
         <PaymentElement 
           options={{
             layout: "tabs",
