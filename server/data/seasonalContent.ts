@@ -36,6 +36,241 @@ export interface SeasonalContent {
 }
 
 export const seasonalContentData: Record<string, SeasonalContent> = {
+  'Bright Winter': {
+    season: 'Bright Winter',
+    overview: {
+      keyCharacteristics: [
+        'Cool undertones (blue or pink)',
+        'Very high contrast between features',
+        'Bright & clear chroma - needs the most saturated colors',
+        'Full value range - can wear both very light and very dark colors'
+      ],
+      signatureColors: [
+        'Electric Blue (#0080FF) - Your most stunning color',
+        'True Red (#FF0000) - Bold and powerful',
+        'Emerald Green (#00FF80) - Vibrant and sophisticated',
+        'Hot Pink (#FF1493) - Bright and energetic',
+        'Pure White (#FFFFFF) - Crisp and clean',
+        'Jet Black (#000000) - Deep and dramatic',
+        'Bright Purple (#8A2BE2) - Regal and striking',
+        'Lemon Yellow (#FFFF00) - Your brightest, clearest yellow'
+      ],
+      colorsToAvoid: [
+        'Peach', 'Coral', 'Orange', 'Warm Yellow', 'Golden Brown', 'Olive Green',
+        'Dusty Colors', 'Muted Tones', 'Sage Green', 'Taupe', 'Beige', 'Cream',
+        'Rust', 'Terracotta'
+      ],
+      description: 'You are a Bright Winter, possessing striking, high-contrast coloring that can handle the most intense colors in the spectrum. Your features are characterized by cool undertones with dramatic contrast - often dark hair, pale skin, and bright, piercing eyes. Your palette consists of the most saturated, cool-toned colors: true red, royal blue, emerald green, and pure white. These bold colors complement your naturally dramatic appearance and ensure you look powerful and commanding.'
+    },
+    colorPalette: {
+      htmlContent: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bright Winter Color Palette</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f2f8 0%, #e0e4f0 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fefefe;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: #ffffff;
+            color: #2c2c2c;
+            padding: 60px 30px;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 4em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .header p {
+            margin: 12px 0 0 0;
+            font-size: 1em;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666666;
+        }
+        
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 16px;
+            padding: 50px 40px;
+            background: #fefefe;
+        }
+        
+        .color-swatch {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-swatch:hover {
+            transform: translateY(-4px) scale(1.02);
+            z-index: 10;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-top {
+            height: 120px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .color-info {
+            background: white;
+            padding: 12px 8px 8px 8px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .color-name {
+            font-size: 0.7em;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        .color-code {
+            font-size: 0.65em;
+            font-weight: 400;
+            color: #666666;
+            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BRIGHT WINTER</h1>
+            <p>12 Season Color Analysis Palette</p>
+        </div>
+        
+        <div class="palette-grid">
+            <div class="color-swatch"><div class="color-top" style="background-color: #FFFFFF;"></div><div class="color-info"><div class="color-name">Pure White</div><div class="color-code">#FFFFFF</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #8B9B8B;"></div><div class="color-info"><div class="color-name">Cool Grey</div><div class="color-code">#8B9B8B</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #C4577A;"></div><div class="color-info"><div class="color-name">Rose</div><div class="color-code">#C4577A</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #E6004C;"></div><div class="color-info"><div class="color-name">Bright Pink</div><div class="color-code">#E6004C</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #8B2F8B;"></div><div class="color-info"><div class="color-name">Magenta</div><div class="color-code">#8B2F8B</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #00A651;"></div><div class="color-info"><div class="color-name">Kelly Green</div><div class="color-code">#00A651</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #008B8B;"></div><div class="color-info"><div class="color-name">Teal</div><div class="color-code">#008B8B</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #4169E1;"></div><div class="color-info"><div class="color-name">Royal Blue</div><div class="color-code">#4169E1</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #F5F5DC;"></div><div class="color-info"><div class="color-name">Cream</div><div class="color-code">#F5F5DC</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #2F4F4F;"></div><div class="color-info"><div class="color-name">Dark Grey</div><div class="color-code">#2F4F4F</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #FFD700;"></div><div class="color-info"><div class="color-name">Bright Yellow</div><div class="color-code">#FFD700</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #DC143C;"></div><div class="color-info"><div class="color-name">Crimson</div><div class="color-code">#DC143C</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #8B008B;"></div><div class="color-info"><div class="color-name">Dark Magenta</div><div class="color-code">#8B008B</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #228B22;"></div><div class="color-info"><div class="color-name">Forest Green</div><div class="color-code">#228B22</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #20B2AA;"></div><div class="color-info"><div class="color-name">Light Sea Green</div><div class="color-code">#20B2AA</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #0000FF;"></div><div class="color-info"><div class="color-name">True Blue</div><div class="color-code">#0000FF</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #696969;"></div><div class="color-info"><div class="color-name">Dim Grey</div><div class="color-code">#696969</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #000000;"></div><div class="color-info"><div class="color-name">True Black</div><div class="color-code">#000000</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #FFFF00;"></div><div class="color-info"><div class="color-name">Pure Yellow</div><div class="color-code">#FFFF00</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #FF1493;"></div><div class="color-info"><div class="color-name">Deep Pink</div><div class="color-code">#FF1493</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #FF00FF;"></div><div class="color-info"><div class="color-name">Fuchsia</div><div class="color-code">#FF00FF</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #8B4513;"></div><div class="color-info"><div class="color-name">Saddle Brown</div><div class="color-code">#8B4513</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #00CED1;"></div><div class="color-info"><div class="color-name">Dark Turquoise</div><div class="color-code">#00CED1</div></div></div>
+            <div class="color-swatch"><div class="color-top" style="background-color: #191970;"></div><div class="color-info"><div class="color-name">Midnight Blue</div><div class="color-code">#191970</div></div></div>
+        </div>
+    </div>
+</body>
+</html>`,
+      coreNeutrals: ['#FFFFFF', '#8B9B8B', '#2F4F4F', '#696969', '#000000', '#F5F5DC'],
+      accentLights: ['#FFD700', '#FFFF00', '#20B2AA', '#00CED1', '#C4577A', '#E6004C'],
+      accentBrights: ['#FF1493', '#FF00FF', '#8B2F8B', '#8B008B', '#4169E1', '#0000FF', '#191970', '#00A651', '#228B22', '#008B8B', '#DC143C', '#8B4513']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/3N5d043Xa',
+      guidelines: [
+        'Build wardrobe around high-impact statement pieces',
+        'Electric blue can serve as a neutral for you',
+        'Black and white create perfect contrast',
+        'Choose bold, geometric patterns with high contrast',
+        'You can wear head-to-toe bright colors',
+        'Think runway fashion and high-fashion editorial looks'
+      ]
+    },
+    accessories: {
+      metals: 'Bright Silver, Platinum, White Gold, Chrome',
+      jewelry: [
+        'Bold, statement pieces with clean geometric lines',
+        'Large, architectural pieces in bright metals',
+        'High-contrast designs that match your dramatic coloring'
+      ],
+      watches: [
+        'Bright silver, white gold finishes',
+        'High-tech materials like ceramic or titanium',
+        'Modern, contemporary designs'
+      ],
+      glasses: [
+        'Bright silver frames',
+        'Black or white frames',
+        'Electric blue for bold statement',
+        'Bold, modern shapes work best'
+      ]
+    },
+    hairColor: {
+      bestColors: [
+        'Jet Black - Maximum contrast and drama',
+        'Platinum Blonde - If going light, go all the way',
+        'Cool Dark Brown - Rich and intense',
+        'Bold Fashion Colors - Electric blue, bright purple, hot pink',
+        'Silver/White - Striking and modern'
+      ],
+      avoidColors: [
+        'Any warm tones',
+        'Golden highlights',
+        'Auburn',
+        'Copper',
+        'Muddy colors'
+      ],
+      guidance: 'Bright Winters often have naturally dark hair with high contrast against pale skin. Your hair should either be dramatically dark or dramatically light - no in-between tones.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/1RvCERX0Z',
+      guidelines: [
+        'You can handle the most dramatic makeup looks',
+        'Foundation: Cool undertones only - pink or neutral bases',
+        'Lipstick: Bright red, hot pink, electric purple, bright berry',
+        'Eyeshadow: Electric blue, bright purple, silver, black, white, emerald',
+        'Blush: Bright pink, cool rose, berry',
+        'Eyeliner: Jet black, bright blue, purple, or white for drama'
+      ]
+    },
+    celebrities: ['Megan Fox', 'Katy Perry', 'Adriana Lima']
+  },
   "True Winter": {
     season: "True Winter",
     overview: {

@@ -45,10 +45,12 @@ export class PreloadedColorAnalysisService {
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
-      // For now, always return True Winter to test the system
-      // Later we'll re-enable AI detection: const detectedSeason = await this.detectSeason(imagePaths);
-      const detectedSeason = 'True Winter';
-      console.log(`Using ${detectedSeason} for analysis`);
+      // Use random season selection from available seasons
+      const availableSeasons = ['True Winter', 'Bright Winter'];
+      const randomIndex = Math.floor(Math.random() * availableSeasons.length);
+      const detectedSeason = availableSeasons[randomIndex];
+      
+      console.log(`Randomly selected ${detectedSeason} from available seasons: [${availableSeasons.join(', ')}]`);
       
       return this.getPreloadedResult(detectedSeason);
     } catch (error) {
