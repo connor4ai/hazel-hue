@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import TrueWinterPalette from '@/components/TrueWinterPalette';
+import BrightWinterPalette from '@/components/BrightWinterPalette';
 
 interface AnalysisResult {
   season: string;
