@@ -52,8 +52,8 @@ export class PreloadedColorAnalysisService {
       // Check if we have content for the detected season
       const availableSeasons = ['True Winter', 'Bright Winter'];
       if (!availableSeasons.includes(detectedSeason)) {
-        console.warn(`Season "${detectedSeason}" not yet implemented. Using True Winter as fallback.`);
-        return this.getPreloadedResult('True Winter');
+        console.log(`Season "${detectedSeason}" detected but not yet implemented. Returning work-in-progress result.`);
+        return this.getWorkInProgressResult(detectedSeason);
       }
       
       return this.getPreloadedResult(detectedSeason);
@@ -165,6 +165,54 @@ export class PreloadedColorAnalysisService {
       hairColor: content.hairColor,
       makeup: content.makeup,
       celebrities: content.celebrities
+    };
+  }
+
+  private getWorkInProgressResult(season: string): ColorAnalysisResult {
+    // Return minimal result for unimplemented seasons
+    return {
+      season: season,
+      description: `You are a ${season}! This seasonal color type is currently being developed.`,
+      coreNeutrals: [],
+      accentLights: [],
+      accentBrights: [],
+      recommendations: {
+        metals: 'Style guide in development',
+        eyewear: 'Recommendations coming soon',
+        makeup: 'Color palette being curated'
+      },
+      overview: {
+        keyCharacteristics: [`${season} characteristics being documented`],
+        signatureColors: ['Color palette in development'],
+        colorsToAvoid: ['Guidelines being prepared'],
+        description: `You are a ${season}! This seasonal color type is currently being developed with comprehensive style guides and color recommendations.`
+      },
+      colorPalette: {
+        htmlContent: `<div style="text-align:center;padding:50px;"><h1>${season}</h1><p>Color palette coming soon!</p></div>`,
+        coreNeutrals: [],
+        accentLights: [],
+        accentBrights: []
+      },
+      clothing: {
+        pinterestUrl: '',
+        guidelines: ['Style guide in development']
+      },
+      accessories: {
+        metals: 'Coming soon',
+        jewelry: ['Recommendations in development'],
+        watches: ['Style guide being prepared'],
+        glasses: ['Options being curated']
+      },
+      hairColor: {
+        bestColors: ['Color recommendations coming soon'],
+        avoidColors: ['Guidelines being prepared'],
+        guidance: `${season} hair color guide in development`
+      },
+      makeup: {
+        pinterestUrl: '',
+        guidelines: ['Makeup guide being developed']
+      },
+      celebrities: []
     };
   }
 
