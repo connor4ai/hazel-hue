@@ -14,6 +14,7 @@ import { apiRequest } from '@/lib/queryClient';
 import TrueWinterPalette from '@/components/TrueWinterPalette';
 import BrightWinterPalette from '@/components/BrightWinterPalette';
 import DarkWinterPalette from '@/components/DarkWinterPalette';
+import TrueSummerPalette from '@/components/TrueSummerPalette';
 
 interface AnalysisResult {
   season: string;
@@ -397,6 +398,7 @@ export default function ResultsNew() {
           {analysisResult.season === 'True Winter' && <TrueWinterPalette />}
           {analysisResult.season === 'Bright Winter' && <BrightWinterPalette />}
           {analysisResult.season === 'Dark Winter' && <DarkWinterPalette />}
+          {analysisResult.season === 'True Summer' && <TrueSummerPalette />}
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
