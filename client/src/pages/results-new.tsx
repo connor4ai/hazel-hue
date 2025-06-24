@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import TrueWinterPalette from '@/components/TrueWinterPalette';
 import BrightWinterPalette from '@/components/BrightWinterPalette';
+import DarkWinterPalette from '@/components/DarkWinterPalette';
 
 interface AnalysisResult {
   season: string;
@@ -393,7 +394,9 @@ export default function ResultsNew() {
       icon: <Palette className="w-6 h-6" />,
       content: (
         <div className="space-y-8">
-          <TrueWinterPalette />
+          {analysisResult.season === 'True Winter' && <TrueWinterPalette />}
+          {analysisResult.season === 'Bright Winter' && <BrightWinterPalette />}
+          {analysisResult.season === 'Dark Winter' && <DarkWinterPalette />}
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

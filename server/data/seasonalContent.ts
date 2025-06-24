@@ -36,6 +36,127 @@ export interface SeasonalContent {
 }
 
 export const seasonalContentData: Record<string, SeasonalContent> = {
+  'Dark Winter': {
+    season: 'Dark Winter',
+    overview: {
+      keyCharacteristics: [
+        'Cool undertones (blue or neutral-cool)',
+        'High contrast level (but deeper than Bright Winter)',
+        'Deep & Rich chroma (sophisticated, darker colors)',
+        'Deep to Medium value range (avoiding very light colors)'
+      ],
+      signatureColors: [
+        'Deep Burgundy (#722F37) - Your most sophisticated color',
+        'Midnight Blue (#191970) - Dark and mysterious',
+        'Forest Green (#355E3B) - Rich and luxurious',
+        'Charcoal Grey (#36454F) - Your perfect neutral',
+        'Deep Purple (#301934) - Regal and elegant',
+        'Black (#000000) - Classic and timeless',
+        'Pine Green (#01796F) - Deep and natural',
+        'Deep Magenta (#8B008B) - Bold yet sophisticated'
+      ],
+      colorsToAvoid: [
+        'Light colors and pastels',
+        'Bright yellow and orange',
+        'Peach and coral tones',
+        'Light pink and sage green',
+        'Beige, taupe, and cream',
+        'Golden colors and rust',
+        'Light blue shades'
+      ],
+      description: 'As a Dark Winter, you have deep, intense coloring with cool undertones that can carry the richest, most sophisticated colors. Your features are characterized by high contrast and depth - typically dark hair, eyes that are deep or strikingly light, and skin with cool undertones. Your palette consists of the deepest, most luxurious colors that enhance your natural intensity and create an aura of elegance.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="dark-winter-palette">
+        <div class="palette-header">
+          <h2>Dark Winter Color Palette</h2>
+          <p>Deep, sophisticated colors with cool undertones</p>
+        </div>
+        <div class="color-grid">
+          <!-- Full 64-color palette rendered here -->
+        </div>
+      </div>`,
+      coreNeutrals: [
+        '#F8F8FF', '#696969', '#2F4F4F', '#000000', '#D3D3D3', '#C0C0C0', 
+        '#36454F', '#A9A9A9', '#F5F5F5', '#708090', '#B0C4DE', '#F0F8FF'
+      ],
+      accentLights: [
+        '#E6E6FA', '#F0E68C', '#C85A8A', '#FF69B4', '#FF1493', '#DCDCDC',
+        '#DB7093', '#B0C4DE', '#ADD8E6', '#F0F8FF', '#GAINSBORO', '#SILVER'
+      ],
+      accentBrights: [
+        '#8B1538', '#2E8B57', '#008B8B', '#191970', '#663399', '#DC143C',
+        '#006400', '#4169E1', '#800080', '#800000', '#B22222', '#556B2F'
+      ]
+    },
+    clothing: {
+      pinterestUrl: 'https://www.pinterest.com/HueMatcher/dark-winter-outfits/',
+      guidelines: [
+        'Build around deep, rich colors that create mystery and elegance',
+        'Black is excellent, but consider deep burgundy and midnight blue as powerful alternatives',
+        'Choose rich, complex patterns - paisley, deep florals, or geometric designs',
+        'Fabrics should have weight and sophistication',
+        'Avoid light colors and anything with warm undertones'
+      ]
+    },
+    accessories: {
+      metals: 'Silver, platinum, white gold, gunmetal, and oxidized silver are your sophisticated metals.',
+      jewelry: [
+        'Substantial, sophisticated pieces with rich details',
+        'Ornate designs that maintain elegance',
+        'Statement pieces in silver or platinum',
+        'Geometric or vintage-inspired designs'
+      ],
+      watches: [
+        'Dark metals with sophisticated complications',
+        'Black leather bands or deep burgundy leather',
+        'Gunmetal or black cases',
+        'Classic luxury timepieces'
+      ],
+      glasses: [
+        'Dark frames - black, gunmetal, deep burgundy',
+        'Cool-toned dark tortoiseshell',
+        'Sophisticated, substantial frame shapes',
+        'Avoid warm browns or golden tones'
+      ]
+    },
+    hairColor: {
+      bestColors: [
+        'Natural black - timeless and sophisticated',
+        'Deep cool brown - rich and elegant',
+        'Dark burgundy - adds richness while staying cool',
+        'Deep purple - for bold, sophisticated looks',
+        'Silver/grey - elegant and distinguished'
+      ],
+      avoidColors: [
+        'Light colors of any kind',
+        'Warm browns and golden highlights',
+        'Auburn, copper, or warm tones',
+        'Blonde shades',
+        'Orange-based reds'
+      ],
+      guidance: 'Dark Winters typically have naturally dark hair - deep brown or black. Embrace your natural darkness and avoid anything that lightens or warms your coloring.'
+    },
+    makeup: {
+      pinterestUrl: 'https://www.pinterest.com/HueMatcher/dark-winter-makeup/',
+      guidelines: [
+        'Foundation with cool undertones - avoid warm or golden tones',
+        'Lipstick in deep burgundy, wine, deep berry, or dark red',
+        'Eyeshadow in deep purple, forest green, charcoal, or black',
+        'Blush in deep rose, burgundy, or deep berry tones',
+        'Eyeliner in black, deep burgundy, or forest green',
+        'Sophisticated and dramatic color combinations'
+      ]
+    },
+    celebrities: [
+      'Sandra Bullock',
+      'Salma Hayek', 
+      'Viola Davis',
+      'Anne Hathaway',
+      'Courteney Cox',
+      'Catherine Zeta-Jones'
+    ]
+  },
   'Bright Winter': {
     season: 'Bright Winter',
     overview: {
