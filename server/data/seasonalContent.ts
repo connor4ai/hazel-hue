@@ -1589,14 +1589,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     hairColor: {
-      bestColors: [
-        'Soft Brown - Natural and muted with warm undertones',
-        'Mushroom Brown - Perfect cool-warm balance for your coloring',
-        'Dusty Blonde - Muted and sophisticated without harsh contrast',
-        'Soft Auburn - Gentle red tones that complement your warmth',
-        'Ash Brown - Cool but not harsh, perfect for your muted palette',
-        'Soft Gray - Elegant and natural progression that honors your gentle coloring'
-      ],
+      bestColors: ['Strawberry Blonde', 'Golden Blonde', 'Light Golden Brown', 'Medium Golden Brown'],
       avoidColors: [
         'Bright colors', 'High contrast', 'Pure golden tones', 
         'Very dark colors', 'Harsh highlights', 'Cool platinum tones'
