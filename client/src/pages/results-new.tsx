@@ -22,6 +22,7 @@ import BrightSpringPalette from '@/components/BrightSpringPalette';
 import LightSpringPalette from '@/components/LightSpringPalette';
 import TrueAutumnPalette from '@/components/TrueAutumnPalette';
 import DarkAutumnPalette from '@/components/DarkAutumnPalette';
+import SoftAutumnPalette from '@/components/SoftAutumnPalette';
 
 interface AnalysisResult {
   season: string;
@@ -413,6 +414,7 @@ export default function ResultsNew() {
           {analysisResult.season === 'Light Spring' && <LightSpringPalette />}
           {analysisResult.season === 'True Autumn' && <TrueAutumnPalette />}
           {analysisResult.season === 'Dark Autumn' && <DarkAutumnPalette />}
+          {analysisResult.season === 'Soft Autumn' && <SoftAutumnPalette />}
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
