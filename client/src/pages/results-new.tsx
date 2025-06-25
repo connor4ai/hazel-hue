@@ -17,6 +17,7 @@ import DarkWinterPalette from '@/components/DarkWinterPalette';
 import TrueSummerPalette from '@/components/TrueSummerPalette';
 import LightSummerPalette from '@/components/LightSummerPalette';
 import SoftSummerPalette from '@/components/SoftSummerPalette';
+import TrueSpringPalette from '@/components/TrueSpringPalette';
 
 interface AnalysisResult {
   season: string;
@@ -403,6 +404,7 @@ export default function ResultsNew() {
           {analysisResult.season === 'True Summer' && <TrueSummerPalette />}
           {analysisResult.season === 'Light Summer' && <LightSummerPalette />}
           {analysisResult.season === 'Soft Summer' && <SoftSummerPalette />}
+          {analysisResult.season === 'True Spring' && <TrueSpringPalette />}
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
