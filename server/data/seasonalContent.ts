@@ -36,6 +36,69 @@ export interface SeasonalContent {
 }
 
 export const seasonalContentData: Record<string, SeasonalContent> = {
+  'True Winter': {
+    season: 'True Winter',
+    overview: {
+      keyCharacteristics: [
+        'Cool undertones (blue or pink)',
+        'High contrast level (dark hair, light skin)',
+        'Clear & bright chroma (pure, vivid colors)',
+        'Deep to Light value range (can handle both extremes)'
+      ],
+      signatureColors: [
+        'True Black (#000000)',
+        'Pure White (#FFFFFF)', 
+        'Royal Blue (#4169E1)',
+        'Emerald Green (#50C878)',
+        'Hot Pink (#FF69B4)',
+        'True Red (#FF0000)',
+        'Purple (#800080)',
+        'Icy Gray (#F8F8FF)'
+      ],
+      colorsToAvoid: [
+        'Warm Colors', 'Muted Tones', 'Beige', 'Orange', 'Yellow-Green', 
+        'Rust', 'Gold', 'Warm Browns', 'Dusty Colors', 'Earth Tones'
+      ],
+      description: 'True Winter represents the essence of winter with high contrast and cool undertones. You have striking features with dark hair, light skin, and bright eyes that can handle the most dramatic color combinations. Your palette consists of pure, clear colors in their truest form - think fresh snow, deep night sky, and jewel tones.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- True Winter 64-color palette --></div>`,
+      coreNeutrals: ['#000000', '#FFFFFF', '#808080', '#C0C0C0'],
+      accentLights: ['#FF69B4', '#00FFFF', '#FF0000', '#0000FF'],
+      accentBrights: ['#800080', '#008000', '#4169E1', '#50C878']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/truewinter',
+      guidelines: [
+        'Black and white are your power neutrals',
+        'Choose pure, saturated colors without yellow undertones',
+        'High contrast combinations work beautifully',
+        'Jewel tones are your signature colors'
+      ]
+    },
+    accessories: {
+      metals: 'Silver, White Gold, Platinum',
+      jewelry: ['Bold silver pieces', 'Clear gemstones', 'High contrast designs'],
+      watches: ['Silver with black or white bands', 'Clean, modern designs'],
+      glasses: ['Black or silver frames', 'Bold, geometric shapes']
+    },
+    hairColor: {
+      bestColors: ['Black', 'Dark brown', 'Platinum blonde', 'Silver'],
+      avoidColors: ['Golden blonde', 'Auburn', 'Warm brown', 'Copper'],
+      guidance: 'True Winters look stunning in dramatic hair colors with cool undertones.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/truewintermakeup',
+      guidelines: [
+        'Bold, dramatic makeup',
+        'True red or bright pink lipstick',
+        'Cool-toned foundation',
+        'Black or navy eyeliner'
+      ]
+    },
+    celebrities: ['Anne Hathaway', 'Sandra Bullock', 'Megan Fox']
+  },
+
   'Dark Winter': {
     season: 'Dark Winter',
     overview: {
@@ -1062,6 +1125,321 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     celebrities: ["Sarah Jessica Parker", "Meryl Streep", "Jennifer Aniston"]
+  },
+
+  'True Spring': {
+    season: 'True Spring',
+    overview: {
+      keyCharacteristics: [
+        'Warm undertones (golden or peach)',
+        'Medium to high contrast level',
+        'Clear & warm chroma (bright, warm colors)',
+        'Light to medium value range'
+      ],
+      signatureColors: [
+        'Clear Coral (#FF7F50)',
+        'Golden Yellow (#FFD700)',
+        'Grass Green (#7CFC00)',
+        'Warm Blue (#87CEEB)',
+        'Peach (#FFCBA4)',
+        'Bright Orange (#FF8C00)',
+        'Kelly Green (#4CBB17)',
+        'Ivory (#FFFFF0)'
+      ],
+      colorsToAvoid: [
+        'Black', 'Dark Colors', 'Cool Colors', 'Muted Tones', 'Gray',
+        'Purple', 'Cool Pink', 'Navy', 'Burgundy', 'Dusty Colors'
+      ],
+      description: 'True Spring embodies the fresh vitality of spring with warm, clear colors. You have golden undertones in your skin, warm hair, and bright eyes that sparkle with warmth. Your palette consists of clear, warm colors that reflect the energy of new growth and sunshine.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- True Spring 64-color palette --></div>`,
+      coreNeutrals: ['#FFFFF0', '#F5DEB3', '#D2691E', '#8B4513'],
+      accentLights: ['#FFCBA4', '#FFD700', '#87CEEB', '#98FB98'],
+      accentBrights: ['#FF7F50', '#FF8C00', '#7CFC00', '#4CBB17']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/truespring',
+      guidelines: [
+        'Warm, clear colors are your signature',
+        'Golden and coral tones are perfect',
+        'Avoid black - use warm brown instead',
+        'Bright, fresh combinations work beautifully'
+      ]
+    },
+    accessories: {
+      metals: 'Gold, Brass, Copper',
+      jewelry: ['Warm gold pieces', 'Coral and turquoise stones', 'Bright, clear gems'],
+      watches: ['Gold with warm-toned bands', 'Fresh, sporty designs'],
+      glasses: ['Warm tortoiseshell', 'Golden frames', 'Fresh, youthful styles']
+    },
+    hairColor: {
+      bestColors: ['Golden blonde', 'Warm brown', 'Auburn', 'Copper'],
+      avoidColors: ['Ash blonde', 'Cool brown', 'Black', 'Platinum'],
+      guidance: 'True Springs shine in warm, golden hair colors with sunny highlights.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/truespringmakeup',
+      guidelines: [
+        'Warm, fresh makeup',
+        'Coral or peach lipstick',
+        'Golden-toned foundation',
+        'Warm brown eyeliner'
+      ]
+    },
+    celebrities: ['Emma Stone', 'Amy Adams', 'Julianne Moore']
+  },
+
+  'Bright Spring': {
+    season: 'Bright Spring',
+    overview: {
+      keyCharacteristics: [
+        'Warm undertones with high intensity',
+        'High contrast level',
+        'Bright & electric chroma (vivid, saturated colors)',
+        'Light to medium value range'
+      ],
+      signatureColors: [
+        'Electric Coral (#FF6347)',
+        'Bright Yellow (#FFFF00)',
+        'Hot Orange (#FF4500)',
+        'Electric Blue (#0080FF)',
+        'Lime Green (#32CD32)',
+        'Fuchsia (#FF00FF)',
+        'Turquoise (#40E0D0)',
+        'Clear White (#FFFFFF)'
+      ],
+      colorsToAvoid: [
+        'Muted Colors', 'Dusty Tones', 'Black', 'Gray', 'Beige',
+        'Soft Colors', 'Pastels', 'Earth Tones', 'Brown', 'Burgundy'
+      ],
+      description: 'Bright Spring represents electric energy with high contrast warm coloring. You can handle the most saturated, vibrant colors with confidence. Your features are striking with warm undertones and you need colors as dynamic as your personality.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- Bright Spring 64-color palette --></div>`,
+      coreNeutrals: ['#FFFFFF', '#F0F8FF', '#FFE4B5', '#CD853F'],
+      accentLights: ['#FFFF00', '#40E0D0', '#98FB98', '#FFB6C1'],
+      accentBrights: ['#FF6347', '#FF4500', '#32CD32', '#FF00FF']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/brightspring',
+      guidelines: [
+        'Electric, vibrant colors are your strength',
+        'High contrast combinations work perfectly',
+        'Avoid muted or dusty tones',
+        'Bright white is better than cream'
+      ]
+    },
+    accessories: {
+      metals: 'Bright Gold, Rose Gold',
+      jewelry: ['Bold, bright pieces', 'Vibrant gemstones', 'Statement jewelry'],
+      watches: ['Bright metals with colorful bands', 'Bold, modern designs'],
+      glasses: ['Bright frames', 'Bold colors', 'Statement styles']
+    },
+    hairColor: {
+      bestColors: ['Bright blonde', 'Vivid auburn', 'Electric highlights', 'Bold colors'],
+      avoidColors: ['Muted tones', 'Ash colors', 'Dusty shades', 'Gray'],
+      guidance: 'Bright Springs can handle the most vibrant hair colors and dramatic changes.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/brightspringmakeup',
+      guidelines: [
+        'Bold, vibrant makeup',
+        'Bright coral or fuchsia lipstick',
+        'Clear, warm foundation',
+        'Electric blue or green accents'
+      ]
+    },
+    celebrities: ['Jennifer Lopez', 'Beyoncé', 'Priyanka Chopra']
+  },
+
+  'Light Spring': {
+    season: 'Light Spring',
+    overview: {
+      keyCharacteristics: [
+        'Warm undertones with light coloring',
+        'Low to medium contrast level',
+        'Light & clear chroma (delicate but warm)',
+        'Light value range'
+      ],
+      signatureColors: [
+        'Soft Peach (#FFCBA4)',
+        'Light Coral (#F08080)',
+        'Cream (#FFFDD0)',
+        'Light Aqua (#7FFFD4)',
+        'Soft Yellow (#FFFFE0)',
+        'Peachy Pink (#FFCCCB)',
+        'Light Green (#90EE90)',
+        'Warm Beige (#F5F5DC)'
+      ],
+      colorsToAvoid: [
+        'Dark Colors', 'Black', 'Heavy Colors', 'Cool Colors', 'Purple',
+        'Burgundy', 'Navy', 'Gray', 'Harsh Contrast', 'Deep Tones'
+      ],
+      description: 'Light Spring represents delicate warmth with gentle, light coloring. You have soft features with warm undertones and need colors that enhance your natural luminosity without overwhelming your gentle presence.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- Light Spring 64-color palette --></div>`,
+      coreNeutrals: ['#FFFDD0', '#F5F5DC', '#DEB887', '#CD853F'],
+      accentLights: ['#FFCBA4', '#FFCCCB', '#7FFFD4', '#90EE90'],
+      accentBrights: ['#F08080', '#FFD700', '#32CD32', '#87CEEB']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/lightspring',
+      guidelines: [
+        'Light, warm colors are perfect',
+        'Cream is better than white',
+        'Soft, delicate combinations work best',
+        'Avoid heavy or dark colors'
+      ]
+    },
+    accessories: {
+      metals: 'Light Gold, Rose Gold',
+      jewelry: ['Delicate gold pieces', 'Light, warm gems', 'Gentle designs'],
+      watches: ['Light metals with soft bands', 'Delicate, feminine styles'],
+      glasses: ['Light frames', 'Warm tones', 'Gentle shapes']
+    },
+    hairColor: {
+      bestColors: ['Light blonde', 'Strawberry blonde', 'Light brown', 'Soft highlights'],
+      avoidColors: ['Dark colors', 'Ash tones', 'Black', 'Cool colors'],
+      guidance: 'Light Springs look beautiful in soft, warm hair colors that enhance their delicate coloring.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/lightspringmakeup',
+      guidelines: [
+        'Soft, warm makeup',
+        'Peachy or coral lipstick',
+        'Light, warm foundation',
+        'Soft brown eyeliner'
+      ]
+    },
+    celebrities: ['Blake Lively', 'Reese Witherspoon', 'Taylor Swift']
+  },
+
+  'True Autumn': {
+    season: 'True Autumn',
+    overview: {
+      keyCharacteristics: [
+        'Warm undertones (golden or peachy)',
+        'Medium contrast level',
+        'Rich & warm chroma (deep, earthy colors)',
+        'Medium to deep value range'
+      ],
+      signatureColors: [
+        'Rust (#B7410E)',
+        'Golden Brown (#B8860B)',
+        'Forest Green (#355E3B)',
+        'Burnt Orange (#CC5500)',
+        'Deep Gold (#FFD700)',
+        'Burgundy (#800020)',
+        'Olive Green (#808000)',
+        'Warm Beige (#F5F5DC)'
+      ],
+      colorsToAvoid: [
+        'Cool Colors', 'Black', 'Pure White', 'Pink', 'Cool Blue',
+        'Purple', 'Gray', 'Icy Colors', 'Bright Colors', 'Neon Tones'
+      ],
+      description: 'True Autumn embodies the rich warmth of autumn with deep, earthy colors. You have golden undertones and warm features that harmonize beautifully with nature\'s most abundant season. Your palette reflects the richness of harvest time.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- True Autumn 64-color palette --></div>`,
+      coreNeutrals: ['#F5F5DC', '#D2691E', '#8B4513', '#654321'],
+      accentLights: ['#DEB887', '#F4A460', '#CD853F', '#D2B48C'],
+      accentBrights: ['#B7410E', '#CC5500', '#355E3B', '#800020']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/trueautumn',
+      guidelines: [
+        'Rich, warm earth tones are your signature',
+        'Golden browns and rusts are perfect',
+        'Avoid black - use deep brown instead',
+        'Warm, rich combinations work beautifully'
+      ]
+    },
+    accessories: {
+      metals: 'Gold, Brass, Bronze, Copper',
+      jewelry: ['Rich gold pieces', 'Amber and warm stones', 'Earthy designs'],
+      watches: ['Warm metals with leather bands', 'Rich, classic styles'],
+      glasses: ['Warm tortoiseshell', 'Golden frames', 'Rich, warm colors']
+    },
+    hairColor: {
+      bestColors: ['Rich brown', 'Auburn', 'Golden highlights', 'Copper'],
+      avoidColors: ['Cool colors', 'Ash tones', 'Black', 'Platinum'],
+      guidance: 'True Autumns shine in rich, warm hair colors that echo autumn leaves.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/trueautumnmakeup',
+      guidelines: [
+        'Warm, rich makeup',
+        'Rust or warm berry lipstick',
+        'Golden-toned foundation',
+        'Warm brown eyeliner'
+      ]
+    },
+    celebrities: ['Julia Roberts', 'Susan Sarandon', 'Marcia Cross']
+  },
+
+  'Dark Autumn': {
+    season: 'Dark Autumn',
+    overview: {
+      keyCharacteristics: [
+        'Warm-neutral undertones',
+        'High contrast level',
+        'Deep & rich chroma (sophisticated, darker colors)',
+        'Deep value range'
+      ],
+      signatureColors: [
+        'Deep Forest (#013220)',
+        'Chocolate Brown (#3C1810)',
+        'Burgundy Wine (#722F37)',
+        'Deep Rust (#B22222)',
+        'Hunter Green (#355E3B)',
+        'Espresso (#362D1D)',
+        'Deep Gold (#B8860B)',
+        'Charcoal (#36454F)'
+      ],
+      colorsToAvoid: [
+        'Light Colors', 'Pastels', 'Bright Colors', 'Cool Colors',
+        'Pink', 'Light Blue', 'White', 'Silver', 'Icy Tones', 'Neon Colors'
+      ],
+      description: 'Dark Autumn represents sophisticated depth with rich, dark warm colors. You can handle the deepest, most luxurious colors with elegance. Your features have enough contrast to carry dramatic, rich tones that create a powerful, sophisticated presence.'
+    },
+    colorPalette: {
+      htmlContent: `<div class="palette-grid"><!-- Dark Autumn 64-color palette --></div>`,
+      coreNeutrals: ['#36454F', '#3C1810', '#654321', '#8B4513'],
+      accentLights: ['#D2691E', '#CD853F', '#DEB887', '#F4A460'],
+      accentBrights: ['#722F37', '#B22222', '#013220', '#355E3B']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/darkautumn',
+      guidelines: [
+        'Deep, rich colors are your power palette',
+        'Chocolate brown can replace black',
+        'Luxurious, sophisticated combinations',
+        'Rich textures enhance your dramatic coloring'
+      ]
+    },
+    accessories: {
+      metals: 'Antique Gold, Brass, Bronze',
+      jewelry: ['Rich, substantial pieces', 'Deep colored gems', 'Sophisticated designs'],
+      watches: ['Rich metals with leather bands', 'Luxurious, classic styles'],
+      glasses: ['Deep tortoiseshell', 'Rich brown frames', 'Sophisticated shapes']
+    },
+    hairColor: {
+      bestColors: ['Dark brown', 'Deep auburn', 'Rich chocolate', 'Dark copper'],
+      avoidColors: ['Light colors', 'Blonde', 'Cool tones', 'Ash colors'],
+      guidance: 'Dark Autumns look stunning in deep, rich hair colors that match their sophisticated coloring.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/darkautumnmakeup',
+      guidelines: [
+        'Rich, sophisticated makeup',
+        'Deep berry or wine lipstick',
+        'Warm, rich foundation',
+        'Deep brown or gold accents'
+      ]
+    },
+    celebrities: ['Emily Ratajkowski', 'Tyla', 'Julia Roberts']
   },
 
   'Soft Autumn': {

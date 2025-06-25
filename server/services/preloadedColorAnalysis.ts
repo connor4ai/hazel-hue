@@ -137,6 +137,11 @@ export class PreloadedColorAnalysisService {
       * Light Spring: Warm, light, fresh colors
     
     Based on your analysis, respond with ONLY the exact season name (e.g., "True Winter" or "Bright Winter").
+    
+    IMPORTANT: You MUST choose one of the 12 seasons above. Do not respond with any other text, explanations, or apologies. 
+    If the photos are unclear, choose the most likely season based on any visible features.
+    Your response must be exactly one of these 12 season names:
+    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
     `;
 
     const response = await this.openai.chat.completions.create({
