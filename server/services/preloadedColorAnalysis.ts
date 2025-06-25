@@ -191,9 +191,9 @@ export class PreloadedColorAnalysisService {
       accentLights: content.colorPalette.accentLights,
       accentBrights: content.colorPalette.accentBrights,
       recommendations: {
-        metals: content.accessories.metals,
-        eyewear: content.accessories.glasses.join('. '),
-        makeup: content.makeup.guidelines.join('. ')
+        metals: content.accessories.bestMetals ? content.accessories.bestMetals.join(', ') : content.accessories.metals || 'Silver and gold',
+        eyewear: content.accessories.glasses ? (Array.isArray(content.accessories.glasses) ? content.accessories.glasses.join('. ') : content.accessories.glasses) : content.accessories.description || 'Frames that complement your coloring',
+        makeup: content.makeup.guidelines ? content.makeup.guidelines.join('. ') : content.makeup.tips || content.makeup.foundation || 'Natural makeup that enhances your features'
       },
       overview: content.overview,
       colorPalette: content.colorPalette,

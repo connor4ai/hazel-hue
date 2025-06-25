@@ -18,10 +18,13 @@ export interface SeasonalContent {
     guidelines: string[];
   };
   accessories: {
-    metals: string;
-    jewelry: string[];
-    watches: string[];
-    glasses: string[];
+    bestMetals?: string[];
+    metals?: string;
+    jewelryStyle?: string;
+    jewelry?: string[];
+    watches?: string | string[];
+    glasses?: string | string[];
+    description?: string;
   };
   hairColor: {
     bestColors: string[];
@@ -30,7 +33,21 @@ export interface SeasonalContent {
   };
   makeup: {
     pinterestUrl: string;
-    guidelines: string[];
+    foundation?: string;
+    eyeshadowPalettes?: Array<{
+      name: string;
+      colors: string[];
+      description: string;
+    }>;
+    blushOptions?: string[];
+    lipstickCollections?: Array<{
+      occasion: string;
+      shades: string[];
+    }>;
+    eyeliner?: string;
+    mascara?: string;
+    tips?: string;
+    guidelines?: string[];
   };
   celebrities: string[];
 }
