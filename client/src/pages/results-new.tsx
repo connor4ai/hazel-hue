@@ -2,10 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users, Share2, Smartphone, Wallet } from 'lucide-react';
-import seasonChartImage from '@assets/12-tone-chart-value-temperature_1750623961315.png';
-import colorDimensionsImage from '@assets/60b8f521cbd467e4c5ba0270_True Winter Colour Dimensions_1750623961315.webp';
-import hairColorImage from '@assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp';
-// Celebrity images will be loaded dynamically based on season
+import { getSeasonalAssets } from '@/data/seasonalAssets';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
@@ -161,6 +158,9 @@ export default function ResultsNew() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
+  
+  // Get seasonal assets based on the detected season
+  const seasonalAssets = order?.analysisResult ? getSeasonalAssets(order.analysisResult.season) : null;
 
   const orderId = params.orderId;
 
@@ -430,11 +430,21 @@ export default function ResultsNew() {
                 ))}
               </div>
               <div className="bg-white rounded-xl p-6 text-center">
-                <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg p-8 text-center">
-                  <h5 className="font-bold text-gray-800 mb-4">{analysisResult.season}</h5>
-                  <p className="text-gray-600 text-sm">{analysisResult.overview.description}</p>
-                </div>
-                <p className="text-sm text-gray-600 mt-4">Your position on the color analysis spectrum</p>
+                {seasonalAssets?.colorDimensions ? (
+                  <>
+                    <img
+                      src={seasonalAssets.colorDimensions}
+                      alt={`${order.analysisResult.season} Color Dimensions`}
+                      className="w-full max-w-sm mx-auto rounded-lg shadow-sm"
+                    />
+                    <p className="text-sm text-gray-600 mt-4">Your position on the color analysis spectrum</p>
+                  </>
+                ) : (
+                  <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg p-8 text-center">
+                    <h5 className="font-bold text-gray-800 mb-4">{order.analysisResult.season}</h5>
+                    <p className="text-gray-600 text-sm">{order.analysisResult.overview.description}</p>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -448,11 +458,11 @@ export default function ResultsNew() {
             <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">12-Season Color Analysis Chart</h4>
             <div className="text-center">
               <img
-                src={seasonChartImage}
+                src={seasonalAssets?.seasonChart || '/attached_assets/12-tone-chart-value-temperature_1750623961315.png'}
                 alt="12-Season Color Analysis Chart"
                 className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
               />
-              <p className="text-sm text-gray-600 mt-4">{analysisResult.season}'s position in the complete seasonal color system</p>
+              <p className="text-sm text-gray-600 mt-4">{order.analysisResult.season}'s position in the complete seasonal color system</p>
             </div>
           </motion.div>
         </div>
@@ -668,12 +678,20 @@ export default function ResultsNew() {
                 ))}
               </div>
               <div className="mt-6">
-                <img
-                  src={hairColorImage}
-                  alt="Hair Color Examples"
-                  className="w-full rounded-lg shadow-sm"
-                />
-                <p className="text-xs text-gray-600 text-center mt-2">Natural hair color examples for {analysisResult.season}</p>
+                {seasonalAssets?.hairColorGuide ? (
+                  <>
+                    <img
+                      src={seasonalAssets.hairColorGuide}
+                      alt="Hair Color Examples"
+                      className="w-full rounded-lg shadow-sm"
+                    />
+                    <p className="text-xs text-gray-600 text-center mt-2">Natural hair color examples for {order.analysisResult.season}</p>
+                  </>
+                ) : (
+                  <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-8 text-center">
+                    <p className="text-gray-600">Hair color guide for {order.analysisResult.season}</p>
+                  </div>
+                )}
               </div>
             </motion.div>
 
@@ -768,28 +786,53 @@ export default function ResultsNew() {
       content: (
         <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">{analysisResult.season} Celebrities</h3>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">{order.analysisResult.season} Celebrities</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">Study how these celebrities use color to enhance their natural beauty</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {analysisResult.celebrities.map((celebrity, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
-              >
-                <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <div className="text-center text-gray-600">
-                    <Users className="w-16 h-16 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">Celebrity Photo</p>
+            {seasonalAssets?.celebrities && seasonalAssets.celebrities.length > 0 ? (
+              // Display actual celebrity photos with names from seasonal content
+              seasonalAssets.celebrities.map((celebrityImage, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
+                >
+                  <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden">
+                    <img
+                      src={celebrityImage}
+                      alt={`${order.analysisResult.season} Celebrity ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                </div>
-                <h4 className="text-lg font-bold text-gray-800 text-center">{celebrity}</h4>
-              </motion.div>
-            ))}
+                  <h4 className="text-lg font-bold text-gray-800 text-center">
+                    {order.analysisResult.celebrities[index] || `Celebrity ${index + 1}`}
+                  </h4>
+                </motion.div>
+              ))
+            ) : (
+              // Fallback to celebrity names only
+              order.analysisResult.celebrities.map((celebrity, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
+                >
+                  <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                    <div className="text-center text-gray-600">
+                      <Users className="w-16 h-16 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">Celebrity Photo</p>
+                    </div>
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-800 text-center">{celebrity}</h4>
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
       )
