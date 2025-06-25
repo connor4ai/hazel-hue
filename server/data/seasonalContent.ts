@@ -472,23 +472,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Bright Silver, Platinum, White Gold, Chrome',
-      jewelry: [
-        'Bold, statement pieces with clean geometric lines',
-        'Large, architectural pieces in bright metals',
-        'High-contrast designs that match your dramatic coloring'
-      ],
-      watches: [
-        'Bright silver, white gold finishes',
-        'High-tech materials like ceramic or titanium',
-        'Modern, contemporary designs'
-      ],
-      glasses: [
-        'Bright silver frames',
-        'Black or white frames',
-        'Electric blue for bold statement',
-        'Bold, modern shapes work best'
-      ]
+      bestMetals: ["Bright Silver - Polished and reflective", "Platinum - Pure and pristine", "White Gold - Modern and clean", "Chrome - Shiny and contemporary"],
+      jewelryStyle: "Choose bold, statement pieces with clean geometric lines. Your jewelry should be as dramatic as your coloring. Think large, architectural pieces in bright metals.",
+      watches: "Bright silver, white gold, or high-tech materials like ceramic or titanium. Avoid anything muted or vintage-looking.",
+      glasses: "Bright silver, black, white, or even electric blue frames. Bold, modern shapes work best.",
+      description: "Your accessories should match your electric personality with bold, contemporary designs in the brightest metals."
     },
     hairColor: {
       bestColors: [
@@ -509,14 +497,56 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     makeup: {
       pinterestUrl: 'https://pin.it/1RvCERX0Z',
-      guidelines: [
-        'You can handle the most dramatic makeup looks',
-        'Foundation: Cool undertones only - pink or neutral bases',
-        'Lipstick: Bright red, hot pink, electric purple, bright berry',
-        'Eyeshadow: Electric blue, bright purple, silver, black, white, emerald',
-        'Blush: Bright pink, cool rose, berry',
-        'Eyeliner: Jet black, bright blue, purple, or white for drama'
-      ]
+      foundation: "Cool undertones only - pink or neutral bases",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Electric Drama",
+          colors: ["Electric blue", "Bright purple", "Silver", "Pure white"],
+          description: "High-voltage colors for maximum impact"
+        },
+        {
+          name: "Bold Brights",
+          colors: ["Emerald green", "Hot pink", "Bright yellow", "Black"],
+          description: "Saturated colors that match your electric energy"
+        },
+        {
+          name: "Neon Nights",
+          colors: ["Electric purple", "Bright turquoise", "Hot pink", "White"],
+          description: "For when you want to make a statement"
+        },
+        {
+          name: "High Contrast",
+          colors: ["Pure black", "Pure white", "Bright red", "Electric blue"],
+          description: "Maximum contrast for dramatic looks"
+        }
+      ],
+      
+      blushOptions: [
+        "Bright pink - electric and fun",
+        "Cool rose - vibrant and fresh",
+        "Berry - bold and striking",
+        "Hot pink - maximum impact"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Bright red", "Hot pink", "Electric berry"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Electric purple", "Bright red", "Hot pink"]
+        },
+        {
+          occasion: "Statement",
+          shades: ["Electric blue", "Bright purple", "Neon pink"]
+        }
+      ],
+      
+      eyeliner: "Jet black, bright blue, purple, or white for drama",
+      mascara: "Black or colored mascara for bold looks",
+      tips: "You can handle the most dramatic makeup looks. Think bold eyes with bold lips - combinations that would look costume-like on others work beautifully on you."
     },
     celebrities: ['Megan Fox', 'Katy Perry', 'Adriana Lima']
   },
@@ -1053,13 +1083,57 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Soft, cool tones that complement your gentle coloring work best. Avoid harsh contrasts."
     },
     makeup: {
-      pinterestUrl: "https://pinterest.com/truesummermakeup",
-      guidelines: [
-        "Soft, cool-toned foundation",
-        "Muted pink and rose lipsticks",
-        "Gentle gray and purple eyeshadows",
-        "Soft, blended makeup application"
-      ]
+      pinterestUrl: "https://pin.it/4jTgHGE0j",
+      foundation: "Soft, cool-toned foundation with blue or pink undertones",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Cool Summer",
+          colors: ["Soft gray", "Cool purple", "Rose", "Pearl"],
+          description: "Classic cool tones for everyday elegance"
+        },
+        {
+          name: "Garden Party",
+          colors: ["Gentle lavender", "Soft rose", "Cool beige", "Silver"],
+          description: "Romantic colors for special occasions"
+        },
+        {
+          name: "Sophisticated Mist",
+          colors: ["Cool brown", "Mauve", "Dusty purple", "Soft white"],
+          description: "Professional tones with cool undertones"
+        },
+        {
+          name: "Evening Rose",
+          colors: ["Deep rose", "Cool plum", "Charcoal", "Pink pearl"],
+          description: "Deeper cool tones for evening glamour"
+        }
+      ],
+      
+      blushOptions: [
+        "Cool rose - classic and elegant",
+        "Soft pink - gentle and fresh",
+        "Dusty rose - sophisticated depth",
+        "Cool berry - for evening looks"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Soft rose", "Cool pink", "Muted berry"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Deep rose", "Cool plum", "Berry"]
+        },
+        {
+          occasion: "Professional",
+          shades: ["Soft mauve", "Cool nude", "Rose pink"]
+        }
+      ],
+      
+      eyeliner: "Soft brown, charcoal gray, or navy",
+      mascara: "Brown or charcoal for natural definition",
+      tips: "Your makeup should be soft and cool-toned, creating elegant looks with muted colors that enhance your natural sophistication."
     },
     celebrities: ["Grace Kelly", "Gwyneth Paltrow", "Cate Blanchett"]
   },
@@ -1106,10 +1180,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: "Silver and white gold in delicate styles complement your light coloring.",
-      jewelry: ["Delicate silver chains", "Light-colored gemstones", "Feminine, airy designs"],
-      watches: ["Light metals", "Soft, light-colored straps", "Delicate, refined styles"],
-      glasses: ["Light silver or clear frames", "Soft, gentle shapes", "Avoid bold, dark frames"]
+      bestMetals: ["Silver - Light and delicate", "White Gold - Soft and refined", "Platinum - Understated luxury", "Light Pewter - Soft and muted"],
+      jewelryStyle: "Choose delicate, feminine pieces with intricate details. Your jewelry should be as light and airy as your coloring. Think fine chains, small pearls, and delicate gemstones.",
+      watches: "Light metals with small faces. Soft leather bands in light colors like powder blue or soft pink.",
+      glasses: "Light-colored frames in silver, light gray, or soft pastels. Avoid dark or heavy frames.",
+      description: "Your accessories should complement your light, delicate nature with understated elegance and cool metal tones."
     },
     hairColor: {
       bestColors: ["Light ash blonde", "Platinum", "Light gray", "Cool light brown"],
@@ -1118,12 +1193,56 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     makeup: {
       pinterestUrl: "https://pin.it/654Gk4Nrv",
-      guidelines: [
-        "Light, cool-toned foundation",
-        "Soft pink and rose lip colors",
-        "Light, shimmery eyeshadows",
-        "Gentle, natural makeup application"
-      ]
+      foundation: "Light, cool-toned foundation with pink or neutral undertones",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Soft Romance",
+          colors: ["Powder pink", "Soft lavender", "Light rose", "Pearl white"],
+          description: "Perfect for romantic, ethereal looks"
+        },
+        {
+          name: "Cool Neutrals", 
+          colors: ["Light gray", "Soft taupe", "Cool beige", "Silver"],
+          description: "Everyday sophistication with cool undertones"
+        },
+        {
+          name: "Delicate Blues",
+          colors: ["Baby blue", "Soft periwinkle", "Light steel blue", "Icy white"],
+          description: "Enhance your cool coloring with gentle blues"
+        },
+        {
+          name: "Gentle Purples",
+          colors: ["Soft lilac", "Light plum", "Dusty mauve", "Cool ivory"],
+          description: "Sophisticated purples for elegant occasions"
+        }
+      ],
+      
+      blushOptions: [
+        "Very soft pink - everyday natural glow",
+        "Light rose - gentle warmth",
+        "Cool pink - romantic enhancement",
+        "Dusty rose - sophisticated finish"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Soft pink", "Light berry", "Nude pink"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Cool berry", "Light plum", "Rose pink"]
+        },
+        {
+          occasion: "Professional",
+          shades: ["Soft mauve", "Dusty rose", "Cool neutral pink"]
+        }
+      ],
+      
+      eyeliner: "Soft brown or light gray",
+      mascara: "Brown or dark gray for natural enhancement",
+      tips: "Your makeup should be very light and natural, enhancing your delicate features without adding weight or drama."
     },
     celebrities: ["Margot Robbie", "Reese Witherspoon", "Sydney Sweeney"]
   },
@@ -1170,10 +1289,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: "Muted silver and soft metals complement your gentle coloring.",
-      jewelry: ["Soft silver pieces", "Muted gemstones", "Harmonious, blended designs"],
-      watches: ["Soft metals", "Muted straps", "Gentle, understated styles"],
-      glasses: ["Soft gray or muted frames", "Gentle shapes", "Avoid stark contrasts"]
+      bestMetals: ["Muted Silver - Soft and refined", "Pewter - Gentle and understated", "White Gold - Cool and elegant", "Soft Platinum - Understated luxury"],
+      jewelryStyle: "Choose pieces with soft, muted finishes that blend harmoniously with your coloring. Avoid high-contrast or shiny pieces that compete with your gentle nature.",
+      watches: "Soft metals with muted straps in gray, dusty rose, or soft beige. Choose gentle, understated styles.",
+      glasses: "Soft gray, muted frames, or gentle tortoiseshell. Avoid stark contrasts or bright colors.",
+      description: "Your accessories should complement your muted elegance with soft, blended finishes that enhance your natural harmony."
     },
     hairColor: {
       bestColors: ["Soft brown", "Muted blonde", "Cool gray", "Gentle highlights"],
@@ -1422,10 +1542,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Gold, Brass, Bronze, Copper',
-      jewelry: ['Rich gold pieces', 'Amber and warm stones', 'Earthy designs'],
-      watches: ['Warm metals with leather bands', 'Rich, classic styles'],
-      glasses: ['Warm tortoiseshell', 'Golden frames', 'Rich, warm colors']
+      bestMetals: ["Gold - Your most flattering metal choice", "Brass - Warm and vintage", "Copper - Rich and earthy", "Bronze - Deep and sophisticated", "Antique Gold - Rich and textured"],
+      jewelryStyle: "Choose substantial pieces with warm metals and organic designs. Your jewelry should reflect your rich, earthy nature. Think chunky gold pieces, amber, and warm gemstones.",
+      watches: "Gold or bronze with warm leather bands in brown, tan, or cognac. Classic or vintage styles work well.",
+      glasses: "Warm-toned frames in gold, warm tortoiseshell, brown, or cognac. Rich, substantial frames complement your features.",
+      description: "Your accessories should embody the richness of autumn with substantial, warm metals and earthy, organic designs."
     },
     hairColor: {
       bestColors: ['Rich brown', 'Auburn', 'Golden highlights', 'Copper'],
@@ -1434,12 +1555,56 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     makeup: {
       pinterestUrl: 'https://pin.it/6oshETYvm',
-      guidelines: [
-        'Warm, rich makeup',
-        'Rust or warm berry lipstick',
-        'Golden-toned foundation',
-        'Warm brown eyeliner'
-      ]
+      foundation: "Warm undertones - golden, bronze, or warm beige bases",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Autumn Earth",
+          colors: ["Golden brown", "Rust", "Bronze", "Cream"],
+          description: "Rich earth tones for your natural beauty"
+        },
+        {
+          name: "Harvest Gold",
+          colors: ["Golden yellow", "Warm brown", "Bronze", "Copper"],
+          description: "Golden tones that enhance your warmth"
+        },
+        {
+          name: "Forest Floor",
+          colors: ["Olive green", "Brown", "Gold", "Rust"],
+          description: "Natural greens and browns for earthy looks"
+        },
+        {
+          name: "Spice Market",
+          colors: ["Cinnamon", "Paprika", "Golden brown", "Warm bronze"],
+          description: "Warm spice tones for sophisticated glamour"
+        }
+      ],
+      
+      blushOptions: [
+        "Peach - warm and natural",
+        "Bronze - rich and sophisticated",
+        "Warm coral - fresh autumn glow",
+        "Rust - deep and earthy"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Warm coral", "Bronze", "Rust"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Warm red", "Deep bronze", "Rich rust"]
+        },
+        {
+          occasion: "Professional",
+          shades: ["Warm brown", "Bronze nude", "Soft rust"]
+        }
+      ],
+      
+      eyeliner: "Brown, bronze, or olive green",
+      mascara: "Brown or warm black",
+      tips: "Your makeup should be rich and warm, enhancing your natural earthiness. Think golden colors that make you look healthy and radiant with autumn's richness."
     },
     celebrities: ['Ana de Armas', 'Beyonce', 'Julianne Moore']
   },
@@ -1485,10 +1650,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Antique Gold, Brass, Bronze',
-      jewelry: ['Rich, substantial pieces', 'Deep colored gems', 'Sophisticated designs'],
-      watches: ['Rich metals with leather bands', 'Luxurious, classic styles'],
-      glasses: ['Deep tortoiseshell', 'Rich brown frames', 'Sophisticated shapes']
+      bestMetals: ["Gold - Rich and warm", "Bronze - Deep and sophisticated", "Copper - Warm and striking", "Antique Gold - Rich and textured", "Brass - Warm and vintage"],
+      jewelryStyle: "Choose substantial, sophisticated pieces with rich details and warm metals. Your jewelry can be bold and dramatic to match your powerful coloring.",
+      watches: "Gold or bronze with dark leather bands in brown, burgundy, or black. Sophisticated, substantial styles work best.",
+      glasses: "Rich, warm frames in gold, dark tortoiseshell, burgundy, or dark brown. Bold, substantial frames complement your strong features.",
+      description: "Your accessories should reflect your sophisticated depth with rich, luxurious materials and substantial designs that match your powerful presence."
     },
     hairColor: {
       bestColors: ['Dark brown', 'Deep auburn', 'Rich chocolate', 'Dark copper'],
@@ -1497,12 +1663,56 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     makeup: {
       pinterestUrl: 'https://pin.it/5RmF5PveK',
-      guidelines: [
-        'Rich, sophisticated makeup',
-        'Deep berry or wine lipstick',
-        'Warm, rich foundation',
-        'Deep brown or gold accents'
-      ]
+      foundation: "Deep warm undertones - golden, bronze, or olive bases",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Deep Luxury",
+          colors: ["Deep brown", "Forest green", "Burgundy", "Gold"],
+          description: "Rich, sophisticated colors for dramatic looks"
+        },
+        {
+          name: "Autumn Nights",
+          colors: ["Espresso", "Dark copper", "Deep rust", "Bronze"],
+          description: "Deep, warm tones for evening glamour"
+        },
+        {
+          name: "Forest Depths",
+          colors: ["Forest green", "Dark olive", "Brown", "Deep gold"],
+          description: "Natural deep tones with sophisticated appeal"
+        },
+        {
+          name: "Wine Country",
+          colors: ["Burgundy", "Deep plum", "Dark bronze", "Rich brown"],
+          description: "Luxurious wine tones for special occasions"
+        }
+      ],
+      
+      blushOptions: [
+        "Deep bronze - rich and warm",
+        "Warm burgundy - sophisticated depth",
+        "Rich coral - deep autumn glow",
+        "Dark rust - bold and earthy"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Deep bronze", "Wine", "Rich rust"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Deep burgundy", "Dark bronze", "Rich wine"]
+        },
+        {
+          occasion: "Professional",
+          shades: ["Dark bronze", "Deep rust", "Sophisticated brown"]
+        }
+      ],
+      
+      eyeliner: "Dark brown, forest green, or burgundy",
+      mascara: "Dark brown or black",
+      tips: "Your makeup should be rich and dramatic, matching your powerful coloring. Think deep, warm colors that create sophistication and intensity."
     },
     celebrities: ['Emily Ratajkowski', 'Tyla', 'Julia Roberts']
   },
@@ -1567,26 +1777,11 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Muted Gold, Rose Gold, Brass, Bronze, Antique Gold',
-      jewelry: [
-        'Choose pieces with soft, muted finishes rather than highly polished metals',
-        'Your jewelry should blend harmoniously with your coloring rather than create contrast',
-        'Opt for pieces with gentle, organic shapes and warm undertones',
-        'Avoid shiny or high-contrast styles that overwhelm your subtle coloring',
-        'Think vintage-inspired pieces with soft patina and understated elegance'
-      ],
-      watches: [
-        'Muted metals with soft leather bands in taupe, sage, or dusty rose',
-        'Choose watches with gentle, refined details that complement your harmonious nature',
-        'Avoid shiny or high-contrast styles that clash with your muted palette',
-        'Opt for classic, timeless designs with warm undertones'
-      ],
-      glasses: [
-        'Soft, muted frames in taupe, sage green, dusty rose, or soft gold',
-        'Choose frames that blend seamlessly with your natural coloring',
-        'Avoid sharp contrasts or bright colors that compete with your gentle features',
-        'Opt for subtle, sophisticated styles that enhance your understated elegance'
-      ]
+      bestMetals: ["Muted Gold - Soft and warm", "Rose Gold - Gentle and feminine", "Brass - Warm but not too bright", "Bronze - Muted and sophisticated", "Antique Gold - Soft, aged finish"],
+      jewelryStyle: "Choose pieces with soft, muted finishes rather than highly polished metals. Your jewelry should blend harmoniously with your coloring rather than create contrast.",
+      watches: "Muted metals with soft leather bands in taupe, sage, or dusty rose. Avoid shiny or high-contrast styles.",
+      glasses: "Soft, muted frames in taupe, sage green, dusty rose, or soft gold. Avoid sharp contrasts or bright colors.",
+      description: "Your accessories should complement your understated elegance with soft, muted finishes that enhance your natural harmony."
     },
     hairColor: {
       bestColors: ['Strawberry Blonde', 'Golden Blonde', 'Light Golden Brown', 'Medium Golden Brown'],
@@ -1598,15 +1793,56 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     makeup: {
       pinterestUrl: 'https://pin.it/6QKrA6KaV',
-      guidelines: [
-        'Your makeup should be soft and blended, creating a natural, sophisticated look',
-        'Think muted colors that blend seamlessly with your natural coloring',
-        'Foundation: Neutral to warm undertones with natural finish',
-        'Lipstick: Dusty rose, soft coral, muted berry, warm nude',
-        'Eyeshadow: Soft brown, sage green, dusty rose, taupe, mushroom',
-        'Blush: Dusty rose, soft peach, muted coral',
-        'Eyeliner: Soft brown, sage green, or dusty rose for gentle definition'
-      ]
+      foundation: "Neutral to warm undertones with natural finish",
+      
+      eyeshadowPalettes: [
+        {
+          name: "Soft Earth",
+          colors: ["Soft brown", "Taupe", "Mushroom", "Warm beige"],
+          description: "Gentle earth tones for everyday sophistication"
+        },
+        {
+          name: "Garden Mist",
+          colors: ["Sage green", "Dusty rose", "Soft gray", "Cream"],
+          description: "Muted nature tones for harmonious looks"
+        },
+        {
+          name: "Autumn Haze",
+          colors: ["Soft rust", "Warm taupe", "Dusty mauve", "Light bronze"],
+          description: "Gentle autumn colors with sophisticated appeal"
+        },
+        {
+          name: "Neutral Harmony",
+          colors: ["Mushroom", "Soft khaki", "Dusty rose", "Warm gray"],
+          description: "Perfect muted tones for professional settings"
+        }
+      ],
+      
+      blushOptions: [
+        "Dusty rose - soft and sophisticated",
+        "Soft peach - gentle warmth",
+        "Muted coral - understated glow",
+        "Soft bronze - natural depth"
+      ],
+      
+      lipstickCollections: [
+        {
+          occasion: "Daily Wear",
+          shades: ["Dusty rose", "Soft coral", "Warm nude"]
+        },
+        {
+          occasion: "Evening",
+          shades: ["Muted berry", "Soft plum", "Dusty mauve"]
+        },
+        {
+          occasion: "Professional",
+          shades: ["Soft taupe", "Muted rose", "Natural nude"]
+        }
+      ],
+      
+      eyeliner: "Soft brown, sage green, or dusty rose for gentle definition",
+      mascara: "Brown or soft black",
+      tips: "Your makeup should be soft and blended, creating a natural, sophisticated look. Think muted colors that blend seamlessly with your natural coloring for understated elegance."
     },
     celebrities: ['Drew Barrymore', 'Angelina Jolie', 'Jessica Biel']
   }
