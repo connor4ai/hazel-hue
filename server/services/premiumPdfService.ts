@@ -368,11 +368,14 @@ class PremiumPdfService {
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(11);
     currentY += 10;
-    analysisResult.accessories.jewelry.forEach((item: string) => {
-      const wrappedText = this.wrapText(pdf, `• ${item}`, 25, 165);
-      this.drawTextBlock(pdf, wrappedText, 25, currentY);
-      currentY += wrappedText.length * 5 + 3;
-    });
+    const jewelryContent = analysisResult.accessories.jewelryStyle || 
+                          (Array.isArray(analysisResult.accessories.jewelry) ? 
+                           analysisResult.accessories.jewelry.join('. ') : 
+                           analysisResult.accessories.jewelry) || 
+                          'Choose pieces that complement your coloring';
+    const jewelryText = this.wrapText(pdf, jewelryContent, 20, 170);
+    this.drawTextBlock(pdf, jewelryText, 20, currentY);
+    currentY += jewelryText.length * 5 + 10;
     
     // Watches
     currentY += 10;
@@ -383,10 +386,13 @@ class PremiumPdfService {
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(11);
     currentY += 10;
-    analysisResult.accessories.watches.forEach((item: string) => {
-      pdf.text(`• ${item}`, 25, currentY);
-      currentY += 6;
-    });
+    const watchesContent = Array.isArray(analysisResult.accessories.watches) ? 
+                          analysisResult.accessories.watches.join('. ') : 
+                          analysisResult.accessories.watches || 
+                          'Choose watches that complement your style';
+    const watchesText = this.wrapText(pdf, watchesContent, 20, 170);
+    this.drawTextBlock(pdf, watchesText, 20, currentY);
+    currentY += watchesText.length * 5 + 10;
     
     // Glasses
     currentY += 10;
@@ -397,10 +403,14 @@ class PremiumPdfService {
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(11);
     currentY += 10;
-    analysisResult.accessories.glasses.forEach((item: string) => {
-      pdf.text(`• ${item}`, 25, currentY);
-      currentY += 6;
-    });
+    const eyewearContent = Array.isArray(analysisResult.accessories.glasses) ? 
+                          analysisResult.accessories.glasses.join('. ') : 
+                          analysisResult.accessories.glasses || 
+                          analysisResult.accessories.description ||
+                          'Choose frames that suit your features';
+    const eyewearText = this.wrapText(pdf, eyewearContent, 20, 170);
+    this.drawTextBlock(pdf, eyewearText, 20, currentY);
+    currentY += eyewearText.length * 5;
   }
 
   private generatePage5(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
@@ -474,7 +484,13 @@ class PremiumPdfService {
     pdf.setFontSize(11);
     let currentY = 55;
     
-    analysisResult.makeup.guidelines.forEach((guideline: string) => {
+    const guidelines = Array.isArray(analysisResult.makeup.guidelines) ? 
+                      analysisResult.makeup.guidelines : 
+                      (analysisResult.makeup.description ? 
+                       [analysisResult.makeup.description] : 
+                       ['Follow your seasonal color palette for best results']);
+    
+    guidelines.forEach((guideline: string) => {
       const wrappedText = this.wrapText(pdf, `• ${guideline}`, 25, 165);
       this.drawTextBlock(pdf, wrappedText, 25, currentY);
       currentY += wrappedText.length * 5 + 3;
@@ -516,7 +532,11 @@ class PremiumPdfService {
     pdf.text('These celebrities share your seasonal color type:', 20, 55);
     
     let currentY = 70;
-    analysisResult.celebrities.forEach((celebrity: string) => {
+    const celebrities = Array.isArray(analysisResult.celebrities) ? 
+                       analysisResult.celebrities : 
+                       ['Style icons who share your coloring'];
+    
+    celebrities.forEach((celebrity: string) => {
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(12);
       pdf.text(`• ${celebrity}`, 25, currentY);
