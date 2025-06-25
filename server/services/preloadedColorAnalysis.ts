@@ -169,9 +169,13 @@ export class PreloadedColorAnalysisService {
   }
 
   private getPreloadedResult(season: string): ColorAnalysisResult {
+    console.log(`Looking for season content for: "${season}"`);
+    console.log('Available seasons:', Object.keys(seasonalContentData));
+    
     const content = seasonalContentData[season];
     
     if (!content) {
+      console.error(`Season "${season}" not found in seasonalContentData. Available: ${Object.keys(seasonalContentData).join(', ')}`);
       throw new Error(`No pre-loaded content found for season: ${season}`);
     }
 

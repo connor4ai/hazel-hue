@@ -1062,5 +1062,116 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     celebrities: ["Sarah Jessica Parker", "Meryl Streep", "Jennifer Aniston"]
+  },
+
+  'Soft Autumn': {
+    season: 'Soft Autumn',
+    overview: {
+      keyCharacteristics: [
+        'Warm-neutral undertones (golden with some cool influence)',
+        'Low contrast level (gentle blending between features)',
+        'Muted & soft chroma (gentle, toned-down colors)',
+        'Medium value range (avoiding light or dark extremes)',
+        'Sophisticated coloring that harmonizes beautifully with muted tones',
+        'Typically features hair with golden or ashy highlights and warm undertone skin',
+        'Natural harmony with gentle, understated elegance'
+      ],
+      signatureColors: [
+        'Sage Green (#9CAF88)',
+        'Dusty Rose (#E8B4CB)',
+        'Warm Taupe (#8B7765)',
+        'Soft Brass (#B8860B)',
+        'Mushroom (#DDD0C0)',
+        'Soft Rust (#A0522D)',
+        'Khaki (#F0E68C)',
+        'Soft Olive (#BDB76B)'
+      ],
+      colorsToAvoid: [
+        'Bright Colors', 'Pure White', 'Black', 'Electric Blue', 'Hot Pink', 
+        'Orange', 'Bright Red', 'Pure Colors', 'High Contrast Combinations', 'Cool Grays'
+      ],
+      description: 'As a Soft Autumn, you possess gentle, muted coloring with warm undertones that creates a naturally harmonious appearance. Your features are characterized by low contrast and warm-neutral tones - typically hair with golden or ashy highlights, skin with warm undertones, and eyes that often appear hazel or have mixed colors. Your ideal palette draws from autumn\'s most subtle colors: sage green, dusty rose, warm taupe, and soft brass. These muted, warm colors enhance your natural sophistication and create beautiful tonal combinations.'
+    },
+    colorPalette: {
+      htmlContent: `
+        <div class="palette-grid">
+          <!-- Soft Autumn 64-color palette will be rendered by component -->
+        </div>
+      `,
+      coreNeutrals: [
+        '#F5F5DC', '#F0E68C', '#D2B48C', '#DDD0C0', '#BC9A6A', '#8B7765',
+        '#708090', '#696969', '#F5DEB3', '#DAA520', '#B8860B', '#CD853F'
+      ],
+      accentLights: [
+        '#DEB887', '#D2691E', '#A0522D', '#8B4513', '#F0B27A', '#E8B4CB',
+        '#D2B4DE', '#BC8F8F', '#CD5C5C', '#A0522D', '#8B4C5C', '#9B4444'
+      ],
+      accentBrights: [
+        '#9CAF88', '#8FBC8F', '#6B8E23', '#BDB76B', '#808000', '#556B2F',
+        '#20B2AA', '#5F9EA0', '#008080', '#4682B4', '#6495ED', '#708090'
+      ]
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/53u5QJ3To',
+      guidelines: [
+        'Your wardrobe should focus on tonal dressing and sophisticated, muted combinations',
+        'Taupe and mushroom serve as your perfect neutral bases instead of black or white',
+        'Create beautiful monochromatic looks using different shades of the same muted color family',
+        'Patterns should be soft and blended - think watercolor effects, subtle tweeds, or gentle textures',
+        'Choose fabrics with natural, understated elegance that complement your harmonious coloring',
+        'Avoid bright colors and high contrast combinations that compete with your gentle presence',
+        'Embrace soft, flowing silhouettes that enhance your naturally graceful aesthetic'
+      ]
+    },
+    accessories: {
+      metals: 'Muted Gold, Rose Gold, Brass, Bronze, Antique Gold',
+      jewelry: [
+        'Choose pieces with soft, muted finishes rather than highly polished metals',
+        'Your jewelry should blend harmoniously with your coloring rather than create contrast',
+        'Opt for pieces with gentle, organic shapes and warm undertones',
+        'Avoid shiny or high-contrast styles that overwhelm your subtle coloring',
+        'Think vintage-inspired pieces with soft patina and understated elegance'
+      ],
+      watches: [
+        'Muted metals with soft leather bands in taupe, sage, or dusty rose',
+        'Choose watches with gentle, refined details that complement your harmonious nature',
+        'Avoid shiny or high-contrast styles that clash with your muted palette',
+        'Opt for classic, timeless designs with warm undertones'
+      ],
+      glasses: [
+        'Soft, muted frames in taupe, sage green, dusty rose, or soft gold',
+        'Choose frames that blend seamlessly with your natural coloring',
+        'Avoid sharp contrasts or bright colors that compete with your gentle features',
+        'Opt for subtle, sophisticated styles that enhance your understated elegance'
+      ]
+    },
+    hairColor: {
+      bestColors: [
+        'Soft Brown - Natural and muted with warm undertones',
+        'Mushroom Brown - Perfect cool-warm balance for your coloring',
+        'Dusty Blonde - Muted and sophisticated without harsh contrast',
+        'Soft Auburn - Gentle red tones that complement your warmth',
+        'Ash Brown - Cool but not harsh, perfect for your muted palette',
+        'Soft Gray - Elegant and natural progression that honors your gentle coloring'
+      ],
+      avoidColors: [
+        'Bright colors', 'High contrast', 'Pure golden tones', 
+        'Very dark colors', 'Harsh highlights', 'Cool platinum tones'
+      ],
+      guidance: 'Soft Autumns typically have naturally light brown to dark blonde hair with mixed warm and cool tones. When coloring, maintain the muted, harmonious quality and avoid bright or high-contrast colors that would overwhelm your gentle, sophisticated presence.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/6QKrA6KaV',
+      guidelines: [
+        'Your makeup should be soft and blended, creating a natural, sophisticated look',
+        'Think muted colors that blend seamlessly with your natural coloring',
+        'Foundation: Neutral to warm undertones with natural finish',
+        'Lipstick: Dusty rose, soft coral, muted berry, warm nude',
+        'Eyeshadow: Soft brown, sage green, dusty rose, taupe, mushroom',
+        'Blush: Dusty rose, soft peach, muted coral',
+        'Eyeliner: Soft brown, sage green, or dusty rose for gentle definition'
+      ]
+    },
+    celebrities: ['Drew Barrymore', 'Angelina Jolie', 'Jessica Biel']
   }
 };
