@@ -997,7 +997,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Deep, rich color palette throughout"
       ]
     },
-    celebrities: ["Demi Moore", "Catherine Zeta-Jones", "Lucy Liu"]
+    celebrities: ["Sandra Bullock", "Salma Hayek", "Viola Davis"]
   },
 
   "True Summer": {
@@ -1033,7 +1033,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#6495ED", "#DDA0DD", "#20B2AA", "#CD5C5C"]
     },
     clothing: {
-      pinterestUrl: "https://pinterest.com/truesummer",
+      pinterestUrl: "https://pin.it/339TCPy6G",
       guidelines: [
         "Soft blues and purples are your signature colors",
         "Gray is your perfect neutral in all its variations",
@@ -1097,7 +1097,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#B0E0E6", "#DDA0DD", "#87CEEB", "#FFB6C1"]
     },
     clothing: {
-      pinterestUrl: "https://pinterest.com/lightsummer",
+      pinterestUrl: "https://pin.it/5D4woGTlr",
       guidelines: [
         "Light blues and lavenders are perfect for you",
         "White and light gray are your ideal neutrals",
@@ -1117,7 +1117,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Light, cool colors that maintain your delicate, ethereal appearance work best."
     },
     makeup: {
-      pinterestUrl: "https://pinterest.com/lightsummermakeup",
+      pinterestUrl: "https://pin.it/654Gk4Nrv",
       guidelines: [
         "Light, cool-toned foundation",
         "Soft pink and rose lip colors",
@@ -1125,7 +1125,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Gentle, natural makeup application"
       ]
     },
-    celebrities: ["Naomi Watts", "Scarlett Johansson", "Michelle Pfeiffer"]
+    celebrities: ["Margot Robbie", "Reese Witherspoon", "Sydney Sweeney"]
   },
 
   "Soft Summer": {
@@ -1161,7 +1161,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#9370DB", "#20B2AA", "#CD5C5C", "#6495ED"]
     },
     clothing: {
-      pinterestUrl: "https://pinterest.com/softsummer",
+      pinterestUrl: "https://www.pinterest.com/HueMatcher/soft-summer-outfits/",
       guidelines: [
         "Muted blues and purples are your signature",
         "Soft gray and muted beige work as neutrals",
@@ -1181,7 +1181,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Soft, muted colors that blend with your natural coloring are most flattering."
     },
     makeup: {
-      pinterestUrl: "https://pinterest.com/softsummermakeup",
+      pinterestUrl: "https://www.pinterest.com/HueMatcher/soft-summer-makeup/",
       guidelines: [
         "Muted, cool-toned foundation",
         "Soft, muted lip colors",
@@ -1189,7 +1189,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Gentle, natural makeup look"
       ]
     },
-    celebrities: ["Sarah Jessica Parker", "Meryl Streep", "Jennifer Aniston"]
+    celebrities: ["Jennifer Aniston", "Adriana Lima", "Cara Delevingne"]
   },
 
   'True Spring': {
@@ -1252,7 +1252,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Warm brown eyeliner'
       ]
     },
-    celebrities: ['Emma Stone', 'Amy Adams', 'Julianne Moore']
+    celebrities: ['Emma Stone', 'Mila Jojovich', 'Jane Levy']
   },
 
   'Bright Spring': {
@@ -1287,7 +1287,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#FF6347', '#FF4500', '#32CD32', '#FF00FF']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/brightspring',
+      pinterestUrl: 'https://pin.it/1BqAZuRko',
       guidelines: [
         'Electric, vibrant colors are your strength',
         'High contrast combinations work perfectly',
@@ -1350,7 +1350,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#F08080', '#FFD700', '#32CD32', '#87CEEB']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/lightspring',
+      pinterestUrl: 'https://pin.it/10Gbz4387',
       guidelines: [
         'Light, warm colors are perfect',
         'Cream is better than white',
@@ -1433,7 +1433,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'True Autumns shine in rich, warm hair colors that echo autumn leaves.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/trueautumnmakeup',
+      pinterestUrl: 'https://pin.it/6oshETYvm',
       guidelines: [
         'Warm, rich makeup',
         'Rust or warm berry lipstick',
@@ -1441,7 +1441,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Warm brown eyeliner'
       ]
     },
-    celebrities: ['Julia Roberts', 'Susan Sarandon', 'Marcia Cross']
+    celebrities: ['Ana de Armas', 'Beyonce', 'Julianne Moore']
   },
 
   'Dark Autumn': {
@@ -1496,7 +1496,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Dark Autumns look stunning in deep, rich hair colors that match their sophisticated coloring.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/darkautumnmakeup',
+      pinterestUrl: 'https://pin.it/5RmF5PveK',
       guidelines: [
         'Rich, sophisticated makeup',
         'Deep berry or wine lipstick',
