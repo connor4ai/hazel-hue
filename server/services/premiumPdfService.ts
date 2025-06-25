@@ -356,7 +356,7 @@ class PremiumPdfService {
     
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(11);
-    const metalsText = this.wrapText(pdf, analysisResult.accessories.metals, 20, 170);
+    const metalsText = this.wrapText(pdf, analysisResult.accessories.metals || 'Gold and silver metals', 20, 170);
     this.drawTextBlock(pdf, metalsText, 20, 55);
     
     // Jewelry
@@ -555,7 +555,8 @@ class PremiumPdfService {
     } : { r: 0, g: 0, b: 0 };
   }
 
-  private wrapText(pdf: jsPDF, text: string, x: number, maxWidth: number): string[] {
+  private wrapText(pdf: jsPDF, text: string | undefined, x: number, maxWidth: number): string[] {
+    if (!text) return [''];
     const words = text.split(' ');
     const lines: string[] = [];
     let currentLine = '';
