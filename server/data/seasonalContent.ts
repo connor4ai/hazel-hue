@@ -46,29 +46,30 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Deep to Light value range (can handle both extremes)'
       ],
       signatureColors: [
-        'True Black (#000000)',
-        'Pure White (#FFFFFF)', 
-        'Royal Blue (#4169E1)',
-        'Emerald Green (#50C878)',
-        'Hot Pink (#FF69B4)',
-        'True Red (#FF0000)',
-        'Purple (#800080)',
-        'Icy Gray (#F8F8FF)'
+        'Ice White (#E8E8E8)',
+        'Cool Grey (#6B7B7B)',
+        'Icy Yellow (#FCE4B8)',
+        'Emerald (#4D9B4D)',
+        'Teal (#2E5F5F)',
+        'Bright Pink (#FFB8E8)',
+        'Fuchsia (#E85AA0)',
+        'Eggplant (#5A3D5A)'
       ],
       colorsToAvoid: [
-        'Warm Colors', 'Muted Tones', 'Beige', 'Orange', 'Yellow-Green', 
-        'Rust', 'Gold', 'Warm Browns', 'Dusty Colors', 'Earth Tones'
+        'Peach', 'Coral', 'Orange', 'Warm Yellow', 'Golden Brown', 
+        'Olive Green', 'Dusty Colors', 'Muted Tones', 'Sage Green', 
+        'Taupe', 'Beige', 'Cream', 'Rust', 'Terracotta'
       ],
       description: 'True Winter represents the essence of winter with high contrast and cool undertones. You have striking features with dark hair, light skin, and bright eyes that can handle the most dramatic color combinations. Your palette consists of pure, clear colors in their truest form - think fresh snow, deep night sky, and jewel tones.'
     },
     colorPalette: {
-      htmlContent: `<div class="palette-grid"><!-- True Winter 64-color palette --></div>`,
-      coreNeutrals: ['#000000', '#FFFFFF', '#808080', '#C0C0C0'],
-      accentLights: ['#FF69B4', '#00FFFF', '#FF0000', '#0000FF'],
-      accentBrights: ['#800080', '#008000', '#4169E1', '#50C878']
+      htmlContent: `<!-- True Winter HTML palette content from user files -->`,
+      coreNeutrals: ['#E8E8E8', '#6B7B7B', '#4A4A4A', '#1C1C1C'],
+      accentLights: ['#FFB8E8', '#FFE8FC', '#E8B8E8', '#FCE4B8'],
+      accentBrights: ['#E85AA0', '#4D9B4D', '#2E5F5F', '#5A3D5A']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/truewinter',
+      pinterestUrl: 'https://pin.it/5msDn2lWd',
       guidelines: [
         'Black and white are your power neutrals',
         'Choose pure, saturated colors without yellow undertones',
@@ -88,7 +89,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'True Winters look stunning in dramatic hair colors with cool undertones.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/truewintermakeup',
+      pinterestUrl: 'https://pin.it/4jTgHGE0j',
       guidelines: [
         'Bold, dramatic makeup',
         'True red or bright pink lipstick',
@@ -97,6 +98,70 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     celebrities: ['Anne Hathaway', 'Sandra Bullock', 'Megan Fox']
+  },
+
+  'Bright Winter': {
+    season: 'Bright Winter',
+    overview: {
+      keyCharacteristics: [
+        'Cool undertones (blue or pink undertones)',
+        'Very High contrast (dramatic contrast between features)',
+        'Bright & Clear chroma (needs the most saturated colors)',
+        'Full Range value (can wear both very light and very dark colors)'
+      ],
+      signatureColors: [
+        'Electric Blue (#0080FF)',
+        'True Red (#FF0000)',
+        'Emerald Green (#00FF80)',
+        'Hot Pink (#FF1493)',
+        'Pure White (#FFFFFF)',
+        'Jet Black (#000000)',
+        'Bright Purple (#8A2BE2)',
+        'Lemon Yellow (#FFFF00)'
+      ],
+      colorsToAvoid: [
+        'Peach', 'Coral', 'Orange', 'Warm Yellow', 'Golden Brown', 
+        'Olive Green', 'Dusty Colors', 'Muted Tones', 'Sage Green', 
+        'Taupe', 'Beige', 'Cream', 'Rust', 'Terracotta'
+      ],
+      description: 'You are a Bright Winter, possessing striking, high-contrast coloring that can handle the most intense colors in the spectrum. Your features are characterized by cool undertones with dramatic contrast - often dark hair, pale skin, and bright, piercing eyes. Your palette consists of the most saturated, cool-toned colors that complement your naturally dramatic appearance.'
+    },
+    colorPalette: {
+      htmlContent: `<!-- Bright Winter palette content -->`,
+      coreNeutrals: ['#FFFFFF', '#000000', '#808080', '#C0C0C0'],
+      accentLights: ['#FF1493', '#00FFFF', '#FFFF00', '#00FF80'],
+      accentBrights: ['#0080FF', '#FF0000', '#8A2BE2', '#00FF80']
+    },
+    clothing: {
+      pinterestUrl: 'https://pin.it/3N5d043Xa',
+      guidelines: [
+        'Your wardrobe should be built around high-impact, statement pieces',
+        'You can wear head-to-toe bright colors that would overwhelm other seasons',
+        'Black and white create perfect contrast for you',
+        'Your patterns should be bold and geometric, with high contrast between colors'
+      ]
+    },
+    accessories: {
+      metals: 'Bright Silver, Platinum, White Gold, Chrome',
+      jewelry: ['Bold, statement pieces with clean geometric lines', 'Large, architectural pieces in bright metals'],
+      watches: ['Bright silver, white gold, or high-tech materials like ceramic or titanium'],
+      glasses: ['Bright silver, black, white, or even electric blue frames', 'Bold, modern shapes']
+    },
+    hairColor: {
+      bestColors: ['Jet Black', 'Platinum Blonde', 'Cool Dark Brown', 'Bold Fashion Colors', 'Silver/White'],
+      avoidColors: ['Any warm tones', 'golden highlights', 'auburn', 'copper', 'muddy colors'],
+      guidance: 'Bright Winters often have naturally dark hair with high contrast against pale skin.'
+    },
+    makeup: {
+      pinterestUrl: 'https://pin.it/1RvCERX0Z',
+      guidelines: [
+        'You can handle the most dramatic makeup looks',
+        'Bright red, hot pink, electric purple, bright berry lipstick',
+        'Electric blue, bright purple, silver, black, white, emerald eyeshadow',
+        'Jet black, bright blue, purple, or white eyeliner for drama'
+      ]
+    },
+    celebrities: ['Megan Fox', 'Katy Perry', 'Adriana Lima']
   },
 
   'Dark Winter': {
