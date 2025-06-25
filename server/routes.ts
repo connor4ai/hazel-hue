@@ -102,6 +102,15 @@ async function processColorAnalysisWorker(jobId: number) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Test images page for debugging
+  app.get("/test-images", (req, res) => {
+    res.sendFile(path.resolve(process.cwd(), "test_images.html"));
+  });
+
+  // Health check endpoint
+  app.get("/api/health", (req: Request, res: Response) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
   
   // User registration
   app.post("/api/auth/register", async (req, res) => {

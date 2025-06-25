@@ -37,12 +37,12 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Light Summer': {
     celebrities: [
-      '/attached_assets/Sydney Sweeney_1750821623288.png',
-      '/attached_assets/Reese Witherspoon_1750821623288.png', 
-      '/attached_assets/Margot Robbie_1750821623288.png'
+      '/attached_assets/Sydney%20Sweeney_1750821623288.png',
+      '/attached_assets/Reese%20Witherspoon_1750821623288.png', 
+      '/attached_assets/Margot%20Robbie_1750821623288.png'
     ],
-    hairColorGuide: '/attached_assets/60b8ba33488e4676486cf733_Light Summer Hair_1750821637204.webp',
-    colorDimensions: '/attached_assets/60b8bb643931008db258a009_Light Summer Colour Dimensions_1750821637204.webp',
+    hairColorGuide: '/attached_assets/60b8ba33488e4676486cf733_Light%20Summer%20Hair_1750821637204.webp',
+    colorDimensions: '/attached_assets/60b8bb643931008db258a009_Light%20Summer%20Colour%20Dimensions_1750821637204.webp',
     seasonChart: '/attached_assets/12-tone-chart-value-temperature_1750808631298.png'
   },
 
