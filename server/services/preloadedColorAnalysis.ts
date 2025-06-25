@@ -50,7 +50,7 @@ export class PreloadedColorAnalysisService {
       
       if (isDemoOrder) {
         // For demo orders, randomly select from available seasons for testing
-        const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn'];
+        const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn', 'Dark Autumn'];
         const randomIndex = Math.floor(Math.random() * availableSeasons.length);
         const selectedSeason = availableSeasons[randomIndex];
         console.log(`Demo order - randomly selected ${selectedSeason} for demonstration`);
@@ -62,7 +62,7 @@ export class PreloadedColorAnalysisService {
       console.log(`AI detected season: ${detectedSeason}`);
       
       // Check if we have content for the detected season
-      const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn'];
+      const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn', 'Dark Autumn'];
       if (!availableSeasons.includes(detectedSeason)) {
         console.log(`Season "${detectedSeason}" detected but not yet implemented. Returning work-in-progress result.`);
         return this.getWorkInProgressResult(detectedSeason);

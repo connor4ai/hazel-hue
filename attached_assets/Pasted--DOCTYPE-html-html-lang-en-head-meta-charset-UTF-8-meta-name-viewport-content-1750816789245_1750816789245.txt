@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Autumn Color Palette</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #3c3429 0%, #2a1f1a 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fefefe;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid rgba(101, 67, 33, 0.3);
+        }
+        
+        .header {
+            background: #ffffff;
+            color: #2c2c2c;
+            padding: 60px 30px;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 4em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .header p {
+            margin: 12px 0 0 0;
+            font-size: 1em;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666666;
+        }
+        
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 16px;
+            padding: 50px 40px;
+            background: #fefefe;
+        }
+        
+        .color-swatch {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(101, 67, 33, 0.3);
+        }
+        
+        .color-swatch:hover {
+            transform: translateY(-4px) scale(1.02);
+            z-index: 10;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .color-top {
+            height: 120px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .color-info {
+            background: white;
+            padding: 12px 8px 8px 8px;
+            text-align: center;
+            border-top: 1px solid rgba(101, 67, 33, 0.2);
+        }
+        
+        .color-name {
+            font-size: 0.7em;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        .color-code {
+            font-size: 0.65em;
+            font-weight: 400;
+            color: #666666;
+            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #654321;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, #3c3429 0%, #fefefe 100%);
+            border-top: 1px solid rgba(101, 67, 33, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 30px 20px;
+                gap: 12px;
+            }
+            
+            .color-top {
+                height: 100px;
+            }
+            
+            .color-info {
+                padding: 10px 6px 6px 6px;
+            }
+            
+            .color-name {
+                font-size: 0.65em;
+            }
+            
+            .color-code {
+                font-size: 0.6em;
+            }
+            
+            .header h1 {
+                font-size: 2.4em;
+                letter-spacing: 4px;
+            }
+            
+            .header p {
+                font-size: 0.95em;
+                letter-spacing: 1px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .palette-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .color-top {
+                height: 80px;
+            }
+            
+            .color-info {
+                padding: 8px 4px 4px 4px;
+            }
+            
+            .color-name {
+                font-size: 0.6em;
+                margin-bottom: 2px;
+            }
+            
+            .color-code {
+                font-size: 0.55em;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DARK AUTUMN</h1>
+            <p>12 Season Color Analysis Palette</p>
+        </div>
+        
+        <div class="palette-grid">
+            <!-- Row 1 - Warm Neutrals -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FAF0E6;"></div>
+                <div class="color-info">
+                    <div class="color-name">Linen</div>
+                    <div class="color-code">#FAF0E6</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #F5E6D3;"></div>
+                <div class="color-info">
+                    <div class="color-name">Papyrus</div>
+                    <div class="color-code">#F5E6D3</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #C8A882;"></div>
+                <div class="color-info">
+                    <div class="color-name">Camel</div>
+                    <div class="color-code">#C8A882</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #D2691E;"></div>
+                <div class="color-info">
+                    <div class="color-name">Chocolate</div>
+                    <div class="color-code">#D2691E</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #654321;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Brown</div>
+                    <div class="color-code">#654321</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #3C2415;"></div>
+                <div class="color-info">
+                    <div class="color-name">Espresso</div>
+                    <div class="color-code">#3C2415</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #2F4F4F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Slate Grey</div>
+                    <div class="color-code">#2F4F4F</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #1C1C1C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Warm Black</div>
+                    <div class="color-code">#1C1C1C</div>
+                </div>
+            </div>
+            
+            <!-- Row 2 - Yellows and Oranges -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FFDB58;"></div>
+                <div class="color-info">
+                    <div class="color-name">Mustard</div>
+                    <div class="color-code">#FFDB58</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #CC9900;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Mustard</div>
+                    <div class="color-code">#CC9900</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #CD7F32;"></div>
+                <div class="color-info">
+                    <div class="color-name">Bronze</div>
+                    <div class="color-code">#CD7F32</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B7410E;"></div>
+                <div class="color-info">
+                    <div class="color-name">Rust</div>
+                    <div class="color-code">#B7410E</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FF6347;"></div>
+                <div class="color-info">
+                    <div class="color-name">Tomato</div>
+                    <div class="color-code">#FF6347</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #E2725B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Terracotta</div>
+                    <div class="color-code">#E2725B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #FF4500;"></div>
+                <div class="color-info">
+                    <div class="color-name">Burnt Orange</div>
+                    <div class="color-code">#FF4500</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #8B4513;"></div>
+                <div class="color-info">
+                    <div class="color-name">Burnt Sienna</div>
+                    <div class="color-code">#8B4513</div>
+                </div>
+            </div>
+            
+            <!-- Row 3 - Reds and Burgundies -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #DC143C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Crimson</div>
+                    <div class="color-code">#DC143C</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #8B0000;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Red</div>
+                    <div class="color-code">#8B0000</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #800020;"></div>
+                <div class="color-info">
+                    <div class="color-name">Burgundy</div>
+                    <div class="color-code">#800020</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #722F37;"></div>
+                <div class="color-info">
+                    <div class="color-name">Wine</div>
+                    <div class="color-code">#722F37</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #800000;"></div>
+                <div class="color-info">
+                    <div class="color-name">Maroon</div>
+                    <div class="color-code">#800000</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #B22222;"></div>
+                <div class="color-info">
+                    <div class="color-name">Fire Brick</div>
+                    <div class="color-code">#B22222</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #A0522D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Sienna</div>
+                    <div class="color-code">#A0522D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #CD5C5C;"></div>
+                <div class="color-info">
+                    <div class="color-name">Indian Red</div>
+                    <div class="color-code">#CD5C5C</div>
+                </div>
+            </div>
+            
+            <!-- Row 4 - Greens -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #808000;"></div>
+                <div class="color-info">
+                    <div class="color-name">Olive</div>
+                    <div class="color-code">#808000</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #556B2F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Olive</div>
+                    <div class="color-code">#556B2F</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #228B22;"></div>
+                <div class="color-info">
+                    <div class="color-name">Forest Green</div>
+                    <div class="color-code">#228B22</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #355E3B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Hunter Green</div>
+                    <div class="color-code">#355E3B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #2F4F2F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Green</div>
+                    <div class="color-code">#2F4F2F</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4F7942;"></div>
+                <div class="color-info">
+                    <div class="color-name">Moss Green</div>
+                    <div class="color-code">#4F7942</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #006A4E;"></div>
+                <div class="color-info">
+                    <div class="color-name">Bottle Green</div>
+                    <div class="color-code">#006A4E</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4A5D23;"></div>
+                <div class="color-info">
+                    <div class="color-name">Army Green</div>
+                    <div class="color-code">#4A5D23</div>
+                </div>
+            </div>
+            
+            <!-- Row 5 - Blues and Teals -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #008080;"></div>
+                <div class="color-info">
+                    <div class="color-name">Teal</div>
+                    <div class="color-code">#008080</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #004D4D;"></div>
+                <div class="color-info">
+                    <div class="color-name">Deep Teal</div>
+                    <div class="color-code">#004D4D</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #195190;"></div>
+                <div class="color-info">
+                    <div class="color-name">Peacock Blue</div>
+                    <div class="color-code">#195190</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #191970;"></div>
+                <div class="color-info">
+                    <div class="color-name">Midnight Blue</div>
+                    <div class="color-code">#191970</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #000080;"></div>
+                <div class="color-info">
+                    <div class="color-name">Navy</div>
+                    <div class="color-code">#000080</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #483D8B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Slate Blue</div>
+                    <div class="color-code">#483D8B</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #2F4F4F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Slate Grey</div>
+                    <div class="color-code">#2F4F4F</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #36454F;"></div>
+                <div class="color-info">
+                    <div class="color-name">Charcoal</div>
+                    <div class="color-code">#36454F</div>
+                </div>
+            </div>
+            
+            <!-- Row 6 - Purples -->
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #663399;"></div>
+                <div class="color-info">
+                    <div class="color-name">Rebecca Purple</div>
+                    <div class="color-code">#663399</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #4B0082;"></div>
+                <div class="color-info">
+                    <div class="color-name">Indigo</div>
+                    <div class="color-code">#4B0082</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #800080;"></div>
+                <div class="color-info">
+                    <div class="color-name">Purple</div>
+                    <div class="color-code">#800080</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #663366;"></div>
+                <div class="color-info">
+                    <div class="color-name">Plum</div>
+                    <div class="color-code">#663366</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #614051;"></div>
+                <div class="color-info">
+                    <div class="color-name">Eggplant</div>
+                    <div class="color-code">#614051</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #301934;"></div>
+                <div class="color-info">
+                    <div class="color-name">Aubergine</div>
+                    <div class="color-code">#301934</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #DA70D6;"></div>
+                <div class="color-info">
+                    <div class="color-name">Orchid</div>
+                    <div class="color-code">#DA70D6</div>
+                </div>
+            </div>
+            <div class="color-swatch">
+                <div class="color-top" style="background-color: #8B008B;"></div>
+                <div class="color-info">
+                    <div class="color-name">Dark Magenta</div>
+                    <div class="color-code">#8B008B</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+        </div>
+    </div>
+    
+    <script>
+        // Add click to copy functionality
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', function() {
+                const colorCode = this.querySelector('.color-code').textContent;
+                navigator.clipboard.writeText(colorCode).then(() => {
+                    // Create temporary feedback with dark autumn styling
+                    const feedback = document.createElement('div');
+                    feedback.textContent = 'Copied!';
+                    feedback.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #654321 0%, #3C2415 100%);
+                        color: #ffffff;
+                        padding: 12px 24px;
+                        border-radius: 8px;
+                        z-index: 1000;
+                        font-weight: 500;
+                        font-size: 0.9em;
+                        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                        backdrop-filter: blur(8px);
+                        border: 1px solid rgba(255, 255, 255, 0.3);
+                    `;
+                    document.body.appendChild(feedback);
+                    setTimeout(() => document.body.removeChild(feedback), 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
