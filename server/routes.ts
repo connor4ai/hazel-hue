@@ -1050,7 +1050,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Email results to user
   app.post("/api/orders/:orderId/email-results", async (req: Request, res: Response) => {
     try {
-      const order = await storage.getOrder(parseInt(req.params.orderId));
+      const orderIdNum = parseInt(req.params.orderId);
+      if (isNaN(orderIdNum)) {
+        return res.status(400).json({ message: "Invalid order ID" });
+      }
+      const order = await storage.getOrder(orderIdNum);
       if (!order || !order.analysisResult) {
         return res.status(404).json({ message: "Order not found" });
       }

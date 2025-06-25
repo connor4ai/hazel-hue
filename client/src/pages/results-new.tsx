@@ -5,9 +5,7 @@ import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Spa
 import seasonChartImage from '@assets/12-tone-chart-value-temperature_1750623961315.png';
 import colorDimensionsImage from '@assets/60b8f521cbd467e4c5ba0270_True Winter Colour Dimensions_1750623961315.webp';
 import hairColorImage from '@assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp';
-import maryLouiseParkerImage from '@assets/Screenshot 2025-06-22 at 6.42.17 PM_1750635904961.png';
-import marionCotillardImage from '@assets/Screenshot 2025-06-22 at 6.42.31 PM_1750635904961.png';
-import krystenRitterImage from '@assets/Screenshot 2025-06-22 at 6.42.37 PM_1750635904961.png';
+// Celebrity images will be loaded dynamically based on season
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
@@ -425,29 +423,17 @@ export default function ResultsNew() {
             <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">Color Dimensions</h4>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
-                <div className="bg-white rounded-xl p-4">
-                  <p className="font-semibold text-gray-800">Temperature</p>
-                  <p className="text-gray-600">Cool (blue-based undertones)</p>
-                </div>
-                <div className="bg-white rounded-xl p-4">
-                  <p className="font-semibold text-gray-800">Saturation</p>
-                  <p className="text-gray-600">High clarity and purity</p>
-                </div>
-                <div className="bg-white rounded-xl p-4">
-                  <p className="font-semibold text-gray-800">Value</p>
-                  <p className="text-gray-600">Medium to deep tones</p>
-                </div>
-                <div className="bg-white rounded-xl p-4">
-                  <p className="font-semibold text-gray-800">Intensity</p>
-                  <p className="text-gray-600">Bold and striking presence</p>
-                </div>
+                {analysisResult.overview.keyCharacteristics.map((characteristic, index) => (
+                  <div key={index} className="bg-white rounded-xl p-4">
+                    <p className="text-gray-700">{characteristic}</p>
+                  </div>
+                ))}
               </div>
               <div className="bg-white rounded-xl p-6 text-center">
-                <img
-                  src={colorDimensionsImage}
-                  alt="True Winter Color Dimensions"
-                  className="w-full max-w-sm mx-auto rounded-lg shadow-sm"
-                />
+                <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg p-8 text-center">
+                  <h5 className="font-bold text-gray-800 mb-4">{analysisResult.season}</h5>
+                  <p className="text-gray-600 text-sm">{analysisResult.overview.description}</p>
+                </div>
                 <p className="text-sm text-gray-600 mt-4">Your position on the color analysis spectrum</p>
               </div>
             </div>
@@ -466,7 +452,7 @@ export default function ResultsNew() {
                 alt="12-Season Color Analysis Chart"
                 className="w-full max-w-2xl mx-auto rounded-lg shadow-sm"
               />
-              <p className="text-sm text-gray-600 mt-4">True Winter's position in the complete seasonal color system</p>
+              <p className="text-sm text-gray-600 mt-4">{analysisResult.season}'s position in the complete seasonal color system</p>
             </div>
           </motion.div>
         </div>
@@ -687,7 +673,7 @@ export default function ResultsNew() {
                   alt="Hair Color Examples"
                   className="w-full rounded-lg shadow-sm"
                 />
-                <p className="text-xs text-gray-600 text-center mt-2">Natural hair color examples for True Winter</p>
+                <p className="text-xs text-gray-600 text-center mt-2">Natural hair color examples for {analysisResult.season}</p>
               </div>
             </motion.div>
 
@@ -752,56 +738,12 @@ export default function ResultsNew() {
             >
               <h4 className="text-xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Makeup Palette</h4>
               
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Foundation</h5>
-                  <p className="text-gray-700 text-xs mb-2">Cool or neutral undertones</p>
-                  <div className="flex space-x-2">
-                    {['#F5DEB3', '#F0E6D2'].map((color, index) => (
-                      <ColorSwatch key={index} color={color} name={color} clickable />
-                    ))}
+              <div className="space-y-4">
+                {analysisResult.makeup.guidelines.map((guideline, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-gray-700">{guideline}</p>
                   </div>
-                </div>
-
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Lipstick</h5>
-                  <p className="text-gray-700 text-xs mb-2">True red, burgundy, fuchsia</p>
-                  <div className="flex space-x-2">
-                    {['#DC143C', '#800020'].map((color, index) => (
-                      <ColorSwatch key={index} color={color} name={color} clickable />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Eyeshadow</h5>
-                  <p className="text-gray-700 text-xs mb-2">Navy, charcoal, emerald</p>
-                  <div className="flex space-x-2">
-                    {['#000080', '#36454F'].map((color, index) => (
-                      <ColorSwatch key={index} color={color} name={color} clickable />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Blush</h5>
-                  <p className="text-gray-700 text-xs mb-2">Cool pink, berry tones</p>
-                  <div className="flex space-x-2">
-                    {['#FFB6C1', '#DC143C'].map((color, index) => (
-                      <ColorSwatch key={index} color={color} name={color} clickable />
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h5 className="font-semibold text-gray-800 mb-2">Eyeliner</h5>
-                  <p className="text-gray-700 text-xs mb-2">Black, navy, burgundy</p>
-                  <div className="flex space-x-2">
-                    {['#000000', '#000080'].map((color, index) => (
-                      <ColorSwatch key={index} color={color} name={color} clickable />
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
             </motion.div>
 
@@ -812,7 +754,7 @@ export default function ResultsNew() {
             >
               <PinterestEmbed 
                 url={analysisResult.makeup.pinterestUrl} 
-                title="True Winter Makeup Looks" 
+                title={`${analysisResult.season} Makeup Looks`} 
               />
             </motion.div>
           </div>
@@ -831,11 +773,7 @@ export default function ResultsNew() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { name: 'Mary Louise Parker', image: maryLouiseParkerImage },
-              { name: 'Marion Cotillard', image: marionCotillardImage },
-              { name: 'Krysten Ritter', image: krystenRitterImage }
-            ].map((celebrity, index) => (
+            {analysisResult.celebrities.map((celebrity, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -843,14 +781,13 @@ export default function ResultsNew() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
               >
-                <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden">
-                  <img
-                    src={celebrity.image}
-                    alt={celebrity.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                  <div className="text-center text-gray-600">
+                    <Users className="w-16 h-16 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">Celebrity Photo</p>
+                  </div>
                 </div>
-                <h4 className="text-lg font-bold text-gray-800 text-center">{celebrity.name}</h4>
+                <h4 className="text-lg font-bold text-gray-800 text-center">{celebrity}</h4>
               </motion.div>
             ))}
           </div>
