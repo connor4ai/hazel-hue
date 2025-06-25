@@ -595,7 +595,12 @@ export default function ResultsNew() {
               >
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Guidelines</h4>
                 <div className="space-y-3">
-                  {analysisResult.accessories.jewelry.map((item, index) => (
+                  {(Array.isArray(analysisResult.accessories.jewelry) ? 
+                    analysisResult.accessories.jewelry : 
+                    analysisResult.accessories.jewelryStyle ? 
+                    [analysisResult.accessories.jewelryStyle] : 
+                    ['Elegant pieces that complement your coloring']
+                  ).map((item, index) => (
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
                 </div>
@@ -609,7 +614,12 @@ export default function ResultsNew() {
               >
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Eyewear Guide</h4>
                 <div className="space-y-3 mb-4">
-                  {analysisResult.accessories.glasses.map((item, index) => (
+                  {(Array.isArray(analysisResult.accessories.glasses) ? 
+                    analysisResult.accessories.glasses : 
+                    analysisResult.accessories.description ? 
+                    [analysisResult.accessories.description] : 
+                    ['Choose frames that complement your features']
+                  ).map((item, index) => (
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
                 </div>
@@ -665,7 +675,12 @@ export default function ResultsNew() {
                 Best Hair Colors
               </h4>
               <div className="space-y-4">
-                {analysisResult.hairColor.bestColors.map((color, index) => (
+                {(Array.isArray(analysisResult.hairColor.bestColors) ? 
+                  analysisResult.hairColor.bestColors : 
+                  analysisResult.hairColor.recommended ? 
+                  analysisResult.hairColor.recommended : 
+                  ['Colors that enhance your natural beauty']
+                ).map((color, index) => (
                   <motion.p
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
@@ -706,7 +721,12 @@ export default function ResultsNew() {
                 Colors to Avoid
               </h4>
               <div className="space-y-4">
-                {analysisResult.hairColor.avoidColors.map((color, index) => (
+                {(Array.isArray(analysisResult.hairColor.avoidColors) ? 
+                  analysisResult.hairColor.avoidColors : 
+                  analysisResult.hairColor.description ? 
+                  [analysisResult.hairColor.description] : 
+                  ['Avoid colors that clash with your natural coloring']
+                ).map((color, index) => (
                   <motion.p
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
@@ -757,7 +777,12 @@ export default function ResultsNew() {
               <h4 className="text-xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Makeup Palette</h4>
               
               <div className="space-y-4">
-                {analysisResult.makeup.guidelines.map((guideline, index) => (
+                {(Array.isArray(analysisResult.makeup.guidelines) ? 
+                  analysisResult.makeup.guidelines : 
+                  analysisResult.makeup.description ? 
+                  [analysisResult.makeup.description] : 
+                  ['Follow your seasonal color palette for best makeup results']
+                ).map((guideline, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-4">
                     <p className="text-gray-700">{guideline}</p>
                   </div>
@@ -809,13 +834,18 @@ export default function ResultsNew() {
                     />
                   </div>
                   <h4 className="text-lg font-bold text-gray-800 text-center">
-                    {order.analysisResult.celebrities[index] || `Celebrity ${index + 1}`}
+                    {(Array.isArray(order.analysisResult.celebrities) ? 
+                      order.analysisResult.celebrities[index] : 
+                      `Celebrity ${index + 1}`) || `Celebrity ${index + 1}`}
                   </h4>
                 </motion.div>
               ))
             ) : (
               // Fallback to celebrity names only
-              order.analysisResult.celebrities.map((celebrity, index) => (
+              (Array.isArray(order.analysisResult.celebrities) ? 
+                order.analysisResult.celebrities : 
+                ['Style icons who share your coloring']
+              ).map((celebrity, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
