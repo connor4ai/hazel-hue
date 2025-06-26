@@ -18,6 +18,7 @@ import {
   Shirt
 } from 'lucide-react';
 
+
 export default function UploadPage() {
   const [, setLocation] = useLocation();
   const { isAuthenticated } = useAuth();
@@ -285,19 +286,37 @@ export default function UploadPage() {
                 </div>
 
                 <div className="p-4 bg-gradient-to-r from-terracotta/10 to-marigold/10 rounded-lg">
-                  <h4 className="font-semibold text-warm-gray-dark mb-2">Example Photos</h4>
-                  <div className="grid grid-cols-3 gap-2 text-xs text-warm-gray">
+                  <h4 className="font-semibold text-warm-gray-dark mb-3">Example Photos</h4>
+                  <div className="grid grid-cols-3 gap-3 text-xs text-warm-gray">
                     <div className="text-center">
-                      <div className="w-full h-16 bg-gradient-to-b from-terracotta/20 to-terracotta/10 rounded mb-1"></div>
-                      <p>Front View</p>
+                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
+                        <div className="text-center">
+                          <User className="w-8 h-8 text-blue-400 mx-auto mb-1" />
+                          <div className="text-xs text-blue-600 font-medium">Good</div>
+                        </div>
+                      </div>
+                      <p className="font-medium">Natural Light</p>
+                      <p className="text-xs">Clear, well-lit face</p>
                     </div>
                     <div className="text-center">
-                      <div className="w-full h-16 bg-gradient-to-b from-marigold/20 to-marigold/10 rounded mb-1"></div>
-                      <p>Side Profile</p>
+                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center">
+                        <div className="text-center">
+                          <User className="w-8 h-8 text-green-400 mx-auto mb-1" />
+                          <div className="text-xs text-green-600 font-medium">Good</div>
+                        </div>
+                      </div>
+                      <p className="font-medium">Front View</p>
+                      <p className="text-xs">Minimal makeup</p>
                     </div>
                     <div className="text-center">
-                      <div className="w-full h-16 bg-gradient-to-b from-lagoon/20 to-lagoon/10 rounded mb-1"></div>
-                      <p>3/4 View</p>
+                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center">
+                        <div className="text-center">
+                          <User className="w-8 h-8 text-purple-400 mx-auto mb-1" />
+                          <div className="text-xs text-purple-600 font-medium">Good</div>
+                        </div>
+                      </div>
+                      <p className="font-medium">Good Angle</p>
+                      <p className="text-xs">Neutral clothing</p>
                     </div>
                   </div>
                 </div>
