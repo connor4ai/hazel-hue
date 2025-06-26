@@ -19,6 +19,105 @@ import TrueAutumnPalette from '@/components/TrueAutumnPalette';
 import DarkAutumnPalette from '@/components/DarkAutumnPalette';
 import SoftAutumnPalette from '@/components/SoftAutumnPalette';
 
+// Metal color helper function
+const getMetalColorSwatch = (metalName: string) => {
+  const metalLower = metalName.toLowerCase();
+  
+  if (metalLower.includes('silver') || metalLower.includes('platinum')) {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400' };
+  } else if (metalLower.includes('white gold')) {
+    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200' };
+  } else if (metalLower.includes('gunmetal') || metalLower.includes('black metal')) {
+    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700' };
+  } else if (metalLower.includes('gold') && !metalLower.includes('rose')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-400' };
+  } else if (metalLower.includes('rose gold')) {
+    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-300' };
+  } else if (metalLower.includes('brass')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-500' };
+  } else if (metalLower.includes('copper')) {
+    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-500' };
+  } else if (metalLower.includes('bronze')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700' };
+  } else if (metalLower.includes('pewter')) {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500' };
+  } else if (metalLower.includes('chrome')) {
+    return { gradient: 'bg-gradient-to-br from-gray-200 to-gray-300' };
+  } else {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400' };
+  }
+};
+
+// Jewelry color helper function
+const getJewelryColorSwatch = (jewelryItem: string) => {
+  const itemLower = jewelryItem.toLowerCase();
+  
+  if (itemLower.includes('coral')) {
+    return { gradient: 'bg-gradient-to-br from-orange-300 to-orange-400', name: 'Coral' };
+  } else if (itemLower.includes('turquoise')) {
+    return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-500', name: 'Turquoise' };
+  } else if (itemLower.includes('emerald')) {
+    return { gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600', name: 'Emerald' };
+  } else if (itemLower.includes('sapphire') || itemLower.includes('blue')) {
+    return { gradient: 'bg-gradient-to-br from-blue-600 to-blue-700', name: 'Sapphire' };
+  } else if (itemLower.includes('diamond') || itemLower.includes('crystal')) {
+    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'Diamond' };
+  } else if (itemLower.includes('pearl')) {
+    return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100', name: 'Pearl' };
+  } else if (itemLower.includes('amber')) {
+    return { gradient: 'bg-gradient-to-br from-amber-400 to-amber-500', name: 'Amber' };
+  } else if (itemLower.includes('garnet') || itemLower.includes('burgundy')) {
+    return { gradient: 'bg-gradient-to-br from-red-700 to-red-800', name: 'Garnet' };
+  } else if (itemLower.includes('citrine') || itemLower.includes('yellow')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-500', name: 'Citrine' };
+  } else if (itemLower.includes('peridot') || itemLower.includes('green')) {
+    return { gradient: 'bg-gradient-to-br from-lime-400 to-lime-500', name: 'Peridot' };
+  } else if (itemLower.includes('topaz')) {
+    return { gradient: 'bg-gradient-to-br from-blue-300 to-blue-400', name: 'Topaz' };
+  } else if (itemLower.includes('aquamarine')) {
+    return { gradient: 'bg-gradient-to-br from-cyan-300 to-cyan-400', name: 'Aquamarine' };
+  } else if (itemLower.includes('lavender') || itemLower.includes('purple')) {
+    return { gradient: 'bg-gradient-to-br from-purple-300 to-purple-400', name: 'Lavender' };
+  } else {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Metal' };
+  }
+};
+
+// Eyewear color helper function
+const getEyewearColorSwatch = (frameType: string) => {
+  const frameLower = frameType.toLowerCase();
+  
+  if (frameLower.includes('black')) {
+    return { gradient: 'bg-gradient-to-br from-gray-800 to-gray-900', name: 'Black' };
+  } else if (frameLower.includes('silver')) {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Silver' };
+  } else if (frameLower.includes('gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-400', name: 'Gold' };
+  } else if (frameLower.includes('tortoiseshell') || frameLower.includes('brown')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700', name: 'Tortoiseshell' };
+  } else if (frameLower.includes('navy') || frameLower.includes('blue')) {
+    return { gradient: 'bg-gradient-to-br from-blue-700 to-blue-800', name: 'Navy' };
+  } else if (frameLower.includes('burgundy') || frameLower.includes('red')) {
+    return { gradient: 'bg-gradient-to-br from-red-700 to-red-800', name: 'Burgundy' };
+  } else if (frameLower.includes('coral')) {
+    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-500', name: 'Coral' };
+  } else if (frameLower.includes('turquoise')) {
+    return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-500', name: 'Turquoise' };
+  } else if (frameLower.includes('gray') || frameLower.includes('grey')) {
+    return { gradient: 'bg-gradient-to-br from-gray-500 to-gray-600', name: 'Gray' };
+  } else if (frameLower.includes('gunmetal')) {
+    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700', name: 'Gunmetal' };
+  } else if (frameLower.includes('rose gold')) {
+    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-300', name: 'Rose Gold' };
+  } else if (frameLower.includes('peach')) {
+    return { gradient: 'bg-gradient-to-br from-orange-200 to-orange-300', name: 'Peach' };
+  } else if (frameLower.includes('champagne')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-100 to-yellow-200', name: 'Champagne' };
+  } else {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Neutral' };
+  }
+};
+
 // Makeup color helper functions
 const getFoundationColors = (season: string) => {
   const foundations = {
@@ -1075,23 +1174,19 @@ export default function ResultsNew() {
               <div className="grid lg:grid-cols-2 gap-6 items-center">
                 <div>
                   <p className="text-gray-700 leading-relaxed mb-4">{analysisResult.accessories.metals}</p>
-                  <div className="flex space-x-4">
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mb-2 border-2 border-white shadow-md"></div>
-                      <p className="text-xs font-medium text-gray-700">Silver</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mb-2 border-2 border-white shadow-md"></div>
-                      <p className="text-xs font-medium text-gray-700">Platinum</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mb-2 border-2 border-white shadow-md"></div>
-                      <p className="text-xs font-medium text-gray-700">White Gold</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full mb-2 border-2 border-white shadow-md"></div>
-                      <p className="text-xs font-medium text-gray-700">Gunmetal</p>
-                    </div>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+                    {analysisResult.accessories.bestMetals?.map((metal, index) => {
+                      const metalColors = getMetalColorSwatch(metal);
+                      return (
+                        <div key={index} className="text-center">
+                          <div 
+                            className={`w-12 h-12 ${metalColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                            title={metal}
+                          ></div>
+                          <p className="text-xs font-medium text-gray-700">{metal}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -1127,13 +1222,27 @@ export default function ResultsNew() {
                 className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
               >
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Guidelines</h4>
-                <div className="space-y-3">
+                <div className="space-y-3 mb-4">
                   {(Array.isArray(analysisResult.accessories.jewelry) ? 
                     analysisResult.accessories.jewelry : 
                     ['Elegant pieces that complement your coloring']
                   ).map((item: string, index: number) => (
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
+                </div>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {analysisResult.accessories.jewelry?.slice(0, 8).map((item: string, index: number) => {
+                    const jewelryColors = getJewelryColorSwatch(item);
+                    return (
+                      <div key={index} className="text-center">
+                        <div 
+                          className={`w-10 h-10 ${jewelryColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                          title={item}
+                        ></div>
+                        <p className="text-xs font-medium text-gray-700">{jewelryColors.name}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -1154,19 +1263,22 @@ export default function ResultsNew() {
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
                 </div>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="text-center">
-                    <div className="w-16 h-10 bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg mx-auto mb-2 border border-gray-300"></div>
-                    <p className="text-xs font-medium text-gray-700">Black Frames</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-16 h-10 bg-gradient-to-r from-gray-400 to-gray-500 rounded-lg mx-auto mb-2 border border-gray-300"></div>
-                    <p className="text-xs font-medium text-gray-700">Gunmetal</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-16 h-10 bg-gradient-to-r from-blue-800 to-blue-900 rounded-lg mx-auto mb-2 border border-gray-300"></div>
-                    <p className="text-xs font-medium text-gray-700">Navy Frames</p>
-                  </div>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {(Array.isArray(analysisResult.accessories.glasses) ? 
+                    analysisResult.accessories.glasses : 
+                    ['Black frames', 'Silver frames', 'Tortoiseshell frames']
+                  ).slice(0, 6).map((item: string, index: number) => {
+                    const eyewearColors = getEyewearColorSwatch(item);
+                    return (
+                      <div key={index} className="text-center">
+                        <div 
+                          className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
+                          title={item}
+                        ></div>
+                        <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
             </div>
