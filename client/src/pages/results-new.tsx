@@ -1023,8 +1023,8 @@ export default function ResultsNew() {
               transition={{ delay: 0.4 }}
               className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Signature Colors</h3>
-              <div className="grid grid-cols-4 gap-3">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Signature Colors</h3>
+              <div className="grid grid-cols-4 gap-3 justify-items-center">
                 {analysisResult.overview.signatureColors.slice(0, 8).map((colorString, index) => {
                   const { hex, name } = parseSignatureColor(colorString);
                   return (
