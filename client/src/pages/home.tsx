@@ -61,16 +61,23 @@ export default function Home() {
         <div className="section-container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <span className="text-2xl font-normal" style={{ fontFamily: 'Georgia, serif', color: '#8B6F47' }}>hazel & hue</span>
+              <span className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: 'rgb(var(--forest-green))' }}>
+                hazel <span style={{ color: 'rgb(var(--warm-coral))' }}>&</span> hue
+                <span className="ml-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgb(var(--sage-green))' }}></span>
+                </span>
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('how-it-works')} className="font-medium transition-colors hover:opacity-80" style={{ color: '#8B6F47' }}>
+              <button onClick={() => scrollToSection('how-it-works')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
                 How It Works
               </button>
-              <button onClick={() => scrollToSection('deliverables')} className="font-medium transition-colors hover:opacity-80" style={{ color: '#8B6F47' }}>
+              <button onClick={() => scrollToSection('deliverables')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
                 What You Get
               </button>
-              <button onClick={() => scrollToSection('faq')} className="font-medium transition-colors hover:opacity-80" style={{ color: '#8B6F47' }}>
+              <button onClick={() => scrollToSection('faq')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
                 FAQ
               </button>
               {isAuthenticated ? (
@@ -79,7 +86,7 @@ export default function Home() {
                     onClick={() => setLocation('/account')}
                     variant="ghost"
                     className="hover:opacity-80"
-                    style={{ color: '#8B6F47' }}
+                    style={{ color: 'rgb(var(--forest-green))' }}
                   >
                     <User className="w-4 h-4 mr-2" />
                     My Account
@@ -103,7 +110,7 @@ export default function Home() {
                     onClick={() => setLocation('/login')}
                     variant="ghost"
                     className="hover:opacity-80"
-                    style={{ color: '#8B6F47' }}
+                    style={{ color: 'rgb(var(--forest-green))' }}
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
@@ -130,12 +137,16 @@ export default function Home() {
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden pt-20 md:pt-24" style={{ backgroundColor: '#F5F2ED' }}>
         {/* Parallax background elements */}
+        {/* Floating decorative elements */}
         <div 
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-20"
           style={{ transform: `translateY(${scrollY * 0.2}px)` }}
         >
-          <div className="absolute top-20 left-10 w-32 h-32 rounded-full filter blur-3xl opacity-40" style={{ background: 'linear-gradient(135deg, #C4A678 0%, #A67C5A 100%)' }}></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full filter blur-3xl opacity-40" style={{ background: 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)' }}></div>
+          <div className="absolute top-20 left-10 w-32 h-32 colorful-blob"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 coral-blob"></div>
+          <div className="absolute top-1/3 right-1/4 w-6 h-6 rounded-full" style={{ backgroundColor: 'rgb(var(--golden-yellow))', animation: 'float-1 6s ease-in-out infinite' }}></div>
+          <div className="absolute bottom-1/3 left-1/4 w-4 h-4 rounded-full" style={{ backgroundColor: 'rgb(var(--warm-coral))', animation: 'float-2 8s ease-in-out infinite' }}></div>
+          <div className="absolute top-1/2 left-1/6 w-3 h-3 rounded-full" style={{ backgroundColor: 'rgb(var(--sage-green))', animation: 'float-1 7s ease-in-out infinite' }}></div>
         </div>
 
         <div className="section-container relative">
@@ -150,7 +161,7 @@ export default function Home() {
                 className="text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight"
                 style={{ 
                   fontFamily: 'Playfair Display, Georgia, serif',
-                  color: '#6B5B37',
+                  color: 'rgb(var(--forest-green))',
                   fontWeight: 500,
                   letterSpacing: '0.5px'
                 }}
@@ -158,18 +169,18 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                Detailed Color
+                Detailed <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
                 <br />
-                <span className="gradient-text">Analysis</span>
+                Analysis
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif',
-                color: '#6B5B37',
+                color: 'rgb(var(--muted-blue))',
                 fontWeight: 500
               }}>
                 Professional 12-season color analysis in 30-seconds
               </p>
-              <p className="text-lg mb-8 leading-relaxed" style={{ color: '#8B7355' }}>
+              <p className="text-lg mb-8 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
                 Simply upload 3 photos
               </p>
               
@@ -181,15 +192,16 @@ export default function Home() {
                 >
                   <Button 
                     onClick={() => setLocation('/upload')}
-                    className="text-white px-16 py-8 font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
+                    className="text-white px-16 py-8 font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 button-pulse"
                     style={{ 
-                      background: 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)',
+                      background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
                       borderRadius: '12px',
                       border: 'none',
-                      margin: '0 -4px'
+                      margin: '0 -4px',
+                      boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #7A5F3D 0%, #95714F 100%)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)'}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(212, 70, 55) 0%, rgb(214, 90, 65) 100%)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)'}
                   >
                     <Sparkles className="mr-4 h-7 w-7" />
                     Get My Analysis - $29
@@ -197,21 +209,24 @@ export default function Home() {
                 </motion.div>
                 <button 
                   onClick={() => scrollToSection('how-it-works')}
-                  className="font-medium text-lg transition-colors underline hover:opacity-80"
-                  style={{ color: '#8B6F47' }}
+                  className="font-medium text-lg transition-colors hover:opacity-80"
+                  style={{ 
+                    color: 'rgb(var(--warm-coral))',
+                    borderBottom: '2px solid rgb(var(--warm-coral))'
+                  }}
                 >
                   Learn More
                 </button>
               </div>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm">
-                <div className="flex items-center px-4 py-3 rounded-full" style={{ backgroundColor: 'rgba(166, 124, 90, 0.1)', border: '1px solid rgba(166, 124, 90, 0.2)' }}>
-                  <Shield className="h-4 w-4 mr-2" style={{ color: '#A67C5A' }} />
-                  <span className="font-medium" style={{ color: '#A67C5A' }}>Privacy Protected</span>
+                <div className="flex items-center px-4 py-3 rounded-full" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', border: '1px solid rgba(var(--sage-green), 0.3)' }}>
+                  <Shield className="h-4 w-4 mr-2" style={{ color: 'rgb(var(--sage-green))' }} />
+                  <span className="font-medium" style={{ color: 'rgb(var(--forest-green))' }}>Privacy Protected</span>
                 </div>
-                <div className="flex items-center px-4 py-3 rounded-full" style={{ backgroundColor: 'rgba(139, 111, 71, 0.1)', border: '1px solid rgba(139, 111, 71, 0.2)' }}>
-                  <Clock className="h-4 w-4 mr-2" style={{ color: '#8B6F47' }} />
-                  <span className="font-medium" style={{ color: '#8B6F47' }}>30-Second Results</span>
+                <div className="flex items-center px-4 py-3 rounded-full" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', border: '1px solid rgba(var(--golden-yellow), 0.3)' }}>
+                  <Clock className="h-4 w-4 mr-2" style={{ color: 'rgb(var(--golden-yellow))' }} />
+                  <span className="font-medium" style={{ color: 'rgb(var(--forest-green))' }}>30-Second Results</span>
                 </div>
               </div>
             </motion.div>
@@ -247,13 +262,13 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl mb-4" style={{ 
               fontFamily: 'Playfair Display, Georgia, serif',
-              color: '#6B5B37',
+              color: 'rgb(var(--forest-green))',
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
               How It Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
               Get your personalized color analysis in three simple steps
             </p>
           </motion.div>
@@ -264,19 +279,22 @@ export default function Home() {
                 number: "1",
                 icon: <Camera className="h-16 w-16 text-white" />,
                 title: "Upload Photos",
-                description: "Take clear selfies in natural light"
+                description: "Take clear selfies in natural light",
+                bgColor: 'rgb(var(--golden-yellow))'
               },
               {
                 number: "2", 
                 icon: <Zap className="h-16 w-16 text-white" />,
                 title: "AI Analysis",
-                description: "Our AI determines your seasonal color type"
+                description: "Our AI determines your seasonal color type",
+                bgColor: 'rgb(var(--warm-coral))'
               },
               {
                 number: "3",
                 icon: <FileText className="h-16 w-16 text-white" />,
                 title: "Get Results", 
-                description: "Receive personalized color palette and styling guide"
+                description: "Receive personalized color palette and styling guide",
+                bgColor: 'rgb(var(--sage-green))'
               }
             ].map((step, index) => (
               <motion.div 
@@ -294,19 +312,19 @@ export default function Home() {
                   >
                     {step.number}
                   </div>
-                  <div className="relative w-32 h-32 rounded-full flex items-center justify-center mx-auto floating-icon group-hover:scale-110 transition-all duration-300 shadow-lg" style={{ backgroundColor: '#8B6F47' }}>
+                  <div className="relative w-32 h-32 rounded-full flex items-center justify-center mx-auto floating-icon group-hover:scale-110 transition-all duration-300 shadow-lg" style={{ backgroundColor: step.bgColor }}>
                     {step.icon}
                   </div>
                 </div>
                 <h3 className="text-2xl mb-4" style={{ 
                   fontFamily: 'Georgia, serif',
-                  color: '#6B5B37',
+                  color: 'rgb(var(--forest-green))',
                   fontWeight: 500
                 }}>
                   {step.title}
                 </h3>
                 {step.description && (
-                  <p className="text-lg leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="text-lg leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     {step.description}
                   </p>
                 )}
@@ -331,13 +349,13 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl mb-4" style={{ 
               fontFamily: 'Playfair Display, Georgia, serif',
-              color: '#6B5B37',
+              color: 'rgb(var(--forest-green))',
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
               What You'll Receive
             </h2>
-            <p className="text-xl max-w-2xl mx-auto" style={{ color: '#5D5D5D' }}>
+            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
               A comprehensive digital package to transform your style
             </p>
           </motion.div>
@@ -352,17 +370,17 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-xl border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#8B6F47' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}>
                     <FileText className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Full Detailed Analysis
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     Complete 6-page professional PDF report with your seasonal color type, celebrity style icons, and comprehensive styling guide
                   </p>
                 </CardContent>
@@ -378,17 +396,17 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#A67C5A' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}>
                     <Palette className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Digital Color Palette
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     Interactive 64-color palette with hex codes and color names, organized by categories for easy reference
                   </p>
                 </CardContent>
@@ -404,12 +422,12 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#C4A678' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--dusty-rose))' }}>
                     <Heart className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Curated Pinterest Boards
@@ -430,17 +448,17 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#D4C4A0' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--sage-green))' }}>
                     <Sparkles className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Digital Makeup Palette
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     Interactive makeup swatches for foundation, eyeshadow, blush, lipstick, and eyeliner with specific shade recommendations
                   </p>
                 </CardContent>
@@ -456,17 +474,17 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#E5D5C0' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--forest-green))' }}>
                     <Gem className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Jewelry Recommendations
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     Personalized metal preferences, jewelry styles, watch recommendations, and eyewear guidance for your season
                   </p>
                 </CardContent>
@@ -482,17 +500,17 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: '#F0E6D3' }}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--muted-blue))' }}>
                     <Smartphone className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
-                    color: '#6B5B37',
+                    color: 'rgb(var(--forest-green))',
                     fontWeight: 500
                   }}>
                     Apple Wallet Color Card
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
                     Portable digital color reference card that saves to your phone for convenient shopping and color matching
                   </p>
                 </CardContent>
@@ -514,7 +532,7 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl mb-4" style={{ 
               fontFamily: 'Playfair Display, Georgia, serif',
-              color: '#6B5B37',
+              color: 'rgb(var(--forest-green))',
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
@@ -605,36 +623,39 @@ export default function Home() {
           >
             <h2 className="text-4xl md:text-5xl mb-6" style={{ 
               fontFamily: 'Playfair Display, Georgia, serif',
-              color: '#6B5B37',
+              color: 'rgb(var(--forest-green))',
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
               Your Colors Are 30 Seconds Away
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: '#5D5D5D' }}>
+            <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
               Discover your perfect color palette with AI-powered analysis
             </p>
             <Button 
               onClick={() => setLocation('/upload')}
-              className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
+              className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 button-pulse"
               style={{ 
-                backgroundColor: '#8B6F47',
+                background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
                 margin: '0 -4px',
                 fontFamily: 'Georgia, serif',
-                fontWeight: 500
+                fontWeight: 500,
+                boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(212, 70, 55) 0%, rgb(214, 90, 65) 100%)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)'}
             >
               <Sparkles className="mr-4 h-7 w-7" />
               Get My Analysis - $29
             </Button>
             <div className="mt-8 flex items-center justify-center gap-4">
               <div className="flex items-center px-4 py-3 rounded-full" style={{ 
-                backgroundColor: 'rgba(139, 111, 71, 0.1)',
-                border: '1px solid rgba(139, 111, 71, 0.2)'
+                backgroundColor: 'rgba(var(--sage-green), 0.1)',
+                border: '1px solid rgba(var(--sage-green), 0.2)'
               }}>
-                <Shield className="h-5 w-5 mr-2" style={{ color: '#8B6F47' }} />
+                <Shield className="h-5 w-5 mr-2" style={{ color: 'rgb(var(--sage-green))' }} />
                 <span style={{ 
-                  color: '#6B5B37',
+                  color: 'rgb(var(--forest-green))',
                   fontFamily: 'Georgia, serif',
                   fontWeight: 500
                 }}>30-day guarantee</span>
@@ -650,9 +671,10 @@ export default function Home() {
           onClick={() => setLocation('/upload')}
           className="w-full text-white px-8 py-4 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
           style={{ 
-            backgroundColor: '#8B6F47',
+            background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
             fontFamily: 'Georgia, serif',
-            fontWeight: 500
+            fontWeight: 500,
+            boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
           }}
         >
           <Sparkles className="mr-2 h-5 w-5" />
