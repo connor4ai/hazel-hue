@@ -427,6 +427,18 @@ interface Order {
   createdAt: string;
 }
 
+// Parse signature colors to extract hex codes and names
+const parseSignatureColor = (colorString: string) => {
+  const hexMatch = colorString.match(/#[0-9A-Fa-f]{6}/);
+  const hex = hexMatch ? hexMatch[0] : '#000000';
+  
+  // Extract color name (part before the hex code)
+  const nameMatch = colorString.split('(')[0].trim();
+  const name = nameMatch || 'Color';
+  
+  return { hex, name };
+};
+
 const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: string; clickable?: boolean }) => {
   const [copied, setCopied] = useState(false);
 
@@ -691,16 +703,19 @@ export default function ResultsNew() {
             >
               <h3 className="text-xl font-bold text-gray-800 mb-4">Signature Colors</h3>
               <div className="grid grid-cols-4 gap-3">
-                {analysisResult.overview.signatureColors.slice(0, 8).map((color, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 + index * 0.05 }}
-                  >
-                    <ColorSwatch color={color} name={color} />
-                  </motion.div>
-                ))}
+                {analysisResult.overview.signatureColors.slice(0, 8).map((colorString, index) => {
+                  const { hex, name } = parseSignatureColor(colorString);
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5 + index * 0.05 }}
+                    >
+                      <ColorSwatch color={hex} name={name} />
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           </div>
