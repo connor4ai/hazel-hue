@@ -103,10 +103,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Silver, White Gold, Platinum',
-      jewelry: ['Bold silver pieces', 'Clear gemstones', 'High contrast designs'],
-      watches: ['Silver with black or white bands', 'Clean, modern designs'],
-      glasses: ['Black or silver frames', 'Bold, geometric shapes']
+      bestMetals: ['Silver', 'White Gold', 'Platinum'],
+      metals: 'Silver, white gold, and platinum are your perfect metals. Their cool undertones complement your natural coloring beautifully.',
+      jewelryStyle: 'Bold, dramatic pieces with clean lines and high contrast',
+      jewelry: ['Statement silver necklaces', 'Diamond or clear crystal jewelry', 'Bold geometric designs', 'High-contrast black and white pieces'],
+      watches: ['Silver or platinum with black leather straps', 'White or black watch faces', 'Clean, architectural designs'],
+      glasses: ['Black acetate frames', 'Silver or gunmetal wire frames', 'Bold geometric shapes', 'High-contrast designs that match your dramatic coloring']
     },
     hairColor: {
       bestColors: ['Black', 'Dark brown', 'Platinum blonde', 'Silver'],
@@ -175,10 +177,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Bright Silver, Platinum, White Gold, Chrome',
-      jewelry: ['Bold, statement pieces with clean geometric lines', 'Large, architectural pieces in bright metals'],
-      watches: ['Bright silver, white gold, or high-tech materials like ceramic or titanium'],
-      glasses: ['Bright silver, black, white, or even electric blue frames', 'Bold, modern shapes']
+      bestMetals: ['Bright Silver', 'Platinum', 'White Gold', 'Chrome'],
+      metals: 'Bright silver, platinum, white gold, and chrome metals enhance your electric energy. Avoid any metals with warm undertones.',
+      jewelryStyle: 'Bold, ultra-modern statement pieces with sharp geometric lines and maximum impact',
+      jewelry: ['Large architectural silver pieces', 'Electric blue or emerald statement jewelry', 'Futuristic geometric designs', 'High-contrast crystal or diamond pieces'],
+      watches: ['Bright silver or platinum with bold faces', 'High-tech materials like ceramic or titanium', 'Electric blue or black bands', 'Ultra-modern digital or architectural designs'],
+      glasses: ['Electric blue acetate frames', 'Bright silver or chrome wire frames', 'Bold futuristic shapes', 'High-contrast black or white frames with dramatic proportions']
     },
     hairColor: {
       bestColors: ['Jet Black', 'Platinum Blonde', 'Cool Dark Brown', 'Bold Fashion Colors', 'Silver/White'],
@@ -252,25 +256,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Silver, platinum, white gold, gunmetal, and oxidized silver are your sophisticated metals.',
-      jewelry: [
-        'Substantial, sophisticated pieces with rich details',
-        'Ornate designs that maintain elegance',
-        'Statement pieces in silver or platinum',
-        'Geometric or vintage-inspired designs'
-      ],
-      watches: [
-        'Dark metals with sophisticated complications',
-        'Black leather bands or deep burgundy leather',
-        'Gunmetal or black cases',
-        'Classic luxury timepieces'
-      ],
-      glasses: [
-        'Dark frames - black, gunmetal, deep burgundy',
-        'Cool-toned dark tortoiseshell',
-        'Sophisticated, substantial frame shapes',
-        'Avoid warm browns or golden tones'
-      ]
+      bestMetals: ['Silver', 'Platinum', 'White Gold', 'Gunmetal', 'Oxidized Silver'],
+      metals: 'Silver, platinum, white gold, gunmetal, and oxidized silver create the sophisticated, dramatic look that enhances your mysterious elegance.',
+      jewelryStyle: 'Substantial, sophisticated pieces with rich details and dramatic presence',
+      jewelry: ['Ornate silver statement necklaces', 'Deep-set gemstone pieces in silver settings', 'Vintage-inspired brooches and pins', 'Heavy chain jewelry with architectural details'],
+      watches: ['Gunmetal or black cases with complications', 'Deep burgundy or black leather straps', 'Platinum or white gold luxury timepieces', 'Dark metal bracelet watches with substantial weight'],
+      glasses: ['Black acetate frames with sophisticated detailing', 'Gunmetal wire frames with dramatic proportions', 'Cool-toned dark tortoiseshell with substantial weight', 'Deep burgundy frames for sophisticated contrast']
     },
     hairColor: {
       bestColors: [
@@ -360,10 +351,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: "Silver and white gold are ideal. Cool-toned metals complement your refined coloring.",
-      jewelry: ["Silver statement pieces", "Cool-toned gemstones", "Sophisticated geometric designs"],
-      watches: ["Silver or white gold", "Cool gray leather straps", "Classic, refined designs"],
-      glasses: ["Silver or cool gray frames", "Sophisticated shapes", "Avoid warm tones"]
+      bestMetals: ['Silver', 'White Gold', 'Platinum'],
+      metals: 'Silver, white gold, and platinum are your ideal metals. These cool-toned metals complement your refined, sophisticated coloring perfectly.',
+      jewelryStyle: 'Refined, elegant pieces with cool-toned gemstones and sophisticated designs',
+      jewelry: ['Silver chain necklaces with cool gemstones', 'Sapphire or diamond jewelry in silver settings', 'Elegant pearl pieces', 'Refined geometric designs in cool metals'],
+      watches: ['Silver or white gold cases', 'Navy blue or cool gray leather straps', 'Classic dress watches with clean lines', 'Sophisticated complications in cool metals'],
+      glasses: ['Silver wire frames with elegant proportions', 'Cool gray acetate frames', 'Navy blue or charcoal frames', 'Refined shapes that enhance your sophisticated presence']
     },
     hairColor: {
       bestColors: ["Ash brown", "Cool black", "Silver highlights", "Cool blonde shades"],
@@ -432,10 +425,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: "Silver, white gold, and platinum enhance your deep coloring beautifully.",
-      jewelry: ["Bold silver pieces", "Deep gemstones", "Dramatic designs"],
-      watches: ["Silver or black metal", "Deep colored straps", "Bold, substantial designs"],
-      glasses: ["Black or silver frames", "Bold, dramatic shapes", "Avoid light colors"]
+      bestMetals: ['Silver', 'White Gold', 'Platinum', 'Black Metal'],
+      metals: 'Silver, white gold, platinum, and black metal enhance your deep, dramatic coloring while maintaining cool undertones.',
+      jewelryStyle: 'Bold, substantial pieces with deep gemstones and dramatic presence',
+      jewelry: ['Large silver statement necklaces', 'Deep sapphire or emerald jewelry in silver settings', 'Bold geometric pieces with weight', 'Dramatic chandelier earrings in cool metals'],
+      watches: ['Black metal cases with silver accents', 'Deep navy or black leather straps', 'Substantial sport watches in black or silver', 'Bold chronographs with dramatic presence'],
+      glasses: ['Black acetate frames with bold proportions', 'Silver frames with dramatic shapes', 'Deep navy or charcoal frames', 'Substantial frames that match your powerful presence']
     },
     hairColor: {
       bestColors: ["Deep black", "Dark brown", "Deep burgundy", "Rich chocolate"],
@@ -496,10 +491,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: "Silver and white gold are most flattering for your cool, gentle coloring.",
-      jewelry: ["Delicate silver pieces", "Soft-colored gemstones", "Elegant, refined designs"],
-      watches: ["Silver with soft straps", "Gentle colors", "Classic, elegant styles"],
-      glasses: ["Silver or soft gray frames", "Gentle, rounded shapes", "Avoid harsh angles"]
+      bestMetals: ['Silver', 'White Gold', 'Rose Gold (Cool-toned)'],
+      metals: 'Silver, white gold, and cool-toned rose gold complement your soft, cool coloring. Avoid warm or yellow metals.',
+      jewelryStyle: 'Medium-contrast pieces with classic elegance and refined presence',
+      jewelry: ['Classic silver chain necklaces', 'Blue topaz or aquamarine in silver settings', 'Pearl jewelry with silver accents', 'Traditional designs with cool gemstones'],
+      watches: ['Silver cases with navy or gray leather straps', 'Classic dress watches with clean dials', 'Medium-sized cases with refined proportions', 'Cool blue or white watch faces'],
+      glasses: ['Silver wire frames with classic proportions', 'Cool gray or navy acetate frames', 'Traditional shapes with medium weight', 'Soft rectangular or oval frames that enhance your balanced features']
     },
     hairColor: {
       bestColors: ["Ash blonde", "Cool brown", "Soft gray", "Cool highlights"],
@@ -604,11 +601,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      bestMetals: ["Silver - Light and delicate", "White Gold - Soft and refined", "Platinum - Understated luxury", "Light Pewter - Soft and muted"],
-      jewelryStyle: "Choose delicate, feminine pieces with intricate details. Your jewelry should be as light and airy as your coloring. Think fine chains, small pearls, and delicate gemstones.",
-      watches: "Light metals with small faces. Soft leather bands in light colors like powder blue or soft pink.",
-      glasses: "Light-colored frames in silver, light gray, or soft pastels. Avoid dark or heavy frames.",
-      description: "Your accessories should complement your light, delicate nature with understated elegance and cool metal tones."
+      bestMetals: ['Silver', 'White Gold', 'Platinum', 'Light Pewter'],
+      metals: 'Light, delicate metals in silver, white gold, platinum, and light pewter enhance your ethereal coloring. Avoid heavy or dark metals.',
+      jewelryStyle: 'Delicate, feminine pieces with intricate details and light, airy designs',
+      jewelry: ['Fine silver chain necklaces', 'Small pearl earrings and necklaces', 'Delicate gemstone pieces in light blue or lavender', 'Intricate filigree work in light metals'],
+      watches: ['Small, delicate cases in silver or white gold', 'Soft leather bands in powder blue or light pink', 'Thin metal bracelets with refined details', 'Small watch faces with clean, light dials'],
+      glasses: ['Light silver wire frames with delicate proportions', 'Soft gray or light blue acetate frames', 'Rimless or semi-rimless designs', 'Delicate shapes that enhance your ethereal features']
     },
     hairColor: {
       bestColors: ["Light ash blonde", "Platinum", "Light gray", "Cool light brown"],
@@ -721,11 +719,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      bestMetals: ["Muted Silver - Soft and refined", "Pewter - Gentle and understated", "White Gold - Cool and elegant", "Soft Platinum - Understated luxury"],
-      jewelryStyle: "Choose pieces with soft, muted finishes that blend harmoniously with your coloring. Avoid high-contrast or shiny pieces that compete with your gentle nature.",
-      watches: "Soft metals with muted straps in gray, dusty rose, or soft beige. Choose gentle, understated styles.",
-      glasses: "Soft gray, muted frames, or gentle tortoiseshell. Avoid stark contrasts or bright colors.",
-      description: "Your accessories should complement your muted elegance with soft, blended finishes that enhance your natural harmony."
+      bestMetals: ['Muted Silver', 'Pewter', 'White Gold', 'Soft Platinum'],
+      metals: 'Muted silver, pewter, white gold, and soft platinum with brushed or matte finishes complement your gentle, harmonious coloring.',
+      jewelryStyle: 'Soft, muted pieces with blended finishes that create harmony rather than contrast',
+      jewelry: ['Muted silver chain necklaces', 'Soft pearl pieces with gentle luster', 'Dusty rose or lavender gemstones in muted settings', 'Vintage-inspired pieces with soft patina'],
+      watches: ['Muted metal cases with soft finishes', 'Gray, dusty rose, or soft beige leather straps', 'Understated designs with gentle proportions', 'Soft, muted watch faces'],
+      glasses: ['Soft gray acetate frames', 'Muted tortoiseshell with cool undertones', 'Pewter or brushed silver wire frames', 'Gentle shapes that blend with your harmonious features']
     },
     hairColor: {
       bestColors: ["Soft brown", "Muted blonde", "Cool gray", "Gentle highlights"],
@@ -793,10 +792,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Gold, Brass, Copper',
-      jewelry: ['Warm gold pieces', 'Coral and turquoise stones', 'Bright, clear gems'],
-      watches: ['Gold with warm-toned bands', 'Fresh, sporty designs'],
-      glasses: ['Warm tortoiseshell', 'Golden frames', 'Fresh, youthful styles']
+      bestMetals: ['Gold', 'Brass', 'Copper', 'Warm Bronze'],
+      metals: 'Gold, brass, copper, and warm bronze enhance your vibrant, warm coloring. Avoid all cool-toned metals like silver.',
+      jewelryStyle: 'Bright, fresh pieces with warm metals and clear, vibrant gemstones',
+      jewelry: ['Warm gold chain necklaces', 'Coral and turquoise statement pieces', 'Bright citrine or peridot jewelry', 'Fresh, modern designs in warm metals'],
+      watches: ['Gold cases with bright leather straps', 'Sporty designs in warm metals', 'Orange, coral, or turquoise bands', 'Fresh, youthful complications'],
+      glasses: ['Warm tortoiseshell with golden undertones', 'Golden metal frames', 'Bright coral or turquoise acetate', 'Fresh, energetic shapes that match your vibrant personality']
     },
     hairColor: {
       bestColors: ['Golden blonde', 'Warm brown', 'Auburn', 'Copper'],
@@ -864,10 +865,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Bright Gold, Rose Gold',
-      jewelry: ['Bold, bright pieces', 'Vibrant gemstones', 'Statement jewelry'],
-      watches: ['Bright metals with colorful bands', 'Bold, modern designs'],
-      glasses: ['Bright frames', 'Bold colors', 'Statement styles']
+      bestMetals: ['Bright Gold', 'Rose Gold', 'Polished Brass', 'Warm Copper'],
+      metals: 'Bright gold, rose gold, polished brass, and warm copper in high-shine finishes complement your electric energy and warm undertones.',
+      jewelryStyle: 'Bold, vibrant statement pieces with electric colors and dynamic designs',
+      jewelry: ['Large gold statement necklaces', 'Bright coral, turquoise, or citrine jewelry', 'Electric blue or hot pink gemstone pieces', 'Bold geometric designs in bright metals'],
+      watches: ['Bright gold cases with electric colored bands', 'Hot pink, turquoise, or coral straps', 'Bold sport watches with vibrant accents', 'Modern designs with high-energy appeal'],
+      glasses: ['Bright turquoise or coral acetate frames', 'Polished gold wire frames', 'Electric blue or hot pink frames', 'Bold, energetic shapes that match your dynamic personality']
     },
     hairColor: {
       bestColors: ['Bright blonde', 'Vivid auburn', 'Electric highlights', 'Bold colors'],
@@ -935,10 +938,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      metals: 'Light Gold, Rose Gold',
-      jewelry: ['Delicate gold pieces', 'Light, warm gems', 'Gentle designs'],
-      watches: ['Light metals with soft bands', 'Delicate, feminine styles'],
-      glasses: ['Light frames', 'Warm tones', 'Gentle shapes']
+      bestMetals: ['Light Gold', 'Rose Gold', 'Champagne Gold', 'Light Brass'],
+      metals: 'Light gold, rose gold, champagne gold, and light brass in delicate finishes enhance your gentle, warm coloring.',
+      jewelryStyle: 'Delicate, feminine pieces with light, warm metals and soft gemstones',
+      jewelry: ['Fine gold chain necklaces', 'Light peach or coral gemstone pieces', 'Delicate pearl jewelry in warm settings', 'Gentle floral or nature-inspired designs'],
+      watches: ['Light gold cases with soft leather straps', 'Cream, peach, or light pink bands', 'Delicate, feminine complications', 'Small cases with gentle proportions'],
+      glasses: ['Light gold wire frames', 'Warm peach or coral acetate frames', 'Champagne gold metal frames', 'Gentle, rounded shapes that enhance your soft features']
     },
     hairColor: {
       bestColors: ['Light blonde', 'Strawberry blonde', 'Light brown', 'Soft highlights'],
@@ -1006,11 +1011,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      bestMetals: ["Gold - Your most flattering metal choice", "Brass - Warm and vintage", "Copper - Rich and earthy", "Bronze - Deep and sophisticated", "Antique Gold - Rich and textured"],
-      jewelryStyle: "Choose substantial pieces with warm metals and organic designs. Your jewelry should reflect your rich, earthy nature. Think chunky gold pieces, amber, and warm gemstones.",
-      watches: "Gold or bronze with warm leather bands in brown, tan, or cognac. Classic or vintage styles work well.",
-      glasses: "Warm-toned frames in gold, warm tortoiseshell, brown, or cognac. Rich, substantial frames complement your features.",
-      description: "Your accessories should embody the richness of autumn with substantial, warm metals and earthy, organic designs."
+      bestMetals: ['Gold', 'Brass', 'Copper', 'Bronze', 'Antique Gold'],
+      metals: 'Gold, brass, copper, bronze, and antique gold in rich, warm finishes reflect your earthy, abundant nature.',
+      jewelryStyle: 'Substantial pieces with warm metals and organic, nature-inspired designs',
+      jewelry: ['Chunky gold chain necklaces', 'Amber or topaz jewelry in warm settings', 'Earthy gemstone pieces like carnelian or citrine', 'Vintage-inspired designs with rich patina'],
+      watches: ['Gold or bronze cases with cognac leather straps', 'Warm brown or tan leather bands', 'Classic dress watches with rich complications', 'Vintage-inspired timepieces with warm metals'],
+      glasses: ['Warm tortoiseshell with golden undertones', 'Rich gold metal frames', 'Cognac or warm brown acetate frames', 'Substantial shapes that complement your rich coloring']
     },
     hairColor: {
       bestColors: ['Rich brown', 'Auburn', 'Golden highlights', 'Copper'],
@@ -1122,11 +1128,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      bestMetals: ["Gold - Rich and warm", "Bronze - Deep and sophisticated", "Copper - Warm and striking", "Antique Gold - Rich and textured", "Brass - Warm and vintage"],
-      jewelryStyle: "Choose substantial, sophisticated pieces with rich details and warm metals. Your jewelry can be bold and dramatic to match your powerful coloring.",
-      watches: "Gold or bronze with dark leather bands in brown, burgundy, or black. Sophisticated, substantial styles work best.",
-      glasses: "Rich, warm frames in gold, dark tortoiseshell, burgundy, or dark brown. Bold, substantial frames complement your strong features.",
-      description: "Your accessories should reflect your sophisticated depth with rich, luxurious materials and substantial designs that match your powerful presence."
+      bestMetals: ['Gold', 'Bronze', 'Copper', 'Antique Gold', 'Brass'],
+      metals: 'Gold, bronze, copper, antique gold, and brass in rich, deep finishes reflect your sophisticated, luxurious nature.',
+      jewelryStyle: 'Substantial, sophisticated pieces with rich details and dramatic presence',
+      jewelry: ['Heavy gold statement necklaces', 'Deep amber or garnet jewelry in rich settings', 'Vintage gold pieces with patina', 'Bold geometric designs with warm metals'],
+      watches: ['Gold or bronze cases with dark leather straps', 'Rich burgundy or dark brown leather bands', 'Sophisticated complications in warm metals', 'Luxury timepieces with substantial presence'],
+      glasses: ['Rich dark tortoiseshell with warm undertones', 'Deep gold metal frames', 'Dark burgundy or chocolate brown acetate', 'Bold, substantial frames that match your powerful presence']
     },
     hairColor: {
       bestColors: ['Dark brown', 'Deep auburn', 'Rich chocolate', 'Dark copper'],
@@ -1244,11 +1251,12 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     accessories: {
-      bestMetals: ["Muted Gold - Soft and warm", "Rose Gold - Gentle and feminine", "Brass - Warm but not too bright", "Bronze - Muted and sophisticated", "Antique Gold - Soft, aged finish"],
-      jewelryStyle: "Choose pieces with soft, muted finishes rather than highly polished metals. Your jewelry should blend harmoniously with your coloring rather than create contrast.",
-      watches: "Muted metals with soft leather bands in taupe, sage, or dusty rose. Avoid shiny or high-contrast styles.",
-      glasses: "Soft, muted frames in taupe, sage green, dusty rose, or soft gold. Avoid sharp contrasts or bright colors.",
-      description: "Your accessories should complement your understated elegance with soft, muted finishes that enhance your natural harmony."
+      bestMetals: ['Muted Gold', 'Rose Gold', 'Brass', 'Bronze', 'Antique Gold'],
+      metals: 'Muted gold, rose gold, brass, bronze, and antique gold with soft, brushed finishes complement your harmonious, gentle coloring.',
+      jewelryStyle: 'Soft, muted pieces with blended finishes that create harmony rather than contrast',
+      jewelry: ['Muted gold chain necklaces with soft finishes', 'Rose gold pieces with natural gemstones', 'Vintage-inspired jewelry with gentle patina', 'Organic designs in warm, muted metals'],
+      watches: ['Muted gold cases with soft finishes', 'Taupe, sage, or dusty rose leather straps', 'Vintage-inspired designs with gentle proportions', 'Soft, harmonious watch faces'],
+      glasses: ['Soft taupe or sage green acetate frames', 'Muted gold wire frames with brushed finish', 'Gentle tortoiseshell with warm undertones', 'Soft, rounded shapes that enhance your harmonious features']
     },
     hairColor: {
       bestColors: ['Strawberry Blonde', 'Golden Blonde', 'Light Golden Brown', 'Medium Golden Brown'],
