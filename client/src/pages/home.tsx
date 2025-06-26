@@ -192,16 +192,16 @@ export default function Home() {
                 >
                   <Button 
                     onClick={() => setLocation('/upload')}
-                    className="text-white px-16 py-8 font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 button-pulse"
+                    className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
                     style={{ 
-                      background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
-                      borderRadius: '12px',
-                      border: 'none',
+                      backgroundColor: 'rgb(var(--muted-blue))',
                       margin: '0 -4px',
-                      boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
+                      fontFamily: 'Georgia, serif',
+                      fontWeight: 500,
+                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(212, 70, 55) 0%, rgb(214, 90, 65) 100%)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)'}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
                     <Sparkles className="mr-4 h-7 w-7" />
                     Get My Analysis - $29
@@ -324,7 +324,7 @@ export default function Home() {
                   {step.title}
                 </h3>
                 {step.description && (
-                  <p className="text-lg leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="text-lg leading-relaxed" style={{ color: '#2c2c2c' }}>
                     {step.description}
                   </p>
                 )}
@@ -406,7 +406,7 @@ export default function Home() {
                   }}>
                     Digital Color Palette
                   </h3>
-                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Interactive 64-color palette with hex codes and color names, organized by categories for easy reference
                   </p>
                 </CardContent>
@@ -458,7 +458,7 @@ export default function Home() {
                   }}>
                     Digital Makeup Palette
                   </h3>
-                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Interactive makeup swatches for foundation, eyeshadow, blush, lipstick, and eyeliner with specific shade recommendations
                   </p>
                 </CardContent>
@@ -484,7 +484,7 @@ export default function Home() {
                   }}>
                     Jewelry Recommendations
                   </h3>
-                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Personalized metal preferences, jewelry styles, watch recommendations, and eyewear guidance for your season
                   </p>
                 </CardContent>
@@ -510,7 +510,7 @@ export default function Home() {
                   }}>
                     Apple Wallet Color Card
                   </h3>
-                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Portable digital color reference card that saves to your phone for convenient shopping and color matching
                   </p>
                 </CardContent>
@@ -629,21 +629,21 @@ export default function Home() {
             }}>
               Your Colors Are 30 Seconds Away
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
+            <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: '#2c2c2c' }}>
               Discover your perfect color palette with AI-powered analysis
             </p>
             <Button 
               onClick={() => setLocation('/upload')}
-              className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300 button-pulse"
+              className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
               style={{ 
-                background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
+                backgroundColor: 'rgb(var(--muted-blue))',
                 margin: '0 -4px',
                 fontFamily: 'Georgia, serif',
                 fontWeight: 500,
-                boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
+                boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(212, 70, 55) 0%, rgb(214, 90, 65) 100%)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
             >
               <Sparkles className="mr-4 h-7 w-7" />
               Get My Analysis - $29
@@ -671,11 +671,13 @@ export default function Home() {
           onClick={() => setLocation('/upload')}
           className="w-full text-white px-8 py-4 rounded-full text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
           style={{ 
-            background: 'linear-gradient(135deg, rgb(var(--warm-coral)) 0%, rgb(var(--dusty-rose)) 100%)',
+            backgroundColor: 'rgb(var(--muted-blue))',
             fontFamily: 'Georgia, serif',
             fontWeight: 500,
-            boxShadow: '0 4px 15px rgba(232, 90, 79, 0.2)'
+            boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
           }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
         >
           <Sparkles className="mr-2 h-5 w-5" />
           Get My Analysis - $29

@@ -157,9 +157,6 @@
   }
 
   /* Button Animations */
-  .button-pulse {
-    animation: pulse 3s infinite;
-  }
 
   .wave-banner { 
     animation: wave-float 8s ease-in-out infinite;
