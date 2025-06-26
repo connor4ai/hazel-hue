@@ -294,8 +294,8 @@ export default function Home() {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Professional PDF Report */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Full Detailed Analysis */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -308,16 +308,16 @@ export default function Home() {
                     <FileText className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    6-Page Professional PDF Report
+                    Full Detailed Analysis
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Your seasonal color type analysis with 64-color palette, celebrity style icons, detailed makeup swatches, and complete styling guide
+                    Complete 6-page professional PDF report with your seasonal color type, celebrity style icons, and comprehensive styling guide
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Interactive Color Swatches */}
+            {/* Digital Color Palette */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -330,16 +330,16 @@ export default function Home() {
                     <Palette className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Interactive Makeup Palette
+                    Digital Color Palette
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Visual color swatches for foundation, eyeshadow, blush, lipstick and eyeliner with exact shade names and tooltips
+                    Interactive 64-color palette with hex codes and color names, organized by categories for easy reference
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Digital Results Page */}
+            {/* Curated Pinterest Boards */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -348,20 +348,20 @@ export default function Home() {
             >
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                    <Shirt className="h-8 w-8 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-pink-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                    <Heart className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Comprehensive Digital Results
+                    Curated Pinterest Boards
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Interactive web page with celebrity photos, hair color guides, jewelry recommendations, and curated Pinterest boards
+                    Hand-selected outfit inspiration and style guides specifically tailored to your seasonal color type
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Email Delivery */}
+            {/* Digital Makeup Palette */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -371,13 +371,57 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                    <Mail className="h-8 w-8 text-white" />
+                    <Sparkles className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Instant Email Delivery
+                    Digital Makeup Palette
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Results automatically emailed to you with direct download links for your PDF report and shareable results page
+                    Interactive makeup swatches for foundation, eyeshadow, blush, lipstick, and eyeliner with specific shade recommendations
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
+            {/* Jewelry Recommendations */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <Card className="h-full bg-white card-hover shadow-lg border-0">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                    <Gem className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                    Jewelry Recommendations
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Personalized metal preferences, jewelry styles, watch recommendations, and eyewear guidance for your season
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
+            {/* Apple Wallet Color Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <Card className="h-full bg-white card-hover shadow-lg border-0">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                    <Smartphone className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                    Apple Wallet Color Card
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Portable digital color reference card that saves to your phone for convenient shopping and color matching
                   </p>
                 </CardContent>
               </Card>
