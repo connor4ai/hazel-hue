@@ -439,6 +439,182 @@ const parseSignatureColor = (colorString: string) => {
   return { hex, name };
 };
 
+// Get colors to avoid for each season with appropriate hex codes
+const getColorsToAvoid = (season: string) => {
+  const avoidColors = {
+    'True Winter': [
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Peach', code: '#FFCBA4' },
+      { name: 'Coral', code: '#FF7F50' },
+      { name: 'Warm Yellow', code: '#FFD700' },
+      { name: 'Golden Brown', code: '#DAA520' },
+      { name: 'Olive Green', code: '#808000' },
+      { name: 'Sage Green', code: '#9CAF88' },
+      { name: 'Taupe', code: '#483C32' },
+      { name: 'Beige', code: '#F5F5DC' },
+      { name: 'Cream', code: '#FFFDD0' },
+      { name: 'Rust', code: '#B7410E' },
+      { name: 'Terracotta', code: '#E2725B' }
+    ],
+    'Bright Winter': [
+      { name: 'Peach', code: '#FFCBA4' },
+      { name: 'Coral', code: '#FF7F50' },
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Warm Yellow', code: '#FFD700' },
+      { name: 'Golden Brown', code: '#DAA520' },
+      { name: 'Olive Green', code: '#808000' },
+      { name: 'Dusty Colors', code: '#D2B48C' },
+      { name: 'Muted Tones', code: '#A0A0A0' },
+      { name: 'Sage Green', code: '#9CAF88' },
+      { name: 'Taupe', code: '#483C32' },
+      { name: 'Beige', code: '#F5F5DC' },
+      { name: 'Cream', code: '#FFFDD0' }
+    ],
+    'Dark Winter': [
+      { name: 'Light Pastels', code: '#FFB6C1' },
+      { name: 'Bright Yellow', code: '#FFFF00' },
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Peach', code: '#FFCBA4' },
+      { name: 'Coral', code: '#FF7F50' },
+      { name: 'Light Pink', code: '#FFB6C1' },
+      { name: 'Sage Green', code: '#9CAF88' },
+      { name: 'Beige', code: '#F5F5DC' },
+      { name: 'Taupe', code: '#483C32' },
+      { name: 'Cream', code: '#FFFDD0' },
+      { name: 'Golden Colors', code: '#DAA520' },
+      { name: 'Light Blue', code: '#ADD8E6' }
+    ],
+    'True Summer': [
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Bright Yellow', code: '#FFFF00' },
+      { name: 'Warm Red', code: '#DC143C' },
+      { name: 'Golden Brown', code: '#DAA520' },
+      { name: 'Rust', code: '#B7410E' },
+      { name: 'Terracotta', code: '#E2725B' },
+      { name: 'Black', code: '#000000' },
+      { name: 'Pure White', code: '#FFFFFF' },
+      { name: 'Bright Colors', code: '#FF1493' },
+      { name: 'Neon Tones', code: '#00FF00' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Electric Blue', code: '#0080FF' }
+    ],
+    'Light Summer': [
+      { name: 'Dark Colors', code: '#000000' },
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Bright Yellow', code: '#FFFF00' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Electric Blue', code: '#0080FF' },
+      { name: 'Rust', code: '#B7410E' },
+      { name: 'Golden Brown', code: '#DAA520' },
+      { name: 'Terracotta', code: '#E2725B' },
+      { name: 'Bright Red', code: '#FF0000' },
+      { name: 'Neon Colors', code: '#00FF00' },
+      { name: 'Deep Purple', code: '#800080' },
+      { name: 'Charcoal', code: '#36454F' }
+    ],
+    'Soft Summer': [
+      { name: 'Bright Colors', code: '#FF1493' },
+      { name: 'Neon Tones', code: '#00FF00' },
+      { name: 'Orange', code: '#FFA500' },
+      { name: 'Hot Yellow', code: '#FFFF00' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Electric Blue', code: '#0080FF' },
+      { name: 'Pure White', code: '#FFFFFF' },
+      { name: 'Black', code: '#000000' },
+      { name: 'Rust', code: '#B7410E' },
+      { name: 'Golden Brown', code: '#DAA520' },
+      { name: 'Terracotta', code: '#E2725B' },
+      { name: 'Bright Red', code: '#FF0000' }
+    ],
+    'True Spring': [
+      { name: 'Black', code: '#000000' },
+      { name: 'Navy', code: '#000080' },
+      { name: 'Cool Pink', code: '#FFB6C1' },
+      { name: 'Cool Blue', code: '#87CEEB' },
+      { name: 'Cool Purple', code: '#DDA0DD' },
+      { name: 'Burgundy', code: '#800020' },
+      { name: 'Dusty Colors', code: '#D2B48C' },
+      { name: 'Muted Tones', code: '#A0A0A0' },
+      { name: 'Gray', code: '#808080' },
+      { name: 'Taupe', code: '#483C32' },
+      { name: 'Cool Green', code: '#008080' },
+      { name: 'Ash Brown', code: '#A52A2A' }
+    ],
+    'Bright Spring': [
+      { name: 'Muted Colors', code: '#A0A0A0' },
+      { name: 'Dusty Tones', code: '#D2B48C' },
+      { name: 'Black', code: '#000000' },
+      { name: 'Gray', code: '#808080' },
+      { name: 'Beige', code: '#F5F5DC' },
+      { name: 'Soft Colors', code: '#FFE4E1' },
+      { name: 'Pastels', code: '#E6E6FA' },
+      { name: 'Earth Tones', code: '#8B4513' },
+      { name: 'Brown', code: '#A52A2A' },
+      { name: 'Burgundy', code: '#800020' },
+      { name: 'Navy', code: '#000080' },
+      { name: 'Cool Purple', code: '#DDA0DD' }
+    ],
+    'Light Spring': [
+      { name: 'Dark Colors', code: '#000000' },
+      { name: 'Navy', code: '#000080' },
+      { name: 'Burgundy', code: '#800020' },
+      { name: 'Deep Purple', code: '#800080' },
+      { name: 'Forest Green', code: '#228B22' },
+      { name: 'Rust', code: '#B7410E' },
+      { name: 'Brown', code: '#A52A2A' },
+      { name: 'Charcoal', code: '#36454F' },
+      { name: 'Cool Pink', code: '#FFB6C1' },
+      { name: 'Cool Blue', code: '#87CEEB' },
+      { name: 'Dusty Colors', code: '#D2B48C' },
+      { name: 'Muted Tones', code: '#A0A0A0' }
+    ],
+    'True Autumn': [
+      { name: 'Cool Pink', code: '#FFB6C1' },
+      { name: 'Cool Blue', code: '#87CEEB' },
+      { name: 'Cool Purple', code: '#DDA0DD' },
+      { name: 'Black', code: '#000000' },
+      { name: 'Pure White', code: '#FFFFFF' },
+      { name: 'Navy', code: '#000080' },
+      { name: 'Burgundy', code: '#800020' },
+      { name: 'Bright Colors', code: '#FF1493' },
+      { name: 'Neon Tones', code: '#00FF00' },
+      { name: 'Electric Blue', code: '#0080FF' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Cool Gray', code: '#708090' }
+    ],
+    'Dark Autumn': [
+      { name: 'Bright Colors', code: '#FF1493' },
+      { name: 'Neon Tones', code: '#00FF00' },
+      { name: 'Cool Pink', code: '#FFB6C1' },
+      { name: 'Cool Blue', code: '#87CEEB' },
+      { name: 'Cool Purple', code: '#DDA0DD' },
+      { name: 'Pure White', code: '#FFFFFF' },
+      { name: 'Light Colors', code: '#F0F8FF' },
+      { name: 'Pastels', code: '#E6E6FA' },
+      { name: 'Electric Blue', code: '#0080FF' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Bright Yellow', code: '#FFFF00' },
+      { name: 'Neon Green', code: '#00FF00' }
+    ],
+    'Soft Autumn': [
+      { name: 'Bright Colors', code: '#FF1493' },
+      { name: 'Neon Tones', code: '#00FF00' },
+      { name: 'Black', code: '#000000' },
+      { name: 'Pure White', code: '#FFFFFF' },
+      { name: 'Cool Pink', code: '#FFB6C1' },
+      { name: 'Cool Blue', code: '#87CEEB' },
+      { name: 'Cool Purple', code: '#DDA0DD' },
+      { name: 'Electric Blue', code: '#0080FF' },
+      { name: 'Hot Pink', code: '#FF69B4' },
+      { name: 'Bright Yellow', code: '#FFFF00' },
+      { name: 'Neon Green', code: '#00FF00' },
+      { name: 'High Contrast', code: '#808080' }
+    ]
+  };
+  
+  return avoidColors[season as keyof typeof avoidColors] || avoidColors['True Winter'];
+};
+
 const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: string; clickable?: boolean }) => {
   const [copied, setCopied] = useState(false);
 
@@ -728,20 +904,7 @@ export default function ResultsNew() {
           >
             <h3 className="text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
             <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
-              {[
-                { name: 'Orange', code: '#FFA500' },
-                { name: 'Peach', code: '#FFCBA4' },
-                { name: 'Coral', code: '#FF7F50' },
-                { name: 'Gold', code: '#FFD700' },
-                { name: 'Beige', code: '#F5F5DC' },
-                { name: 'Tan', code: '#D2B48C' },
-                { name: 'Rust', code: '#B7410E' },
-                { name: 'Camel', code: '#C19A6B' },
-                { name: 'Olive', code: '#808000' },
-                { name: 'Yellow Green', code: '#9ACD32' },
-                { name: 'Salmon', code: '#FA8072' },
-                { name: 'Burnt Orange', code: '#CC5500' }
-              ].map((color, index) => (
+              {getColorsToAvoid(analysisResult.season).map((color, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}
