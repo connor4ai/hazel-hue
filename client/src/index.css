@@ -1,64 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: hsl(44, 57%, 95%);
-  --foreground: hsl(32, 25%, 35%);
-  --muted: hsl(44, 20%, 92%);
-  --muted-foreground: hsl(32, 15%, 45%);
-  --popover: hsl(44, 57%, 95%);
-  --popover-foreground: hsl(32, 25%, 35%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(32, 25%, 35%);
-  --border: hsl(44, 20%, 85%);
-  --input: hsl(44, 20%, 85%);
-  --primary: hsl(16, 65%, 63%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(44, 20%, 92%);
-  --secondary-foreground: hsl(32, 40%, 20%);
-  --accent: hsl(44, 20%, 92%);
-  --accent-foreground: hsl(32, 40%, 20%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(32, 25%, 35%);
-  --radius: 0.75rem;
+  /* Hazel & Hue Brand Colors */
+  --hazel-brown: hsl(33, 31%, 45%);
+  --hazel-brown-light: hsl(33, 31%, 55%);
+  --hazel-brown-dark: hsl(33, 31%, 35%);
+  --cream: hsl(48, 67%, 94%);
+  --sage-green: hsl(97, 15%, 60%);
+  --soft-terracotta: hsl(22, 45%, 68%);
+  --warm-white: hsl(45, 25%, 98%);
+  --earthy-beige: hsl(40, 20%, 88%);
+  --botanical-green: hsl(90, 25%, 50%);
+  --dusty-rose: hsl(15, 35%, 75%);
   
-  /* Custom color variables */
-  --cream: hsl(44, 57%, 95%);
-  --terracotta: hsl(16, 65%, 63%);
-  --sage: hsl(139, 23%, 64%);
-  --marigold: hsl(42, 78%, 72%);
-  --lagoon: hsl(175, 44%, 51%);
-  --warm-gray: hsl(32, 15%, 55%);
-  --warm-gray-dark: hsl(32, 40%, 25%);
-  --espresso: hsl(26, 40%, 14%);
-  --soft-teal: hsl(175, 35%, 45%);
-  --bright-white: hsl(0, 0%, 100%);
-  --peach-gradient-start: hsl(16, 65%, 63%);
-  --peach-gradient-end: hsl(25, 78%, 56%);
+  /* UI Color Mapping */
+  --background: hsl(45, 25%, 98%);
+  --foreground: hsl(33, 31%, 25%);
+  --muted: hsl(40, 20%, 90%);
+  --muted-foreground: hsl(33, 20%, 45%);
+  --popover: hsl(45, 25%, 98%);
+  --popover-foreground: hsl(33, 31%, 25%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(33, 31%, 25%);
+  --border: hsl(40, 20%, 85%);
+  --input: hsl(40, 20%, 88%);
+  --primary: hsl(33, 31%, 45%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(40, 20%, 88%);
+  --secondary-foreground: hsl(33, 31%, 25%);
+  --accent: hsl(97, 15%, 60%);
+  --accent-foreground: hsl(33, 31%, 25%);
+  --destructive: hsl(0, 70%, 50%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(33, 31%, 45%);
+  --radius: 1rem;
 }
 
 .dark {
-  --background: hsl(32, 25%, 8%);
-  --foreground: hsl(44, 20%, 92%);
-  --muted: hsl(32, 15%, 15%);
-  --muted-foreground: hsl(44, 15%, 65%);
-  --popover: hsl(32, 25%, 8%);
-  --popover-foreground: hsl(44, 20%, 92%);
-  --card: hsl(32, 25%, 10%);
-  --card-foreground: hsl(44, 20%, 92%);
-  --border: hsl(32, 15%, 15%);
-  --input: hsl(32, 15%, 15%);
-  --primary: hsl(16, 65%, 63%);
+  --background: hsl(33, 31%, 12%);
+  --foreground: hsl(48, 67%, 90%);
+  --muted: hsl(33, 20%, 18%);
+  --muted-foreground: hsl(40, 15%, 65%);
+  --popover: hsl(33, 31%, 12%);
+  --popover-foreground: hsl(48, 67%, 90%);
+  --card: hsl(33, 31%, 15%);
+  --card-foreground: hsl(48, 67%, 90%);
+  --border: hsl(33, 20%, 20%);
+  --input: hsl(33, 20%, 18%);
+  --primary: hsl(33, 31%, 55%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(32, 15%, 15%);
-  --secondary-foreground: hsl(44, 20%, 92%);
-  --accent: hsl(32, 15%, 15%);
-  --accent-foreground: hsl(44, 20%, 92%);
-  --destructive: hsl(0, 62%, 30%);
+  --secondary: hsl(33, 20%, 18%);
+  --secondary-foreground: hsl(48, 67%, 90%);
+  --accent: hsl(97, 15%, 40%);
+  --accent-foreground: hsl(48, 67%, 90%);
+  --destructive: hsl(0, 62%, 50%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(44, 15%, 65%);
+  --ring: hsl(33, 31%, 55%);
 }
 
 @layer base {
@@ -67,18 +68,114 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    background-color: hsl(var(--bright-white));
+    @apply antialiased bg-background text-foreground;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: hsl(var(--background));
     background-image: 
-      radial-gradient(circle at 10% 20%, hsla(175, 35%, 45%, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 90% 80%, hsla(16, 65%, 63%, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 50% 100%, hsla(25, 78%, 56%, 0.05) 0%, transparent 60%);
+      radial-gradient(circle at 15% 25%, hsla(97, 15%, 60%, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 85% 75%, hsla(22, 45%, 68%, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 50% 95%, hsla(33, 31%, 45%, 0.04) 0%, transparent 55%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Crimson Text', serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .font-serif {
+    font-family: 'Playfair Display', 'Crimson Text', serif;
+  }
+
+  .font-sans {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 
 @layer components {
-  .paper-texture {
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F5E6D3' fill-opacity='0.2'%3E%3Cpath d='m36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  /* Hazel & Hue Brand Components */
+  .hazel-button {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-2xl font-medium transition-all duration-300 ease-out;
+    background: linear-gradient(135deg, hsl(var(--hazel-brown)) 0%, hsl(var(--hazel-brown-light)) 100%);
+    box-shadow: 0 4px 12px hsla(var(--hazel-brown), 0.25), 0 2px 4px hsla(var(--hazel-brown), 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hazel-button:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, hsl(var(--hazel-brown-light)) 0%, hsl(var(--hazel-brown)) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  .hazel-button:hover:before {
+    opacity: 1;
+  }
+
+  .hazel-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px hsla(var(--hazel-brown), 0.35), 0 4px 8px hsla(var(--hazel-brown), 0.15);
+  }
+
+  .hazel-button span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .botanical-accent {
+    position: relative;
+  }
+
+  .botanical-accent:before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 2C6.5 2 5 3 5 5c0 1.5.5 2.5 1.5 3.5L8 10l1.5-1.5C10.5 7.5 11 6.5 11 5c0-2-1.5-3-3-3z' fill='%23879177' fill-opacity='0.6'/%3E%3C/svg%3E");
+    top: -8px;
+    right: -8px;
+    opacity: 0.7;
+  }
+
+  .organic-card {
+    @apply bg-card rounded-3xl p-6 border border-border shadow-sm;
+    background: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--cream)) 100%);
+    box-shadow: 
+      0 4px 16px hsla(var(--hazel-brown), 0.08),
+      0 2px 8px hsla(var(--sage-green), 0.05),
+      inset 0 1px 0 hsla(255, 255%, 255%, 0.8);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+  }
+
+  .organic-card:hover {
+    transform: translateY(-4px) rotate(0.5deg);
+    box-shadow: 
+      0 12px 32px hsla(var(--hazel-brown), 0.12),
+      0 6px 16px hsla(var(--sage-green), 0.08),
+      inset 0 1px 0 hsla(255, 255%, 255%, 0.9);
+  }
+
+  .handwritten-accent {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: hsl(var(--sage-green));
+    position: relative;
+  }
+
+  .handwritten-accent:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 2c20-1.5 40 1.5 60-0.5S90 0.5 100 2' stroke='%23879177' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+    opacity: 0.6;
   }
 
   .section-container {
@@ -87,13 +184,13 @@
     padding: 64px 16px;
   }
 
-  .card-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .floating-element {
+    animation: gentle-float 6s ease-in-out infinite;
   }
 
-  .card-hover:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
   }
 
   .parallax-grid {

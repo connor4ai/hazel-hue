@@ -57,21 +57,26 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b" style={{ borderColor: 'hsl(var(--border))' }}>
         <div className="section-container">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center">
-              <Palette className="h-8 w-8 text-orange-500 mr-3" />
-              <span className="font-serif text-2xl font-bold" style={{ color: 'hsl(var(--espresso))' }}>HueMatcher</span>
+            <div className="flex items-center botanical-accent">
+              <div className="relative">
+                <Palette className="h-8 w-8 mr-3" style={{ color: 'hsl(var(--hazel-brown))' }} />
+                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full" style={{ background: 'hsl(var(--sage-green))', opacity: 0.7 }}></div>
+              </div>
+              <span className="font-serif text-2xl font-bold handwritten-accent" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
+                Hazel & Hue
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
+              <button onClick={() => scrollToSection('how-it-works')} className="font-medium transition-all duration-300 hover:scale-105" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 How It Works
               </button>
-              <button onClick={() => scrollToSection('deliverables')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
+              <button onClick={() => scrollToSection('deliverables')} className="font-medium transition-all duration-300 hover:scale-105" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 What You Get
               </button>
-              <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-orange-500 transition-colors font-medium">
+              <button onClick={() => scrollToSection('faq')} className="font-medium transition-all duration-300 hover:scale-105" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 FAQ
               </button>
               {isAuthenticated ? (
@@ -79,28 +84,30 @@ export default function Home() {
                   <Button
                     onClick={() => setLocation('/account')}
                     variant="ghost"
-                    className="text-gray-600 hover:text-orange-500"
+                    className="hover:scale-105 transition-transform"
+                    style={{ color: 'hsl(var(--muted-foreground))' }}
                   >
                     <User className="w-4 h-4 mr-2" />
                     My Account
                   </Button>
-                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-                    Get My Analysis - $29
-                  </Button>
+                  <button onClick={() => setLocation('/upload')} className="hazel-button">
+                    <span>Get My Analysis - $29</span>
+                  </button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
                   <Button
                     onClick={() => setLocation('/login')}
                     variant="ghost"
-                    className="text-gray-600 hover:text-orange-500"
+                    className="hover:scale-105 transition-transform"
+                    style={{ color: 'hsl(var(--muted-foreground))' }}
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
                   </Button>
-                  <Button onClick={() => setLocation('/upload')} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-                    Get My Analysis - $29
-                  </Button>
+                  <button onClick={() => setLocation('/upload')} className="hazel-button">
+                    <span>Get My Analysis - $29</span>
+                  </button>
                 </div>
               )}
             </div>
@@ -110,13 +117,14 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden pt-20 md:pt-24">
-        {/* Parallax background elements */}
+        {/* Organic background elements */}
         <div 
-          className="absolute inset-0 opacity-30"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+          className="absolute inset-0 opacity-40 floating-element"
+          style={{ transform: `translateY(${scrollY * 0.15}px)` }}
         >
-          <div className="absolute top-20 left-10 w-32 h-32 peach-blob"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-teal-100 to-transparent rounded-full filter blur-3xl opacity-60"></div>
+          <div className="absolute top-20 left-10 w-32 h-32 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(var(--sage-green)) 0%, transparent 70%)', filter: 'blur(20px)' }}></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(var(--soft-terracotta)) 0%, transparent 70%)', filter: 'blur(25px)' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-24 h-24 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(var(--hazel-brown-light)) 0%, transparent 60%)', filter: 'blur(15px)', transform: 'translate(-50%, -50%)' }}></div>
         </div>
 
         <div className="section-container relative">
@@ -129,20 +137,20 @@ export default function Home() {
             >
               <motion.h1 
                 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
-                style={{ color: 'hsl(var(--espresso))' }}
+                style={{ color: 'hsl(var(--hazel-brown-dark))' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                Detailed Color
+                Your Perfect
                 <br />
-                <span className="gradient-text">Analysis</span>
+                <span className="handwritten-accent text-5xl md:text-6xl lg:text-7xl" style={{ color: 'hsl(var(--hazel-brown))' }}>Color Story</span>
               </motion.h1>
-              <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
+              <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                 Professional 12-season color analysis in 30-seconds
               </p>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Simply upload 3 photos
+              <p className="text-lg mb-8 leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                Simply upload 3 photos and discover your unique seasonal palette
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
@@ -151,33 +159,35 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.3 }}
                 >
-                  <Button 
+                  <button 
                     onClick={() => setLocation('/upload')}
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
-                    style={{ margin: '0 -4px' }}
+                    className="hazel-button px-12 py-6 text-xl font-bold"
                   >
-                    <Sparkles className="mr-4 h-7 w-7" />
-                    Get My Analysis - $29
-                  </Button>
+                    <Sparkles className="mr-3 h-6 w-6" />
+                    <span>Discover My Colors - $29</span>
+                  </button>
                 </motion.div>
                 <button 
                   onClick={() => scrollToSection('how-it-works')}
-                  className="text-gray-600 hover:text-orange-500 transition-colors underline font-medium text-lg"
+                  className="handwritten-accent font-medium text-lg hover:scale-105 transition-transform duration-300"
+                  style={{ color: 'hsl(var(--sage-green))' }}
                 >
                   Learn More
                 </button>
               </div>
 
-
-
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm">
-                <div className="flex items-center bg-teal-50 px-4 py-3 rounded-full border border-teal-100">
-                  <Shield className="h-4 w-4 mr-2" style={{ color: 'hsl(var(--soft-teal))' }} />
-                  <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>Privacy Protected</span>
+                <div className="organic-card !p-3 !rounded-2xl" style={{ background: 'linear-gradient(135deg, hsl(var(--sage-green)) 0.1, hsl(var(--earthy-beige)) 100%)' }}>
+                  <div className="flex items-center">
+                    <Shield className="h-4 w-4 mr-2" style={{ color: 'hsl(var(--hazel-brown))' }} />
+                    <span className="font-medium" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>Privacy Protected</span>
+                  </div>
                 </div>
-                <div className="flex items-center bg-orange-50 px-4 py-3 rounded-full border border-orange-100">
-                  <Clock className="h-4 w-4 mr-2 text-orange-500" />
-                  <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>30-Second Results</span>
+                <div className="organic-card !p-3 !rounded-2xl" style={{ background: 'linear-gradient(135deg, hsl(var(--soft-terracotta)) 0.1, hsl(var(--cream)) 100%)' }}>
+                  <div className="flex items-center">
+                    <Clock className="h-4 w-4 mr-2" style={{ color: 'hsl(var(--hazel-brown))' }} />
+                    <span className="font-medium" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>30-Second Results</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -211,11 +221,11 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
               How It Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get your personalized color analysis in three simple steps
+            <p className="text-xl max-w-2xl mx-auto handwritten-accent" style={{ color: 'hsl(var(--muted-foreground))' }}>
+              Get your personalized color story in three simple steps
             </p>
           </motion.div>
           
@@ -242,7 +252,7 @@ export default function Home() {
             ].map((step, index) => (
               <motion.div 
                 key={index}
-                className="text-center group"
+                className="text-center group botanical-accent"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -250,20 +260,21 @@ export default function Home() {
               >
                 <div className="relative mb-8">
                   <div 
-                    className="text-8xl font-bold absolute -top-6 -left-6 opacity-10"
-                    style={{ color: 'hsl(var(--soft-teal))' }}
+                    className="text-8xl font-bold absolute -top-6 -left-6 opacity-15"
+                    style={{ color: 'hsl(var(--sage-green))' }}
                   >
                     {step.number}
                   </div>
-                  <div className="relative w-32 h-32 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center mx-auto floating-icon group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <div className="relative w-32 h-32 rounded-full flex items-center justify-center mx-auto floating-element group-hover:scale-110 transition-all duration-300 shadow-lg" 
+                       style={{ background: 'linear-gradient(135deg, hsl(var(--hazel-brown)) 0%, hsl(var(--hazel-brown-light)) 100%)' }}>
                     {step.icon}
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
+                <h3 className="text-2xl font-bold mb-4" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                   {step.title}
                 </h3>
                 {step.description && (
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  <p className="text-lg leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     {step.description}
                   </p>
                 )}
@@ -275,8 +286,8 @@ export default function Home() {
 
       {/* What You'll Receive Section */}
       <section id="deliverables" className="relative">
-        {/* Background peach blob */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 peach-blob opacity-40"></div>
+        {/* Organic background elements */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-30 floating-element" style={{ background: 'linear-gradient(135deg, hsl(var(--soft-terracotta)) 0%, transparent 70%)', filter: 'blur(30px)' }}></div>
         
         <div className="section-container relative">
           <motion.div 
@@ -286,10 +297,10 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
               What You'll Receive
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl max-w-2xl mx-auto handwritten-accent" style={{ color: 'hsl(var(--muted-foreground))' }}>
               A comprehensive digital package to transform your style
             </p>
           </motion.div>
@@ -302,19 +313,19 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-xl border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+              <div className="h-full organic-card botanical-accent">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--hazel-brown)) 0%, hsl(var(--hazel-brown-light)) 100%)' }}>
                     <FileText className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                     Full Detailed Analysis
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Complete 6-page professional PDF report with your seasonal color type, celebrity style icons, and comprehensive styling guide
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
             
             {/* Digital Color Palette */}
@@ -324,19 +335,19 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+              <div className="h-full organic-card">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--sage-green)) 0%, hsl(var(--botanical-green)) 100%)' }}>
                     <Palette className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                     Digital Color Palette
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Interactive 64-color palette with hex codes and color names, organized by categories for easy reference
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
             
             {/* Curated Pinterest Boards */}
@@ -346,19 +357,19 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-pink-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+              <div className="h-full organic-card">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--dusty-rose)) 0%, hsl(var(--soft-terracotta)) 100%)' }}>
                     <Heart className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                     Curated Pinterest Boards
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Hand-selected outfit inspiration and style guides specifically tailored to your seasonal color type
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
             
             {/* Digital Makeup Palette */}
@@ -368,19 +379,19 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+              <div className="h-full organic-card botanical-accent">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--soft-terracotta)) 0%, hsl(var(--dusty-rose)) 100%)' }}>
                     <Sparkles className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                     Digital Makeup Palette
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Interactive makeup swatches for foundation, eyeshadow, blush, lipstick, and eyeliner with specific shade recommendations
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
             
             {/* Jewelry Recommendations */}
@@ -390,49 +401,52 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
+              <div className="h-full organic-card">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--hazel-brown-light)) 0%, hsl(var(--hazel-brown)) 100%)' }}>
                     <Gem className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
                     Jewelry Recommendations
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Personalized metal preferences, jewelry styles, watch recommendations, and eyewear guidance for your season
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
             
-            {/* Apple Wallet Color Card */}
+            {/* Email Delivery */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                    <Smartphone className="h-8 w-8 text-white" />
+              <div className="h-full organic-card">
+                <div className="p-8">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ background: 'linear-gradient(135deg, hsl(var(--botanical-green)) 0%, hsl(var(--sage-green)) 100%)' }}>
+                    <Mail className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Apple Wallet Color Card
+                  <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
+                    Email Delivery
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    Portable digital color reference card that saves to your phone for convenient shopping and color matching
+                  <p className="leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                    Everything delivered directly to your inbox for easy access and future reference whenever you need it
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="bg-white">
-        <div className="section-container">
+      <section id="faq" className="relative" style={{ background: 'linear-gradient(135deg, hsl(var(--cream)) 0%, hsl(var(--earthy-beige)) 100%)' }}>
+        {/* Organic background elements */}
+        <div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full opacity-20 floating-element" style={{ background: 'linear-gradient(135deg, hsl(var(--sage-green)) 0%, transparent 70%)', filter: 'blur(40px)' }}></div>
+        
+        <div className="section-container relative">
           <motion.div 
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
@@ -440,9 +454,12 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--espresso))' }}>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
               Frequently Asked Questions
             </h2>
+            <p className="text-xl handwritten-accent" style={{ color: 'hsl(var(--muted-foreground))' }}>
+              Everything you need to know about your color journey
+            </p>
           </motion.div>
           
           <div className="max-w-3xl mx-auto space-y-6">
@@ -483,32 +500,33 @@ export default function Home() {
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 viewport={{ once: true }}
               >
-                <Card className="card-hover">
-                  <CardContent className="p-8">
+                <div className="organic-card botanical-accent">
+                  <div className="p-8">
                     <div 
                       className="flex items-center justify-between cursor-pointer" 
                       onClick={() => toggleFAQ(index)}
                     >
-                      <h3 className="font-semibold text-lg" style={{ color: 'hsl(var(--espresso))' }}>{faq.question}</h3>
+                      <h3 className="font-semibold text-lg" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>{faq.question}</h3>
                       <motion.div
                         animate={{ rotate: openFAQ === index ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <ChevronDown className="h-6 w-6" style={{ color: 'hsl(var(--soft-teal))' }} />
+                        <ChevronDown className="h-6 w-6" style={{ color: 'hsl(var(--sage-green))' }} />
                       </motion.div>
                     </div>
                     {openFAQ === index && (
                       <motion.div 
-                        className="mt-6 text-gray-600 max-w-prose"
+                        className="mt-6 max-w-prose"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         transition={{ duration: 0.3 }}
+                        style={{ color: 'hsl(var(--muted-foreground))' }}
                       >
                         <p>{faq.answer}</p>
                       </motion.div>
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -516,8 +534,10 @@ export default function Home() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-teal-50"></div>
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, hsl(var(--earthy-beige)) 0%, hsl(var(--cream)) 50%, hsl(var(--sage-green)) 100%)' }}>
+        {/* Organic background elements */}
+        <div className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full opacity-30 floating-element" style={{ background: 'linear-gradient(135deg, hsl(var(--hazel-brown)) 0%, transparent 70%)', filter: 'blur(50px)' }}></div>
+        
         <div className="section-container relative">
           <motion.div
             className="text-center"
@@ -526,24 +546,25 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6" style={{ color: 'hsl(var(--espresso))' }}>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>
               Your Colors Are 30 Seconds Away
             </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl mb-8 max-w-2xl mx-auto handwritten-accent" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Discover your perfect color palette with AI-powered analysis
             </p>
-            <Button 
+            <button 
               onClick={() => setLocation('/upload')}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-16 py-8 rounded-full font-bold text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
-              style={{ margin: '0 -4px' }}
+              className="hazel-button px-16 py-8 text-2xl font-bold mb-8"
             >
               <Sparkles className="mr-4 h-7 w-7" />
-              Get My Analysis - $29
-            </Button>
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <div className="flex items-center bg-green-50 px-4 py-3 rounded-full border border-green-100">
-                <Shield className="h-5 w-5 mr-2 text-green-500" />
-                <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>30-day guarantee</span>
+              <span>Get My Analysis - $29</span>
+            </button>
+            <div className="flex items-center justify-center gap-4">
+              <div className="organic-card !p-4 !rounded-2xl" style={{ background: 'linear-gradient(135deg, hsl(var(--botanical-green)) 0.1, hsl(var(--sage-green)) 100%)' }}>
+                <div className="flex items-center">
+                  <Shield className="h-5 w-5 mr-2" style={{ color: 'hsl(var(--hazel-brown))' }} />
+                  <span className="font-medium" style={{ color: 'hsl(var(--hazel-brown-dark))' }}>30-day guarantee</span>
+                </div>
               </div>
             </div>
           </motion.div>
