@@ -76,19 +76,24 @@ export class PreloadedColorAnalysisService {
   }
 
   private async detectSeason(imagePaths: string[]): Promise<string> {
-    console.log(`Analyzing ${imagePaths.length} images:`, imagePaths);
+    console.log(`🔍 STARTING ANALYSIS: Processing ${imagePaths.length} uploaded images`);
+    console.log(`📸 Image paths:`, imagePaths);
     
     // Check if files exist
     const validPaths = imagePaths.filter(path => {
       const exists = fs.existsSync(path);
       if (!exists) {
-        console.warn(`Image file not found: ${path}`);
+        console.warn(`❌ Image file not found: ${path}`);
+      } else {
+        console.log(`✅ Valid image found: ${path}`);
       }
       return exists;
     });
     
+    console.log(`📊 PHOTO COUNT: ${validPaths.length} valid photos will be sent to OpenAI for analysis`);
+    
     if (validPaths.length === 0) {
-      console.error('No valid image files found for analysis');
+      console.error('❌ No valid image files found for analysis');
       throw new Error('No valid images available for analysis');
     }
     
@@ -106,14 +111,14 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    You are a professional color analyst specializing in 12-season color analysis. Analyze the person in these photos to determine their seasonal color type.
+    You are a professional color analyst specializing in 12-season color analysis. Analyze ALL the photos provided to determine their seasonal color type. IMPORTANT: Look at every photo equally and consider the consistent features across all images to make your determination.
     
-    Examine these key factors:
-    1. SKIN UNDERTONE: Cool (blue/pink) vs Warm (yellow/golden) vs Neutral
-    2. HAIR COLOR: Natural color, depth, and warmth/coolness
-    3. EYE COLOR: Hue, clarity, and intensity
-    4. OVERALL CONTRAST: High contrast (dark hair + light skin) vs Low contrast (similar tones)
-    5. CHROMA NEEDS: Can they handle bright, saturated colors or do they need muted tones?
+    Examine these key factors across ALL photos:
+    1. SKIN UNDERTONE: Cool (blue/pink) vs Warm (yellow/golden) vs Neutral - look for consistent undertones across all photos
+    2. HAIR COLOR: Natural color, depth, and warmth/coolness - consider the hair color shown in all images
+    3. EYE COLOR: Hue, clarity, and intensity - examine eye characteristics visible in the photos
+    4. OVERALL CONTRAST: High contrast (dark hair + light skin) vs Low contrast (similar tones) - assess contrast level consistently shown
+    5. CHROMA NEEDS: Can they handle bright, saturated colors or do they need muted tones - determine from overall coloring pattern
     
     12 Seasons to choose from:
     - WINTER FAMILY (cool undertones, can handle high contrast):
@@ -156,20 +161,23 @@ export class PreloadedColorAnalysisService {
         }
       ],
       max_tokens: 50,
-      temperature: 0.3,
+      temperature: 0.1,
     });
 
     const detectedSeason = response.choices[0].message.content?.trim() || 'True Winter';
+    
+    console.log(`🤖 OpenAI Response: "${detectedSeason}"`);
     
     // Clean up the response to extract just the season name
     const cleanSeason = detectedSeason.split('\n')[0].trim();
     
     // Validate the detected season against all 12 seasons
     if (!this.allSeasons.includes(cleanSeason)) {
-      console.warn(`Invalid season detected: ${cleanSeason}, defaulting to True Winter`);
+      console.warn(`⚠️ Invalid season detected: ${cleanSeason}, defaulting to True Winter`);
       return 'True Winter';
     }
     
+    console.log(`✅ FINAL RESULT: ${cleanSeason} (analyzed from ${validPaths.length} photos)`);
     return cleanSeason;
   }
 
