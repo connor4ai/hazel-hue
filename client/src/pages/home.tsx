@@ -429,7 +429,7 @@ export default function Home() {
               },
               {
                 question: "How does the analysis work?",
-                answer: "Our AI technology analyzes your photos using advanced computer vision to determine your skin's undertones, contrast levels, and chroma. It then matches these characteristics to one of the 12 seasonal color types (True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Dark Autumn, Soft Autumn) to provide you with your perfect color palette."
+                answer: "Our AI color analysis works by using computer vision algorithms to analyze uploaded photos and extract key facial features, including skin tone, eye color, and hair color, while accounting for lighting conditions and image quality. The AI then compares these extracted color characteristics against a trained dataset of seasonal color theory principles, matching the user's natural coloring to one of the 12 seasonal color types (Spring, Summer, Autumn, Winter and their subtypes) based on undertone, contrast level, and chroma patterns. Finally, machine learning models process this data to generate personalized color recommendations, suggesting specific hex codes and color palettes that will harmonize with the user's unique coloring profile."
               }
             ].map((faq, index) => (
               <motion.div
