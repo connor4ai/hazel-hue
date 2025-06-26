@@ -483,10 +483,10 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6" style={{ color: 'hsl(var(--espresso))' }}>
-              Your Colors Are Two Minutes Away
+              Your Colors Are 30 Seconds Away
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands who have transformed their style with professional color analysis
+              Discover your perfect color palette with AI-powered analysis
             </p>
             <Button 
               onClick={() => setLocation('/upload')}
