@@ -255,7 +255,7 @@ export default function Home() {
                   >
                     {step.number}
                   </div>
-                  <div className="relative w-32 h-32 teal-icon-bg rounded-full flex items-center justify-center mx-auto floating-icon group-hover:scale-110 transition-all duration-300">
+                  <div className="relative w-32 h-32 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center mx-auto floating-icon group-hover:scale-110 transition-all duration-300 shadow-lg">
                     {step.icon}
                   </div>
                 </div>
