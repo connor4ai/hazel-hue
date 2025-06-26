@@ -49,72 +49,147 @@ const getMetalColorSwatch = (metalName: string) => {
 };
 
 // Jewelry color helper function
-const getJewelryColorSwatch = (jewelryItem: string) => {
+const getJewelryColorSwatch = (jewelryItem: string, usedNames: Set<string>) => {
   const itemLower = jewelryItem.toLowerCase();
   
-  if (itemLower.includes('coral')) {
+  // Gemstone patterns
+  if (itemLower.includes('coral') && !usedNames.has('Coral')) {
+    usedNames.add('Coral');
     return { gradient: 'bg-gradient-to-br from-orange-300 to-orange-400', name: 'Coral' };
-  } else if (itemLower.includes('turquoise')) {
+  } else if (itemLower.includes('turquoise') && !usedNames.has('Turquoise')) {
+    usedNames.add('Turquoise');
     return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-500', name: 'Turquoise' };
-  } else if (itemLower.includes('emerald')) {
+  } else if (itemLower.includes('emerald') && !usedNames.has('Emerald')) {
+    usedNames.add('Emerald');
     return { gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600', name: 'Emerald' };
-  } else if (itemLower.includes('sapphire') || itemLower.includes('blue')) {
+  } else if ((itemLower.includes('sapphire') || itemLower.includes('blue stone')) && !usedNames.has('Sapphire')) {
+    usedNames.add('Sapphire');
     return { gradient: 'bg-gradient-to-br from-blue-600 to-blue-700', name: 'Sapphire' };
-  } else if (itemLower.includes('diamond') || itemLower.includes('crystal')) {
+  } else if ((itemLower.includes('diamond') || itemLower.includes('crystal')) && !usedNames.has('Diamond')) {
+    usedNames.add('Diamond');
     return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'Diamond' };
-  } else if (itemLower.includes('pearl')) {
+  } else if (itemLower.includes('pearl') && !usedNames.has('Pearl')) {
+    usedNames.add('Pearl');
     return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100', name: 'Pearl' };
-  } else if (itemLower.includes('amber')) {
+  } else if (itemLower.includes('amber') && !usedNames.has('Amber')) {
+    usedNames.add('Amber');
     return { gradient: 'bg-gradient-to-br from-amber-400 to-amber-500', name: 'Amber' };
-  } else if (itemLower.includes('garnet') || itemLower.includes('burgundy')) {
+  } else if ((itemLower.includes('garnet') || itemLower.includes('burgundy stone')) && !usedNames.has('Garnet')) {
+    usedNames.add('Garnet');
     return { gradient: 'bg-gradient-to-br from-red-700 to-red-800', name: 'Garnet' };
-  } else if (itemLower.includes('citrine') || itemLower.includes('yellow')) {
+  } else if (itemLower.includes('citrine') && !usedNames.has('Citrine')) {
+    usedNames.add('Citrine');
     return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-500', name: 'Citrine' };
-  } else if (itemLower.includes('peridot') || itemLower.includes('green')) {
+  } else if (itemLower.includes('peridot') && !usedNames.has('Peridot')) {
+    usedNames.add('Peridot');
     return { gradient: 'bg-gradient-to-br from-lime-400 to-lime-500', name: 'Peridot' };
-  } else if (itemLower.includes('topaz')) {
+  } else if (itemLower.includes('topaz') && !usedNames.has('Topaz')) {
+    usedNames.add('Topaz');
     return { gradient: 'bg-gradient-to-br from-blue-300 to-blue-400', name: 'Topaz' };
-  } else if (itemLower.includes('aquamarine')) {
+  } else if (itemLower.includes('aquamarine') && !usedNames.has('Aquamarine')) {
+    usedNames.add('Aquamarine');
     return { gradient: 'bg-gradient-to-br from-cyan-300 to-cyan-400', name: 'Aquamarine' };
-  } else if (itemLower.includes('lavender') || itemLower.includes('purple')) {
-    return { gradient: 'bg-gradient-to-br from-purple-300 to-purple-400', name: 'Lavender' };
+  } else if ((itemLower.includes('lavender') || itemLower.includes('amethyst')) && !usedNames.has('Amethyst')) {
+    usedNames.add('Amethyst');
+    return { gradient: 'bg-gradient-to-br from-purple-300 to-purple-400', name: 'Amethyst' };
+  } else if (itemLower.includes('ruby') && !usedNames.has('Ruby')) {
+    usedNames.add('Ruby');
+    return { gradient: 'bg-gradient-to-br from-red-500 to-red-600', name: 'Ruby' };
+  } else if (itemLower.includes('opal') && !usedNames.has('Opal')) {
+    usedNames.add('Opal');
+    return { gradient: 'bg-gradient-to-br from-white to-pink-100', name: 'Opal' };
+  } else if (itemLower.includes('moonstone') && !usedNames.has('Moonstone')) {
+    usedNames.add('Moonstone');
+    return { gradient: 'bg-gradient-to-br from-gray-200 to-blue-100', name: 'Moonstone' };
+  } else if (itemLower.includes('onyx') && !usedNames.has('Onyx')) {
+    usedNames.add('Onyx');
+    return { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Onyx' };
+  }
+  
+  // Material patterns if no gemstone found
+  if (itemLower.includes('wooden') && !usedNames.has('Wood')) {
+    usedNames.add('Wood');
+    return { gradient: 'bg-gradient-to-br from-amber-700 to-amber-800', name: 'Wood' };
+  } else if (itemLower.includes('leather') && !usedNames.has('Leather')) {
+    usedNames.add('Leather');
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700', name: 'Leather' };
+  } else if (itemLower.includes('fabric') && !usedNames.has('Fabric')) {
+    usedNames.add('Fabric');
+    return { gradient: 'bg-gradient-to-br from-indigo-200 to-indigo-300', name: 'Fabric' };
+  }
+  
+  // Default for unmatched items (avoid "Natural" if already used)
+  if (!usedNames.has('Elegant')) {
+    usedNames.add('Elegant');
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Elegant' };
+  } else if (!usedNames.has('Classic')) {
+    usedNames.add('Classic');
+    return { gradient: 'bg-gradient-to-br from-slate-300 to-slate-400', name: 'Classic' };
   } else {
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Metal' };
+    return { gradient: 'bg-gradient-to-br from-stone-300 to-stone-400', name: 'Refined' };
   }
 };
 
 // Eyewear color helper function
-const getEyewearColorSwatch = (frameType: string) => {
+const getEyewearColorSwatch = (frameType: string, usedNames: Set<string>) => {
   const frameLower = frameType.toLowerCase();
   
-  if (frameLower.includes('black')) {
+  if (frameLower.includes('black') && !usedNames.has('Black')) {
+    usedNames.add('Black');
     return { gradient: 'bg-gradient-to-br from-gray-800 to-gray-900', name: 'Black' };
-  } else if (frameLower.includes('silver')) {
+  } else if (frameLower.includes('silver') && !usedNames.has('Silver')) {
+    usedNames.add('Silver');
     return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Silver' };
-  } else if (frameLower.includes('gold')) {
+  } else if (frameLower.includes('gold') && !frameLower.includes('rose') && !usedNames.has('Gold')) {
+    usedNames.add('Gold');
     return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-400', name: 'Gold' };
-  } else if (frameLower.includes('tortoiseshell') || frameLower.includes('brown')) {
+  } else if ((frameLower.includes('tortoiseshell') || frameLower.includes('tortoise')) && !usedNames.has('Tortoiseshell')) {
+    usedNames.add('Tortoiseshell');
     return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700', name: 'Tortoiseshell' };
-  } else if (frameLower.includes('navy') || frameLower.includes('blue')) {
+  } else if ((frameLower.includes('navy') || frameLower.includes('dark blue')) && !usedNames.has('Navy')) {
+    usedNames.add('Navy');
     return { gradient: 'bg-gradient-to-br from-blue-700 to-blue-800', name: 'Navy' };
-  } else if (frameLower.includes('burgundy') || frameLower.includes('red')) {
+  } else if ((frameLower.includes('burgundy') || frameLower.includes('wine')) && !usedNames.has('Burgundy')) {
+    usedNames.add('Burgundy');
     return { gradient: 'bg-gradient-to-br from-red-700 to-red-800', name: 'Burgundy' };
-  } else if (frameLower.includes('coral')) {
+  } else if (frameLower.includes('coral') && !usedNames.has('Coral')) {
+    usedNames.add('Coral');
     return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-500', name: 'Coral' };
-  } else if (frameLower.includes('turquoise')) {
+  } else if (frameLower.includes('turquoise') && !usedNames.has('Turquoise')) {
+    usedNames.add('Turquoise');
     return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-500', name: 'Turquoise' };
-  } else if (frameLower.includes('gray') || frameLower.includes('grey')) {
+  } else if ((frameLower.includes('gray') || frameLower.includes('grey')) && !usedNames.has('Gray')) {
+    usedNames.add('Gray');
     return { gradient: 'bg-gradient-to-br from-gray-500 to-gray-600', name: 'Gray' };
-  } else if (frameLower.includes('gunmetal')) {
+  } else if (frameLower.includes('gunmetal') && !usedNames.has('Gunmetal')) {
+    usedNames.add('Gunmetal');
     return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700', name: 'Gunmetal' };
-  } else if (frameLower.includes('rose gold')) {
+  } else if (frameLower.includes('rose gold') && !usedNames.has('Rose Gold')) {
+    usedNames.add('Rose Gold');
     return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-300', name: 'Rose Gold' };
-  } else if (frameLower.includes('peach')) {
+  } else if (frameLower.includes('peach') && !usedNames.has('Peach')) {
+    usedNames.add('Peach');
     return { gradient: 'bg-gradient-to-br from-orange-200 to-orange-300', name: 'Peach' };
-  } else if (frameLower.includes('champagne')) {
+  } else if (frameLower.includes('champagne') && !usedNames.has('Champagne')) {
+    usedNames.add('Champagne');
     return { gradient: 'bg-gradient-to-br from-yellow-100 to-yellow-200', name: 'Champagne' };
+  } else if (frameLower.includes('brown') && !usedNames.has('Brown')) {
+    usedNames.add('Brown');
+    return { gradient: 'bg-gradient-to-br from-amber-700 to-amber-800', name: 'Brown' };
+  } else if (frameLower.includes('clear') && !usedNames.has('Clear')) {
+    usedNames.add('Clear');
+    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'Clear' };
+  }
+  
+  // Fallback options that avoid duplicates
+  if (!usedNames.has('Classic')) {
+    usedNames.add('Classic');
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Classic' };
+  } else if (!usedNames.has('Modern')) {
+    usedNames.add('Modern');
+    return { gradient: 'bg-gradient-to-br from-slate-400 to-slate-500', name: 'Modern' };
   } else {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Neutral' };
+    return { gradient: 'bg-gradient-to-br from-stone-400 to-stone-500', name: 'Stylish' };
   }
 };
 
@@ -1222,18 +1297,22 @@ export default function ResultsNew() {
                 <div>
                   <p className="text-gray-700 leading-relaxed mb-4">{analysisResult.accessories.metals}</p>
                   <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
-                    {analysisResult.accessories.bestMetals?.map((metal, index) => {
-                      const metalColors = getMetalColorSwatch(metal);
-                      return (
-                        <div key={index} className="text-center">
-                          <div 
-                            className={`w-12 h-12 ${metalColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
-                            title={metal}
-                          ></div>
-                          <p className="text-xs font-medium text-gray-700">{metal}</p>
-                        </div>
-                      );
-                    })}
+                    {(() => {
+                      const usedNames = new Set<string>();
+                      const metalsList = ['Silver', 'Gold', 'Rose Gold', 'Gunmetal', 'Brass'];
+                      return metalsList.map((metal, index) => {
+                        const metalColors = getMetalColorSwatch(metal);
+                        return (
+                          <div key={index} className="text-center">
+                            <div 
+                              className={`w-12 h-12 ${metalColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                              title={metal}
+                            ></div>
+                            <p className="text-xs font-medium text-gray-700">{metal}</p>
+                          </div>
+                        );
+                      });
+                    })()}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -1278,18 +1357,21 @@ export default function ResultsNew() {
                   ))}
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {analysisResult.accessories.jewelry?.slice(0, 8).map((item: string, index: number) => {
-                    const jewelryColors = getJewelryColorSwatch(item);
-                    return (
-                      <div key={index} className="text-center">
-                        <div 
-                          className={`w-10 h-10 ${jewelryColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
-                          title={item}
-                        ></div>
-                        <p className="text-xs font-medium text-gray-700">{jewelryColors.name}</p>
-                      </div>
-                    );
-                  })}
+                  {(() => {
+                    const usedNames = new Set<string>();
+                    return analysisResult.accessories.jewelry?.slice(0, 8).map((item: string, index: number) => {
+                      const jewelryColors = getJewelryColorSwatch(item, usedNames);
+                      return (
+                        <div key={index} className="text-center">
+                          <div 
+                            className={`w-10 h-10 ${jewelryColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                            title={item}
+                          ></div>
+                          <p className="text-xs font-medium text-gray-700">{jewelryColors.name}</p>
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               </motion.div>
 
@@ -1311,21 +1393,24 @@ export default function ResultsNew() {
                   ))}
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {(Array.isArray(analysisResult.accessories.glasses) ? 
-                    analysisResult.accessories.glasses : 
-                    ['Black frames', 'Silver frames', 'Tortoiseshell frames']
-                  ).slice(0, 6).map((item: string, index: number) => {
-                    const eyewearColors = getEyewearColorSwatch(item);
-                    return (
-                      <div key={index} className="text-center">
-                        <div 
-                          className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
-                          title={item}
-                        ></div>
-                        <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
-                      </div>
-                    );
-                  })}
+                  {(() => {
+                    const usedNames = new Set<string>();
+                    return (Array.isArray(analysisResult.accessories.glasses) ? 
+                      analysisResult.accessories.glasses : 
+                      ['Black frames', 'Silver frames', 'Tortoiseshell frames']
+                    ).slice(0, 6).map((item: string, index: number) => {
+                      const eyewearColors = getEyewearColorSwatch(item, usedNames);
+                      return (
+                        <div key={index} className="text-center">
+                          <div 
+                            className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
+                            title={item}
+                          ></div>
+                          <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               </motion.div>
             </div>
