@@ -61,7 +61,12 @@ export default function Home() {
         <div className="section-container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <span className="text-2xl font-normal" style={{ fontFamily: 'Playfair Display, Georgia, serif', color: 'rgb(var(--forest-green))' }}>
+              <span className="text-2xl font-medium" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif', 
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}>
                 hazel <span style={{ color: 'rgb(var(--warm-coral))' }}>&</span> hue
                 <span className="ml-2">
                   <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}></span>
@@ -71,13 +76,25 @@ export default function Home() {
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('how-it-works')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
+              <button onClick={() => scrollToSection('how-it-works')} className="transition-colors hover:opacity-80" style={{ 
+                color: 'rgb(var(--forest-green))',
+                fontFamily: 'Georgia, serif',
+                fontWeight: 500
+              }}>
                 How It Works
               </button>
-              <button onClick={() => scrollToSection('deliverables')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
+              <button onClick={() => scrollToSection('deliverables')} className="transition-colors hover:opacity-80" style={{ 
+                color: 'rgb(var(--forest-green))',
+                fontFamily: 'Georgia, serif',
+                fontWeight: 500
+              }}>
                 What You Get
               </button>
-              <button onClick={() => scrollToSection('faq')} className="font-medium transition-colors hover:opacity-80" style={{ color: 'rgb(var(--forest-green))' }}>
+              <button onClick={() => scrollToSection('faq')} className="transition-colors hover:opacity-80" style={{ 
+                color: 'rgb(var(--forest-green))',
+                fontFamily: 'Georgia, serif',
+                fontWeight: 500
+              }}>
                 FAQ
               </button>
               {isAuthenticated ? (
@@ -86,20 +103,26 @@ export default function Home() {
                     onClick={() => setLocation('/account')}
                     variant="ghost"
                     className="hover:opacity-80"
-                    style={{ color: 'rgb(var(--forest-green))' }}
+                    style={{ 
+                      color: 'rgb(var(--forest-green))',
+                      fontFamily: 'Georgia, serif',
+                      fontWeight: 500
+                    }}
                   >
                     <User className="w-4 h-4 mr-2" />
                     My Account
                   </Button>
                   <Button 
                     onClick={() => setLocation('/upload')} 
-                    className="text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
                     style={{ 
-                      background: 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)',
-                      border: 'none'
+                      backgroundColor: 'rgb(var(--muted-blue))',
+                      fontFamily: 'Georgia, serif',
+                      fontWeight: 500,
+                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #7A5F3D 0%, #95714F 100%)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)'}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
                     Get My Analysis - $29
                   </Button>
@@ -110,20 +133,26 @@ export default function Home() {
                     onClick={() => setLocation('/login')}
                     variant="ghost"
                     className="hover:opacity-80"
-                    style={{ color: 'rgb(var(--forest-green))' }}
+                    style={{ 
+                      color: 'rgb(var(--forest-green))',
+                      fontFamily: 'Georgia, serif',
+                      fontWeight: 500
+                    }}
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Sign In
                   </Button>
                   <Button 
                     onClick={() => setLocation('/upload')} 
-                    className="text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
                     style={{ 
-                      background: 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)',
-                      border: 'none'
+                      backgroundColor: 'rgb(var(--muted-blue))',
+                      fontFamily: 'Georgia, serif',
+                      fontWeight: 500,
+                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #7A5F3D 0%, #95714F 100%)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%)'}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
                     Get My Analysis - $29
                   </Button>
