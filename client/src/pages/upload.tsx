@@ -57,6 +57,47 @@ export default function UploadPage() {
     setFiles(prev => [...prev, file]);
   };
 
+  const handleMultipleFileSelect = (selectedFiles: FileList) => {
+    const newFiles: File[] = [];
+    const errors: string[] = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+
+      // Check if we'll exceed 3 files
+      if (files.length + newFiles.length >= 3) {
+        errors.push("Maximum 3 photos allowed");
+        break;
+      }
+
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        errors.push(`${file.name} is too large (max 10MB)`);
+        continue;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png'))) {
+        errors.push(`${file.name} is not a valid image file`);
+        continue;
+      }
+
+      newFiles.push(file);
+    }
+
+    if (errors.length > 0) {
+      toast({
+        title: "Some files couldn't be uploaded",
+        description: errors.join(', '),
+        variant: "destructive",
+      });
+    }
+
+    if (newFiles.length > 0) {
+      setFiles(prev => [...prev, ...newFiles]);
+    }
+  };
+
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
@@ -124,16 +165,41 @@ export default function UploadPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {files.length < 3 && (
-                  <UploadZone
-                    onFileSelect={handleFileSelect}
-                    onUploadClick={() => {}}
-                    file={null}
-                    instruction={{
-                      title: "Choose a photo",
-                      description: "JPEG or PNG up to 10MB",
-                      icon: <Upload className="w-8 h-8 text-terracotta" />
-                    }}
-                  />
+                  <div className="space-y-4">
+                    <UploadZone
+                      onFileSelect={handleFileSelect}
+                      onUploadClick={() => {}}
+                      file={null}
+                      instruction={{
+                        title: "Choose a photo",
+                        description: "JPEG or PNG up to 10MB",
+                        icon: <Upload className="w-8 h-8 text-terracotta" />
+                      }}
+                    />
+                    
+                    <div className="text-center">
+                      <p className="text-sm text-gray-600 mb-2">Or upload all 3 photos at once:</p>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/jpeg,image/jpg,image/png"
+                        onChange={(e) => {
+                          if (e.target.files) {
+                            handleMultipleFileSelect(e.target.files);
+                          }
+                        }}
+                        className="hidden"
+                        id="multiple-file-upload"
+                      />
+                      <label
+                        htmlFor="multiple-file-upload"
+                        className="inline-flex items-center px-4 py-2 border border-terracotta text-terracotta rounded-lg hover:bg-terracotta hover:text-white transition-colors cursor-pointer"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Select Multiple Photos
+                      </label>
+                    </div>
+                  </div>
                 )}
 
                 {files.length > 0 && (

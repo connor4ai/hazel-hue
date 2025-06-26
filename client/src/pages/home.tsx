@@ -139,7 +139,7 @@ export default function Home() {
                 <span className="gradient-text">Analysis</span>
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ color: 'hsl(var(--espresso))' }}>
-                Professional 12-season color analysis in 2 minutes
+                Professional 12-season color analysis in 30-seconds
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 Simply upload 3 photos
@@ -168,14 +168,7 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                <div className="flex text-orange-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-current" />
-                  ))}
-                </div>
-                <span className="font-semibold" style={{ color: 'hsl(var(--espresso))' }}>4.9/5 from 2,847 reviews</span>
-              </div>
+
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm">
                 <div className="flex items-center bg-teal-50 px-4 py-3 rounded-full border border-teal-100">
@@ -184,7 +177,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center bg-orange-50 px-4 py-3 rounded-full border border-orange-100">
                   <Clock className="h-4 w-4 mr-2 text-orange-500" />
-                  <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>2-Minute Results</span>
+                  <span className="font-medium" style={{ color: 'hsl(var(--espresso))' }}>30-Second Results</span>
                 </div>
               </div>
             </motion.div>
@@ -232,19 +225,19 @@ export default function Home() {
                 number: "1",
                 icon: <Camera className="h-16 w-16 text-white" />,
                 title: "Upload Photos",
-                description: ""
+                description: "Take clear selfies in natural light"
               },
               {
                 number: "2", 
                 icon: <Zap className="h-16 w-16 text-white" />,
                 title: "AI Analysis",
-                description: ""
+                description: "Our AI determines your seasonal color type"
               },
               {
                 number: "3",
                 icon: <FileText className="h-16 w-16 text-white" />,
                 title: "Get Results", 
-                description: ""
+                description: "Receive personalized color palette and styling guide"
               }
             ].map((step, index) => (
               <motion.div 
@@ -315,10 +308,10 @@ export default function Home() {
                     <FileText className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Personalized PDF + Palette
+                    Professional PDF Report
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Professional 6-page color analysis with shopping-ready swatches and styling recommendations
+                    Complete 6-page personalized color analysis with your seasonal type, color palette, makeup recommendations, and styling guide
                   </p>
                 </CardContent>
               </Card>
@@ -337,10 +330,10 @@ export default function Home() {
                     <Palette className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Digital Color Palette
+                    Apple Wallet Color Card
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Phone-optimized color palette for shopping - Apple Wallet integrated
+                    Portable digital color palette that saves to your phone for easy shopping reference
                   </p>
                 </CardContent>
               </Card>
@@ -359,10 +352,10 @@ export default function Home() {
                     <Shirt className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Style Guide
+                    Makeup & Styling Guide
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Complete styling recommendations and tips
+                    Detailed makeup recommendations with specific color swatches, hair color suggestions, and accessory guidance
                   </p>
                 </CardContent>
               </Card>
@@ -381,10 +374,10 @@ export default function Home() {
                     <Heart className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Outfit Ideas
+                    Color Shopping Strategy
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Curated looks using your perfect colors
+                    Expert tips on which colors to embrace and avoid, plus Pinterest boards with curated outfit inspiration
                   </p>
                 </CardContent>
               </Card>
@@ -432,7 +425,11 @@ export default function Home() {
               },
               {
                 question: "What if I don't receive my results?",
-                answer: "Results are typically delivered within 2 minutes. If you don't receive your analysis within 5 minutes, please check your spam folder or contact our support team."
+                answer: "Results are typically delivered within 30 seconds. If you don't receive your analysis within 2 minutes, please check your spam folder or contact our support team."
+              },
+              {
+                question: "How does the analysis work?",
+                answer: "Our AI technology analyzes your photos using advanced computer vision to determine your skin's undertones, contrast levels, and chroma. It then matches these characteristics to one of the 12 seasonal color types (True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Dark Autumn, Soft Autumn) to provide you with your perfect color palette."
               }
             ].map((faq, index) => (
               <motion.div
