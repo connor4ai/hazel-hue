@@ -83,7 +83,7 @@ const getFoundationColors = (season: string) => {
       { hex: '#D2B48C', name: 'Muted Tan' }
     ]
   };
-  return foundations[season] || foundations['True Winter'];
+  return foundations[season as keyof typeof foundations] || foundations['True Winter'];
 };
 
 const getEyeshadowColors = (season: string) => {
@@ -161,7 +161,7 @@ const getEyeshadowColors = (season: string) => {
       { hex: '#CD853F', name: 'Muted Bronze' }
     ]
   };
-  return eyeshadows[season] || eyeshadows['True Winter'];
+  return eyeshadows[season as keyof typeof eyeshadows] || eyeshadows['True Winter'];
 };
 
 const getBlushColors = (season: string) => {
@@ -227,7 +227,7 @@ const getBlushColors = (season: string) => {
       { hex: '#CD853F', name: 'Soft Bronze' }
     ]
   };
-  return blushes[season] || blushes['True Winter'];
+  return blushes[season as keyof typeof blushes] || blushes['True Winter'];
 };
 
 const getLipstickColors = (season: string) => {
@@ -305,7 +305,7 @@ const getLipstickColors = (season: string) => {
       { hex: '#DDA0DD', name: 'Muted Berry' }
     ]
   };
-  return lipsticks[season] || lipsticks['True Winter'];
+  return lipsticks[season as keyof typeof lipsticks] || lipsticks['True Winter'];
 };
 
 const getEyelinerColors = (season: string) => {
@@ -371,7 +371,7 @@ const getEyelinerColors = (season: string) => {
       { hex: '#BC8F8F', name: 'Dusty Rose' }
     ]
   };
-  return eyeliners[season] || eyeliners['True Winter'];
+  return eyeliners[season as keyof typeof eyeliners] || eyeliners['True Winter'];
 };
 
 interface AnalysisResult {
@@ -1130,10 +1130,8 @@ export default function ResultsNew() {
                 <div className="space-y-3">
                   {(Array.isArray(analysisResult.accessories.jewelry) ? 
                     analysisResult.accessories.jewelry : 
-                    analysisResult.accessories.jewelryStyle ? 
-                    [analysisResult.accessories.jewelryStyle] : 
                     ['Elegant pieces that complement your coloring']
-                  ).map((item, index) => (
+                  ).map((item: string, index: number) => (
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
                 </div>
@@ -1210,10 +1208,8 @@ export default function ResultsNew() {
               <div className="space-y-4">
                 {(Array.isArray(analysisResult.hairColor.bestColors) ? 
                   analysisResult.hairColor.bestColors : 
-                  analysisResult.hairColor.recommended ? 
-                  analysisResult.hairColor.recommended : 
                   ['Colors that enhance your natural beauty']
-                ).map((color, index) => (
+                ).map((color: string, index: number) => (
                   <motion.p
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
