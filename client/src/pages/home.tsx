@@ -23,12 +23,12 @@ import {
   LogIn,
   CheckCircle,
   Upload,
-  Mail,
   TrendingUp,
   Users,
   Eye,
   Award,
-  Zap
+  Zap,
+  Mail
 } from "lucide-react";
 import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
@@ -295,7 +295,7 @@ export default function Home() {
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Personalized PDF + Palette */}
+            {/* Professional PDF Report */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -308,16 +308,16 @@ export default function Home() {
                     <FileText className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Professional PDF Report
+                    6-Page Professional PDF Report
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Complete 6-page personalized color analysis with your seasonal type, color palette, makeup recommendations, and styling guide
+                    Your seasonal color type analysis with 64-color palette, celebrity style icons, detailed makeup swatches, and complete styling guide
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Digital Color Palette */}
+            {/* Interactive Color Swatches */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -330,16 +330,16 @@ export default function Home() {
                     <Palette className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Apple Wallet Color Card
+                    Interactive Makeup Palette
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Portable digital color palette that saves to your phone for easy shopping reference
+                    Visual color swatches for foundation, eyeshadow, blush, lipstick and eyeliner with exact shade names and tooltips
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Style Guide */}
+            {/* Digital Results Page */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -352,16 +352,16 @@ export default function Home() {
                     <Shirt className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Makeup & Styling Guide
+                    Comprehensive Digital Results
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Detailed makeup recommendations with specific color swatches, hair color suggestions, and accessory guidance
+                    Interactive web page with celebrity photos, hair color guides, jewelry recommendations, and curated Pinterest boards
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
             
-            {/* Outfit Ideas */}
+            {/* Email Delivery */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -371,13 +371,13 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                    <Heart className="h-8 w-8 text-white" />
+                    <Mail className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="font-serif text-xl font-bold mb-3" style={{ color: 'hsl(var(--espresso))' }}>
-                    Color Shopping Strategy
+                    Instant Email Delivery
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Expert tips on which colors to embrace and avoid, plus Pinterest boards with curated outfit inspiration
+                    Results automatically emailed to you with direct download links for your PDF report and shareable results page
                   </p>
                 </CardContent>
               </Card>
