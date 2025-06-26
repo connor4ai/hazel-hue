@@ -165,40 +165,40 @@ export default function UploadPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {files.length < 3 && (
-                  <div className="space-y-4">
-                    <UploadZone
-                      onFileSelect={handleFileSelect}
-                      onUploadClick={() => {}}
-                      file={null}
-                      instruction={{
-                        title: "Choose a photo",
-                        description: "JPEG or PNG up to 10MB",
-                        icon: <Upload className="w-8 h-8 text-terracotta" />
-                      }}
-                    />
-                    
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-2">Or upload all 3 photos at once:</p>
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/jpeg,image/jpg,image/png"
-                        onChange={(e) => {
-                          if (e.target.files) {
+                  <div className="text-center">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/jpeg,image/jpg,image/png"
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          if (e.target.files.length === 1) {
+                            handleFileSelect(e.target.files[0]);
+                          } else {
                             handleMultipleFileSelect(e.target.files);
                           }
-                        }}
-                        className="hidden"
-                        id="multiple-file-upload"
-                      />
-                      <label
-                        htmlFor="multiple-file-upload"
-                        className="inline-flex items-center px-4 py-2 border border-terracotta text-terracotta rounded-lg hover:bg-terracotta hover:text-white transition-colors cursor-pointer"
-                      >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Select Multiple Photos
-                      </label>
-                    </div>
+                        }
+                      }}
+                      className="hidden"
+                      id="photo-upload"
+                    />
+                    <label
+                      htmlFor="photo-upload"
+                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-terracotta/30 rounded-lg hover:border-terracotta/50 transition-colors cursor-pointer bg-gradient-to-br from-terracotta/5 to-marigold/5 hover:from-terracotta/10 hover:to-marigold/10"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-12 h-12 text-terracotta mb-4" />
+                        <p className="mb-2 text-lg font-semibold text-warm-gray-dark">
+                          Upload Your Photos
+                        </p>
+                        <p className="text-sm text-warm-gray text-center">
+                          Select up to 3 photos (JPEG or PNG, up to 10MB each)
+                        </p>
+                        <p className="text-xs text-warm-gray mt-2">
+                          You can select multiple files at once
+                        </p>
+                      </div>
+                    </label>
                   </div>
                 )}
 
