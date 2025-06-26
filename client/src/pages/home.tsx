@@ -355,7 +355,7 @@ export default function Home() {
             }}>
               What You'll Receive
             </h2>
-            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
+            <p className="text-xl max-w-2xl mx-auto" style={{ color: '#2c2c2c' }}>
               A comprehensive digital package to transform your style
             </p>
           </motion.div>
@@ -368,7 +368,7 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full bg-white card-hover shadow-xl border-0">
+              <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}>
                     <FileText className="h-8 w-8 text-white" />
@@ -380,7 +380,7 @@ export default function Home() {
                   }}>
                     Full Detailed Analysis
                   </h3>
-                  <p className="leading-relaxed" style={{ color: 'rgb(var(--muted-blue))' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Complete 6-page professional PDF report with your seasonal color type, celebrity style icons, and comprehensive styling guide
                   </p>
                 </CardContent>
@@ -432,7 +432,7 @@ export default function Home() {
                   }}>
                     Curated Pinterest Boards
                   </h3>
-                  <p className="leading-relaxed" style={{ color: '#5D5D5D' }}>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
                     Hand-selected outfit inspiration and style guides specifically tailored to your seasonal color type
                   </p>
                 </CardContent>
