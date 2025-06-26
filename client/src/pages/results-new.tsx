@@ -528,14 +528,61 @@ interface Order {
 
 // Parse signature colors to extract hex codes and names
 const parseSignatureColor = (colorString: string) => {
+  // Check if the string contains a hex code
   const hexMatch = colorString.match(/#[0-9A-Fa-f]{6}/);
-  const hex = hexMatch ? hexMatch[0] : '#000000';
   
-  // Extract color name (part before the hex code)
-  const nameMatch = colorString.split('(')[0].trim();
-  const name = nameMatch || 'Color';
+  if (hexMatch) {
+    // Extract hex code
+    const hex = hexMatch[0];
+    
+    // Extract color name (everything before the hex code, remove parentheses)
+    const name = colorString.replace(hex, '').replace(/[()]/g, '').trim();
+    
+    return { hex, name: name || 'Color' };
+  } else {
+    // If no hex code found, treat the entire string as a color name
+    // and assign a default hex based on common color names
+    const colorName = colorString.trim();
+    const defaultHex = getDefaultHexForColorName(colorName);
+    
+    return { hex: defaultHex, name: colorName };
+  }
+};
+
+// Helper function to get default hex codes for common color names
+const getDefaultHexForColorName = (colorName: string): string => {
+  const colorMap: { [key: string]: string } = {
+    'red': '#FF0000',
+    'blue': '#0000FF',
+    'green': '#008000',
+    'yellow': '#FFFF00',
+    'purple': '#800080',
+    'pink': '#FFC0CB',
+    'orange': '#FFA500',
+    'brown': '#A52A2A',
+    'black': '#000000',
+    'white': '#FFFFFF',
+    'gray': '#808080',
+    'grey': '#808080',
+    'navy': '#000080',
+    'coral': '#FF7F50',
+    'turquoise': '#40E0D0',
+    'emerald': '#50C878',
+    'burgundy': '#800020',
+    'maroon': '#800000',
+    'teal': '#008080',
+    'gold': '#FFD700',
+    'silver': '#C0C0C0'
+  };
   
-  return { hex, name };
+  const lowerName = colorName.toLowerCase();
+  for (const [name, hex] of Object.entries(colorMap)) {
+    if (lowerName.includes(name)) {
+      return hex;
+    }
+  }
+  
+  return '#808080'; // Default gray
 };
 
 // Get colors to avoid for each season with appropriate hex codes
