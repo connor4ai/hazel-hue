@@ -19,6 +19,361 @@ import TrueAutumnPalette from '@/components/TrueAutumnPalette';
 import DarkAutumnPalette from '@/components/DarkAutumnPalette';
 import SoftAutumnPalette from '@/components/SoftAutumnPalette';
 
+// Makeup color helper functions
+const getFoundationColors = (season: string) => {
+  const foundations = {
+    'True Winter': [
+      { hex: '#F5DEB3', name: 'Cool Undertone' },
+      { hex: '#DEB887', name: 'Cool Beige' },
+      { hex: '#D2B48C', name: 'Cool Tan' }
+    ],
+    'Bright Winter': [
+      { hex: '#F5DEB3', name: 'Cool Undertone' },
+      { hex: '#DEB887', name: 'Clear Beige' },
+      { hex: '#D2B48C', name: 'Cool Tan' }
+    ],
+    'Dark Winter': [
+      { hex: '#F5DEB3', name: 'Cool Undertone' },
+      { hex: '#DEB887', name: 'Cool Beige' },
+      { hex: '#D2B48C', name: 'Cool Tan' }
+    ],
+    'True Summer': [
+      { hex: '#F5DEB3', name: 'Cool Undertone' },
+      { hex: '#DEB887', name: 'Muted Beige' },
+      { hex: '#D2B48C', name: 'Soft Tan' }
+    ],
+    'Light Summer': [
+      { hex: '#FFF8DC', name: 'Light Cool' },
+      { hex: '#F5DEB3', name: 'Light Beige' },
+      { hex: '#FAEBD7', name: 'Light Porcelain' }
+    ],
+    'Soft Summer': [
+      { hex: '#F5DEB3', name: 'Neutral Undertone' },
+      { hex: '#DEB887', name: 'Soft Beige' },
+      { hex: '#D2B48C', name: 'Muted Tan' }
+    ],
+    'True Spring': [
+      { hex: '#FFEFD5', name: 'Warm Undertone' },
+      { hex: '#F5DEB3', name: 'Warm Beige' },
+      { hex: '#DEB887', name: 'Golden Tan' }
+    ],
+    'Bright Spring': [
+      { hex: '#FFEFD5', name: 'Clear Warm' },
+      { hex: '#F5DEB3', name: 'Clear Beige' },
+      { hex: '#DEB887', name: 'Golden Tan' }
+    ],
+    'Light Spring': [
+      { hex: '#FFF8DC', name: 'Light Warm' },
+      { hex: '#FFEFD5', name: 'Light Peach' },
+      { hex: '#F5DEB3', name: 'Light Golden' }
+    ],
+    'True Autumn': [
+      { hex: '#FFEFD5', name: 'Warm Undertone' },
+      { hex: '#DEB887', name: 'Golden Beige' },
+      { hex: '#D2B48C', name: 'Warm Tan' }
+    ],
+    'Dark Autumn': [
+      { hex: '#DEB887', name: 'Deep Warm' },
+      { hex: '#D2B48C', name: 'Rich Golden' },
+      { hex: '#BC8F8F', name: 'Deep Bronze' }
+    ],
+    'Soft Autumn': [
+      { hex: '#F5DEB3', name: 'Muted Warm' },
+      { hex: '#DEB887', name: 'Soft Golden' },
+      { hex: '#D2B48C', name: 'Muted Tan' }
+    ]
+  };
+  return foundations[season] || foundations['True Winter'];
+};
+
+const getEyeshadowColors = (season: string) => {
+  const eyeshadows = {
+    'True Winter': [
+      { hex: '#800080', name: 'Deep Purple' },
+      { hex: '#228B22', name: 'Forest Green' },
+      { hex: '#36454F', name: 'Charcoal' },
+      { hex: '#C0C0C0', name: 'Silver' }
+    ],
+    'Bright Winter': [
+      { hex: '#FF1493', name: 'Hot Pink' },
+      { hex: '#0080FF', name: 'Electric Blue' },
+      { hex: '#8A2BE2', name: 'Electric Purple' },
+      { hex: '#00FFFF', name: 'Bright Turquoise' }
+    ],
+    'Dark Winter': [
+      { hex: '#800080', name: 'Deep Purple' },
+      { hex: '#228B22', name: 'Forest Green' },
+      { hex: '#36454F', name: 'Charcoal' },
+      { hex: '#000000', name: 'Black' }
+    ],
+    'True Summer': [
+      { hex: '#D8BFD8', name: 'Soft Lavender' },
+      { hex: '#B0C4DE', name: 'Soft Blue' },
+      { hex: '#DDA0DD', name: 'Soft Pink' },
+      { hex: '#808080', name: 'Soft Gray' }
+    ],
+    'Light Summer': [
+      { hex: '#E6E6FA', name: 'Light Lavender' },
+      { hex: '#ADD8E6', name: 'Light Blue' },
+      { hex: '#FFB6C1', name: 'Light Pink' },
+      { hex: '#F5F5DC', name: 'Light Taupe' }
+    ],
+    'Soft Summer': [
+      { hex: '#D2B48C', name: 'Soft Taupe' },
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#9ACD32', name: 'Sage Green' },
+      { hex: '#D8BFD8', name: 'Soft Mauve' }
+    ],
+    'True Spring': [
+      { hex: '#32CD32', name: 'Fresh Green' },
+      { hex: '#FFD700', name: 'Golden Yellow' },
+      { hex: '#FF6347', name: 'Coral' },
+      { hex: '#40E0D0', name: 'Turquoise' }
+    ],
+    'Bright Spring': [
+      { hex: '#00FF00', name: 'Electric Green' },
+      { hex: '#FFFF00', name: 'Bright Yellow' },
+      { hex: '#FF4500', name: 'Bright Orange' },
+      { hex: '#00FFFF', name: 'Electric Turquoise' }
+    ],
+    'Light Spring': [
+      { hex: '#98FB98', name: 'Light Green' },
+      { hex: '#FFFFE0', name: 'Light Yellow' },
+      { hex: '#FFDAB9', name: 'Light Peach' },
+      { hex: '#E0FFFF', name: 'Light Turquoise' }
+    ],
+    'True Autumn': [
+      { hex: '#8B4513', name: 'Rich Brown' },
+      { hex: '#B8860B', name: 'Golden Bronze' },
+      { hex: '#CD853F', name: 'Rust' },
+      { hex: '#228B22', name: 'Forest Green' }
+    ],
+    'Dark Autumn': [
+      { hex: '#654321', name: 'Espresso' },
+      { hex: '#B8860B', name: 'Dark Copper' },
+      { hex: '#A0522D', name: 'Deep Rust' },
+      { hex: '#8B0000', name: 'Burgundy' }
+    ],
+    'Soft Autumn': [
+      { hex: '#D2B48C', name: 'Soft Taupe' },
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#9ACD32', name: 'Sage Green' },
+      { hex: '#CD853F', name: 'Muted Bronze' }
+    ]
+  };
+  return eyeshadows[season] || eyeshadows['True Winter'];
+};
+
+const getBlushColors = (season: string) => {
+  const blushes = {
+    'True Winter': [
+      { hex: '#8B0000', name: 'Deep Rose' },
+      { hex: '#722F37', name: 'Burgundy' },
+      { hex: '#8B008B', name: 'Deep Berry' }
+    ],
+    'Bright Winter': [
+      { hex: '#FF1493', name: 'Bright Pink' },
+      { hex: '#FF69B4', name: 'Cool Rose' },
+      { hex: '#8B008B', name: 'Berry' }
+    ],
+    'Dark Winter': [
+      { hex: '#8B0000', name: 'Deep Rose' },
+      { hex: '#722F37', name: 'Burgundy' },
+      { hex: '#8B008B', name: 'Deep Berry' }
+    ],
+    'True Summer': [
+      { hex: '#F08080', name: 'Soft Rose' },
+      { hex: '#DDA0DD', name: 'Dusty Pink' },
+      { hex: '#E6E6FA', name: 'Soft Lavender' }
+    ],
+    'Light Summer': [
+      { hex: '#FFB6C1', name: 'Light Pink' },
+      { hex: '#FFC0CB', name: 'Soft Rose' },
+      { hex: '#E6E6FA', name: 'Light Lavender' }
+    ],
+    'Soft Summer': [
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#F0E68C', name: 'Muted Coral' },
+      { hex: '#CD853F', name: 'Soft Bronze' }
+    ],
+    'True Spring': [
+      { hex: '#FF6347', name: 'Warm Coral' },
+      { hex: '#FF7F50', name: 'Peach' },
+      { hex: '#FFB6C1', name: 'Warm Pink' }
+    ],
+    'Bright Spring': [
+      { hex: '#FF6347', name: 'Electric Coral' },
+      { hex: '#FF1493', name: 'Electric Pink' },
+      { hex: '#FF7F50', name: 'Bright Peach' }
+    ],
+    'Light Spring': [
+      { hex: '#FFDAB9', name: 'Light Peach' },
+      { hex: '#FFB6C1', name: 'Light Coral' },
+      { hex: '#FFC0CB', name: 'Light Pink' }
+    ],
+    'True Autumn': [
+      { hex: '#CD853F', name: 'Warm Bronze' },
+      { hex: '#FF6347', name: 'Warm Coral' },
+      { hex: '#FF7F50', name: 'Peach' }
+    ],
+    'Dark Autumn': [
+      { hex: '#CD853F', name: 'Deep Bronze' },
+      { hex: '#800020', name: 'Warm Burgundy' },
+      { hex: '#A0522D', name: 'Dark Rust' }
+    ],
+    'Soft Autumn': [
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#F0E68C', name: 'Muted Coral' },
+      { hex: '#CD853F', name: 'Soft Bronze' }
+    ]
+  };
+  return blushes[season] || blushes['True Winter'];
+};
+
+const getLipstickColors = (season: string) => {
+  const lipsticks = {
+    'True Winter': [
+      { hex: '#800020', name: 'Deep Burgundy' },
+      { hex: '#722F37', name: 'Wine' },
+      { hex: '#8B008B', name: 'Deep Berry' },
+      { hex: '#8B0000', name: 'Dark Red' }
+    ],
+    'Bright Winter': [
+      { hex: '#FF0000', name: 'Bright Red' },
+      { hex: '#FF1493', name: 'Hot Pink' },
+      { hex: '#8A2BE2', name: 'Electric Purple' },
+      { hex: '#8B008B', name: 'Electric Berry' }
+    ],
+    'Dark Winter': [
+      { hex: '#800020', name: 'Deep Burgundy' },
+      { hex: '#722F37', name: 'Wine' },
+      { hex: '#8B008B', name: 'Deep Berry' },
+      { hex: '#8B0000', name: 'Dark Red' }
+    ],
+    'True Summer': [
+      { hex: '#F08080', name: 'Soft Rose' },
+      { hex: '#DDA0DD', name: 'Dusty Pink' },
+      { hex: '#E6E6FA', name: 'Soft Lavender' },
+      { hex: '#BC8F8F', name: 'Muted Berry' }
+    ],
+    'Light Summer': [
+      { hex: '#FFB6C1', name: 'Light Pink' },
+      { hex: '#FFC0CB', name: 'Soft Rose' },
+      { hex: '#FAEBD7', name: 'Nude Pink' },
+      { hex: '#E6E6FA', name: 'Light Lavender' }
+    ],
+    'Soft Summer': [
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#F0E68C', name: 'Soft Coral' },
+      { hex: '#DEB887', name: 'Warm Nude' },
+      { hex: '#D8BFD8', name: 'Soft Plum' }
+    ],
+    'True Spring': [
+      { hex: '#FF6347', name: 'Coral' },
+      { hex: '#FF7F50', name: 'Peach' },
+      { hex: '#FF4500', name: 'Warm Red' },
+      { hex: '#FFB6C1', name: 'Warm Pink' }
+    ],
+    'Bright Spring': [
+      { hex: '#FF0000', name: 'True Red' },
+      { hex: '#FF6347', name: 'Electric Coral' },
+      { hex: '#FF1493', name: 'Electric Pink' },
+      { hex: '#FF4500', name: 'Bright Orange' }
+    ],
+    'Light Spring': [
+      { hex: '#FFDAB9', name: 'Light Peach' },
+      { hex: '#FFB6C1', name: 'Light Coral' },
+      { hex: '#FFC0CB', name: 'Light Pink' },
+      { hex: '#FFEFD5', name: 'Nude Peach' }
+    ],
+    'True Autumn': [
+      { hex: '#CD853F', name: 'Bronze' },
+      { hex: '#FF6347', name: 'Coral' },
+      { hex: '#8B4513', name: 'Rich Brown' },
+      { hex: '#A0522D', name: 'Rust' }
+    ],
+    'Dark Autumn': [
+      { hex: '#CD853F', name: 'Deep Bronze' },
+      { hex: '#722F37', name: 'Wine' },
+      { hex: '#A0522D', name: 'Rich Rust' },
+      { hex: '#800020', name: 'Deep Burgundy' }
+    ],
+    'Soft Autumn': [
+      { hex: '#BC8F8F', name: 'Dusty Rose' },
+      { hex: '#F0E68C', name: 'Soft Coral' },
+      { hex: '#DEB887', name: 'Warm Nude' },
+      { hex: '#DDA0DD', name: 'Muted Berry' }
+    ]
+  };
+  return lipsticks[season] || lipsticks['True Winter'];
+};
+
+const getEyelinerColors = (season: string) => {
+  const eyeliners = {
+    'True Winter': [
+      { hex: '#000000', name: 'Black' },
+      { hex: '#800020', name: 'Deep Burgundy' },
+      { hex: '#228B22', name: 'Forest Green' }
+    ],
+    'Bright Winter': [
+      { hex: '#000000', name: 'Jet Black' },
+      { hex: '#0080FF', name: 'Bright Blue' },
+      { hex: '#8A2BE2', name: 'Purple' }
+    ],
+    'Dark Winter': [
+      { hex: '#000000', name: 'Black' },
+      { hex: '#800020', name: 'Deep Burgundy' },
+      { hex: '#228B22', name: 'Forest Green' }
+    ],
+    'True Summer': [
+      { hex: '#696969', name: 'Soft Gray' },
+      { hex: '#4682B4', name: 'Soft Blue' },
+      { hex: '#D8BFD8', name: 'Soft Lavender' }
+    ],
+    'Light Summer': [
+      { hex: '#A9A9A9', name: 'Light Gray' },
+      { hex: '#8FBC8F', name: 'Soft Gray-Green' },
+      { hex: '#DDA0DD', name: 'Soft Pink' }
+    ],
+    'Soft Summer': [
+      { hex: '#8B4513', name: 'Soft Brown' },
+      { hex: '#9ACD32', name: 'Sage Green' },
+      { hex: '#BC8F8F', name: 'Dusty Rose' }
+    ],
+    'True Spring': [
+      { hex: '#8B4513', name: 'Warm Brown' },
+      { hex: '#32CD32', name: 'Green' },
+      { hex: '#000080', name: 'Navy' }
+    ],
+    'Bright Spring': [
+      { hex: '#000000', name: 'Black' },
+      { hex: '#00FF00', name: 'Electric Green' },
+      { hex: '#0000FF', name: 'Electric Blue' }
+    ],
+    'Light Spring': [
+      { hex: '#D2691E', name: 'Light Brown' },
+      { hex: '#98FB98', name: 'Light Green' },
+      { hex: '#4682B4', name: 'Light Blue' }
+    ],
+    'True Autumn': [
+      { hex: '#8B4513', name: 'Rich Brown' },
+      { hex: '#228B22', name: 'Forest Green' },
+      { hex: '#B8860B', name: 'Golden Bronze' }
+    ],
+    'Dark Autumn': [
+      { hex: '#8B4513', name: 'Dark Brown' },
+      { hex: '#228B22', name: 'Forest Green' },
+      { hex: '#800020', name: 'Burgundy' }
+    ],
+    'Soft Autumn': [
+      { hex: '#8B4513', name: 'Soft Brown' },
+      { hex: '#9ACD32', name: 'Sage Green' },
+      { hex: '#BC8F8F', name: 'Dusty Rose' }
+    ]
+  };
+  return eyeliners[season] || eyeliners['True Winter'];
+};
+
 interface AnalysisResult {
   season: string;
   description: string;
@@ -774,7 +1129,130 @@ export default function ResultsNew() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
             >
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Your {analysisResult.season} Makeup Palette</h4>
+              <h4 className="text-xl font-bold text-gray-800 mb-6">Your {analysisResult.season} Makeup Palette</h4>
+              
+              {/* Interactive Color Swatches */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Foundation */}
+                <div className="makeup-category">
+                  <h5 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Foundation</h5>
+                  <div className="flex gap-2">
+                    {getFoundationColors(analysisResult.season).map((color, index) => (
+                      <div
+                        key={index}
+                        className="group relative"
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm cursor-pointer transition-transform hover:scale-110"
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            {color.name}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Eyeshadow */}
+                <div className="makeup-category">
+                  <h5 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Eyeshadow</h5>
+                  <div className="flex gap-2">
+                    {getEyeshadowColors(analysisResult.season).map((color, index) => (
+                      <div
+                        key={index}
+                        className="group relative"
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm cursor-pointer transition-transform hover:scale-110"
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            {color.name}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Blush */}
+                <div className="makeup-category">
+                  <h5 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Blush</h5>
+                  <div className="flex gap-2">
+                    {getBlushColors(analysisResult.season).map((color, index) => (
+                      <div
+                        key={index}
+                        className="group relative"
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm cursor-pointer transition-transform hover:scale-110"
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            {color.name}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Lipstick */}
+                <div className="makeup-category">
+                  <h5 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Lipstick</h5>
+                  <div className="flex gap-2">
+                    {getLipstickColors(analysisResult.season).map((color, index) => (
+                      <div
+                        key={index}
+                        className="group relative"
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm cursor-pointer transition-transform hover:scale-110"
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            {color.name}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Eyeliner */}
+                <div className="makeup-category">
+                  <h5 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">Eyeliner</h5>
+                  <div className="flex gap-2">
+                    {getEyelinerColors(analysisResult.season).map((color, index) => (
+                      <div
+                        key={index}
+                        className="group relative"
+                      >
+                        <div
+                          className="w-8 h-8 rounded-full border-2 border-gray-200 shadow-sm cursor-pointer transition-transform hover:scale-110"
+                          style={{ backgroundColor: color.hex }}
+                          title={color.name}
+                        />
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                            {color.name}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
               
               <div className="space-y-4">
                 {(Array.isArray(analysisResult.makeup.guidelines) ? 
