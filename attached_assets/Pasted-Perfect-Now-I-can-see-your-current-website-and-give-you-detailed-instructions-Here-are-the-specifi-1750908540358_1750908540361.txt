@@ -1,0 +1,100 @@
+Perfect! Now I can see your current website and give you detailed instructions. Here are the specific changes for Replit to transform your HueMatcher site into the Hazel & Hue brand:
+DETAILED REBRANDING INSTRUCTIONS FOR REPLIT
+1. HEADER/NAVIGATION BAR
+Current: Orange logo + "HueMatcher" text
+Change to:
+
+Replace logo with text-only "hazel & hue" using: font-family: 'Georgia', serif; font-size: 24px; color: #8B6F47; font-weight: 400;
+Change navigation text color from #6B7280 to #8B6F47
+Keep same layout structure
+
+2. HERO SECTION BACKGROUND
+Current: Light beige/cream background
+Change to: background-color: #F5F2ED; (warmer cream with hazel undertones)
+3. MAIN HEADLINE
+Current: "Professional 12-season color analysis in 30-seconds"
+Keep text but change styling:
+
+Font family: font-family: 'Playfair Display', serif; (if available) or 'Georgia', serif;
+Color: #6B5B37 (deeper hazel brown)
+Font weight: font-weight: 500;
+
+4. SUBHEADLINE
+Current: "Simply upload 3 photos"
+Change color to: #8B7355 (medium hazel)
+5. PRIMARY CTA BUTTON
+Current: Orange gradient button
+Change to:
+
+Background: background: linear-gradient(135deg, #8B6F47 0%, #A67C5A 100%);
+Keep rounded corners and shadow
+Text remains white
+Hover state: background: linear-gradient(135deg, #7A5F3D 0%, #95714F 100%);
+
+6. SECONDARY BUTTON ("Learn More")
+Current: Gray text
+Change to: color: #8B6F47; text-decoration: underline;
+7. TRUST BADGES
+Current: Gray icons and text
+Change to: color: #A67C5A; for both icons and text
+8. SECTION HEADERS
+Current: Brown serif headings
+Update all section headers ("How It Works", "What You'll Receive", "Frequently Asked Questions"):
+
+Font family: font-family: 'Playfair Display', serif; or 'Georgia', serif;
+Color: #6B5B37
+Font weight: font-weight: 500;
+
+9. STEP ICONS (How It Works Section)
+Current: Teal circular icons
+Change to:
+
+Background color: #8B6F47
+Keep white icons inside
+Step numbers in background: color: rgba(139, 111, 71, 0.1);
+
+10. FEATURE CARD ICONS (What You'll Receive Section)
+Current: Various bright colors (orange, teal, pink, purple, yellow, green)
+Change all to warm hazel palette:
+
+Card 1 (Analysis): background: #8B6F47;
+Card 2 (Digital Palette): background: #A67C5A;
+Card 3 (Pinterest): background: #C4A678;
+Card 4 (Makeup): background: #8B6F47;
+Card 5 (Jewelry): background: #A67C5A;
+Card 6 (Apple Wallet): background: #C4A678;
+
+11. FEATURE CARD TITLES
+Current: Brown serif text
+Change to: color: #6B5B37; font-family: 'Georgia', serif; font-weight: 500;
+12. BODY TEXT
+Current: Gray text
+Change to: color: #5D5D5D; (warmer gray)
+13. FAQ SECTION
+Current: Rounded rectangles with brown text
+Update:
+
+Border color: border: 1px solid #D4C4B0;
+Background on hover: background-color: #FAF8F5;
+Text color: color: #6B5B37;
+
+14. FINAL CTA SECTION
+Current: Light background with orange button
+Update:
+
+Background: background-color: #FAF8F5;
+Main headline color: color: #6B5B37;
+Button styling same as primary CTA above
+Guarantee text color: color: #8B6F47;
+
+15. GENERAL STYLING IMPROVEMENTS
+
+Add subtle texture or warmth to backgrounds
+Increase letter spacing on headers: letter-spacing: 0.5px;
+Add gentle hover animations on all interactive elements
+Ensure all rounded corners are consistent: border-radius: 12px;
+
+16. MOBILE RESPONSIVENESS
+
+Maintain all current responsive behavior
+Ensure new colors have sufficient contrast for accessibility
