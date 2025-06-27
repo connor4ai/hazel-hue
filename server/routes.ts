@@ -1249,7 +1249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No email address found" });
       }
 
-      await emailService.sendResultsEmail(order);
+      await emailService.sendAnalysisReport(order.email, order.analysisResult, order.pdfPath);
       await storage.updateOrderEmailSent(order.id);
       
       res.json({ success: true, message: "Results emailed successfully" });
@@ -1342,10 +1342,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { orderId } = req.params;
       
-      await storage.updateOrderPayment(parseInt(orderId), {
-        paymentStatus: 'paid',
-        paymentIntentId: 'free_promo_code'
-      });
+      // Update payment status
+      await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
+      await storage.updateOrderPaymentIntent(parseInt(orderId), 'free_promo_code');
+
+      // Get the order with analysis results
+      const order = await storage.getOrder(parseInt(orderId));
+      
+      if (order && order.email && order.analysisResult && order.pdfPath) {
+        try {
+          // Send email with results
+          await emailService.sendAnalysisReport(order.email, order.analysisResult, order.pdfPath);
+          await storage.updateOrderEmailSent(order.id);
+          console.log(`Free analysis results emailed to: ${order.email}`);
+        } catch (emailError) {
+          console.error("Error sending free analysis email:", emailError);
+          // Don't fail the request if email fails
+        }
+      }
 
       res.json({ success: true, message: "Order marked as paid with promo code" });
       

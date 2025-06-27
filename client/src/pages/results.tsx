@@ -39,6 +39,8 @@ interface Order {
   analysisResult: AnalysisResult | null;
   pdfPath: string | null;
   createdAt: string;
+  email: string | null;
+  emailSent: boolean;
 }
 
 export default function Results() {
@@ -75,6 +77,9 @@ export default function Results() {
             variant: "destructive",
           });
           setLocation(`/processing/${orderId}`);
+        } else {
+          // Automatically send email when user first accesses completed results
+          sendEmailAutomatically(data.order);
         }
       } else {
         throw new Error('Order not found');
@@ -88,6 +93,33 @@ export default function Results() {
       setLocation('/');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const sendEmailAutomatically = async (order: Order) => {
+    // Check if email has already been sent or if no email on order
+    if (!order.email || order.emailSent) {
+      return;
+    }
+
+    try {
+      const response = await apiRequest('POST', `/api/orders/${order.id}/email-results`, {
+        email: order.email
+      });
+      
+      if (response.ok) {
+        console.log('Analysis results emailed automatically to:', order.email);
+        setEmailSent(true);
+        
+        // Show a subtle notification that email was sent
+        toast({
+          title: "Results Emailed",
+          description: `Your color analysis has been sent to ${order.email}`,
+        });
+      }
+    } catch (error) {
+      console.error('Error sending automatic email:', error);
+      // Don't show error toast for automatic email failures
     }
   };
 
