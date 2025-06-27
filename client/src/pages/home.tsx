@@ -177,20 +177,15 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight"
-                style={{ 
-                  fontFamily: 'Playfair Display, Georgia, serif',
-                  color: 'rgb(var(--forest-green))',
-                  fontWeight: 500,
-                  letterSpacing: '0.5px'
-                }}
+                className="mb-6 leading-tight"
+                style={{ fontSize: '4rem' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                Detailed <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
-                <br />
-                Analysis
+                <div className="logo" style={{ fontSize: '4rem' }}>
+                  hazel <span className="ampersand">&</span> hue
+                </div>
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif',
