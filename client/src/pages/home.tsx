@@ -59,7 +59,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <span className="text-2xl" style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif', 
@@ -109,7 +109,7 @@ export default function Home() {
                   </Button>
                   <Button 
                     onClick={() => setLocation('/upload')} 
-                    className="text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="text-white px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
                     style={{ 
                       backgroundColor: 'rgb(var(--muted-blue))',
                       fontFamily: 'Georgia, serif',
@@ -139,7 +139,7 @@ export default function Home() {
                   </Button>
                   <Button 
                     onClick={() => setLocation('/upload')} 
-                    className="text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="text-white px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
                     style={{ 
                       backgroundColor: 'rgb(var(--muted-blue))',
                       fontFamily: 'Georgia, serif',
@@ -159,7 +159,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden pt-20 md:pt-24" style={{ backgroundColor: '#F5F2ED' }}>
+      <section id="hero" className="relative overflow-hidden pt-16 md:pt-20" style={{ backgroundColor: '#F5F2ED' }}>
         {/* Parallax background elements */}
         {/* Floating decorative elements */}
         <div 
