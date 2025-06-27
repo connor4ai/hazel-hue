@@ -129,9 +129,6 @@ export default function UploadPage() {
       }));
       sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
 
-      // Navigate to loading page immediately
-      setLocation('/analyzing');
-
       // Start the analysis in the background (guest order)
       const response = await fetch('/api/orders/guest', {
         method: 'POST',
@@ -146,6 +143,25 @@ export default function UploadPage() {
       
       // Store order ID for the loading page to track
       sessionStorage.setItem('currentOrderId', order.id.toString());
+
+      // Navigate to analyzing page after getting order ID
+      setLocation('/analyzing');
+      
+      // For debugging - also try direct redirect after short delay
+      setTimeout(() => {
+        const currentOrderId = sessionStorage.getItem('currentOrderId');
+        if (currentOrderId) {
+          // Check if analysis completed quickly and redirect directly
+          fetch(`/api/orders/${currentOrderId}/status`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'completed') {
+                setLocation(`/results-preview/${currentOrderId}`);
+              }
+            })
+            .catch(console.error);
+        }
+      }, 2000);
       
     } catch (error) {
       console.error('Error starting analysis:', error);
