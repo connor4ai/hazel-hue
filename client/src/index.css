@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -188,6 +187,20 @@
       #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fab1a0,
       #fd79a8, #a29bfe, #6c5ce7, #fd79a8, #ff6b6b
     );
+  }
+
+  /* Hazel & Hue Logo Styling */
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #5a6b5d;
+    letter-spacing: 2px;
+  }
+
+  .logo .ampersand {
+    color: #8b9d87;
+    margin: 0 8px;
   }
 }
 
