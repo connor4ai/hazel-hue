@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthContext, useAuthProvider } from "@/hooks/useAuth";
 import Home from "@/pages/home";
+import HomeNew from "@/pages/home-new";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import Payment from "@/pages/payment";
@@ -25,7 +26,8 @@ import NotFound from "@/pages/not-found";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={HomeNew} />
+      <Route path="/old-home" component={Home} />
       <Route path="/upload" component={Upload} />
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
