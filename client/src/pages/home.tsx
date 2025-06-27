@@ -59,7 +59,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">
-          <div className="flex justify-between items-center h-6 py-0.5">
+          <div className="flex justify-between items-center h-1 py-0">
             <div className="flex items-center">
               <span className="text-xl" style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif', 
