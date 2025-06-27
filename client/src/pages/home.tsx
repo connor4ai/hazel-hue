@@ -59,7 +59,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-12">
             <div className="flex items-center">
               <span className="text-2xl" style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif', 
@@ -70,7 +70,7 @@ export default function Home() {
                 hazel <span style={{ color: '#8FA68F', fontFamily: '"Playfair Display", Georgia, serif' }}>&</span> hue
               </span>
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6">
               <button onClick={() => scrollToSection('how-it-works')} className="transition-colors hover:opacity-80" style={{ 
                 color: 'rgb(var(--forest-green))',
                 fontFamily: 'Georgia, serif',
@@ -159,7 +159,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden pt-16 md:pt-20" style={{ backgroundColor: '#F5F2ED' }}>
+      <section id="hero" className="relative overflow-hidden pt-12 md:pt-16" style={{ backgroundColor: '#F5F2ED' }}>
         {/* Parallax background elements */}
         {/* Floating decorative elements */}
         <div 
