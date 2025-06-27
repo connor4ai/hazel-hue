@@ -64,11 +64,10 @@ export default function Home() {
               <span className="text-2xl font-normal" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif', 
                 fontWeight: 400,
-                letterSpacing: '1px'
+                letterSpacing: '1px',
+                color: '#6B7280'
               }}>
-                <span style={{ color: '#6B7280' }}>hazel</span>
-                <span style={{ color: '#9CA3AF' }}> & </span>
-                <span style={{ color: '#6B7280' }}>hue</span>
+                hazel <span style={{ color: '#9CA3AF', fontFamily: 'Playfair Display, Georgia, serif' }}>&</span> hue
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
