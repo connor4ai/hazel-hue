@@ -61,18 +61,13 @@ export default function Home() {
         <div className="section-container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <span className="text-2xl font-medium" style={{ 
+              <span className="text-2xl font-normal" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif', 
-                color: 'rgb(var(--forest-green))',
-                fontWeight: 500,
-                letterSpacing: '0.5px'
+                color: 'rgb(var(--sage-green))',
+                fontWeight: 400,
+                letterSpacing: '1px'
               }}>
-                hazel <span style={{ color: 'rgb(var(--warm-coral))' }}>&</span> hue
-                <span className="ml-2">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}></span>
-                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}></span>
-                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgb(var(--sage-green))' }}></span>
-                </span>
+                hazel & hue
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
