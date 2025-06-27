@@ -1,40 +1,52 @@
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 import fs from 'fs';
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
-
   constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+    if (!process.env.SENDGRID_API_KEY) {
+      throw new Error('SENDGRID_API_KEY environment variable is required');
+    }
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   }
 
   async sendAnalysisReport(email: string, analysisResult: any, pdfPath: string) {
     try {
-      const mailOptions = {
-        from: process.env.SMTP_FROM || 'noreply@colormuse.com',
+      let pdfAttachment = null;
+      
+      // Read PDF file if it exists
+      if (pdfPath && fs.existsSync(pdfPath)) {
+        const pdfBuffer = fs.readFileSync(pdfPath);
+        pdfAttachment = {
+          content: pdfBuffer.toString('base64'),
+          filename: 'color-analysis-report.pdf',
+          type: 'application/pdf',
+          disposition: 'attachment'
+        };
+      }
+
+      const msg = {
         to: email,
+        from: process.env.SENDGRID_FROM_EMAIL || 'test@example.com', // Use verified sender from env
         subject: '🎨 Your Personal Color Analysis Results are Ready!',
         html: this.generateEmailTemplate(analysisResult),
-        attachments: [
-          {
-            filename: 'color-analysis-report.pdf',
-            path: pdfPath,
-          },
-        ],
+        attachments: pdfAttachment ? [pdfAttachment] : []
       };
 
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(msg);
       console.log('Analysis report email sent successfully to:', email);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending email:', error);
+      
+      // Provide more helpful error messages for common SendGrid issues
+      if (error.code === 403) {
+        const errorMsg = 'SendGrid authentication failed. Please ensure:\n' +
+          '1. Your SENDGRID_API_KEY is valid\n' +
+          '2. Your sender email is verified in SendGrid\n' +
+          '3. Set SENDGRID_FROM_EMAIL environment variable to your verified sender';
+        console.error(errorMsg);
+        throw new Error(errorMsg);
+      }
+      
       throw error;
     }
   }
@@ -58,7 +70,7 @@ class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1 style="color: #6B5B47; margin: 0;">🎨 HueMatcher</h1>
+            <h1 style="color: #6B5B47; margin: 0;">🎨 Hazel & Hue</h1>
             <div class="season">You are a ${analysisResult.season}!</div>
             <p>${analysisResult.description}</p>
           </div>
@@ -96,7 +108,7 @@ class EmailService {
           
           <div class="footer">
             <p>Your complete in depth analysis report is attached to this email.</p>
-            <p>Thank you for choosing HueMatcher! 💕</p>
+            <p>Thank you for choosing Hazel & Hue! 💕</p>
           </div>
         </div>
       </body>
