@@ -252,21 +252,24 @@ export default function ResultsPreviewPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Blurred Results Preview */}
           <div className="space-y-6">
-            {/* Season Badge - Not Blurred */}
+            {/* Season Preview - Blurred */}
             <Card>
               <CardContent className="p-6 text-center">
-                <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white mb-4">
-                  {analysisResult.season}
-                </Badge>
-                <h2 className="font-serif text-2xl font-bold text-warm-gray-dark mb-4">
-                  Your Color Season
-                </h2>
-                <div className="text-warm-gray relative">
+                <div className="relative">
                   <div className="filter blur-sm">
-                    <p>{analysisResult.description}</p>
+                    <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white mb-4">
+                      {analysisResult.season}
+                    </Badge>
+                    <h2 className="font-serif text-2xl font-bold text-warm-gray-dark mb-4">
+                      Your Color Season
+                    </h2>
+                    <p className="text-warm-gray">{analysisResult.description}</p>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Lock className="w-8 h-8 text-warm-gray-dark" />
+                    <div className="bg-white/90 rounded-lg p-4 text-center">
+                      <Lock className="w-6 h-6 text-warm-gray-dark mx-auto mb-2" />
+                      <p className="text-sm text-warm-gray-dark font-medium">Your season is ready!</p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
