@@ -174,7 +174,7 @@ export default function Home() {
         </div>
 
         <div className="section-container relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[550px]">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[500px]">
             <motion.div 
               className="text-center lg:text-left"
               initial={{ opacity: 0, y: 20 }}
@@ -182,7 +182,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight"
+                className="text-3xl md:text-4xl lg:text-5xl mb-4 leading-tight"
                 style={{ 
                   fontFamily: 'Playfair Display, Georgia, serif',
                   color: 'rgb(var(--forest-green))',
@@ -197,14 +197,14 @@ export default function Home() {
                 <br />
                 Analysis
               </motion.h1>
-              <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ 
+              <p className="text-lg md:text-xl mb-3 leading-relaxed font-medium" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif',
                 color: 'rgb(var(--muted-blue))',
                 fontWeight: 500
               }}>
                 Professional 12-season color analysis in 30-seconds
               </p>
-              <p className="text-lg mb-8 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
+              <p className="text-base mb-6 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
                 Simply upload 3 photos
               </p>
               
@@ -216,7 +216,7 @@ export default function Home() {
                 >
                   <Button 
                     onClick={() => setLocation('/upload')}
-                    className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
+                    className="text-white px-12 py-6 rounded-full text-xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
                     style={{ 
                       backgroundColor: 'rgb(var(--muted-blue))',
                       margin: '0 -4px',
@@ -227,7 +227,7 @@ export default function Home() {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
-                    <Sparkles className="mr-4 h-7 w-7" />
+                    <Sparkles className="mr-3 h-6 w-6" />
                     Get My Analysis
                   </Button>
                 </motion.div>
