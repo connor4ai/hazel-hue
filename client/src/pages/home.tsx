@@ -119,7 +119,7 @@ export default function Home() {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
-                    Get My Analysis - $29
+                    Get My Analysis
                   </Button>
                 </div>
               ) : (
@@ -149,7 +149,7 @@ export default function Home() {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
-                    Get My Analysis - $29
+                    Get My Analysis
                   </Button>
                 </div>
               )}
@@ -228,19 +228,9 @@ export default function Home() {
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
                     <Sparkles className="mr-4 h-7 w-7" />
-                    Get My Analysis - $29
+                    Get My Analysis
                   </Button>
                 </motion.div>
-                <button 
-                  onClick={() => scrollToSection('how-it-works')}
-                  className="font-medium text-lg transition-colors hover:opacity-80"
-                  style={{ 
-                    color: 'rgb(var(--warm-coral))',
-                    borderBottom: '2px solid rgb(var(--warm-coral))'
-                  }}
-                >
-                  Learn More
-                </button>
               </div>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm">
@@ -670,7 +660,7 @@ export default function Home() {
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
             >
               <Sparkles className="mr-4 h-7 w-7" />
-              Get My Analysis - $29
+              Get My Analysis
             </Button>
             <div className="mt-8 flex items-center justify-center gap-4">
               <div className="flex items-center px-4 py-3 rounded-full" style={{ 
@@ -704,7 +694,7 @@ export default function Home() {
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
         >
           <Sparkles className="mr-2 h-5 w-5" />
-          Get My Analysis - $29
+          Get My Analysis
         </Button>
       </div>
     </div>
