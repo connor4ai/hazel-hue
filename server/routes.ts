@@ -1302,6 +1302,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Promo code validation endpoint
+  app.post("/api/promo/validate", async (req: Request, res: Response) => {
+    try {
+      const { code } = req.body;
+      
+      if (!code) {
+        return res.status(400).json({ message: "Promo code is required" });
+      }
+
+      // Define available promo codes
+      const promoCodes: { [key: string]: number } = {
+        'WELCOME10': 10,
+        'FIRST20': 20,
+        'SAVE15': 15,
+        'NEWUSER': 25,
+        'STUDENT': 30,
+        'FRIEND50': 50
+      };
+
+      const discount = promoCodes[code.toUpperCase()];
+      
+      if (discount) {
+        res.json({ 
+          valid: true, 
+          discount,
+          message: `${discount}% discount applied!`
+        });
+      } else {
+        res.status(400).json({ 
+          valid: false, 
+          message: "Invalid promo code" 
+        });
+      }
+      
+    } catch (error) {
+      console.error("Error validating promo code:", error);
+      res.status(500).json({ message: "Failed to validate promo code" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

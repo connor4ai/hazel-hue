@@ -38,10 +38,42 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
   const [isProcessing, setIsProcessing] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [promoError, setPromoError] = useState("");
+  const [discount, setDiscount] = useState(0);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const applyPromoCode = async () => {
+    if (!promoCode.trim()) return;
+    
+    try {
+      const response = await fetch('/api/promo/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: promoCode.trim().toUpperCase() })
+      });
+      
+      if (response.ok) {
+        const { discount: discountPercent } = await response.json();
+        setDiscount(discountPercent);
+        setPromoError("");
+        toast({
+          title: "Promo Code Applied",
+          description: `${discountPercent}% discount applied!`,
+        });
+      } else {
+        const error = await response.json();
+        setPromoError(error.message || "Invalid promo code");
+        setDiscount(0);
+      }
+    } catch (error) {
+      setPromoError("Failed to validate promo code");
+      setDiscount(0);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -120,6 +152,57 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
           We'll email your complete analysis report and order number
         </p>
       </div>
+
+      {/* Promo Code Section */}
+      <div>
+        <label htmlFor="promoCode" className="block text-sm font-medium text-warm-gray-dark mb-2">
+          Promo Code (Optional)
+        </label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            id="promoCode"
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
+            placeholder="Enter promo code"
+          />
+          <Button
+            type="button"
+            onClick={applyPromoCode}
+            variant="outline"
+            className="px-4 py-2 border-terracotta text-terracotta hover:bg-terracotta hover:text-white"
+          >
+            Apply
+          </Button>
+        </div>
+        {promoError && (
+          <p className="text-red-500 text-sm mt-1">{promoError}</p>
+        )}
+        {discount > 0 && (
+          <p className="text-green-600 text-sm mt-1">
+            {discount}% discount applied! 
+          </p>
+        )}
+      </div>
+
+      {/* Order Summary */}
+      {discount > 0 && (
+        <div className="bg-sage-light p-4 rounded-md">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-warm-gray-dark">Original Price:</span>
+            <span className="text-warm-gray-dark">$29.00</span>
+          </div>
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-green-600">Discount ({discount}%):</span>
+            <span className="text-green-600">-${(29 * discount / 100).toFixed(2)}</span>
+          </div>
+          <div className="border-t pt-2 flex justify-between items-center font-semibold">
+            <span className="text-warm-gray-dark">Total:</span>
+            <span className="text-warm-gray-dark">${(29 * (1 - discount / 100)).toFixed(2)}</span>
+          </div>
+        </div>
+      )}
 
       <PaymentElement />
       <Button 
