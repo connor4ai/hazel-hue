@@ -1337,6 +1337,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Mark order as free/paid when using 100% discount
+  app.post("/api/orders/:orderId/mark-free", async (req: Request, res: Response) => {
+    try {
+      const { orderId } = req.params;
+      
+      await storage.updateOrderPayment(parseInt(orderId), {
+        paymentStatus: 'paid',
+        paymentIntentId: 'free_promo_code'
+      });
+
+      res.json({ success: true, message: "Order marked as paid with promo code" });
+      
+    } catch (error) {
+      console.error("Error marking order as free:", error);
+      res.status(500).json({ message: "Failed to process free order" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

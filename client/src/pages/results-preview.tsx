@@ -86,46 +86,70 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
     }
     setEmailError("");
 
-    if (!stripe || !elements) {
-      return;
-    }
-
     setIsProcessing(true);
 
     // Store email for order completion
     sessionStorage.setItem('userEmail', email);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/results/${orderId}?email=${encodeURIComponent(email)}`,
-      },
-    });
+    try {
+      // Update order with email
+      await fetch(`/api/orders/${orderId}/update-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
 
-    if (error) {
+      // If 100% discount, skip payment and mark order as paid
+      if (discount === 100) {
+        await fetch(`/api/orders/${orderId}/mark-free`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        
+        toast({
+          title: "Free Analysis Unlocked!",
+          description: "Your complete color analysis is now available.",
+        });
+        
+        onSuccess();
+        return;
+      }
+
+      // Regular Stripe payment for non-100% discounts
+      if (!stripe || !elements) {
+        setIsProcessing(false);
+        return;
+      }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/results/${orderId}?email=${encodeURIComponent(email)}`,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: "Payment Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        setIsProcessing(false);
+      } else {
+        toast({
+          title: "Payment Successful",
+          description: "Unlocking your results now!",
+        });
+        onSuccess();
+      }
+    } catch (error) {
+      console.error('Error processing order:', error);
       toast({
-        title: "Payment Failed",
-        description: error.message,
+        title: "Error",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
       setIsProcessing(false);
-    } else {
-      // Update order with email before redirecting
-      try {
-        await fetch(`/api/orders/${orderId}/update-email`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-      } catch (error) {
-        console.error('Error updating email:', error);
-      }
-      
-      toast({
-        title: "Payment Successful",
-        description: "Unlocking your results now!",
-      });
-      onSuccess();
     }
   };
 
@@ -204,18 +228,24 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
         </div>
       )}
 
-      <PaymentElement />
+      {discount < 100 && <PaymentElement />}
+      
       <Button 
         type="submit"
-        disabled={!stripe || isProcessing || !email}
+        disabled={discount < 100 ? (!stripe || isProcessing || !email) : (isProcessing || !email)}
         className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
       >
         {isProcessing ? (
           <>Processing...</>
+        ) : discount === 100 ? (
+          <>
+            <Sparkles className="w-5 h-5 mr-2" />
+            Get Free Analysis
+          </>
         ) : (
           <>
             <CreditCard className="w-5 h-5 mr-2" />
-            Complete Purchase - $29
+            Complete Purchase - ${(29 * (1 - discount / 100)).toFixed(2)}
           </>
         )}
       </Button>
