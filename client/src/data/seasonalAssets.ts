@@ -129,7 +129,11 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
   },
 
   'Soft Autumn': {
-    celebrities: [],
+    celebrities: [
+      '/attached_assets/Julia Roberts_1751064199910.png',
+      '/attached_assets/Drew Barrymore_1751064199910.png',
+      '/attached_assets/Jessica Biel_1751064199910.png'
+    ],
     hairColorGuide: '/attached_assets/60b8d27875af5e3452543933_Soft Autumn Hair_1750817117523.webp',
     colorDimensions: '/attached_assets/60b8d80175af5e7d61545598_Soft Autumn Colour Dimensions_1750817117523.png',
     seasonChart: '/attached_assets/12-tone-chart-value-temperature_1750817122222.png'
