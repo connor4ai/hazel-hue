@@ -103,7 +103,7 @@ export default function UploadPage() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (files.length < 3) {
       toast({
         title: "Not enough photos",
@@ -113,22 +113,53 @@ export default function UploadPage() {
       return;
     }
 
-    // Store minimal file metadata in sessionStorage
-    const fileMetadata = files.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      lastModified: file.lastModified
-    }));
-    
-    sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
-    sessionStorage.setItem('fileCount', files.length.toString());
-    
-    // Store actual file objects in memory for checkout page
-    (window as any).uploadedFiles = files;
-    
-    // Navigate to checkout
-    setLocation('/checkout');
+    if (!isAuthenticated) {
+      setLocation('/login');
+      return;
+    }
+
+    // Start the analysis immediately
+    try {
+      const formData = new FormData();
+      files.forEach((file, index) => {
+        formData.append(`photo${index + 1}`, file);
+      });
+
+      // Store file metadata for potential reuse
+      const fileMetadata = files.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified
+      }));
+      sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
+
+      // Navigate to loading page immediately
+      setLocation('/analyzing');
+
+      // Start the analysis in the background
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start analysis');
+      }
+
+      const order = await response.json();
+      
+      // Store order ID for the loading page to track
+      sessionStorage.setItem('currentOrderId', order.id.toString());
+      
+    } catch (error) {
+      console.error('Error starting analysis:', error);
+      toast({
+        title: "Error",
+        description: "Failed to start analysis. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

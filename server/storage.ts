@@ -30,6 +30,8 @@ export interface IStorage {
   updateOrderAnalysis(id: number, analysisResult: any, pdfPath: string): Promise<Order>;
   updateOrderEmail(id: number, email: string): Promise<Order>;
   updateOrderEmailSent(id: number): Promise<Order>;
+  updateOrderPaymentIntent(id: number, paymentIntentId: string): Promise<Order>;
+  updateOrderPaymentStatus(id: number, paymentStatus: string): Promise<Order>;
   getAllOrders(): Promise<Order[]>;
 }
 
@@ -186,6 +188,33 @@ export class DatabaseStorage implements IStorage {
     const [order] = await db
       .update(orders)
       .set({ emailSent: true, updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return order;
+  }
+
+  async updateOrderEmail(id: number, email: string): Promise<Order> {
+    const [order] = await db
+      .update(orders)
+      .set({ updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return order;
+  }
+
+  async updateOrderPaymentIntent(id: number, paymentIntentId: string): Promise<Order> {
+    const [order] = await db
+      .update(orders)
+      .set({ paymentIntentId, updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return order;
+  }
+
+  async updateOrderPaymentStatus(id: number, paymentStatus: string): Promise<Order> {
+    const [order] = await db
+      .update(orders)
+      .set({ paymentStatus, updatedAt: new Date() })
       .where(eq(orders.id, id))
       .returning();
     return order;

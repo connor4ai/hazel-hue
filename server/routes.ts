@@ -238,7 +238,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const { promoCode } = req.body;
+      const { promoCode, orderId } = req.body;
       let amount = 2900; // $29.00 in cents
       let discount = 0;
 
@@ -287,16 +287,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
             promoCode: promoCode || '',
             discount: discount.toString(),
             amount: amount.toString(),
+            orderId: orderId || '',
           },
         });
 
-        // Create order record with default user
-        await storage.createOrder({
-          userId: 1, // Default user for guest orders
-          paymentIntentId: paymentIntent.id,
-          amount: 2900,
-          status: 'pending',
-        });
+        // If orderId provided, update existing order with payment intent
+        if (orderId) {
+          try {
+            await storage.updateOrderPaymentIntent(parseInt(orderId), paymentIntent.id);
+          } catch (error) {
+            console.error('Error updating order with payment intent:', error);
+          }
+        } else {
+          // Create order record with default user for legacy flow
+          await storage.createOrder({
+            userId: 1, // Default user for guest orders
+            paymentIntentId: paymentIntent.id,
+            amount: 2900,
+            status: 'pending',
+          });
+        }
 
         res.json({ 
           clientSecret: paymentIntent.client_secret,
@@ -446,6 +456,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error starting free analysis:", error);
       res.status(500).json({ message: "Error starting analysis: " + error.message });
+    }
+  });
+
+  // Create order and start analysis immediately (new workflow)
+  app.post("/api/orders", authenticateUser, upload.fields([
+    { name: 'photo1', maxCount: 1 },
+    { name: 'photo2', maxCount: 1 },
+    { name: 'photo3', maxCount: 1 }
+  ]), async (req: any, res) => {
+    try {
+      const user = req.user;
+      const files = req.files;
+
+      // Validate files
+      if (!files || !files.photo1 || !files.photo2 || !files.photo3 || 
+          files.photo1.length !== 1 || files.photo2.length !== 1 || files.photo3.length !== 1) {
+        return res.status(400).json({ message: "Exactly 3 photos are required (photo1, photo2, photo3)" });
+      }
+
+      // Create unpaid order
+      const order = await storage.createOrder({
+        userId: user.id,
+        status: 'queued',
+        paymentStatus: 'unpaid',
+        total: 29.00,
+        email: user.email
+      });
+
+      // Save images to disk for processing
+      const imagePaths: string[] = [];
+      const photoFiles = [files.photo1[0], files.photo2[0], files.photo3[0]];
+      
+      for (let i = 0; i < photoFiles.length; i++) {
+        const file = photoFiles[i];
+        const filename = `${order.id}-${Date.now()}-${i + 1}.jpg`;
+        const permanentPath = path.join('uploads', 'images', filename);
+        
+        // Ensure directory exists
+        const dir = path.dirname(permanentPath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+        
+        fs.renameSync(file.path, permanentPath);
+        imagePaths.push(permanentPath);
+      }
+
+      // Update order with image paths and start processing
+      await storage.updateOrderImages(order.id, imagePaths);
+      await storage.updateOrderStatus(order.id, 'files_uploaded');
+
+      // Start analysis immediately
+      setImmediate(() => processColorAnalysisWorker(order.id));
+
+      res.json({ 
+        id: order.id, 
+        status: 'files_uploaded',
+        message: "Analysis started successfully" 
+      });
+    } catch (error: any) {
+      console.error("Error creating order:", error);
+      res.status(500).json({ message: "Error creating order: " + error.message });
     }
   });
 

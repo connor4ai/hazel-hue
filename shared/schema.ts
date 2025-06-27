@@ -17,9 +17,10 @@ export const users = pgTable("users", {
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id).notNull(),
-  paymentIntentId: text("payment_intent_id").notNull().unique(),
+  paymentIntentId: text("payment_intent_id").unique(),
   amount: integer("amount").notNull(), // in cents
-  status: text("status").notNull().default("pending"), // pending, paid, processing, completed, failed
+  status: text("status").notNull().default("pending"), // pending, processing, completed, failed
+  paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
   images: jsonb("images"), // array of image file paths
   analysisResult: jsonb("analysis_result"), // color analysis results
   pdfPath: text("pdf_path"), // path to generated PDF
@@ -64,6 +65,7 @@ export const insertOrderSchema = createInsertSchema(orders).pick({
   paymentIntentId: true,
   amount: true,
   status: true,
+  paymentStatus: true,
 }).extend({
   images: z.array(z.string()).optional(),
 });
