@@ -59,9 +59,9 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">
-          <div className="flex justify-between items-center h-14 py-2">
+          <div className="flex justify-between items-center h-10 py-1">
             <div className="flex items-center">
-              <span className="text-2xl" style={{ 
+              <span className="text-xl" style={{ 
                 fontFamily: '"Playfair Display", Georgia, serif', 
                 fontWeight: 400,
                 letterSpacing: '1px',
@@ -159,7 +159,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative overflow-hidden pt-20 md:pt-24" style={{ backgroundColor: '#F5F2ED' }}>
+      <section id="hero" className="relative overflow-hidden pt-12 md:pt-14" style={{ backgroundColor: '#F5F2ED' }}>
         {/* Parallax background elements */}
         {/* Floating decorative elements */}
         <div 
