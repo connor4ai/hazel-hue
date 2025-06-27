@@ -1249,7 +1249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No email address found" });
       }
 
-      await emailService.sendAnalysisReport(order.email, order.analysisResult, order.pdfPath || '');
+      await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
       await storage.updateOrderEmailSent(order.id);
       
       res.json({ success: true, message: "Results emailed successfully" });
@@ -1349,10 +1349,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get the order with analysis results
       const order = await storage.getOrder(parseInt(orderId));
       
-      if (order && order.email && order.analysisResult && order.pdfPath) {
+      if (order && order.email && order.analysisResult) {
         try {
           // Send email with results
-          await emailService.sendAnalysisReport(order.email, order.analysisResult, order.pdfPath || '');
+          await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
           await storage.updateOrderEmailSent(order.id);
           console.log(`Free analysis results emailed to: ${order.email}`);
         } catch (emailError) {

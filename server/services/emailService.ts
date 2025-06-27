@@ -9,27 +9,13 @@ class EmailService {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   }
 
-  async sendAnalysisReport(email: string, analysisResult: any, pdfPath: string) {
+  async sendAnalysisReport(email: string, analysisResult: any, orderId: string) {
     try {
-      let pdfAttachment = null;
-      
-      // Read PDF file if it exists
-      if (pdfPath && fs.existsSync(pdfPath)) {
-        const pdfBuffer = fs.readFileSync(pdfPath);
-        pdfAttachment = {
-          content: pdfBuffer.toString('base64'),
-          filename: 'color-analysis-report.pdf',
-          type: 'application/pdf',
-          disposition: 'attachment'
-        };
-      }
-
       const msg = {
         to: email,
         from: process.env.SENDGRID_FROM_EMAIL || 'test@example.com', // Use verified sender from env
         subject: '🎨 Your Personal Color Analysis Results are Ready!',
-        html: this.generateEmailTemplate(analysisResult),
-        attachments: pdfAttachment ? [pdfAttachment] : []
+        html: this.generateEmailTemplate(analysisResult, orderId)
       };
 
       await sgMail.send(msg);
@@ -51,7 +37,14 @@ class EmailService {
     }
   }
 
-  private generateEmailTemplate(analysisResult: any): string {
+  private generateEmailTemplate(analysisResult: any, orderId: string): string {
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://your-domain.com' 
+      : 'http://localhost:5000';
+    const resultsUrl = `${baseUrl}/results/${orderId}`;
+    
+    // Extract Pinterest links from the analysis result
+    const pinterestLinks = analysisResult.pinterest || [];
     return `
       <!DOCTYPE html>
       <html>
@@ -106,8 +99,31 @@ class EmailService {
             <p><strong>Makeup:</strong> ${analysisResult.recommendations.makeup}</p>
           </div>
           
+          <div class="section">
+            <h2 style="color: #DA8A67;">📌 Your Style Inspiration</h2>
+            ${pinterestLinks.length > 0 ? `
+              <p>Get inspired with curated Pinterest boards just for your season:</p>
+              <div style="margin: 15px 0;">
+                ${pinterestLinks.map((link: any) => `
+                  <div style="margin: 8px 0;">
+                    <a href="${link.url}" style="color: #DA8A67; text-decoration: none; font-weight: bold;">
+                      📌 ${link.name}
+                    </a>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0; padding: 25px; background: linear-gradient(135deg, #DA8A67 0%, #6B5B47 100%); border-radius: 15px;">
+            <h2 style="color: white; margin: 0 0 15px 0;">View Your Complete Results</h2>
+            <a href="${resultsUrl}" style="display: inline-block; background: white; color: #6B5B47; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 16px;">
+              ✨ See Full Analysis
+            </a>
+          </div>
+          
           <div class="footer">
-            <p>Your complete in depth analysis report is attached to this email.</p>
+            <p>Save this email - you can always return to view your complete results!</p>
             <p>Thank you for choosing Hazel & Hue! 💕</p>
           </div>
         </div>
