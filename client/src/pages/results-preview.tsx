@@ -159,7 +159,7 @@ export default function ResultsPreviewPage() {
       try {
         const response = await fetch(`/api/orders/${orderId}`);
         if (response.ok) {
-          const orderData = await response.json();
+          const { order: orderData } = await response.json(); // Extract order from response
           setOrder(orderData);
           
           // Check if already paid
