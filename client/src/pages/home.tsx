@@ -61,9 +61,19 @@ export default function Home() {
         <div className="section-container">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <div className="logo" style={{ fontSize: '28px' }}>
-                hazel <span className="ampersand">&</span> hue
-              </div>
+              <span className="text-2xl font-medium" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif', 
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}>
+                hazel <span style={{ color: 'rgb(var(--warm-coral))' }}>&</span> hue
+                <span className="ml-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}></span>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'rgb(var(--sage-green))' }}></span>
+                </span>
+              </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => scrollToSection('how-it-works')} className="transition-colors hover:opacity-80" style={{ 
@@ -177,15 +187,20 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <motion.h1 
-                className="mb-6 leading-tight"
-                style={{ fontSize: '4rem' }}
+                className="text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight"
+                style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--forest-green))',
+                  fontWeight: 500,
+                  letterSpacing: '0.5px'
+                }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                <div className="logo" style={{ fontSize: '4rem' }}>
-                  hazel <span className="ampersand">&</span> hue
-                </div>
+                Detailed <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
+                <br />
+                Analysis
               </motion.h1>
               <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ 
                 fontFamily: 'Playfair Display, Georgia, serif',
