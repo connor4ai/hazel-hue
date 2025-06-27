@@ -65,9 +65,9 @@ export default function Home() {
                 fontFamily: 'Playfair Display, Georgia, serif', 
                 fontWeight: 400,
                 letterSpacing: '1px',
-                color: '#6B7280'
+                color: '#6B7A6B'
               }}>
-                hazel <span style={{ color: '#9CA3AF', fontFamily: 'Playfair Display, Georgia, serif' }}>&</span> hue
+                hazel <span style={{ color: '#8FA68F', fontFamily: 'Playfair Display, Georgia, serif' }}>&</span> hue
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
