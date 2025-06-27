@@ -113,12 +113,7 @@ export default function UploadPage() {
       return;
     }
 
-    if (!isAuthenticated) {
-      setLocation('/login');
-      return;
-    }
-
-    // Start the analysis immediately
+    // Start the analysis immediately without authentication
     try {
       const formData = new FormData();
       files.forEach((file, index) => {
@@ -137,8 +132,8 @@ export default function UploadPage() {
       // Navigate to loading page immediately
       setLocation('/analyzing');
 
-      // Start the analysis in the background
-      const response = await fetch('/api/orders', {
+      // Start the analysis in the background (guest order)
+      const response = await fetch('/api/orders/guest', {
         method: 'POST',
         body: formData,
       });

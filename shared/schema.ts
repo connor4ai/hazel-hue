@@ -21,6 +21,7 @@ export const orders = pgTable("orders", {
   amount: integer("amount").notNull(), // in cents
   status: text("status").notNull().default("pending"), // pending, processing, completed, failed
   paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
+  email: text("email"), // customer email for guest orders
   images: jsonb("images"), // array of image file paths
   analysisResult: jsonb("analysis_result"), // color analysis results
   pdfPath: text("pdf_path"), // path to generated PDF

@@ -193,14 +193,7 @@ export class DatabaseStorage implements IStorage {
     return order;
   }
 
-  async updateOrderEmail(id: number, email: string): Promise<Order> {
-    const [order] = await db
-      .update(orders)
-      .set({ updatedAt: new Date() })
-      .where(eq(orders.id, id))
-      .returning();
-    return order;
-  }
+
 
   async updateOrderPaymentIntent(id: number, paymentIntentId: string): Promise<Order> {
     const [order] = await db
@@ -215,6 +208,15 @@ export class DatabaseStorage implements IStorage {
     const [order] = await db
       .update(orders)
       .set({ paymentStatus, updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return order;
+  }
+
+  async updateOrderEmail(id: number, email: string): Promise<Order> {
+    const [order] = await db
+      .update(orders)
+      .set({ email, updatedAt: new Date() })
       .where(eq(orders.id, id))
       .returning();
     return order;

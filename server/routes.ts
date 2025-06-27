@@ -521,6 +521,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create guest order (no authentication required)
+  app.post("/api/orders/guest", upload.fields([
+    { name: 'photo1', maxCount: 1 },
+    { name: 'photo2', maxCount: 1 },
+    { name: 'photo3', maxCount: 1 }
+  ]), async (req: any, res) => {
+    try {
+      const files = req.files;
+
+      // Validate files
+      if (!files || !files.photo1 || !files.photo2 || !files.photo3 || 
+          files.photo1.length !== 1 || files.photo2.length !== 1 || files.photo3.length !== 1) {
+        return res.status(400).json({ message: "Exactly 3 photos are required (photo1, photo2, photo3)" });
+      }
+
+      // Create guest user if needed (or use a default guest user)
+      let guestUserId = 1; // Default guest user
+      try {
+        // Try to get or create a guest user
+        const guestUser = await storage.getUserByEmail('guest@hazelhueco.com');
+        if (!guestUser) {
+          const newGuestUser = await storage.createUser({
+            email: 'guest@hazelhueco.com',
+            firstName: 'Guest',
+            lastName: 'User'
+          });
+          guestUserId = newGuestUser.id;
+        } else {
+          guestUserId = guestUser.id;
+        }
+      } catch (error) {
+        console.log('Using default guest user ID');
+      }
+
+      // Create unpaid order
+      const order = await storage.createOrder({
+        userId: guestUserId,
+        status: 'queued',
+        paymentStatus: 'unpaid',
+        amount: 2900, // $29.00 in cents
+      });
+
+      // Save images to disk for processing
+      const imagePaths: string[] = [];
+      const photoFiles = [files.photo1[0], files.photo2[0], files.photo3[0]];
+      
+      for (let i = 0; i < photoFiles.length; i++) {
+        const file = photoFiles[i];
+        const filename = `${order.id}-${Date.now()}-${i + 1}.jpg`;
+        const permanentPath = path.join('uploads', 'images', filename);
+        
+        // Ensure directory exists
+        const dir = path.dirname(permanentPath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+        
+        fs.renameSync(file.path, permanentPath);
+        imagePaths.push(permanentPath);
+      }
+
+      // Update order with image paths and start processing
+      await storage.updateOrderImages(order.id, imagePaths);
+      await storage.updateOrderStatus(order.id, 'files_uploaded');
+
+      // Start analysis immediately
+      setImmediate(() => processColorAnalysisWorker(order.id));
+
+      res.json({ 
+        id: order.id, 
+        status: 'files_uploaded',
+        message: "Analysis started successfully" 
+      });
+    } catch (error: any) {
+      console.error("Error creating guest order:", error);
+      res.status(500).json({ message: "Error creating order: " + error.message });
+    }
+  });
+
   // Upload images
   app.post("/api/upload-images/:orderId", upload.array('images', 3), async (req, res) => {
     try {
@@ -1103,7 +1182,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Update order email
+  // Update order email (with order ID in URL)
+  app.post("/api/orders/:orderId/update-email", async (req: Request, res: Response) => {
+    try {
+      const { orderId } = req.params;
+      const { email } = req.body;
+      
+      if (!orderId || !email) {
+        return res.status(400).json({ message: "Order ID and email are required" });
+      }
+
+      const order = await storage.getOrder(parseInt(orderId));
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      // Update order with email
+      await storage.updateOrderEmail(parseInt(orderId), email);
+      
+      res.json({ success: true, message: "Email stored for order completion" });
+      
+    } catch (error) {
+      console.error("Error updating order email:", error);
+      res.status(500).json({ message: "Failed to update email" });
+    }
+  });
+
+  // Update order email (legacy endpoint)
   app.post("/api/orders/update-email", async (req: Request, res: Response) => {
     try {
       const { paymentIntentId, email } = req.body;
@@ -1164,6 +1269,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       b: parseInt(result[3], 16)
     } : null;
   }
+
+  // Order lookup endpoint
+  app.post("/api/orders/lookup", async (req: Request, res: Response) => {
+    try {
+      const { email, orderNumber } = req.body;
+      
+      if (!email || !orderNumber) {
+        return res.status(400).json({ message: "Email and order number are required" });
+      }
+
+      // Find order by ID and email
+      const order = await storage.getOrder(parseInt(orderNumber));
+      
+      if (!order || order.email !== email) {
+        return res.status(404).json({ message: "Order not found with that email and order number" });
+      }
+
+      // Return order details
+      res.json({
+        id: order.id,
+        status: order.status,
+        paymentStatus: order.paymentStatus,
+        analysisResult: order.analysisResult,
+        createdAt: order.createdAt,
+        email: order.email
+      });
+      
+    } catch (error) {
+      console.error("Error looking up order:", error);
+      res.status(500).json({ message: "Failed to lookup order" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

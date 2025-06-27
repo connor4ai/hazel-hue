@@ -36,9 +36,23 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
   const elements = useElements();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate email
+    if (!email || !validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+    setEmailError("");
 
     if (!stripe || !elements) {
       return;
@@ -46,10 +60,13 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
 
     setIsProcessing(true);
 
+    // Store email for order completion
+    sessionStorage.setItem('userEmail', email);
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/results/${orderId}`,
+        return_url: `${window.location.origin}/results/${orderId}?email=${encodeURIComponent(email)}`,
       },
     });
 
@@ -61,6 +78,17 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
       });
       setIsProcessing(false);
     } else {
+      // Update order with email before redirecting
+      try {
+        await fetch(`/api/orders/${orderId}/update-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+      } catch (error) {
+        console.error('Error updating email:', error);
+      }
+      
       toast({
         title: "Payment Successful",
         description: "Unlocking your results now!",
@@ -71,10 +99,32 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Email Collection */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-warm-gray-dark mb-2">
+          Email Address
+        </label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-terracotta focus:border-transparent"
+          placeholder="Enter your email to receive results"
+          required
+        />
+        {emailError && (
+          <p className="text-red-500 text-sm mt-1">{emailError}</p>
+        )}
+        <p className="text-xs text-warm-gray mt-1">
+          We'll email your complete analysis report and order number
+        </p>
+      </div>
+
       <PaymentElement />
       <Button 
         type="submit"
-        disabled={!stripe || isProcessing}
+        disabled={!stripe || isProcessing || !email}
         className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
       >
         {isProcessing ? (
@@ -82,7 +132,7 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
         ) : (
           <>
             <CreditCard className="w-5 h-5 mr-2" />
-            Unlock Results - $29
+            Complete Purchase - $29
           </>
         )}
       </Button>

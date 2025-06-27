@@ -19,6 +19,7 @@ import Admin from "@/pages/admin";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Account from "@/pages/account";
+import OrderLookup from "@/pages/order-lookup";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/account" component={Account} />
+      <Route path="/lookup" component={OrderLookup} />
       <Route component={NotFound} />
     </Switch>
   );
