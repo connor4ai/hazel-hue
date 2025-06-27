@@ -241,7 +241,7 @@ export default function CheckoutScreen({ navigation, route }: any) {
               style={styles.paymentButton}
               icon="credit-card"
             >
-              Continue to Payment - ${finalPrice}
+              Get My Analysis
             </Button>
           </>
         )}

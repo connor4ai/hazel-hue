@@ -235,7 +235,7 @@ export default function UploadPage() {
                   className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
                 >
                   <Sparkles className="w-5 h-5 mr-2" />
-                  Continue to Payment - $29
+                  Get My Analysis
                 </Button>
               </CardContent>
             </Card>
