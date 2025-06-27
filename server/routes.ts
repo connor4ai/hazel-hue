@@ -1313,12 +1313,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Define available promo codes
       const promoCodes: { [key: string]: number } = {
-        'WELCOME10': 10,
-        'FIRST20': 20,
-        'SAVE15': 15,
-        'NEWUSER': 25,
-        'STUDENT': 30,
-        'FRIEND50': 50
+        'CONNOR': 100
       };
 
       const discount = promoCodes[code.toUpperCase()];
