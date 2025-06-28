@@ -244,30 +244,30 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
     ctx.textAlign = 'center';
     
     // AI Badge
-    ctx.font = 'bold 24px Inter';
-    ctx.fillText('✨ AI Color Analysis', canvas.width / 2, 180);
+    ctx.font = 'bold 18px Inter';
+    ctx.fillText('✨ AI Color Analysis', canvas.width / 2, 200);
     
     // "I'm a" title
-    ctx.font = '900 72px Inter';
-    ctx.fillText("I'M A", canvas.width / 2, 320);
+    ctx.font = '900 48px Inter';
+    ctx.fillText("I'M A", canvas.width / 2, 380);
     
     // Season icon
-    ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, 500);
+    ctx.font = '72px Arial';
+    ctx.fillText(data.icon, canvas.width / 2, 580);
     
     // Season name
-    ctx.font = '800 100px Inter';
+    ctx.font = '800 72px Inter';
     const seasonLines = season.toUpperCase().split(' ');
     seasonLines.forEach((line, index) => {
-      ctx.fillText(line, canvas.width / 2, 680 + (index * 110));
+      ctx.fillText(line, canvas.width / 2, 720 + (index * 80));
     });
     
     // Subtitle
-    ctx.font = '300 40px Inter';
-    ctx.fillText(data.subtitle, canvas.width / 2, 1000);
+    ctx.font = '300 28px Inter';
+    ctx.fillText(data.subtitle, canvas.width / 2, 980);
     
     // Handle
-    ctx.font = '600 32px Inter';
+    ctx.font = '600 24px Inter';
     ctx.fillText('@hazelandhue', canvas.width / 2, 1680);
 
     return canvas;
