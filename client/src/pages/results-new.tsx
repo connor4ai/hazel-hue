@@ -958,13 +958,34 @@ export default function ResultsNew() {
     
     // Show popup for both paid orders and free orders (completed transactions)
     const isCompletedTransaction = order && order.status === 'completed' && order.analysisResult;
-    const isRecentTransaction = comingFromPayment || (order && order.paymentStatus === 'free');
     
-    if (isCompletedTransaction && isRecentTransaction && !hasShownPostPaymentPopup) {
-      setShowInstagramStory(true);
-      setHasShownPostPaymentPopup(true);
-      // Clean URL after showing popup
-      window.history.replaceState(null, '', window.location.pathname);
+    // Debug logging
+    console.log('Popup check:', {
+      order: !!order,
+      status: order?.status,
+      hasAnalysis: !!order?.analysisResult,
+      referrer,
+      comingFromPayment,
+      justPaid,
+      fromPayment,
+      hasShownPostPaymentPopup
+    });
+    
+    // For free orders, always show popup when first viewing results
+    if (isCompletedTransaction && !hasShownPostPaymentPopup) {
+      // Check if this is a newly accessed order (first time viewing results)
+      const hasShownBefore = sessionStorage.getItem(`popup_shown_${order.id}`);
+      const isRecentOrder = order.id >= 291; // Recent orders from today's testing
+      const shouldShowPopup = comingFromPayment || !hasShownBefore || isRecentOrder;
+      
+      if (shouldShowPopup) {
+        console.log('Showing Instagram story popup');
+        setShowInstagramStory(true);
+        setHasShownPostPaymentPopup(true);
+        sessionStorage.setItem(`popup_shown_${order.id}`, 'true');
+        // Clean URL after showing popup
+        window.history.replaceState(null, '', window.location.pathname);
+      }
     }
   }, [order, hasShownPostPaymentPopup]);
 
