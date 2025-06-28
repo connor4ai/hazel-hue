@@ -198,7 +198,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Jet black, bright blue, purple, or white eyeliner for drama'
       ]
     },
-    celebrities: ['Megan Fox', 'Katy Perry', 'Adriana Lima']
+    celebrities: ['Julia Roberts', 'Tyla', 'Emily Ratajkowski']
   },
 
   'Dark Winter': {
@@ -437,13 +437,13 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     makeup: {
       pinterestUrl: "https://www.pinterest.com/HueMatcher/light-summer-makeup/",
       guidelines: [
-        "Rich, deep foundation tones",
-        "Bold, deep lip colors",
-        "Dramatic eye makeup",
-        "Deep, rich color palette throughout"
+        "Light, cool-toned foundation with pink undertones",
+        "Soft pink and rose lip colors", 
+        "Delicate eye makeup in cool pastels",
+        "Light, ethereal color palette throughout"
       ]
     },
-    celebrities: ["Salma Hayek", "Viola Davis", "Sandra Bullock"]
+    celebrities: ["Margot Robbie", "Reese Witherspoon", "Sydney Sweeney"]
   },
 
   "True Summer": {
@@ -553,7 +553,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or charcoal for natural definition",
       tips: "Your makeup should be soft and cool-toned, creating elegant looks with muted colors that enhance your natural sophistication."
     },
-    celebrities: ["Margot Robbie", "Reese Witherspoon", "Sydney Sweeney"]
+    celebrities: ["Jane Levy", "Mila Jojovich", "Emma Stone"]
   },
 
   "Light Summer": {
@@ -810,7 +810,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Warm brown eyeliner'
       ]
     },
-    celebrities: ['Emma Stone', 'Mila Jojovich', 'Jane Levy']
+    celebrities: ['Salma Hayek', 'Viola Davis', 'Sandra Bullock']
   },
 
   'Bright Spring': {
