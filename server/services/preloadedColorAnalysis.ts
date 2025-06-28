@@ -203,9 +203,15 @@ export class PreloadedColorAnalysisService {
     }
     
     const images = validPaths.map(imagePath => {
+      console.log(`📷 Processing image for OpenAI: ${imagePath}`);
+      console.log(`📂 File exists: ${fs.existsSync(imagePath)}`);
+      
       const imageBuffer = fs.readFileSync(imagePath);
       const base64Image = imageBuffer.toString('base64');
       const mimeType = this.getMimeType(imagePath);
+      
+      console.log(`🏷️ MIME type for ${path.basename(imagePath)}: ${mimeType}`);
+      console.log(`📊 Buffer size: ${imageBuffer.length} bytes`);
       
       return {
         type: "image_url" as const,
