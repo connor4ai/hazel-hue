@@ -419,168 +419,148 @@ export default function UploadNew() {
       {/* Background Mesh */}
       <div className="mesh"></div>
 
-      <div className="min-h-screen" style={{ fontFamily: 'Inter, sans-serif', background: 'var(--pearl)', color: 'var(--ink)' }}>
-        <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="h-screen overflow-hidden" style={{ fontFamily: 'Inter, sans-serif', background: 'var(--pearl)', color: 'var(--ink)' }}>
+        <div className="h-full flex flex-col">
           
           {/* Back Button */}
-          <div className="mb-12 fade-in">
+          <div className="absolute top-6 left-6 z-10 fade-in">
             <button
               onClick={() => setLocation('/')}
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Home
+              Back
             </button>
           </div>
 
-          {/* Header */}
-          <div className="text-center mb-16 fade-in">
-            <h1 className="gradient-title mb-6">
-              Upload Your Photos
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Upload 3 high-quality selfies for your personal color analysis. Follow our guidelines for the most accurate results.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
+          {/* Centered Content */}
+          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-6">
             
-            {/* Upload Section */}
-            <div className="space-y-8">
-              <div className="elevated-card scale-in">
-                <div className="flex items-center mb-6">
-                  <Camera className="w-6 h-6 mr-3" style={{ color: '#9333EA' }} />
-                  <h2 className="text-2xl font-semibold">Upload Photos ({files.length}/3)</h2>
-                </div>
-
-                {files.length < 3 && (
-                  <div>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/jpeg,image/jpg,image/png"
-                      onChange={(e) => {
-                        if (e.target.files) {
-                          if (e.target.files.length === 1) {
-                            handleFileSelect(e.target.files[0]);
-                          } else {
-                            handleMultipleFileSelect(e.target.files);
-                          }
-                        }
-                      }}
-                      className="hidden"
-                      id="photo-upload"
-                    />
-                    <label htmlFor="photo-upload" className="modern-upload-zone block">
-                      <div className="floating">
-                        <Upload className="w-16 h-16 mx-auto mb-4" style={{ color: '#9333EA' }} />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2">Drop photos here or click to browse</h3>
-                      <p className="text-gray-600 mb-2">Select up to 3 photos (JPEG or PNG, up to 10MB each)</p>
-                      <p className="text-sm text-gray-500">You can select multiple files at once</p>
-                    </label>
-                  </div>
-                )}
-
-                {files.length > 0 && (
-                  <div className="space-y-4 mt-6">
-                    <h3 className="text-lg font-semibold">Selected Photos:</h3>
-                    {files.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 bg-white/70 rounded-2xl border border-gray-200">
-                        <div className="flex items-center space-x-3">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          <div>
-                            <p className="font-medium">{file.name}</p>
-                            <p className="text-sm text-gray-500">
-                              {(file.size / 1024 / 1024).toFixed(1)} MB
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => removeFile(index)}
-                          className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <button
-                  onClick={handleContinue}
-                  disabled={files.length < 3 || isUploading}
-                  className="premium-button w-full mt-8 flex items-center justify-center"
-                  style={{ 
-                    opacity: files.length < 3 || isUploading ? 0.5 : 1,
-                    cursor: files.length < 3 || isUploading ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  {isUploading ? (
-                    <div className="modern-spinner"></div>
-                  ) : (
-                    <>
-                      <Sparkles className="w-5 h-5 mr-2" />
-                      Get My Analysis
-                    </>
-                  )}
-                </button>
-              </div>
+            {/* Header */}
+            <div className="text-center mb-12 fade-in">
+              <h1 className="gradient-title mb-6">
+                AI Color Analysis
+              </h1>
+              <p className="text-xl text-gray-600">
+                Upload your photos and let AI discover your perfect palette
+              </p>
             </div>
 
-            {/* Guidelines */}
-            <div className="space-y-8">
-              <div className="elevated-card scale-in" style={{ animationDelay: '0.2s' }}>
-                <div className="flex items-center mb-6">
-                  <AlertCircle className="w-6 h-6 mr-3" style={{ color: '#EC4899' }} />
-                  <h2 className="text-2xl font-semibold">Photo Guidelines</h2>
+            {/* Main Upload Area */}
+            <div className="w-full max-w-2xl">
+              {files.length === 0 ? (
+                <div>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/jpg,image/png"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        if (e.target.files.length === 1) {
+                          handleFileSelect(e.target.files[0]);
+                        } else {
+                          handleMultipleFileSelect(e.target.files);
+                        }
+                      }
+                    }}
+                    className="hidden"
+                    id="photo-upload"
+                  />
+                  <label htmlFor="photo-upload" className="elevated-card block cursor-pointer">
+                    <div className="text-center py-20">
+                      <div className="floating mb-8">
+                        <svg className="w-24 h-24 mx-auto" style={{ color: '#9333EA' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                      </div>
+                      <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--ink)' }}>
+                        Drop your photos here
+                      </h2>
+                      <p className="text-lg text-gray-600">
+                        or click to browse
+                      </p>
+                    </div>
+                  </label>
                 </div>
+              ) : (
+                <div className="elevated-card">
+                  <div className="text-center py-8">
+                    <h2 className="text-2xl font-semibold mb-6">Selected Photos ({files.length}/3)</h2>
+                    
+                    <div className="space-y-4 mb-8">
+                      {files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-4 bg-white/70 rounded-2xl border border-gray-200">
+                          <div className="flex items-center space-x-3">
+                            <CheckCircle className="w-5 h-5 text-green-500" />
+                            <div className="text-left">
+                              <p className="font-medium">{file.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {(file.size / 1024 / 1024).toFixed(1)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => removeFile(index)}
+                            className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
 
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <Sun className="w-6 h-6 mt-1" style={{ color: '#FB923C' }} />
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Natural Lighting</h3>
-                      <p className="text-gray-600">Take photos in bright, natural daylight near a window. Avoid artificial lighting or harsh shadows.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <User className="w-6 h-6 mt-1" style={{ color: '#3B82F6' }} />
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">No Makeup</h3>
-                      <p className="text-gray-600">Clean face with no makeup or very minimal makeup. This helps us see your natural skin tone.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <RotateCcw className="w-6 h-6 mt-1" style={{ color: '#22C55E' }} />
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Different Angles</h3>
-                      <p className="text-gray-600">Upload 3 photos: front view, side profile, and another angle. Hair pulled back shows more of your face.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <Shirt className="w-6 h-6 mt-1" style={{ color: '#9333EA' }} />
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Neutral Clothing</h3>
-                      <p className="text-gray-600">Wear neutral colors (white, beige, gray) to avoid color reflection on your face.</p>
-                    </div>
-                  </div>
-                </div>
+                    {files.length < 3 && (
+                      <div className="mb-6">
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/jpeg,image/jpg,image/png"
+                          onChange={(e) => {
+                            if (e.target.files) {
+                              if (e.target.files.length === 1) {
+                                handleFileSelect(e.target.files[0]);
+                              } else {
+                                handleMultipleFileSelect(e.target.files);
+                              }
+                            }
+                          }}
+                          className="hidden"
+                          id="photo-upload-more"
+                        />
+                        <label htmlFor="photo-upload-more" className="text-purple-600 hover:text-purple-800 cursor-pointer font-medium">
+                          + Add more photos ({3 - files.length} remaining)
+                        </label>
+                      </div>
+                    )}
 
-                <div className="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
-                  <h3 className="font-semibold text-lg mb-4">Pro Tips for Best Results</h3>
-                  <ul className="space-y-2 text-gray-700">
-                    <li>• Stand 2-3 feet from a window for soft, even lighting</li>
-                    <li>• Face the light source directly to avoid shadows</li>
-                    <li>• Remove accessories like hats or sunglasses</li>
-                    <li>• Ensure your face fills most of the frame</li>
-                    <li>• Photos should be clear and not blurry</li>
-                  </ul>
+                    <button
+                      onClick={handleContinue}
+                      disabled={files.length < 3 || isUploading}
+                      className="premium-button flex items-center justify-center"
+                      style={{ 
+                        opacity: files.length < 3 || isUploading ? 0.5 : 1,
+                        cursor: files.length < 3 || isUploading ? 'not-allowed' : 'pointer',
+                        minWidth: '200px'
+                      }}
+                    >
+                      {isUploading ? (
+                        <div className="modern-spinner"></div>
+                      ) : (
+                        <>
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          Get My Analysis
+                        </>
+                      )}
+                    </button>
+
+                    {files.length < 3 && (
+                      <p className="text-sm text-gray-500 mt-4">
+                        Upload {3 - files.length} more photo{3 - files.length > 1 ? 's' : ''} to continue
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
