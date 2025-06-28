@@ -75,9 +75,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'True Spring': {
     celebrities: [
-      '/attached_assets/Blake Lively_1750906632490.png',
-      '/attached_assets/Cynthia Nixon_1750906632490.png',
-      '/attached_assets/Amy Adams_1750906632490.png'
+      '/attached_assets/Amy Adams_1751148864212.png',
+      '/attached_assets/Blake Lively_1751148864212.png',
+      '/attached_assets/Cynthia Nixon_1751148864212.png'
     ],
     hairColorGuide: '/attached_assets/60b886010051e62b11a054f6_True Spring Hair_1750809772493.webp',
     colorDimensions: '/attached_assets/60b89ea7488e4694b46c6b48_True Spring Colour Dimensions_1750809772493.webp',
