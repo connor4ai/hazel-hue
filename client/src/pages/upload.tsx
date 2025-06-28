@@ -46,10 +46,10 @@ export default function UploadPage() {
     }
 
     // Validate file type
-    if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png') && !file.type.includes('heic') && !file.type.includes('heif'))) {
+    if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png'))) {
       toast({
         title: "Invalid file type",
-        description: "Please upload JPEG, PNG, or HEIC files only",
+        description: "Please upload only JPEG or PNG files",
         variant: "destructive",
       });
       return;
@@ -212,7 +212,7 @@ export default function UploadPage() {
                     <input
                       type="file"
                       multiple
-                      accept="image/jpeg,image/jpg,image/png,.heic,.heif"
+                      accept="image/jpeg,image/jpg,image/png"
                       onChange={(e) => {
                         if (e.target.files) {
                           if (e.target.files.length === 1) {

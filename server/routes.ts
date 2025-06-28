@@ -43,21 +43,10 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
-    const isValidMime = file.mimetype === 'image/jpeg' || 
-                       file.mimetype === 'image/png' || 
-                       file.mimetype === 'image/heic' || 
-                       file.mimetype === 'image/heif';
-    
-    const isValidExtension = file.originalname.toLowerCase().endsWith('.jpg') ||
-                            file.originalname.toLowerCase().endsWith('.jpeg') ||
-                            file.originalname.toLowerCase().endsWith('.png') ||
-                            file.originalname.toLowerCase().endsWith('.heic') ||
-                            file.originalname.toLowerCase().endsWith('.heif');
-    
-    if (isValidMime || isValidExtension) {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
     } else {
-      cb(new Error('Only JPEG, PNG, and HEIC files are allowed'));
+      cb(new Error('Only JPEG and PNG files are allowed'));
     }
   },
 });
@@ -580,12 +569,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (let i = 0; i < photoFiles.length; i++) {
         const file = photoFiles[i];
-        // Preserve original file extension (important for HEIC detection)
-        const originalExtension = path.extname(file.originalname) || '.jpg';
-        const filename = `${order.id}-${Date.now()}-${i + 1}${originalExtension}`;
+        const filename = `${order.id}-${Date.now()}-${i + 1}.jpg`;
         const permanentPath = path.join('uploads', 'images', filename);
-        
-        console.log(`📁 Saving file: ${file.originalname} (${file.mimetype}) → ${filename}`);
         
         // Ensure directory exists
         const dir = path.dirname(permanentPath);

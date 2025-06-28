@@ -1,8 +1,6 @@
 import { seasonalContentData, type SeasonalContent } from '../data/seasonalContent';
 import OpenAI from 'openai';
 import fs from 'fs';
-import path from 'path';
-import sharp from 'sharp';
 
 interface ColorAnalysisResult {
   season: string;
@@ -43,130 +41,12 @@ export class PreloadedColorAnalysisService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
-    
-    // Check Sharp capabilities
-    this.checkSharpCapabilities();
-  }
-
-  private checkSharpCapabilities() {
-    try {
-      console.log('📋 Sharp version:', sharp.versions);
-      console.log('📋 Sharp formats:', sharp.format);
-    } catch (error) {
-      console.error('❌ Error checking Sharp capabilities:', error);
-    }
-  }
-
-  /**
-   * Convert HEIC files to JPEG format for OpenAI compatibility
-   * Returns the converted file path or original path if no conversion needed
-   */
-  private async convertHeicToJpeg(imagePath: string): Promise<string> {
-    const fileExtension = path.extname(imagePath).toLowerCase();
-    
-    console.log(`🔄 Checking file for conversion: ${path.basename(imagePath)} (ext: ${fileExtension})`);
-    
-    // Only convert HEIC files
-    if (fileExtension !== '.heic' && fileExtension !== '.heif') {
-      console.log(`⏭️ Skipping conversion - not a HEIC file`);
-      return imagePath;
-    }
-    
-    try {
-      const convertedPath = imagePath.replace(/\.(heic|heif)$/i, '_converted.jpg');
-      console.log(`🔄 Starting HEIC conversion: ${path.basename(imagePath)} → ${path.basename(convertedPath)}`);
-      
-      // Check if original file exists
-      if (!fs.existsSync(imagePath)) {
-        throw new Error(`Source file does not exist: ${imagePath}`);
-      }
-      
-      // Try buffer-based conversion approach for better HEIC support
-      const inputBuffer = fs.readFileSync(imagePath);
-      console.log(`📊 Input buffer size: ${inputBuffer.length} bytes`);
-      
-      // Test if Sharp can read the HEIC file first
-      const metadata = await sharp(inputBuffer).metadata();
-      console.log(`📊 HEIC metadata: format=${metadata.format}, width=${metadata.width}, height=${metadata.height}`);
-      
-      // Convert using buffer approach
-      const outputBuffer = await sharp(inputBuffer)
-        .jpeg({ quality: 95 }) // High quality conversion
-        .toBuffer();
-      
-      console.log(`📊 Output buffer size: ${outputBuffer.length} bytes`);
-      
-      // Write the converted buffer to file
-      fs.writeFileSync(convertedPath, outputBuffer);
-      
-      // Verify converted file was created and has content
-      if (!fs.existsSync(convertedPath)) {
-        throw new Error(`Converted file was not created: ${convertedPath}`);
-      }
-      
-      const convertedSize = fs.statSync(convertedPath).size;
-      if (convertedSize === 0) {
-        throw new Error(`Converted file is empty: ${convertedPath}`);
-      }
-      
-      const originalSize = fs.statSync(imagePath).size;
-      console.log(`✅ HEIC conversion successful: ${path.basename(imagePath)} (${Math.round(originalSize/1024)}KB) → ${path.basename(convertedPath)} (${Math.round(convertedSize/1024)}KB)`);
-      
-      return convertedPath;
-    } catch (error) {
-      console.error(`❌ Failed to convert HEIC file ${imagePath}:`, error);
-      console.error(`❌ Sharp error details:`, error);
-      // Return original path as fallback - this will cause OpenAI to fail but at least we know why
-      return imagePath;
-    }
-  }
-
-  /**
-   * Convert all HEIC files in the array to JPEG format
-   */
-  private async convertAllHeicFiles(imagePaths: string[]): Promise<string[]> {
-    console.log(`🔄 Processing ${imagePaths.length} files for HEIC conversion`);
-    const convertedPaths: string[] = [];
-    
-    for (const imagePath of imagePaths) {
-      console.log(`🔄 Processing file: ${imagePath}`);
-      const convertedPath = await this.convertHeicToJpeg(imagePath);
-      convertedPaths.push(convertedPath);
-      console.log(`✅ Processed: ${imagePath} → ${convertedPath}`);
-    }
-    
-    console.log(`🏁 Conversion complete. Original paths: ${imagePaths.length}, Converted paths: ${convertedPaths.length}`);
-    return convertedPaths;
-  }
-
-  /**
-   * Clean up converted JPEG files to save disk space
-   */
-  private async cleanupConvertedFiles(convertedPaths: string[]) {
-    for (const convertedPath of convertedPaths) {
-      // Only delete files that were converted (end with _converted.jpg)
-      if (convertedPath.includes('_converted.jpg')) {
-        try {
-          if (fs.existsSync(convertedPath)) {
-            fs.unlinkSync(convertedPath);
-            console.log(`🗑️ Cleaned up converted file: ${path.basename(convertedPath)}`);
-          }
-        } catch (error) {
-          console.error(`Failed to cleanup converted file ${convertedPath}:`, error);
-        }
-      }
-    }
   }
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
       // Check if this is a demo order (with demo images)
       const isDemoOrder = imagePaths.some(path => path.includes('demo'));
-      
-      // Convert HEIC files to JPEG format for OpenAI compatibility
-      console.log('📸 Converting HEIC files to JPEG for OpenAI analysis...');
-      const convertedImagePaths = await this.convertAllHeicFiles(imagePaths);
-      console.log('📸 Image conversion complete, proceeding with analysis...');
       
       if (isDemoOrder) {
         // For demo orders, randomly select from available seasons for testing
@@ -177,12 +57,9 @@ export class PreloadedColorAnalysisService {
         return this.getPreloadedResult(selectedSeason);
       }
       
-      // Use OpenAI to detect the actual season from real uploaded photos (using converted paths)
-      const detectedSeason = await this.detectSeason(convertedImagePaths);
+      // Use OpenAI to detect the actual season from real uploaded photos
+      const detectedSeason = await this.detectSeason(imagePaths);
       console.log(`AI detected season: ${detectedSeason}`);
-      
-      // Clean up converted files after analysis
-      await this.cleanupConvertedFiles(convertedImagePaths);
       
       // Check if we have content for the detected season
       const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn', 'Dark Autumn', 'Soft Autumn'];
@@ -221,15 +98,9 @@ export class PreloadedColorAnalysisService {
     }
     
     const images = validPaths.map(imagePath => {
-      console.log(`📷 Processing image for OpenAI: ${imagePath}`);
-      console.log(`📂 File exists: ${fs.existsSync(imagePath)}`);
-      
       const imageBuffer = fs.readFileSync(imagePath);
       const base64Image = imageBuffer.toString('base64');
       const mimeType = this.getMimeType(imagePath);
-      
-      console.log(`🏷️ MIME type for ${path.basename(imagePath)}: ${mimeType}`);
-      console.log(`📊 Buffer size: ${imageBuffer.length} bytes`);
       
       return {
         type: "image_url" as const,
