@@ -389,10 +389,7 @@ export default function UploadNew() {
                 {files.length === 3 ? "Analyze My Colors" : `Upload ${3 - files.length} more photo${3 - files.length !== 1 ? 's' : ''}`}
               </button>
               
-              {/* Debug Info */}
-              <div className="mt-4 text-sm text-gray-500 text-center">
-                Debug: {files.length} files uploaded, button {files.length === 3 ? 'enabled' : 'disabled'}
-              </div>
+
             </div>
 
             {/* Tips */}
