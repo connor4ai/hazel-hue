@@ -16,10 +16,7 @@ export default function UploadNew() {
   const handleFileSelect = (newFiles: FileList | File[]) => {
     const fileArray = Array.from(newFiles);
     
-    // Debug: Log file types
-    console.log('Files selected:', fileArray.map(f => ({ name: f.name, type: f.type, size: f.size })));
-    
-    // Filter for image files or HEIC files (which might not have image/ MIME type)
+    // Filter for image files or HEIC files
     const imageFiles = fileArray.filter(file => 
       file.type.startsWith('image/') || 
       file.name.toLowerCase().endsWith('.heic') || 
@@ -31,19 +28,11 @@ export default function UploadNew() {
     const newPreviews: string[] = [];
     let processedCount = 0;
     
-    console.log('Image files after filtering:', imageFiles.length);
-    
-    imageFiles.forEach((file, index) => {
-      console.log(`Processing file ${index + 1}:`, { name: file.name, type: file.type, size: file.size });
-      
-      if (files.length + validFiles.length >= 3) {
-        console.log('Skipping file - already have 3 files');
-        return;
-      }
+    imageFiles.forEach(file => {
+      if (files.length + validFiles.length >= 3) return;
       
       // Validate file size (10MB max)
       if (file.size > 10 * 1024 * 1024) {
-        console.log('File too large:', file.name);
         toast({
           title: "File too large",
           description: "Each photo must be under 10MB",
@@ -52,7 +41,7 @@ export default function UploadNew() {
         return;
       }
 
-      // Validate file type - check both MIME type and file extension for HEIC
+      // Validate file type
       const isValidType = file.type.includes('jpeg') || 
                          file.type.includes('jpg') || 
                          file.type.includes('png') || 
@@ -61,10 +50,7 @@ export default function UploadNew() {
                          file.name.toLowerCase().endsWith('.heic') ||
                          file.name.toLowerCase().endsWith('.heif');
                          
-      console.log('File type validation:', { fileName: file.name, isValid: isValidType });
-                         
       if (!isValidType) {
-        console.log('Invalid file type:', file.name, file.type);
         toast({
           title: "Invalid file type",
           description: "Please upload JPEG, PNG, or HEIC images only",
@@ -74,25 +60,19 @@ export default function UploadNew() {
       }
 
       validFiles.push(file);
-      console.log('Added to valid files. Total valid files:', validFiles.length);
       
       // For HEIC files, we can't preview them in the browser
-      // So we'll show a placeholder and store the file info
       const isHeic = file.type.includes('heic') || 
                     file.type.includes('heif') || 
                     file.name.toLowerCase().endsWith('.heic') || 
                     file.name.toLowerCase().endsWith('.heif');
                     
-      console.log('Is HEIC file:', isHeic);
-                    
       if (isHeic) {
         newPreviews.push('heic-placeholder');
         processedCount++;
-        console.log(`HEIC processed. Count: ${processedCount}/${validFiles.length}`);
         
         // Check if all files have been processed
         if (processedCount === validFiles.length) {
-          console.log('All HEIC files processed, updating state');
           setFiles(prev => [...prev, ...validFiles]);
           setPreviews(prev => [...prev, ...newPreviews]);
         }
@@ -102,11 +82,9 @@ export default function UploadNew() {
         reader.onload = (e) => {
           newPreviews.push(e.target?.result as string);
           processedCount++;
-          console.log(`Image processed. Count: ${processedCount}/${validFiles.length}`);
           
           // Check if all files have been processed
           if (processedCount === validFiles.length) {
-            console.log('All image files processed, updating state');
             setFiles(prev => [...prev, ...validFiles]);
             setPreviews(prev => [...prev, ...newPreviews]);
           }
@@ -114,8 +92,6 @@ export default function UploadNew() {
         reader.readAsDataURL(file);
       }
     });
-    
-    console.log('Final counts:', { validFiles: validFiles.length, newPreviews: newPreviews.length });
   };
 
   const removePhoto = (index: number) => {
@@ -147,25 +123,21 @@ export default function UploadNew() {
   const handleAnalyze = async () => {
     if (files.length !== 3) {
       toast({
-        title: "Upload required",
-        description: "Please upload exactly 3 photos to continue",
+        title: "Please upload exactly 3 photos",
+        description: "We need 3 photos for accurate analysis",
         variant: "destructive",
       });
       return;
     }
 
+    // Create form data
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      formData.append(`photos`, file);
+    });
+
     try {
-      // Show loading state
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      loadingOverlay?.classList.add('active');
-
-      // Create FormData and upload files
-      const formData = new FormData();
-      files.forEach((file, index) => {
-        formData.append('photos', file);
-      });
-
-      const response = await fetch('/api/upload-photos', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -174,513 +146,226 @@ export default function UploadNew() {
         throw new Error('Upload failed');
       }
 
-      const result = await response.json();
-
-      // Redirect to payment or processing
-      if (result.orderId) {
-        setLocation(`/payment?orderId=${result.orderId}`);
-      } else {
-        throw new Error('No order ID received');
-      }
-    } catch (error: any) {
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      loadingOverlay?.classList.remove('active');
+      const data = await response.json();
+      
+      // Navigate to results preview
+      setLocation(`/results-preview/${data.orderId}`);
+    } catch (error) {
       toast({
         title: "Upload failed",
-        description: error.message || "Please try again",
+        description: "Please try again",
         variant: "destructive",
       });
     }
   };
 
-  const getUploadText = () => {
-    if (files.length === 0) return "Drop your photos here";
-    if (files.length < 3) return `Add ${3 - files.length} more photo${3 - files.length > 1 ? 's' : ''}`;
-    return "All photos uploaded";
-  };
-
-  const getUploadSubtext = () => {
-    if (files.length === 0) return "or click to browse";
-    if (files.length < 3) return "Click or drop to continue";
-    return "Ready for analysis";
-  };
-
   return (
     <>
-      {/* Premium styles */}
       <style>{`
-        :root {
-          --ink: #0A0A0A;
-          --pearl: #FAFAFA;
-          --mist: #F5F5F5;
-        }
-
-        body { 
-          overflow: hidden;
-        }
-
-        /* Animated gradient mesh background */
-        .mesh {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          z-index: 0;
-        }
-
-        .mesh::before,
-        .mesh::after {
-          content: '';
-          position: absolute;
-          width: 150%;
-          height: 150%;
-          animation: morphing 25s ease-in-out infinite;
-        }
-
-        .mesh::before {
-          background: radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-                      radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
-          animation-delay: 0s;
-        }
-
-        .mesh::after {
-          background: radial-gradient(circle at 60% 20%, rgba(251, 146, 60, 0.15) 0%, transparent 50%),
-                      radial-gradient(circle at 30% 60%, rgba(34, 197, 94, 0.15) 0%, transparent 50%);
-          animation-delay: -10s;
-        }
-
-        @keyframes morphing {
-          0%, 100% {
-            transform: rotate(0deg) scale(1) translateX(0);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-          }
-          25% {
-            transform: rotate(90deg) scale(1.1) translateX(20px);
-            border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-          }
-          50% {
-            transform: rotate(180deg) scale(0.9) translateX(-20px);
-            border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-          }
-          75% {
-            transform: rotate(270deg) scale(1.05) translateX(10px);
-            border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-          }
-        }
-
-        /* Title with animated gradient */
-        .title {
-          font-size: 3.5rem;
-          font-weight: 700;
-          letter-spacing: -0.03em;
-          margin-bottom: 1rem;
-          line-height: 1;
-          background: linear-gradient(
-            135deg,
-            #9333EA 0%,
-            #EC4899 25%,
-            #3B82F6 50%,
-            #FB923C 75%,
-            #9333EA 100%
-          );
+        .gradient-bg {
+          background: linear-gradient(135deg, 
+            #2D5A3D 0%, 
+            #E85A4F 25%, 
+            #F4A261 50%, 
+            #A8DADC 75%, 
+            #E76F51 100%);
           background-size: 300% 300%;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: gradient-flow 8s ease infinite;
+          animation: gradientShift 8s ease infinite;
         }
-
-        @keyframes gradient-flow {
+        
+        @keyframes gradientShift {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
-
-        .subtitle {
-          font-size: 1.1rem;
-          color: #666;
-          margin-bottom: 3rem;
-          font-weight: 400;
+        
+        .floating-element {
+          animation: float 6s ease-in-out infinite;
         }
-
-        /* Upload zone */
-        .upload-zone {
-          position: relative;
-          width: 100%;
-          height: 320px;
-          background: var(--mist);
-          border-radius: 24px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          overflow: hidden;
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
         }
-
-        .upload-zone::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, transparent, rgba(147, 51, 234, 0.1), transparent);
-          opacity: 0;
-          transition: opacity 0.4s ease;
+        
+        .upload-card {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-
-        .upload-zone:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .upload-zone:hover::before {
-          opacity: 1;
-        }
-
-        .upload-zone.active {
-          background: var(--pearl);
-          border: 2px solid #9333EA;
-        }
-
-        .upload-zone.dragover {
-          background: rgba(147, 51, 234, 0.05);
-          border: 2px dashed #9333EA;
-        }
-
-        /* Upload content */
-        .upload-icon {
-          width: 80px;
-          height: 80px;
-          margin-bottom: 1.5rem;
-          position: relative;
-        }
-
-        .upload-icon svg {
-          width: 100%;
-          height: 100%;
-          stroke: #9333EA;
-          stroke-width: 1.5;
-          fill: none;
-          animation: float-subtle 4s ease-in-out infinite;
-        }
-
-        @keyframes float-subtle {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        .upload-text {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: var(--ink);
-          margin-bottom: 0.5rem;
-        }
-
-        .upload-subtext {
-          font-size: 0.9rem;
-          color: #666;
-        }
-
-        /* Photo grid */
-        .photo-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
-          margin-top: 2rem;
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .photo-grid.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .photo-slot {
-          aspect-ratio: 1;
-          background: var(--mist);
-          border-radius: 16px;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .photo-slot.filled {
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .photo-slot img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes scaleIn {
-          from {
-            transform: scale(0.8);
-            opacity: 0;
-          }
-          to {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-
-        .photo-slot .remove {
-          position: absolute;
-          top: 8px;
-          right: 8px;
-          width: 28px;
-          height: 28px;
-          background: rgba(0, 0, 0, 0.8);
-          border: none;
-          border-radius: 50%;
-          color: white;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transform: scale(0.8);
-          transition: all 0.3s ease;
-        }
-
-        .photo-slot:hover .remove {
-          opacity: 1;
-          transform: scale(1);
-        }
-
-        .photo-number {
-          position: absolute;
-          bottom: 8px;
-          left: 8px;
-          width: 24px;
-          height: 24px;
-          background: white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.8rem;
-          font-weight: 600;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .heic-placeholder {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-          color: #6c757d;
-        }
-
-        .heic-icon {
-          margin-bottom: 8px;
-          opacity: 0.7;
-        }
-
-        .heic-label {
-          font-size: 0.75rem;
-          font-weight: 600;
-          letter-spacing: 0.5px;
-        }
-
-        /* Analyze button */
-        .analyze-btn {
-          margin-top: 3rem;
-          padding: 1rem 3rem;
-          background: var(--ink);
-          color: white;
-          border: none;
-          border-radius: 100px;
-          font-size: 1rem;
-          font-weight: 600;
-          cursor: pointer;
+        
+        .preview-image {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          opacity: 0;
-          transform: translateY(20px);
-          pointer-events: none;
-          position: relative;
-          overflow: hidden;
         }
-
-        .analyze-btn.visible {
-          opacity: 0.3;
-          transform: translateY(0);
-        }
-
-        .analyze-btn.ready {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        .analyze-btn::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          transform: translate(-50%, -50%);
-          transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .analyze-btn:hover {
-          transform: translateY(-2px);
+        
+        .preview-image:hover {
+          transform: scale(1.05);
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-
-        .analyze-btn:active::before {
-          width: 300px;
-          height: 300px;
-        }
-
-        /* Loading state */
-        .loading-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(255, 255, 255, 0.95);
+        
+        .heic-placeholder {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 0.3s ease;
-          z-index: 100;
+          gap: 8px;
+          font-size: 14px;
+          font-weight: 500;
         }
-
-        .loading-overlay.active {
-          opacity: 1;
-          pointer-events: auto;
+        
+        .analyze-btn {
+          background: linear-gradient(135deg, #E85A4F 0%, #F4A261 100%);
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(232, 90, 79, 0.3);
         }
-
-        .loading-spinner {
-          width: 60px;
-          height: 60px;
-          border: 3px solid var(--mist);
-          border-top-color: #9333EA;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
+        
+        .analyze-btn:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(232, 90, 79, 0.4);
         }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-          .title { font-size: 2.5rem; }
-          .upload-zone { height: 280px; }
+        
+        .analyze-btn:disabled {
+          background: #9CA3AF;
+          box-shadow: none;
+          cursor: not-allowed;
         }
       `}</style>
 
-      {/* Animated mesh background */}
-      <div className="mesh"></div>
-
-      {/* Main container */}
-      <div className="h-screen flex flex-col items-center justify-center p-8 relative z-10" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <div className="min-h-screen gradient-bg relative overflow-hidden">
+        {/* Floating decorative elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full floating-element"></div>
+        <div className="absolute bottom-32 right-16 w-16 h-16 bg-white/10 rounded-full floating-element" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 right-10 w-12 h-12 bg-white/10 rounded-full floating-element" style={{animationDelay: '4s'}}></div>
         
-        {/* Back navigation */}
-        <div className="absolute top-12 left-12 z-10">
-          <button
-            onClick={() => setLocation('/')}
-            className="flex items-center gap-2 text-black/60 hover:text-black hover:-translate-x-1 transition-all duration-300 text-sm font-medium"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            Back
-          </button>
-        </div>
-
-        {/* Upload interface */}
-        <div className="w-full max-w-2xl text-center">
-          <h1 className="title">AI Color Analysis</h1>
-          <p className="subtitle">Upload your photos and let AI discover your perfect palette</p>
-
-          {/* Upload zone */}
-          <div 
-            className={`upload-zone ${files.length > 0 ? 'active' : ''} ${isDragOver ? 'dragover' : ''}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={handleUploadZoneClick}
-          >
-            <input 
-              ref={fileInputRef}
-              type="file" 
-              multiple 
-              accept="image/*,.heic,.heif"
-              className="hidden"
-              onChange={(e) => e.target.files && handleFileSelect(e.target.files)}
-            />
-            
-            <div className="upload-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
-              </svg>
-            </div>
-            
-            <div className="upload-text">{getUploadText()}</div>
-            <div className="upload-subtext">{getUploadSubtext()}</div>
+        <div className="container mx-auto px-4 py-8 relative z-10">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <button
+              onClick={() => setLocation('/')}
+              className="flex items-center space-x-2 text-white hover:text-white/80 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-medium">Back to Home</span>
+            </button>
           </div>
 
-          {/* Photo grid */}
-          <div className={`photo-grid ${files.length > 0 ? 'visible' : ''}`}>
-            {[0, 1, 2].map((index) => (
-              <div key={index} className={`photo-slot ${previews[index] ? 'filled' : ''}`}>
-                {previews[index] ? (
-                  <>
-                    {previews[index] === 'heic-placeholder' ? (
-                      <div className="heic-placeholder">
-                        <div className="heic-icon">
-                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21,15 16,10 5,21"/>
-                          </svg>
-                        </div>
-                        <div className="heic-label">HEIC</div>
-                      </div>
-                    ) : (
-                      <img src={previews[index]} alt={`Photo ${index + 1}`} />
-                    )}
-                    <button 
-                      className="remove"
-                      onClick={() => removePhoto(index)}
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </>
-                ) : null}
-                <div className="photo-number">{index + 1}</div>
+          {/* Main Content */}
+          <div className="max-w-2xl mx-auto">
+            <div className="upload-card rounded-3xl p-8 mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2 text-center">
+                Upload Your Photos
+              </h1>
+              <p className="text-gray-600 text-center mb-8">
+                Upload 3 clear photos for your personalized color analysis
+              </p>
+
+              {/* Upload Zone */}
+              <div
+                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 mb-6 ${
+                  isDragOver
+                    ? 'border-[#E85A4F] bg-[#E85A4F]/5'
+                    : files.length >= 3
+                    ? 'border-gray-300 bg-gray-50 cursor-not-allowed'
+                    : 'border-gray-300 hover:border-[#E85A4F] hover:bg-[#E85A4F]/5'
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={handleUploadZoneClick}
+              >
+                <div className="space-y-4">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#E85A4F] to-[#F4A261] rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-gray-900 mb-2">
+                      {files.length >= 3 ? "All photos uploaded!" : "Click or drag photos here"}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      JPEG, PNG, or HEIC • Max 10MB each • {files.length}/3 uploaded
+                    </p>
+                  </div>
+                </div>
               </div>
-            ))}
+
+              {/* File Input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept="image/*,.heic,.heif"
+                onChange={(e) => e.target.files && handleFileSelect(e.target.files)}
+                className="hidden"
+              />
+
+              {/* Photo Previews */}
+              {files.length > 0 && (
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  {previews.map((preview, index) => (
+                    <div key={index} className="relative group">
+                      <div className="aspect-square rounded-xl overflow-hidden bg-gray-100 preview-image">
+                        {preview === 'heic-placeholder' ? (
+                          <div className="w-full h-full heic-placeholder rounded-xl">
+                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>HEIC Photo</span>
+                          </div>
+                        ) : (
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </div>
+                      <button
+                        onClick={() => removePhoto(index)}
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Analyze Button */}
+              <button
+                onClick={handleAnalyze}
+                disabled={files.length !== 3}
+                className="w-full analyze-btn text-white font-semibold py-4 px-8 rounded-xl text-lg disabled:opacity-50"
+              >
+                {files.length === 3 ? "Analyze My Colors" : `Upload ${3 - files.length} more photo${3 - files.length !== 1 ? 's' : ''}`}
+              </button>
+            </div>
+
+            {/* Tips */}
+            <div className="upload-card rounded-2xl p-6">
+              <h3 className="font-semibold text-gray-900 mb-4">Photo Tips for Best Results:</h3>
+              <div className="space-y-3 text-sm text-gray-600">
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-[#E85A4F] rounded-full mt-2 flex-shrink-0"></div>
+                  <p>Take photos in natural daylight near a window</p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-[#F4A261] rounded-full mt-2 flex-shrink-0"></div>
+                  <p>Ensure your face is clearly visible and well-lit</p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-[#A8DADC] rounded-full mt-2 flex-shrink-0"></div>
+                  <p>Include different angles: front view, side profile, and natural expression</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          {/* Analyze button */}
-          <button 
-            className={`analyze-btn ${files.length > 0 ? 'visible' : ''} ${files.length === 3 ? 'ready' : ''}`}
-            onClick={handleAnalyze}
-          >
-            Analyze My Colors
-          </button>
         </div>
-      </div>
-
-      {/* Loading overlay */}
-      <div className="loading-overlay" id="loadingOverlay">
-        <div className="loading-spinner"></div>
       </div>
     </>
   );
