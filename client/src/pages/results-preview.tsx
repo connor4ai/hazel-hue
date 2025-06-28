@@ -482,6 +482,7 @@ export default function ResultsPreviewPage() {
             justify-content: center;
             gap: 0.5rem;
             border-radius: 24px;
+            padding-top: 20px;
         }
 
         .lock-icon {

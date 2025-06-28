@@ -508,6 +508,7 @@ export default function ResultsPreview() {
             justify-content: center;
             gap: 0.5rem;
             border-radius: 20px;
+            padding-top: 20px;
         }
 
         .lock-icon {
