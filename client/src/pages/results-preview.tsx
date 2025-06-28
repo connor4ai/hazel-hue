@@ -829,7 +829,6 @@ export default function ResultsPreviewPage() {
           </div>
         </div>
         </div>
-        </div>
       </div>
     </>
   );
