@@ -42,9 +42,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'True Summer': {
     celebrities: [
-      '/attached_assets/Jane Levy_1750906635089.png',
-      '/attached_assets/Mila Jojovich_1750906635090.png',
-      '/attached_assets/Emma Stone_1750906635090.png'
+      '/attached_assets/Anna Kendrick_1751148448937.png',
+      '/attached_assets/Emily DiDonato_1751148448937.png',
+      '/attached_assets/image_1751148458460.png'
     ],
     hairColorGuide: '/attached_assets/60b8bf33b45bb75378d9c545_True Summer Hair_1750808166133.webp',
     colorDimensions: '/attached_assets/60b8c01b3cc352b8f0df39ad_True Summer Colour Dimensions_1750808161686.webp',

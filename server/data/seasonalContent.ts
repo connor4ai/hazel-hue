@@ -369,7 +369,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Silver and cool-toned highlighters"
       ]
     },
-    celebrities: ["Jane Levy", "Mila Jojovich", "Emma Stone"]
+    celebrities: ["Anna Kendrick", "Emily DiDonato", "Kaya Scodelario"]
   },
 
   "Deep Winter": {
