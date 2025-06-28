@@ -947,7 +947,7 @@ export default function ResultsNew() {
   }, [order]);
 
   useEffect(() => {
-    // Check if user just completed payment and show popup
+    // Check if user just completed payment (paid or free) and show popup
     const urlParams = new URLSearchParams(window.location.search);
     const justPaid = urlParams.get('payment_success') === 'true';
     const fromPayment = urlParams.get('from') === 'payment';
@@ -956,7 +956,11 @@ export default function ResultsNew() {
     const referrer = document.referrer;
     const comingFromPayment = referrer.includes('/results-preview/') || referrer.includes('/payment/') || justPaid || fromPayment;
     
-    if (order && order.status === 'completed' && order.analysisResult && comingFromPayment && !hasShownPostPaymentPopup) {
+    // Show popup for both paid orders and free orders (completed transactions)
+    const isCompletedTransaction = order && order.status === 'completed' && order.analysisResult;
+    const isRecentTransaction = comingFromPayment || (order && order.paymentStatus === 'free');
+    
+    if (isCompletedTransaction && isRecentTransaction && !hasShownPostPaymentPopup) {
       setShowInstagramStory(true);
       setHasShownPostPaymentPopup(true);
       // Clean URL after showing popup
@@ -2004,6 +2008,16 @@ export default function ResultsNew() {
           season={order.analysisResult.season}
           onDownload={() => setShowInstagramStory(false)}
         />
+      )}
+
+      {/* Test Instagram Story Button (temporary for testing) */}
+      {order?.analysisResult && (
+        <button
+          onClick={() => setShowInstagramStory(true)}
+          className="fixed bottom-4 right-4 bg-purple-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-600 transition-colors z-40"
+        >
+          Test Story
+        </button>
       )}
     </div>
   );
