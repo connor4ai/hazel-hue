@@ -292,9 +292,9 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     celebrities: [
-      'Blake Lively',
-      'Cynthia Nixon', 
-      'Amy Adams'
+      'Salma Hayek',
+      'Viola Davis',
+      'Sandra Bullock'
     ]
   },
 
@@ -810,7 +810,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Warm brown eyeliner'
       ]
     },
-    celebrities: ['Salma Hayek', 'Viola Davis', 'Sandra Bullock']
+    celebrities: ['Blake Lively', 'Cynthia Nixon', 'Amy Adams']
   },
 
   'Bright Spring': {

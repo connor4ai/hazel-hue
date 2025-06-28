@@ -31,9 +31,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Dark Winter': {
     celebrities: [
-      '/attached_assets/Blake Lively_1750906632490.png',
-      '/attached_assets/Cynthia Nixon_1750906632490.png',
-      '/attached_assets/Amy Adams_1750906632490.png'
+      '/attached_assets/Salma Hayek_1750906640939.png',
+      '/attached_assets/Viola Davis_1750906640939.png',
+      '/attached_assets/Sandra Bullock_1750906640939.png'
     ], 
     hairColorGuide: '/attached_assets/60b8ea99df1741592789025e_Dark Winter Hair_1750807424071.webp',
     colorDimensions: '/attached_assets/60b8eb82d467fb3ac7a8d1eb_Dark Winter Colour Dimensions_1750807420786.webp',
@@ -75,9 +75,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'True Spring': {
     celebrities: [
-      '/attached_assets/Salma Hayek_1750906640939.png',
-      '/attached_assets/Viola Davis_1750906640939.png',
-      '/attached_assets/Sandra Bullock_1750906640939.png'
+      '/attached_assets/Blake Lively_1750906632490.png',
+      '/attached_assets/Cynthia Nixon_1750906632490.png',
+      '/attached_assets/Amy Adams_1750906632490.png'
     ],
     hairColorGuide: '/attached_assets/60b886010051e62b11a054f6_True Spring Hair_1750809772493.webp',
     colorDimensions: '/attached_assets/60b89ea7488e4694b46c6b48_True Spring Colour Dimensions_1750809772493.webp',
