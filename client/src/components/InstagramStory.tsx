@@ -251,10 +251,6 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
     ctx.font = '900 72px Inter';
     ctx.fillText("I'M A", canvas.width / 2, 300);
     
-    // Season icon - center section
-    ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, 800);
-    
     // Season name - center section (positioned so middle of text block is at canvas center)
     ctx.font = 'bold 100px Inter';
     const seasonLines = season.toUpperCase().split(' ');
@@ -266,9 +262,16 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
       ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
     });
     
-    // Subtitle - lower center
+    // Calculate equal spacing above and below the season text
+    const spacing = 120;
+    
+    // Season icon - positioned above season text with equal spacing
+    ctx.font = '96px Arial';
+    ctx.fillText(data.icon, canvas.width / 2, startY - spacing);
+    
+    // Subtitle - positioned below season text with equal spacing
     ctx.font = '300 40px Inter';
-    ctx.fillText(data.subtitle, canvas.width / 2, startY + totalTextHeight + 80);
+    ctx.fillText(data.subtitle, canvas.width / 2, startY + totalTextHeight + spacing);
     
     // Handle - bottom section
     ctx.font = '600 32px Inter';
