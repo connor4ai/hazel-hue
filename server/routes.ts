@@ -275,6 +275,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           isFree: true
         });
       } else {
+        console.log('Creating payment intent with amount:', amount);
         const paymentIntent = await stripe!.paymentIntents.create({
           amount,
           currency: "usd",
@@ -282,7 +283,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
             enabled: true,
             allow_redirects: 'never'
           },
-          payment_method_types: ['card', 'apple_pay', 'google_pay'],
           metadata: {
             service: 'color-analysis',
             originalAmount: '2900',
@@ -318,7 +318,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
     } catch (error: any) {
-      res.status(500).json({ message: "Error creating payment intent: " + error.message });
+      console.error("Error creating payment intent:", error);
+      res.status(500).json({ message: "Error creating payment intent: " + (error.message || 'Unknown error') });
     }
   });
 
