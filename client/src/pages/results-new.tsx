@@ -923,6 +923,7 @@ export default function ResultsNew() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
   const [showInstagramStory, setShowInstagramStory] = useState(false);
+  const [hasShownPostPaymentPopup, setHasShownPostPaymentPopup] = useState(false);
 
   
   // Get seasonal assets based on the detected season
@@ -944,6 +945,24 @@ export default function ResultsNew() {
       emailResults();
     }
   }, [order]);
+
+  useEffect(() => {
+    // Check if user just completed payment and show popup
+    const urlParams = new URLSearchParams(window.location.search);
+    const justPaid = urlParams.get('payment_success') === 'true';
+    const fromPayment = urlParams.get('from') === 'payment';
+    
+    // Also check if the user just came from the payment preview page
+    const referrer = document.referrer;
+    const comingFromPayment = referrer.includes('/results-preview/') || referrer.includes('/payment/') || justPaid || fromPayment;
+    
+    if (order && order.status === 'completed' && order.analysisResult && comingFromPayment && !hasShownPostPaymentPopup) {
+      setShowInstagramStory(true);
+      setHasShownPostPaymentPopup(true);
+      // Clean URL after showing popup
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [order, hasShownPostPaymentPopup]);
 
   const fetchOrderResults = async () => {
     try {

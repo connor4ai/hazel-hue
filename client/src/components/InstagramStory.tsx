@@ -106,13 +106,56 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
     return null;
   }
 
+  const shareImage = async () => {
+    const canvas = await generateCanvas();
+    
+    if (!canvas) return;
+    
+    if (navigator.share) {
+      // Convert canvas to blob for native sharing
+      canvas.toBlob(async (blob: Blob | null) => {
+        if (blob) {
+          const file = new File([blob], `${season.replace(' ', '-').toLowerCase()}-story.png`, { type: 'image/png' });
+          try {
+            await navigator.share({
+              title: `My ${season} Color Analysis`,
+              text: `Check out my personal color analysis results!`,
+              files: [file]
+            });
+          } catch (error) {
+            // Fallback to download if share fails
+            downloadAsImage();
+          }
+        }
+      }, 'image/png');
+    } else {
+      // Fallback to download for browsers without native share
+      downloadAsImage();
+    }
+  };
+
   const downloadAsImage = async () => {
+    const canvas = await generateCanvas();
+    
+    if (!canvas) return;
+    
+    const link = document.createElement('a');
+    link.download = `${season.replace(' ', '-').toLowerCase()}-story.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+    
+    if (onDownload) {
+      onDownload();
+    }
+  };
+
+  const generateCanvas = async () => {
     const canvas = document.createElement('canvas');
     canvas.width = 1080;
     canvas.height = 1920;
     const ctx = canvas.getContext('2d');
     
-    if (!ctx) return;
+    if (!ctx) return canvas;
 
     // Create gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -227,15 +270,7 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
     ctx.font = '600 88px Inter';
     ctx.fillText('@hazelandhue', canvas.width / 2, 1800);
 
-    // Download the image
-    const link = document.createElement('a');
-    link.download = `${season.replace(' ', '-').toLowerCase()}-story.png`;
-    link.href = canvas.toDataURL();
-    link.click();
-    
-    if (onDownload) {
-      onDownload();
-    }
+    return canvas;
   };
 
   return (
@@ -299,10 +334,10 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
         {/* Action buttons */}
         <div className="flex gap-3">
           <button
-            onClick={downloadAsImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+            onClick={shareImage}
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
           >
-            Download Story
+            Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
