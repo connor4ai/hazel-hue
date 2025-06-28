@@ -15,11 +15,21 @@ export default function UploadNew() {
 
   const handleFileSelect = (newFiles: FileList | File[]) => {
     const fileArray = Array.from(newFiles);
-    const imageFiles = fileArray.filter(file => file.type.startsWith('image/'));
+    
+    // Debug: Log file types
+    console.log('Files selected:', fileArray.map(f => ({ name: f.name, type: f.type, size: f.size })));
+    
+    // Filter for image files or HEIC files (which might not have image/ MIME type)
+    const imageFiles = fileArray.filter(file => 
+      file.type.startsWith('image/') || 
+      file.name.toLowerCase().endsWith('.heic') || 
+      file.name.toLowerCase().endsWith('.heif')
+    );
     
     // Validate and add files
     const validFiles: File[] = [];
     const newPreviews: string[] = [];
+    let processedCount = 0;
     
     imageFiles.forEach(file => {
       if (files.length + validFiles.length >= 3) return;
@@ -34,8 +44,16 @@ export default function UploadNew() {
         return;
       }
 
-      // Validate file type
-      if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png') && !file.type.includes('heic') && !file.type.includes('heif')) {
+      // Validate file type - check both MIME type and file extension for HEIC
+      const isValidType = file.type.includes('jpeg') || 
+                         file.type.includes('jpg') || 
+                         file.type.includes('png') || 
+                         file.type.includes('heic') || 
+                         file.type.includes('heif') ||
+                         file.name.toLowerCase().endsWith('.heic') ||
+                         file.name.toLowerCase().endsWith('.heif');
+                         
+      if (!isValidType) {
         toast({
           title: "Invalid file type",
           description: "Please upload JPEG, PNG, or HEIC images only",
@@ -48,9 +66,17 @@ export default function UploadNew() {
       
       // For HEIC files, we can't preview them in the browser
       // So we'll show a placeholder and store the file info
-      if (file.type.includes('heic') || file.type.includes('heif')) {
+      const isHeic = file.type.includes('heic') || 
+                    file.type.includes('heif') || 
+                    file.name.toLowerCase().endsWith('.heic') || 
+                    file.name.toLowerCase().endsWith('.heif');
+                    
+      if (isHeic) {
         newPreviews.push('heic-placeholder');
-        if (newPreviews.length === validFiles.length) {
+        processedCount++;
+        
+        // Check if all files have been processed
+        if (processedCount === validFiles.length) {
           setFiles(prev => [...prev, ...validFiles]);
           setPreviews(prev => [...prev, ...newPreviews]);
         }
@@ -59,7 +85,10 @@ export default function UploadNew() {
         const reader = new FileReader();
         reader.onload = (e) => {
           newPreviews.push(e.target?.result as string);
-          if (newPreviews.length === validFiles.length) {
+          processedCount++;
+          
+          // Check if all files have been processed
+          if (processedCount === validFiles.length) {
             setFiles(prev => [...prev, ...validFiles]);
             setPreviews(prev => [...prev, ...newPreviews]);
           }
