@@ -457,30 +457,40 @@ export default function ResultsPreviewPage() {
         .blur-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 10, 10, 0.3);
-            backdrop-filter: blur(8px);
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(12px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             border-radius: 20px;
         }
 
         .lock-icon {
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
         .unlock-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .unlock-subtext {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
         }
 
         /* Card icon badge */
@@ -668,52 +678,47 @@ export default function ResultsPreviewPage() {
             <div className="space-y-6 lg:order-first">
               {/* Season Preview - Blurred */}
               <div className="preview-card animate-slide-up">
-                <div className="card-icon mb-4">🎨</div>
-                <div className="season-name mb-3">{analysisResult.season}</div>
-                <p className="text-white/70 text-base leading-relaxed">
-                  {analysisResult.description.substring(0, 100)}...
-                </p>
+                <div className="flex items-center mb-4">
+                  <div className="card-icon mr-4">⭐</div>
+                  <h3 className="text-xl font-semibold text-white">Your Season</h3>
+                </div>
                 <div className="blur-overlay">
                   <div className="lock-icon">🔒</div>
-                  <div className="unlock-text">Your season is ready!</div>
+                  <div className="unlock-text">Unlock to reveal</div>
+                  <div className="unlock-subtext">Your season is ready!</div>
                 </div>
-                {/* Sparkle decorations */}
-                <div className="sparkle"></div>
-                <div className="sparkle"></div>
-                <div className="sparkle"></div>
               </div>
 
               {/* Color Palette Preview */}
               <div className="preview-card animate-slide-up">
-                <div className="card-icon mb-4">🎨</div>
-                <h3 className="text-xl font-semibold text-white mb-4">Your Color Palette</h3>
-                <div className="flex gap-3 mb-4">
+                <div className="flex items-center mb-4">
+                  <div className="card-icon mr-4">🎨</div>
+                  <h3 className="text-xl font-semibold text-white">Your Color Palette</h3>
+                </div>
+                <div className="flex justify-center gap-3 mb-4" style={{ filter: 'blur(4px)' }}>
                   {[...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights].slice(0, 5).map((color, index) => (
                     <div
                       key={index}
-                      className="color-circle"
+                      className="w-12 h-12 rounded-full border-2 border-white/20"
                       style={{ backgroundColor: color }}
                     />
                   ))}
                 </div>
                 <div className="blur-overlay">
                   <div className="lock-icon">🔒</div>
-                  <div className="unlock-text">64 colors waiting for you</div>
+                  <div className="unlock-text">Unlock to view your colors</div>
                 </div>
               </div>
 
               {/* Style Recommendations Preview */}
               <div className="preview-card animate-slide-up">
-                <div className="card-icon mb-4">💄</div>
-                <h3 className="text-xl font-semibold text-white mb-4">Style Recommendations</h3>
-                <div className="flex gap-2 mb-4">
-                  <div className="style-item"></div>
-                  <div className="style-item"></div>
-                  <div className="style-item"></div>
+                <div className="flex items-center mb-4">
+                  <div className="card-icon mr-4">✨</div>
+                  <h3 className="text-xl font-semibold text-white">Style Recommendations</h3>
                 </div>
                 <div className="blur-overlay">
                   <div className="lock-icon">🔒</div>
-                  <div className="unlock-text">Makeup & style guide ready</div>
+                  <div className="unlock-text">Unlock to view recommendations</div>
                 </div>
               </div>
             </div>
@@ -721,10 +726,13 @@ export default function ResultsPreviewPage() {
             {/* Payment Section */}
             <div className="lg:sticky lg:top-8 lg:order-last">
               <div className="preview-card complete-card animate-slide-up">
-                <div className="text-center mb-6">
-                  <div className="card-icon mx-auto mb-4">💳</div>
-                  <h3 className="text-2xl font-bold text-white mb-2">Unlock Your Complete Analysis</h3>
-                  <p className="price-text">One-time payment of $29</p>
+                <div className="flex items-center mb-6">
+                  <div className="card-icon mr-4">📊</div>
+                  <h3 className="text-xl font-semibold text-white">Complete Analysis</h3>
+                </div>
+                <div className="blur-overlay mb-6">
+                  <div className="lock-icon">🔒</div>
+                  <div className="unlock-text">Unlock Your Complete Analysis</div>
                 </div>
 
                 {/* What's Included */}
@@ -756,12 +764,17 @@ export default function ResultsPreviewPage() {
 
                 {/* Payment Form */}
                 {!showPayment ? (
-                  <button 
-                    onClick={() => setShowPayment(true)}
-                    className="unlock-btn w-full"
-                  >
-                    ✨ Unlock Results - $29
-                  </button>
+                  <div className="text-center">
+                    <button 
+                      onClick={() => setShowPayment(true)}
+                      className="unlock-btn w-full mb-3"
+                    >
+                      Unlock My Color Analysis
+                    </button>
+                    <p className="text-white/60 text-sm">
+                      One-time payment • Instant access
+                    </p>
+                  </div>
                 ) : clientSecret ? (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
                     <PaymentForm orderId={orderId!} onSuccess={handlePaymentSuccess} />
@@ -773,7 +786,7 @@ export default function ResultsPreviewPage() {
                   </div>
                 )}
 
-                <p className="text-white/40 text-center text-sm mt-4">
+                <p className="text-white/40 text-center text-xs mt-6">
                   Secure payment processing by Stripe
                 </p>
               </div>
