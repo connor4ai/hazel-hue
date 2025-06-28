@@ -10,6 +10,7 @@ import FAQs from "@/pages/faqs";
 import SignIn from "@/pages/signin";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
+import UploadNew from "@/pages/upload-new";
 import Payment from "@/pages/payment";
 import Loading from "@/pages/loading";
 import Processing from "@/pages/processing";
@@ -32,7 +33,8 @@ function Router() {
       <Route path="/old-home" component={Home} />
       <Route path="/faqs" component={FAQs} />
       <Route path="/signin" component={SignIn} />
-      <Route path="/upload" component={Upload} />
+      <Route path="/upload" component={UploadNew} />
+      <Route path="/old-upload" component={Upload} />
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
       <Route path="/analyzing" component={Analyzing} />
