@@ -465,7 +465,6 @@ export default function ResultsPreviewPage() {
             justify-content: center;
             gap: 0.5rem;
             border-radius: 24px;
-            padding-top: 2rem;
         }
 
         .lock-icon {
@@ -677,7 +676,7 @@ export default function ResultsPreviewPage() {
 
           <div className="max-w-lg mx-auto space-y-8">
             {/* Season Preview */}
-            <div className="preview-card animate-slide-up" style={{ minHeight: '200px', position: 'relative' }}>
+            <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">⭐</div>
                 <h3 className="text-2xl font-semibold text-white">Your Season</h3>
@@ -690,7 +689,7 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Color Palette Preview */}
-            <div className="preview-card animate-slide-up" style={{ minHeight: '200px', position: 'relative' }}>
+            <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">🎨</div>
                 <h3 className="text-2xl font-semibold text-white">Your Color Palette</h3>
@@ -711,7 +710,7 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Style Recommendations Preview */}
-            <div className="preview-card animate-slide-up" style={{ minHeight: '160px', position: 'relative' }}>
+            <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">✨</div>
                 <h3 className="text-2xl font-semibold text-white">Style Recommendations</h3>
@@ -723,7 +722,7 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Complete Analysis Card */}
-            <div className="preview-card animate-slide-up" style={{ minHeight: '160px', position: 'relative' }}>
+            <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">📊</div>
                 <h3 className="text-2xl font-semibold text-white">Complete Analysis</h3>
