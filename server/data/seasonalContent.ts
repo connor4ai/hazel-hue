@@ -293,8 +293,8 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
     },
     celebrities: [
       'Salma Hayek',
-      'Viola Davis',
-      'Sandra Bullock'
+      'Sandra Bullock',
+      'Viola Davis'
     ]
   },
 

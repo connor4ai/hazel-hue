@@ -31,9 +31,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Dark Winter': {
     celebrities: [
-      '/attached_assets/Salma Hayek_1750906640939.png',
-      '/attached_assets/Viola Davis_1750906640939.png',
-      '/attached_assets/Sandra Bullock_1750906640939.png'
+      '/attached_assets/Salma Hayek_1751148424416.png',
+      '/attached_assets/Sandra Bullock_1751148424417.png',
+      '/attached_assets/Viola Davis_1751148424417.png'
     ], 
     hairColorGuide: '/attached_assets/60b8ea99df1741592789025e_Dark Winter Hair_1750807424071.webp',
     colorDimensions: '/attached_assets/60b8eb82d467fb3ac7a8d1eb_Dark Winter Colour Dimensions_1750807420786.webp',
