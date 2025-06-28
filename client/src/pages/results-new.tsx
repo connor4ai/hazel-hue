@@ -1098,8 +1098,8 @@ export default function ResultsNew() {
               transition={{ delay: 0.4 }}
               className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Signature Colors</h3>
-              <div className="grid grid-cols-4 gap-3 justify-items-center">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center">Signature Colors</h3>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 justify-items-center">
                 {analysisResult.overview.signatureColors.slice(0, 8).map((colorString, index) => {
                   const { hex, name } = parseSignatureColor(colorString);
                   return (
@@ -1123,8 +1123,8 @@ export default function ResultsNew() {
             transition={{ delay: 0.6 }}
             className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-6 border border-red-100"
           >
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4">
               {getColorsToAvoid(analysisResult.season).map((color, index) => (
                 <motion.div
                   key={index}
@@ -1931,10 +1931,27 @@ export default function ResultsNew() {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-rose-100">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          {/* Mobile: Stack title and button */}
+          <div className="block sm:hidden space-y-3">
+            <div className="text-center">
+              <h1 className="text-lg font-bold text-gray-800">Your Color Analysis Results</h1>
+              <p className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}</p>
+            </div>
+            <Button
+              onClick={handleDownloadPDF}
+              disabled={isDownloading}
+              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-full px-4 py-2 w-full touch-manipulation"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              {isDownloading ? 'Downloading...' : 'Download PDF'}
+            </Button>
+          </div>
+          
+          {/* Desktop: Side by side layout */}
+          <div className="hidden sm:flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
               <p className="text-gray-600">Step {currentStep + 1} of {steps.length}</p>
             </div>
             <Button
