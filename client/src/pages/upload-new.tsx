@@ -23,14 +23,17 @@ export default function UploadNew() {
       file.name.toLowerCase().endsWith('.heif')
     );
     
-    // Validate and add files
-    const validFiles: File[] = [];
-    const newPreviews: string[] = [];
-    let processedCount = 0;
+    // Check how many files we can still accept
+    const remainingSlots = 3 - files.length;
+    if (remainingSlots <= 0) return;
     
-    imageFiles.forEach(file => {
-      if (files.length + validFiles.length >= 3) return;
-      
+    // Take only the files we can accept
+    const filesToProcess = imageFiles.slice(0, remainingSlots);
+    
+    // Validate files first
+    const validFiles: File[] = [];
+    
+    for (const file of filesToProcess) {
       // Validate file size (10MB max)
       if (file.size > 10 * 1024 * 1024) {
         toast({
@@ -38,7 +41,7 @@ export default function UploadNew() {
           description: "Each photo must be under 10MB",
           variant: "destructive",
         });
-        return;
+        continue;
       }
 
       // Validate file type
@@ -56,12 +59,25 @@ export default function UploadNew() {
           description: "Please upload JPEG, PNG, or HEIC images only",
           variant: "destructive",
         });
-        return;
+        continue;
       }
 
       validFiles.push(file);
-      
-      // For HEIC files, we can't preview them in the browser
+    }
+    
+    if (validFiles.length === 0) return;
+    
+    // Process previews for valid files
+    const newPreviews: string[] = [];
+    let processedCount = 0;
+    
+    const updateState = () => {
+      setFiles(prev => [...prev, ...validFiles]);
+      setPreviews(prev => [...prev, ...newPreviews]);
+    };
+    
+    validFiles.forEach((file) => {
+      // Check if it's a HEIC file
       const isHeic = file.type.includes('heic') || 
                     file.type.includes('heif') || 
                     file.name.toLowerCase().endsWith('.heic') || 
@@ -71,10 +87,9 @@ export default function UploadNew() {
         newPreviews.push('heic-placeholder');
         processedCount++;
         
-        // Check if all files have been processed
+        // If all files processed, update state once
         if (processedCount === validFiles.length) {
-          setFiles(prev => [...prev, ...validFiles]);
-          setPreviews(prev => [...prev, ...newPreviews]);
+          updateState();
         }
       } else {
         // For JPEG/PNG, show actual preview
@@ -83,10 +98,9 @@ export default function UploadNew() {
           newPreviews.push(e.target?.result as string);
           processedCount++;
           
-          // Check if all files have been processed
+          // If all files processed, update state once
           if (processedCount === validFiles.length) {
-            setFiles(prev => [...prev, ...validFiles]);
-            setPreviews(prev => [...prev, ...newPreviews]);
+            updateState();
           }
         };
         reader.readAsDataURL(file);
