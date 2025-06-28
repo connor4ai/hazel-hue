@@ -381,11 +381,18 @@ export default function HomeNew() {
                   id="startBtn"
                   onClick={(e) => {
                     // Animate button
-                    e.currentTarget.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                      e.currentTarget.style.transform = '';
+                    const target = e.currentTarget as HTMLButtonElement;
+                    if (target) {
+                      target.style.transform = 'scale(0.95)';
+                      setTimeout(() => {
+                        if (target) {
+                          target.style.transform = '';
+                        }
+                        setLocation('/upload');
+                      }, 200);
+                    } else {
                       setLocation('/upload');
-                    }, 200);
+                    }
                   }}
                 >
                   Upload Photos
