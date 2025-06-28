@@ -97,9 +97,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Light Spring': {
     celebrities: [
-      '/attached_assets/Cynthia Nixon_1750906632490.png',
-      '/attached_assets/Jane Levy_1750906635089.png',
-      '/attached_assets/Mila Jojovich_1750906635090.png'
+      '/attached_assets/Candice Swanepoel_1751149084780.png',
+      '/attached_assets/Sophie Turner_1751149084780.png',
+      '/attached_assets/Taylor Swift_1751149084780.png'
     ],
     hairColorGuide: '/attached_assets/60b8b46646f35775934de675_Light Spring Hair_1750811383371.webp',
     colorDimensions: '/attached_assets/60b8b53094058a4b3906838c_Light Spring Colour Dimensions_1750811383371.webp',
