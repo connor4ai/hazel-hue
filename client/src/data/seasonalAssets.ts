@@ -20,9 +20,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Bright Winter': {
     celebrities: [
-      '/attached_assets/Julia Roberts_1750906639761.png',
-      '/attached_assets/Tyla_1750906639761.png',
-      '/attached_assets/Emily Ratajkowski_1750906639761.png'
+      '/attached_assets/Adriana Lima_1751148350492.png',
+      '/attached_assets/Katy Perry_1751148350492.png',
+      '/attached_assets/Megan Fox_1751148350492.png'
     ],
     hairColorGuide: '/attached_assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair-2_1750641894237.webp',
     colorDimensions: '/attached_assets/60b8f91d090802631f44f1b9_Bright Winter Colour Dimensions-2_1750641887890.webp',
