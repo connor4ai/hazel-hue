@@ -119,7 +119,7 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
           try {
             await navigator.share({
               title: `My ${season} Color Analysis`,
-              text: `Check out my personal color analysis results!`,
+              text: `check out my AI color analysis results from hazel & hue! hazelandhue.com`,
               files: [file]
             });
           } catch (error) {

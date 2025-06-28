@@ -164,14 +164,22 @@ export default function ResultsPremium() {
 
   const shareResults = async () => {
     try {
-      await navigator.clipboard.writeText(shareLink);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      
-      toast({
-        title: "Results Shared",
-        description: "Link copied to clipboard",
-      });
+      if (navigator.share) {
+        await navigator.share({
+          title: `My ${analysisResult?.season} Color Analysis`,
+          text: `check out my AI color analysis results from hazel & hue! ${shareLink} - hazelandhue.com`,
+          url: shareLink
+        });
+      } else {
+        await navigator.clipboard.writeText(`check out my AI color analysis results from hazel & hue! ${shareLink} - hazelandhue.com`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        
+        toast({
+          title: "Results Shared",
+          description: "Link copied to clipboard",
+        });
+      }
     } catch (error) {
       toast({
         title: "Share Failed",

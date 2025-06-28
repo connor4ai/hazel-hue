@@ -1824,7 +1824,7 @@ export default function ResultsNew() {
                   if (navigator.share) {
                     navigator.share({
                       title: `My ${analysisResult.season} Color Analysis`,
-                      text: `Check out my personal color analysis results!`,
+                      text: `check out my AI color analysis results from hazel & hue! ${window.location.href} - hazelandhue.com`,
                       url: window.location.href
                     });
                   } else {

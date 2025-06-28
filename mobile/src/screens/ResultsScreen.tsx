@@ -66,8 +66,8 @@ export default function ResultsScreen({ navigation, route }: any) {
   const shareResults = async () => {
     try {
       await Share.share({
-        message: `Check out my ${mockResults.season} color analysis from HueMatcher! I discovered my perfect color palette. 🎨`,
-        url: 'https://huematcher.com',
+        message: `check out my AI color analysis results from hazel & hue! I discovered my perfect color palette. 🎨`,
+        url: 'https://hazelandhue.com',
       });
     } catch (error) {
       console.error('Error sharing:', error);
