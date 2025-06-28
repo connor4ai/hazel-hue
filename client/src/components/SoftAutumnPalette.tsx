@@ -99,9 +99,9 @@ const SoftAutumnPalette = () => {
         >
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-200"></div>
         </div>
-        <div className="p-3 text-center">
-          <p className="text-xs font-semibold text-gray-800 mb-1 uppercase tracking-wide leading-tight">{name}</p>
-          <p className="text-xs font-mono text-gray-600">{color}</p>
+        <div className="p-2 sm:p-3 text-center">
+          <p className="text-[10px] sm:text-xs font-semibold text-gray-800 mb-1 uppercase tracking-wide leading-tight break-words">{name}</p>
+          <p className="text-[9px] sm:text-xs font-mono text-gray-600 break-all">{color}</p>
         </div>
       </div>
     </motion.div>
@@ -130,7 +130,7 @@ const SoftAutumnPalette = () => {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-4">
         {colors.map((color, index) => (
           <ColorSwatch 
             key={index} 

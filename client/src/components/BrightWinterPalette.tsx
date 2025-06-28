@@ -84,7 +84,7 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Core Neutrals</h4>
           <p className="text-sm text-gray-600 mb-4">Foundation colors for your wardrobe - use these as your base pieces</p>
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
             {coreNeutrals.map((swatch, index) => (
               <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
             ))}
@@ -95,7 +95,7 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Accent Lights</h4>
           <p className="text-sm text-gray-600 mb-4">Electric highlights and bright accents for impact</p>
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
             {accentLights.map((swatch, index) => (
               <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
             ))}
@@ -106,7 +106,7 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Accent Brights</h4>
           <p className="text-sm text-gray-600 mb-4">Bold statement colors that showcase your dramatic coloring</p>
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
             {accentBrights.map((swatch, index) => (
               <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
             ))}

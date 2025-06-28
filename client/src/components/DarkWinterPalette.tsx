@@ -137,7 +137,7 @@ export default function DarkWinterPalette() {
           
           {/* Color Grid */}
           <div className="bg-white p-10">
-            <div className="grid grid-cols-8 gap-4 max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-4 max-w-6xl mx-auto">
               {palette.map((color, index) => (
                 <ColorSwatch
                   key={index}

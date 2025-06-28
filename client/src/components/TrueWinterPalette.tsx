@@ -100,7 +100,7 @@ const TrueWinterPalette = () => {
         <p className="text-sm text-gray-500 mt-2">Click any color to copy its hex code</p>
       </div>
 
-      <div className="grid grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
         {paletteColors.map((color, index) => (
           <motion.div
             key={index}
@@ -114,9 +114,9 @@ const TrueWinterPalette = () => {
               className="w-full aspect-square rounded-xl shadow-md border-2 border-white hover:border-gray-300 transition-all duration-200 hover:scale-105"
               style={{ backgroundColor: color.code }}
             />
-            <div className="text-center mt-2">
-              <p className="text-xs text-gray-500 font-mono">{color.code}</p>
-              <p className="text-xs font-semibold text-gray-700 truncate">{color.name}</p>
+            <div className="text-center mt-1 sm:mt-2 px-1">
+              <p className="text-[9px] sm:text-xs text-gray-500 font-mono break-all">{color.code}</p>
+              <p className="text-[10px] sm:text-xs font-semibold text-gray-700 break-words leading-tight">{color.name}</p>
             </div>
             
             {copiedColor === color.code && (
