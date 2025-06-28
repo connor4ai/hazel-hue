@@ -262,16 +262,13 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
       ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
     });
     
-    // Calculate equal spacing above and below the season text
-    const spacing = 120;
-    
-    // Season icon - positioned above season text with equal spacing
+    // Season icon - positioned slightly above the season text
     ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, startY - spacing);
+    ctx.fillText(data.icon, canvas.width / 2, startY - 60);
     
-    // Subtitle - positioned below season text with equal spacing
+    // Subtitle - positioned slightly below the season text
     ctx.font = '300 40px Inter';
-    ctx.fillText(data.subtitle, canvas.width / 2, startY + totalTextHeight + spacing);
+    ctx.fillText(data.subtitle, canvas.width / 2, startY + totalTextHeight + 60);
     
     // Handle - bottom section
     ctx.font = '600 32px Inter';
