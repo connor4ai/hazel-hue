@@ -16,6 +16,7 @@ import Loading from "@/pages/loading";
 import Processing from "@/pages/processing";
 import Analyzing from "@/pages/analyzing";
 import ResultsPreview from "@/pages/results-preview";
+import ResultsPreviewNew from "@/pages/results-preview-new";
 import ResultsNew from "@/pages/results-new";
 import ResultsPremium from "@/pages/results-premium";
 import Analysis from "@/pages/analysis";
@@ -38,7 +39,8 @@ function Router() {
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
       <Route path="/analyzing" component={Analyzing} />
-      <Route path="/results-preview/:orderId" component={ResultsPreview} />
+      <Route path="/results-preview/:orderId" component={ResultsPreviewNew} />
+      <Route path="/results-preview-old/:orderId" component={ResultsPreview} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/processing/:orderId" component={Processing} />
       <Route path="/results/:orderId" component={ResultsNew} />
