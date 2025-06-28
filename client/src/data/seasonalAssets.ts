@@ -9,8 +9,7 @@ export interface SeasonalAssets {
 export const seasonalAssets: Record<string, SeasonalAssets> = {
   'True Winter': {
     celebrities: [
-      '/attached_assets/Adriana Lima_1750906638336.png',
-      '/attached_assets/Katy Perry_1750906638336.png',
+      '/attached_assets/Sandra Bullock_1750906640939.png',
       '/attached_assets/Megan Fox_1750906638336.png'
     ],
     hairColorGuide: '/attached_assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp',
@@ -20,9 +19,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Bright Winter': {
     celebrities: [
-      '/attached_assets/Julia Roberts_1750906639761.png',
-      '/attached_assets/Tyla_1750906639761.png',
-      '/attached_assets/Emily Ratajkowski_1750906639761.png'
+      '/attached_assets/Megan Fox_1750906638336.png',
+      '/attached_assets/Katy Perry_1750906638336.png',
+      '/attached_assets/Adriana Lima_1750906638336.png'
     ],
     hairColorGuide: '/attached_assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair-2_1750641894237.webp',
     colorDimensions: '/attached_assets/60b8f91d090802631f44f1b9_Bright Winter Colour Dimensions-2_1750641887890.webp',
@@ -31,8 +30,8 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Dark Winter': {
     celebrities: [
+      '/attached_assets/Sandra Bullock_1750906640939.png',
       '/attached_assets/Blake Lively_1750906632490.png',
-      '/attached_assets/Cynthia Nixon_1750906632490.png',
       '/attached_assets/Amy Adams_1750906632490.png'
     ], 
     hairColorGuide: '/attached_assets/60b8ea99df1741592789025e_Dark Winter Hair_1750807424071.webp',
@@ -64,9 +63,8 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Soft Summer': {
     celebrities: [
-      '/attached_assets/Candice Swanepoel_1750906642904.png',
-      '/attached_assets/Sophie Turner_1750906642904.png',
-      '/attached_assets/Taylor Swift_1750906642904.png'
+      '/attached_assets/Adriana Lima_1750906638336.png',
+      '/attached_assets/Candice Swanepoel_1750906642904.png'
     ],
     hairColorGuide: '/attached_assets/60b8c5dc1595f97f46004808_Soft Summer Hair_1750809095280.webp',
     colorDimensions: '/attached_assets/60b8c6a528185800a4008aae_Soft Summer Colour Dimensions_1750809095280.webp',
@@ -75,8 +73,6 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'True Spring': {
     celebrities: [
-      '/attached_assets/Salma Hayek_1750906640939.png',
-      '/attached_assets/Viola Davis_1750906640939.png',
       '/attached_assets/Sandra Bullock_1750906640939.png'
     ],
     hairColorGuide: '/attached_assets/60b886010051e62b11a054f6_True Spring Hair_1750809772493.webp',
@@ -86,9 +82,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Bright Spring': {
     celebrities: [
-      '/attached_assets/Blake Lively_1750906632490.png',
-      '/attached_assets/Amy Adams_1750906632490.png',
-      '/attached_assets/Emma Stone_1750906635090.png'
+      '/attached_assets/Emma Stone_1750906635090.png',
+      '/attached_assets/Mila Jojovich_1750906635090.png',
+      '/attached_assets/Jane Levy_1750906635089.png'
     ],
     hairColorGuide: '/attached_assets/60b3bd41e891223d04781266_Bright Spring Hair-2_1750811010138.webp',
     colorDimensions: '/attached_assets/60b3ca89184107acb91ae4fe_Bright Spring Colour Dimensions_1750811010138.webp',
@@ -97,9 +93,8 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Light Spring': {
     celebrities: [
-      '/attached_assets/Cynthia Nixon_1750906632490.png',
-      '/attached_assets/Jane Levy_1750906635089.png',
-      '/attached_assets/Mila Jojovich_1750906635090.png'
+      '/attached_assets/Blake Lively_1750906632490.png',
+      '/attached_assets/Taylor Swift_1750821623288.png'
     ],
     hairColorGuide: '/attached_assets/60b8b46646f35775934de675_Light Spring Hair_1750811383371.webp',
     colorDimensions: '/attached_assets/60b8b53094058a4b3906838c_Light Spring Colour Dimensions_1750811383371.webp',
@@ -109,8 +104,7 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
   'True Autumn': {
     celebrities: [
       '/attached_assets/Julia Roberts_1750906639761.png',
-      '/attached_assets/Emily Ratajkowski_1750906639761.png',
-      '/attached_assets/Adriana Lima_1750906638336.png'
+      '/attached_assets/Emily Ratajkowski_1750906639761.png'
     ],
     hairColorGuide: '/attached_assets/60b8db37df1741d699889af4_True Autumn Hair-2_1750816372614.webp',
     colorDimensions: '/attached_assets/60b8dc323931006af3592d5a_True Autumn Colour Dimensions_1750816372614.png',
@@ -130,9 +124,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Soft Autumn': {
     celebrities: [
-      '/attached_assets/Julia Roberts_1751064199910.png',
       '/attached_assets/Drew Barrymore_1751064199910.png',
-      '/attached_assets/Jessica Biel_1751064199910.png'
+      '/attached_assets/Jessica Biel_1751064199910.png',
+      '/attached_assets/Julia Roberts_1751064199910.png'
     ],
     hairColorGuide: '/attached_assets/60b8d27875af5e3452543933_Soft Autumn Hair_1750817117523.webp',
     colorDimensions: '/attached_assets/60b8d80175af5e7d61545598_Soft Autumn Colour Dimensions_1750817117523.png',
