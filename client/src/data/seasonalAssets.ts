@@ -64,9 +64,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Soft Summer': {
     celebrities: [
-      '/attached_assets/Candice Swanepoel_1750906642904.png',
-      '/attached_assets/Sophie Turner_1750906642904.png',
-      '/attached_assets/Taylor Swift_1750906642904.png'
+      '/attached_assets/Adriana Lima_1751148500828.png',
+      '/attached_assets/Cara Delevinge_1751148500828.png',
+      '/attached_assets/Jennifer Anniston_1751148500828.png'
     ],
     hairColorGuide: '/attached_assets/60b8c5dc1595f97f46004808_Soft Summer Hair_1750809095280.webp',
     colorDimensions: '/attached_assets/60b8c6a528185800a4008aae_Soft Summer Colour Dimensions_1750809095280.webp',

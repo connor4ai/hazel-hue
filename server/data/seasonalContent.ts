@@ -737,7 +737,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Gentle, natural makeup look"
       ]
     },
-    celebrities: ["Candice Swanepoel", "Sophie Turner", "Taylor Swift"]
+    celebrities: ["Adriana Lima", "Cara Delevingne", "Jennifer Aniston"]
   },
 
   'True Spring': {
