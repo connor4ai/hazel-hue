@@ -81,28 +81,42 @@ export class PreloadedColorAnalysisService {
         throw new Error(`Source file does not exist: ${imagePath}`);
       }
       
+      // Try buffer-based conversion approach for better HEIC support
+      const inputBuffer = fs.readFileSync(imagePath);
+      console.log(`📊 Input buffer size: ${inputBuffer.length} bytes`);
+      
       // Test if Sharp can read the HEIC file first
-      const metadata = await sharp(imagePath).metadata();
-      console.log(`📊 HEIC metadata: ${JSON.stringify(metadata)}`);
+      const metadata = await sharp(inputBuffer).metadata();
+      console.log(`📊 HEIC metadata: format=${metadata.format}, width=${metadata.width}, height=${metadata.height}`);
       
-      await sharp(imagePath)
+      // Convert using buffer approach
+      const outputBuffer = await sharp(inputBuffer)
         .jpeg({ quality: 95 }) // High quality conversion
-        .toFile(convertedPath);
+        .toBuffer();
       
-      // Verify converted file was created
+      console.log(`📊 Output buffer size: ${outputBuffer.length} bytes`);
+      
+      // Write the converted buffer to file
+      fs.writeFileSync(convertedPath, outputBuffer);
+      
+      // Verify converted file was created and has content
       if (!fs.existsSync(convertedPath)) {
         throw new Error(`Converted file was not created: ${convertedPath}`);
       }
       
-      const originalSize = fs.statSync(imagePath).size;
       const convertedSize = fs.statSync(convertedPath).size;
+      if (convertedSize === 0) {
+        throw new Error(`Converted file is empty: ${convertedPath}`);
+      }
+      
+      const originalSize = fs.statSync(imagePath).size;
       console.log(`✅ HEIC conversion successful: ${path.basename(imagePath)} (${Math.round(originalSize/1024)}KB) → ${path.basename(convertedPath)} (${Math.round(convertedSize/1024)}KB)`);
       
       return convertedPath;
     } catch (error) {
       console.error(`❌ Failed to convert HEIC file ${imagePath}:`, error);
       console.error(`❌ Sharp error details:`, error);
-      // Return original path as fallback
+      // Return original path as fallback - this will cause OpenAI to fail but at least we know why
       return imagePath;
     }
   }
