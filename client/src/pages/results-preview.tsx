@@ -463,8 +463,9 @@ export default function ResultsPreviewPage() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            border-radius: 20px;
+            gap: 0.5rem;
+            border-radius: 24px;
+            padding-top: 2rem;
         }
 
         .lock-icon {
@@ -476,7 +477,7 @@ export default function ResultsPreviewPage() {
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .unlock-text {
@@ -484,7 +485,8 @@ export default function ResultsPreviewPage() {
             font-weight: 500;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.3;
+            margin-bottom: 0.25rem;
         }
 
         .unlock-subtext {
