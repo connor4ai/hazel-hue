@@ -682,7 +682,7 @@ export default function ResultsPreview() {
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
                 <div className="unlock-text">Unlock to reveal</div>
-                <div className="unlock-text">Your season is ready!</div>
+
               </div>
             </div>
 
@@ -711,7 +711,7 @@ export default function ResultsPreview() {
             <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">✨</div>
-                <h3 className="card-title">Style Recommendations</h3>
+                <h3 className="card-title">Style Recs</h3>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
