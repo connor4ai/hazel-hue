@@ -31,11 +31,19 @@ export default function UploadNew() {
     const newPreviews: string[] = [];
     let processedCount = 0;
     
-    imageFiles.forEach(file => {
-      if (files.length + validFiles.length >= 3) return;
+    console.log('Image files after filtering:', imageFiles.length);
+    
+    imageFiles.forEach((file, index) => {
+      console.log(`Processing file ${index + 1}:`, { name: file.name, type: file.type, size: file.size });
+      
+      if (files.length + validFiles.length >= 3) {
+        console.log('Skipping file - already have 3 files');
+        return;
+      }
       
       // Validate file size (10MB max)
       if (file.size > 10 * 1024 * 1024) {
+        console.log('File too large:', file.name);
         toast({
           title: "File too large",
           description: "Each photo must be under 10MB",
@@ -53,7 +61,10 @@ export default function UploadNew() {
                          file.name.toLowerCase().endsWith('.heic') ||
                          file.name.toLowerCase().endsWith('.heif');
                          
+      console.log('File type validation:', { fileName: file.name, isValid: isValidType });
+                         
       if (!isValidType) {
+        console.log('Invalid file type:', file.name, file.type);
         toast({
           title: "Invalid file type",
           description: "Please upload JPEG, PNG, or HEIC images only",
@@ -63,6 +74,7 @@ export default function UploadNew() {
       }
 
       validFiles.push(file);
+      console.log('Added to valid files. Total valid files:', validFiles.length);
       
       // For HEIC files, we can't preview them in the browser
       // So we'll show a placeholder and store the file info
@@ -71,12 +83,16 @@ export default function UploadNew() {
                     file.name.toLowerCase().endsWith('.heic') || 
                     file.name.toLowerCase().endsWith('.heif');
                     
+      console.log('Is HEIC file:', isHeic);
+                    
       if (isHeic) {
         newPreviews.push('heic-placeholder');
         processedCount++;
+        console.log(`HEIC processed. Count: ${processedCount}/${validFiles.length}`);
         
         // Check if all files have been processed
         if (processedCount === validFiles.length) {
+          console.log('All HEIC files processed, updating state');
           setFiles(prev => [...prev, ...validFiles]);
           setPreviews(prev => [...prev, ...newPreviews]);
         }
@@ -86,9 +102,11 @@ export default function UploadNew() {
         reader.onload = (e) => {
           newPreviews.push(e.target?.result as string);
           processedCount++;
+          console.log(`Image processed. Count: ${processedCount}/${validFiles.length}`);
           
           // Check if all files have been processed
           if (processedCount === validFiles.length) {
+            console.log('All image files processed, updating state');
             setFiles(prev => [...prev, ...validFiles]);
             setPreviews(prev => [...prev, ...newPreviews]);
           }
@@ -96,6 +114,8 @@ export default function UploadNew() {
         reader.readAsDataURL(file);
       }
     });
+    
+    console.log('Final counts:', { validFiles: validFiles.length, newPreviews: newPreviews.length });
   };
 
   const removePhoto = (index: number) => {
