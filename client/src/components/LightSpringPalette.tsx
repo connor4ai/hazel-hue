@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
 const LightSpringPalette = () => {
   // Complete 64-color Light Spring palette extracted from HTML
@@ -129,9 +130,9 @@ const LightSpringPalette = () => {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
         {colors.map((color, index) => (
-          <ColorSwatch 
+          <MobileOptimizedColorSwatch
             key={index} 
             color={color.code} 
             name={color.name} 

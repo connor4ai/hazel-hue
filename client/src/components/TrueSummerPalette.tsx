@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
 const TrueSummerPalette = () => {
   // Complete 64-color True Summer palette extracted from HTML

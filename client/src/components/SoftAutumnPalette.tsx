@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
 const SoftAutumnPalette = () => {
   // Complete 64-color Soft Autumn palette extracted from HTML

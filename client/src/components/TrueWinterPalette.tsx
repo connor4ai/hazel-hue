@@ -1,14 +1,7 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
 const TrueWinterPalette = () => {
-  const [copiedColor, setCopiedColor] = useState<string>('');
-
-  const handleColorClick = (color: string) => {
-    navigator.clipboard.writeText(color);
-    setCopiedColor(color);
-    setTimeout(() => setCopiedColor(''), 1000);
-  };
 
   const paletteColors = [
     // Row 1
@@ -100,36 +93,14 @@ const TrueWinterPalette = () => {
         <p className="text-sm text-gray-500 mt-2">Click any color to copy its hex code</p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
         {paletteColors.map((color, index) => (
-          <motion.div
+          <MobileOptimizedColorSwatch
             key={index}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.02 }}
-            className="relative cursor-pointer group"
-            onClick={() => handleColorClick(color.code)}
-          >
-            <div
-              className="w-full aspect-square rounded-xl shadow-md border-2 border-white hover:border-gray-300 transition-all duration-200 hover:scale-105"
-              style={{ backgroundColor: color.code }}
-            />
-            <div className="text-center mt-1 sm:mt-2 px-1">
-              <p className="text-[9px] sm:text-xs text-gray-500 font-mono break-all">{color.code}</p>
-              <p className="text-[10px] sm:text-xs font-semibold text-gray-700 break-words leading-tight">{color.name}</p>
-            </div>
-            
-            {copiedColor === color.code && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap"
-              >
-                Copied!
-              </motion.div>
-            )}
-          </motion.div>
+            color={color.code}
+            name={color.name}
+            index={index}
+          />
         ))}
       </div>
 

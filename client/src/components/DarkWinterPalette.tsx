@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
 const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: string; clickable?: boolean }) => {
   const [copied, setCopied] = useState(false);
