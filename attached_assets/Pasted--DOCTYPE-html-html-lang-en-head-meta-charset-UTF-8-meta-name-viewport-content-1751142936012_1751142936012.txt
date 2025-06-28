@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Season Color Analysis - Instagram Stories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1a1a;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        /* Instagram Story Container */
+        .story-container {
+            width: 1080px;
+            height: 1920px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.25);
+            margin: -360px -270px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .story-container:hover {
+            transform: scale(0.3);
+        }
+
+        /* Base story layout */
+        .story {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 80px;
+            color: white;
+        }
+
+        /* Animated background gradient */
+        .gradient-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            left: -200px;
+            animation-duration: 25s;
+        }
+
+        .orb2 {
+            width: 500px;
+            height: 500px;
+            bottom: -200px;
+            right: -200px;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .orb3 {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 35s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 100px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        /* Main content */
+        .content {
+            text-align: center;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .season-icon {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .season-name {
+            font-size: 7rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            line-height: 0.9;
+        }
+
+        .season-subtitle {
+            font-size: 2.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 4rem;
+        }
+
+        /* Color palette */
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .color-swatch {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:nth-child(even) {
+            transform: rotate(5deg);
+        }
+
+        .color-swatch:hover {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        /* Characteristics */
+        .characteristics {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .characteristics h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .characteristic-item {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .share-prompt {
+            font-size: 1.8rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .handle {
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        /* Season-specific styles */
+        
+        /* SPRING SEASONS */
+        .light-spring .gradient-bg {
+            background: linear-gradient(135deg, #FFE5E5, #FFE5B4, #E5FFE5, #E5F3FF);
+        }
+        .light-spring .orb1 { background: #FFB6C1; opacity: 0.6; }
+        .light-spring .orb2 { background: #98FB98; opacity: 0.6; }
+        .light-spring .orb3 { background: #87CEEB; opacity: 0.6; }
+        .light-spring .season-icon { background: rgba(255, 182, 193, 0.2); }
+
+        .warm-spring .gradient-bg {
+            background: linear-gradient(135deg, #FFCC99, #FFB380, #FFD700, #FF8C69);
+        }
+        .warm-spring .orb1 { background: #FF7F50; opacity: 0.6; }
+        .warm-spring .orb2 { background: #FFD700; opacity: 0.6; }
+        .warm-spring .orb3 { background: #FF6347; opacity: 0.6; }
+        .warm-spring .season-icon { background: rgba(255, 127, 80, 0.2); }
+
+        .bright-spring .gradient-bg {
+            background: linear-gradient(135deg, #FF69B4, #00CED1, #FFD700, #32CD32);
+        }
+        .bright-spring .orb1 { background: #FF1493; opacity: 0.7; }
+        .bright-spring .orb2 { background: #00BFFF; opacity: 0.7; }
+        .bright-spring .orb3 { background: #FFD700; opacity: 0.7; }
+        .bright-spring .season-icon { background: rgba(255, 20, 147, 0.2); }
+
+        /* SUMMER SEASONS */
+        .light-summer .gradient-bg {
+            background: linear-gradient(135deg, #E6E6FA, #B0C4DE, #DDA0DD, #F0E68C);
+        }
+        .light-summer .orb1 { background: #DDA0DD; opacity: 0.5; }
+        .light-summer .orb2 { background: #B0C4DE; opacity: 0.5; }
+        .light-summer .orb3 { background: #E6E6FA; opacity: 0.5; }
+        .light-summer .season-icon { background: rgba(221, 160, 221, 0.2); }
+
+        .cool-summer .gradient-bg {
+            background: linear-gradient(135deg, #778899, #B0C4DE, #9370DB, #4682B4);
+        }
+        .cool-summer .orb1 { background: #6495ED; opacity: 0.6; }
+        .cool-summer .orb2 { background: #9370DB; opacity: 0.6; }
+        .cool-summer .orb3 { background: #708090; opacity: 0.6; }
+        .cool-summer .season-icon { background: rgba(100, 149, 237, 0.2); }
+
+        .soft-summer .gradient-bg {
+            background: linear-gradient(135deg, #D8BFD8, #BC8F8F, #9FB6CD, #C0C0C0);
+        }
+        .soft-summer .orb1 { background: #D8BFD8; opacity: 0.5; }
+        .soft-summer .orb2 { background: #BC8F8F; opacity: 0.5; }
+        .soft-summer .orb3 { background: #9FB6CD; opacity: 0.5; }
+        .soft-summer .season-icon { background: rgba(216, 191, 216, 0.2); }
+
+        /* AUTUMN SEASONS */
+        .soft-autumn .gradient-bg {
+            background: linear-gradient(135deg, #D2B48C, #BC8F8F, #BDB76B, #8B7355);
+        }
+        .soft-autumn .orb1 { background: #D2B48C; opacity: 0.6; }
+        .soft-autumn .orb2 { background: #BC8F8F; opacity: 0.6; }
+        .soft-autumn .orb3 { background: #BDB76B; opacity: 0.6; }
+        .soft-autumn .season-icon { background: rgba(210, 180, 140, 0.2); }
+
+        .warm-autumn .gradient-bg {
+            background: linear-gradient(135deg, #D2691E, #B22222, #FF8C00, #8B4513);
+        }
+        .warm-autumn .orb1 { background: #FF6347; opacity: 0.7; }
+        .warm-autumn .orb2 { background: #D2691E; opacity: 0.7; }
+        .warm-autumn .orb3 { background: #CD853F; opacity: 0.7; }
+        .warm-autumn .season-icon { background: rgba(210, 105, 30, 0.2); }
+
+        .dark-autumn .gradient-bg {
+            background: linear-gradient(135deg, #8B4513, #2F4F4F, #483D8B, #556B2F);
+        }
+        .dark-autumn .orb1 { background: #8B4513; opacity: 0.6; }
+        .dark-autumn .orb2 { background: #2F4F4F; opacity: 0.6; }
+        .dark-autumn .orb3 { background: #556B2F; opacity: 0.6; }
+        .dark-autumn .season-icon { background: rgba(139, 69, 19, 0.2); }
+
+        /* WINTER SEASONS */
+        .bright-winter .gradient-bg {
+            background: linear-gradient(135deg, #000080, #FF1493, #00FFFF, #C0C0C0);
+        }
+        .bright-winter .orb1 { background: #FF1493; opacity: 0.7; }
+        .bright-winter .orb2 { background: #00FFFF; opacity: 0.7; }
+        .bright-winter .orb3 { background: #0000FF; opacity: 0.7; }
+        .bright-winter .season-icon { background: rgba(255, 20, 147, 0.2); }
+
+        .cool-winter .gradient-bg {
+            background: linear-gradient(135deg, #4169E1, #DC143C, #4B0082, #191970);
+        }
+        .cool-winter .orb1 { background: #4169E1; opacity: 0.6; }
+        .cool-winter .orb2 { background: #DC143C; opacity: 0.6; }
+        .cool-winter .orb3 { background: #4B0082; opacity: 0.6; }
+        .cool-winter .season-icon { background: rgba(65, 105, 225, 0.2); }
+
+        .dark-winter .gradient-bg {
+            background: linear-gradient(135deg, #000000, #8B0000, #191970, #2F4F4F);
+        }
+        .dark-winter .orb1 { background: #8B0000; opacity: 0.5; }
+        .dark-winter .orb2 { background: #191970; opacity: 0.5; }
+        .dark-winter .orb3 { background: #2F4F4F; opacity: 0.5; }
+        .dark-winter .season-icon { background: rgba(139, 0, 0, 0.2); }
+
+        /* Download button */
+        .download-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <!-- Light Spring -->
+    <div class="story-container">
+        <div class="story light-spring">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🌸</div>
+                <h2 class="season-name">LIGHT<br>SPRING</h2>
+                <p class="season-subtitle">Delicate & Warm</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #FFCBA4;"></div>
+                    <div class="color-swatch" style="background: #FFB6C1;"></div>
+                    <div class="color-swatch" style="background: #98FB98;"></div>
+                    <div class="color-swatch" style="background: #87CEEB;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ Warm undertones</div>
+                    <div class="characteristic-item">✓ Light & bright coloring</div>
+                    <div class="characteristic-item">✓ Fresh, delicate palette</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warm Spring -->
+    <div class="story-container">
+        <div class="story warm-spring">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🌻</div>
+                <h2 class="season-name">WARM<br>SPRING</h2>
+                <p class="season-subtitle">Golden & Vibrant</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #FF7F50;"></div>
+                    <div class="color-swatch" style="background: #FFD700;"></div>
+                    <div class="color-swatch" style="background: #FF6347;"></div>
+                    <div class="color-swatch" style="background: #FFA500;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ Golden undertones</div>
+                    <div class="characteristic-item">✓ Warm & glowing</div>
+                    <div class="characteristic-item">✓ Sunny disposition</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bright Spring -->
+    <div class="story-container">
+        <div class="story bright-spring">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">💎</div>
+                <h2 class="season-name">BRIGHT<br>SPRING</h2>
+                <p class="season-subtitle">Clear & Vivid</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #FF1493;"></div>
+                    <div class="color-swatch" style="background: #00BFFF;"></div>
+                    <div class="color-swatch" style="background: #FFD700;"></div>
+                    <div class="color-swatch" style="background: #32CD32;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ High contrast</div>
+                    <div class="characteristic-item">✓ Clear & bright</div>
+                    <div class="characteristic-item">✓ Vibrant colors pop</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Light Summer -->
+    <div class="story-container">
+        <div class="story light-summer">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🌊</div>
+                <h2 class="season-name">LIGHT<br>SUMMER</h2>
+                <p class="season-subtitle">Soft & Cool</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #E6E6FA;"></div>
+                    <div class="color-swatch" style="background: #B0C4DE;"></div>
+                    <div class="color-swatch" style="background: #DDA0DD;"></div>
+                    <div class="color-swatch" style="background: #F0E68C;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ Cool undertones</div>
+                    <div class="characteristic-item">✓ Soft & ethereal</div>
+                    <div class="characteristic-item">✓ Delicate pastels</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cool Summer -->
+    <div class="story-container">
+        <div class="story cool-summer">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">💙</div>
+                <h2 class="season-name">COOL<br>SUMMER</h2>
+                <p class="season-subtitle">True & Cool</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #6495ED;"></div>
+                    <div class="color-swatch" style="background: #9370DB;"></div>
+                    <div class="color-swatch" style="background: #4682B4;"></div>
+                    <div class="color-swatch" style="background: #708090;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ True cool tones</div>
+                    <div class="characteristic-item">✓ Medium contrast</div>
+                    <div class="characteristic-item">✓ Classic elegance</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Soft Summer -->
+    <div class="story-container">
+        <div class="story soft-summer">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🌫️</div>
+                <h2 class="season-name">SOFT<br>SUMMER</h2>
+                <p class="season-subtitle">Muted & Gentle</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #D8BFD8;"></div>
+                    <div class="color-swatch" style="background: #BC8F8F;"></div>
+                    <div class="color-swatch" style="background: #9FB6CD;"></div>
+                    <div class="color-swatch" style="background: #C0C0C0;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ Low contrast</div>
+                    <div class="characteristic-item">✓ Muted & soft</div>
+                    <div class="characteristic-item">✓ Sophisticated blend</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Soft Autumn -->
+    <div class="story-container">
+        <div class="story soft-autumn">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🍂</div>
+                <h2 class="season-name">SOFT<br>AUTUMN</h2>
+                <p class="season-subtitle">Muted & Warm</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #D2B48C;"></div>
+                    <div class="color-swatch" style="background: #BC8F8F;"></div>
+                    <div class="color-swatch" style="background: #BDB76B;"></div>
+                    <div class="color-swatch" style="background: #8B7355;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ Soft warm tones</div>
+                    <div class="characteristic-item">✓ Blended coloring</div>
+                    <div class="characteristic-item">✓ Gentle earthiness</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warm Autumn -->
+    <div class="story-container">
+        <div class="story warm-autumn">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🍁</div>
+                <h2 class="season-name">WARM<br>AUTUMN</h2>
+                <p class="season-subtitle">Rich & Golden</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #D2691E;"></div>
+                    <div class="color-swatch" style="background: #B22222;"></div>
+                    <div class="color-swatch" style="background: #FF8C00;"></div>
+                    <div class="color-swatch" style="background: #8B4513;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best Features</h3>
+                    <div class="characteristic-item">✓ True warm tones</div>
+                    <div class="characteristic-item">✓ Golden richness</div>
+                    <div class="characteristic-item">✓ Earthy vibrancy</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="share-prompt">Discover your season at</p>
+                <p class="handle">@aicoloranalysis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark Autumn -->
+    <div class="story-container">
+        <div class="story dark-autumn">
+            <div class="gradient-bg">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+            
+            <div class="header">
+                <div class="ai-badge">✨ AI Color Analysis</div>
+                <h1 class="title">I'm a</h1>
+            </div>
+
+            <div class="content">
+                <div class="season-icon">🌰</div>
+                <h2 class="season-name">DARK<br>AUTUMN</h2>
+                <p class="season-subtitle">Deep & Warm</p>
+                
+                <div class="color-palette">
+                    <div class="color-swatch" style="background: #8B4513;"></div>
+                    <div class="color-swatch" style="background: #2F4F4F;"></div>
+                    <div class="color-swatch" style="background: #483D8B;"></div>
+                    <div class="color-swatch" style="background: #556B2F;"></div>
+                </div>
+
+                <div class="characteristics">
+                    <h3>My Best

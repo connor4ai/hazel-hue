@@ -18,6 +18,7 @@ import LightSpringPalette from '@/components/LightSpringPalette';
 import TrueAutumnPalette from '@/components/TrueAutumnPalette';
 import DarkAutumnPalette from '@/components/DarkAutumnPalette';
 import SoftAutumnPalette from '@/components/SoftAutumnPalette';
+import InstagramStory from '@/components/InstagramStory';
 
 // Metal color helper function
 const getMetalColorSwatch = (metalName: string) => {
@@ -921,6 +922,7 @@ export default function ResultsNew() {
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
+  const [showInstagramStory, setShowInstagramStory] = useState(false);
 
   
   // Get seasonal assets based on the detected season
@@ -1022,6 +1024,20 @@ export default function ResultsNew() {
             >
               {analysisResult.season}
             </motion.h2>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="mb-4"
+            >
+              <Button
+                onClick={() => setShowInstagramStory(true)}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Results!
+              </Button>
+            </motion.div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1962,6 +1978,14 @@ export default function ResultsNew() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Instagram Story Modal */}
+      {showInstagramStory && order?.analysisResult && (
+        <InstagramStory
+          season={order.analysisResult.season}
+          onDownload={() => setShowInstagramStory(false)}
+        />
+      )}
     </div>
   );
 }
