@@ -8,6 +8,8 @@ import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-
 import { Button } from '@/components/ui/button';
 import { CreditCard, Sparkles } from 'lucide-react';
 
+
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 
 const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () => void }) => {
@@ -222,12 +224,20 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () =>
       )}
 
       {discount < 100 && (
-        <PaymentElement 
-          options={{
-            layout: "tabs",
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
-          }}
-        />
+        <div>
+          <PaymentElement 
+            options={{
+              layout: "tabs",
+              paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
+            }}
+            onReady={() => {
+              console.log('Payment Element ready');
+            }}
+          />
+          <div className="mt-2 text-xs text-gray-500">
+            <strong>Note:</strong> Apple Pay may not appear in preview mode due to iframe security restrictions. It will work normally when deployed.
+          </div>
+        </div>
       )}
       
       <Button 
@@ -747,7 +757,8 @@ export default function ResultsPreview() {
                         borderRadius: '8px',
                         spacingUnit: '4px'
                       }
-                    }
+                    },
+                    loader: 'auto'
                   }}
                 >
                   <PaymentForm orderId={orderId!} onSuccess={handlePaymentSuccess} />

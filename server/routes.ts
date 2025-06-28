@@ -280,7 +280,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           currency: "usd",
           automatic_payment_methods: {
             enabled: true,
+            allow_redirects: 'never'
           },
+          payment_method_types: ['card', 'apple_pay', 'google_pay'],
           metadata: {
             service: 'color-analysis',
             originalAmount: '2900',

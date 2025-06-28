@@ -114,12 +114,17 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
           <p className="text-xs text-gray-500 mt-1">We'll email your results to this address</p>
         </div>
         
-        <PaymentElement 
-          options={{
-            layout: "tabs",
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
-          }}
-        />
+        <div>
+          <PaymentElement 
+            options={{
+              layout: "tabs",
+              paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
+            }}
+          />
+          <div className="mt-2 text-xs text-gray-500">
+            <strong>Note:</strong> Apple Pay may not appear in preview mode due to iframe security restrictions. It will work normally when deployed.
+          </div>
+        </div>
       </div>
       
       <Button 

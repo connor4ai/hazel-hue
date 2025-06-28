@@ -236,12 +236,17 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: string, onSuccess: () =>
       )}
 
       {discount < 100 && (
-        <PaymentElement 
-          options={{
-            layout: "tabs",
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
-          }}
-        />
+        <div>
+          <PaymentElement 
+            options={{
+              layout: "tabs",
+              paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
+            }}
+          />
+          <div className="mt-2 text-xs text-white/60">
+            <strong>Note:</strong> Apple Pay may not appear in preview mode due to iframe security restrictions. It will work normally when deployed.
+          </div>
+        </div>
       )}
       
       <Button 
