@@ -262,13 +262,14 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
       ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
     });
     
-    // Season icon - positioned slightly above the season text
+    // Season icon - positioned just above the first line of season text ("LIGHT")
     ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, startY - 60);
+    ctx.fillText(data.icon, canvas.width / 2, startY - 80);
     
-    // Subtitle - positioned slightly below the season text
+    // Subtitle - positioned just below the last line of season text ("SUMMER")
     ctx.font = '300 40px Inter';
-    ctx.fillText(data.subtitle, canvas.width / 2, startY + totalTextHeight + 60);
+    const lastLineY = startY + ((seasonLines.length - 1) * lineHeight);
+    ctx.fillText(data.subtitle, canvas.width / 2, lastLineY + 80);
     
     // Handle - bottom section
     ctx.font = '600 32px Inter';
