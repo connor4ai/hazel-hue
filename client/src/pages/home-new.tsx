@@ -120,10 +120,42 @@ export default function HomeNew() {
           75% { transform: rotate(270deg) scale(1.1); }
         }
 
-        .premium-button {
+        .title {
+          font-size: clamp(3rem, 8vw, 6rem);
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          margin-bottom: 1rem;
+          position: relative;
+          display: inline-block;
+          animation: fadeIn 1s ease-out forwards;
+          animation-delay: 0.2s;
+          opacity: 0;
+        }
+
+        .title-word {
+          display: inline-block;
+          position: relative;
+          background: linear-gradient(135deg, #5D5FEF 0%, #FF6B6B 50%, #4ECDC4 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: colorShift 8s ease infinite;
+          background-size: 200% 200%;
+        }
+
+        .cta-button {
+          margin-top: 3rem;
+          position: relative;
+          display: inline-block;
+          animation: fadeIn 1s ease-out forwards;
+          animation-delay: 0.4s;
+          opacity: 0;
+        }
+
+        .cta-button button {
           position: relative;
           padding: 1.2rem 3rem;
-          background: var(--dark);
+          background: #2A2D3A;
           color: white;
           border: none;
           border-radius: 100px;
@@ -135,25 +167,42 @@ export default function HomeNew() {
           overflow: hidden;
         }
 
-        .premium-button::before {
+        .cta-button button::before {
           content: '';
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, var(--primary), var(--secondary), var(--tertiary));
+          background: linear-gradient(135deg, #5D5FEF, #FF6B6B, #4ECDC4);
           opacity: 0;
           transition: opacity 0.3s ease;
+          z-index: -1;
         }
 
-        .premium-button:hover {
+        .cta-button button:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .premium-button:hover::before {
+        .cta-button button:hover::before {
           opacity: 1;
+        }
+
+        @keyframes colorShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .orb-container {
@@ -275,7 +324,7 @@ export default function HomeNew() {
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      // Scroll to FAQ section if it exists, or handle FAQ page
+                      setLocation('/faqs');
                     }}
                     className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
                   >
@@ -297,7 +346,7 @@ export default function HomeNew() {
                     <button
                       onClick={() => {
                         setIsMenuOpen(false);
-                        setLocation('/login');
+                        setLocation('/signin');
                       }}
                       className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
                     >
@@ -322,105 +371,25 @@ export default function HomeNew() {
               transition={{ duration: 0.8 }}
               className="mb-16"
             >
-              <h1 
-                className="text-6xl md:text-8xl font-bold mb-6 text-white leading-tight"
-                style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700 }}
-              >
-                Your Perfect
-                <br />
-                <span style={{ color: 'var(--accent)' }}>Color Story</span>
+              <h1 className="title">
+                <span className="title-word">AI Color Analysis</span>
               </h1>
-              <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Discover your ideal colors with AI-powered 12-season analysis. 
-                Upload 3 photos and unlock your personalized color palette in seconds.
-              </p>
               
               {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <button
-                  onClick={() => setLocation('/upload')}
-                  className="premium-button text-xl relative z-10"
-                  style={{ fontSize: '1.3rem', padding: '1.5rem 4rem' }}
+              <div className="cta-button">
+                <button 
+                  id="startBtn"
+                  onClick={(e) => {
+                    // Animate button
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                      e.currentTarget.style.transform = '';
+                      setLocation('/upload');
+                    }, 200);
+                  }}
                 >
-                  <span className="relative z-10 flex items-center">
-                    <Sparkles className="mr-3 h-6 w-6" />
-                    Start Your Analysis
-                  </span>
+                  Upload Photos
                 </button>
-              </motion.div>
-            </motion.div>
-
-            {/* Feature Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto"
-            >
-              {[
-                {
-                  icon: <Camera className="h-8 w-8" />,
-                  title: "Upload Photos",
-                  description: "3 natural light selfies"
-                },
-                {
-                  icon: <Zap className="h-8 w-8" />,
-                  title: "AI Analysis",
-                  description: "30-second processing"
-                },
-                {
-                  icon: <Palette className="h-8 w-8" />,
-                  title: "Get Results",
-                  description: "Personalized color guide"
-                }
-              ].map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 + (index * 0.1) }}
-                  className="feature-card rounded-2xl p-8 text-center"
-                >
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                    style={{ background: 'linear-gradient(135deg, var(--primary), var(--secondary))' }}
-                  >
-                    <div className="text-white">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/70">
-                    {feature.description}
-                  </p>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Trust Indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-16 flex flex-wrap justify-center gap-8 text-white/60"
-            >
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                <span>Privacy Protected</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
-                <span>30-Second Results</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
-                <span>Professional Analysis</span>
               </div>
             </motion.div>
           </div>
