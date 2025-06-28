@@ -253,18 +253,19 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
     
     // Season icon - center section (dead center of page)
     ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, 840);
+    ctx.fillText(data.icon, canvas.width / 2, 800);
     
-    // Season name - center section (dead center of page at 960px)
+    // Season name - center section (middle of text block at 960px)
     ctx.font = '300 100px Inter';
     const seasonLines = season.toUpperCase().split(' ');
+    // Position so the middle between two lines is at 960px
     seasonLines.forEach((line, index) => {
-      ctx.fillText(line, canvas.width / 2, 960 + (index * 120));
+      ctx.fillText(line, canvas.width / 2, 900 + (index * 120));
     });
     
     // Subtitle - lower center (dead center of page)
     ctx.font = '300 40px Inter';
-    ctx.fillText(data.subtitle, canvas.width / 2, 1120);
+    ctx.fillText(data.subtitle, canvas.width / 2, 1080);
     
     // Handle - bottom section
     ctx.font = '600 32px Inter';
