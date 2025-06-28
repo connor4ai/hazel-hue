@@ -90,9 +90,9 @@ async function processColorAnalysisWorker(jobId: number) {
     const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
-    // Save outputs and mark as completed
+    // Save outputs and mark as analyzed (not completed until payment)
     await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
-    await storage.updateOrderStatus(jobId, 'completed');
+    await storage.updateOrderStatus(jobId, 'analyzed');
 
     console.log(`Job ${jobId} completed successfully`);
   } catch (error: any) {
@@ -1342,9 +1342,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { orderId } = req.params;
       
-      // Update payment status
+      // Update payment status and set to completed
       await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
       await storage.updateOrderPaymentIntent(parseInt(orderId), 'free_promo_code');
+      await storage.updateOrderStatus(parseInt(orderId), 'completed');
 
       // Get the order with analysis results
       const order = await storage.getOrder(parseInt(orderId));
@@ -1366,6 +1367,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error marking order as free:", error);
       res.status(500).json({ message: "Failed to process free order" });
+    }
+  });
+
+  // Mark order as completed after successful Stripe payment
+  app.post("/api/orders/:orderId/mark-completed", async (req: Request, res: Response) => {
+    try {
+      const { orderId } = req.params;
+      
+      // Get the order and verify it's in analyzed status
+      const order = await storage.getOrder(parseInt(orderId));
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      if (order.status !== 'analyzed') {
+        return res.status(400).json({ message: "Order must be analyzed before completion" });
+      }
+      
+      // Update payment status and set to completed
+      await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
+      await storage.updateOrderStatus(parseInt(orderId), 'completed');
+
+      // Get the updated order with analysis results
+      const updatedOrder = await storage.getOrder(parseInt(orderId));
+      
+      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
+        try {
+          // Send email with results
+          await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
+          await storage.updateOrderEmailSent(updatedOrder.id);
+          console.log(`Analysis results emailed to: ${updatedOrder.email}`);
+        } catch (emailError) {
+          console.error("Error sending analysis email:", emailError);
+          // Don't fail the request if email fails
+        }
+      }
+
+      res.json({ success: true, message: "Order completed successfully" });
+      
+    } catch (error) {
+      console.error("Error completing order:", error);
+      res.status(500).json({ message: "Failed to complete order" });
     }
   });
 

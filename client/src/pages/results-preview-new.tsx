@@ -100,11 +100,12 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () =>
         return;
       }
 
-      const { error } = await stripe.confirmPayment({
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${window.location.origin}/results/${orderId}?email=${encodeURIComponent(email)}`,
         },
+        redirect: 'if_required'
       });
 
       if (error) {
@@ -114,7 +115,13 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () =>
           variant: "destructive",
         });
         setIsProcessing(false);
-      } else {
+      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Mark order as completed after successful payment
+        await fetch(`/api/orders/${orderId}/mark-completed`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        
         toast({
           title: "Payment Successful",
           description: "Unlocking your results now!",
