@@ -131,7 +131,7 @@ export default function AnalyzingPage() {
           to { transform: rotate(360deg); }
         }
 
-        /* AI Brain Icon Animation */
+        /* Color Wheel Icon Animation */
         .ai-icon {
           width: 120px;
           height: 120px;
@@ -139,15 +139,48 @@ export default function AnalyzingPage() {
           position: relative;
         }
 
-        .brain-svg {
+        .color-wheel {
           width: 100%;
           height: 100%;
-          animation: pulse 2s ease-in-out infinite;
+          border-radius: 50%;
+          background: conic-gradient(
+            from 0deg,
+            #9333EA 0deg,
+            #EC4899 60deg,
+            #3B82F6 120deg,
+            #10B981 180deg,
+            #F59E0B 240deg,
+            #EF4444 300deg,
+            #9333EA 360deg
+          );
+          animation: spin 3s linear infinite;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.8; }
-          50% { transform: scale(1.05); opacity: 1; }
+        .color-wheel::before {
+          content: '';
+          width: 70%;
+          height: 70%;
+          background: #0A0A0A;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .inner-icon {
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          color: white;
+          z-index: 2;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
 
         /* Neural dots animation */
@@ -348,17 +381,21 @@ export default function AnalyzingPage() {
 
         {/* Main content */}
         <div className="relative z-10 text-center max-w-lg mx-auto px-6">
-          {/* AI Brain Icon */}
+          {/* Color Wheel Icon */}
           <div className="ai-icon">
-            <svg className="brain-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M8 12h8"/>
-              <path d="M12 8v8"/>
-              <circle cx="8" cy="8" r="1"/>
-              <circle cx="16" cy="8" r="1"/>
-              <circle cx="8" cy="16" r="1"/>
-              <circle cx="16" cy="16" r="1"/>
-            </svg>
+            <div className="color-wheel">
+              <svg className="inner-icon" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="3"/>
+                <circle cx="12" cy="5" r="2"/>
+                <circle cx="12" cy="19" r="2"/>
+                <circle cx="5" cy="12" r="2"/>
+                <circle cx="19" cy="12" r="2"/>
+                <path d="M12 12L8 8"/>
+                <path d="M12 12L16 8"/>
+                <path d="M12 12L8 16"/>
+                <path d="M12 12L16 16"/>
+              </svg>
+            </div>
             
             {/* Neural dots */}
             <div className="neural-dots">
