@@ -119,9 +119,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Dark Autumn': {
     celebrities: [
-      '/attached_assets/Katy Perry_1750906638336.png',
-      '/attached_assets/Megan Fox_1750906638336.png',
-      '/attached_assets/Tyla_1750906639761.png'
+      '/attached_assets/Emily Ratajkowski_1751148831513.png',
+      '/attached_assets/Julia Roberts_1751148831513.png',
+      '/attached_assets/Tyla_1751148831513.png'
     ],
     hairColorGuide: '/attached_assets/60b8e654cbd467782eb9bbe4_Dark Autumn Hair_1750816820638.webp',
     colorDimensions: '/attached_assets/60b8e78f3237388375d8c5d3_Dark Autumn Colour Dimensions_1750816820638.webp',

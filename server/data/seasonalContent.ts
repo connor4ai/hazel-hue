@@ -1190,7 +1190,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Dark brown or black",
       tips: "Your makeup should be rich and dramatic, matching your powerful coloring. Think deep, warm colors that create sophistication and intensity."
     },
-    celebrities: ['Katy Perry', 'Megan Fox', 'Tyla']
+    celebrities: ['Emily Ratajkowski', 'Julia Roberts', 'Tyla']
   },
 
   'Soft Autumn': {
