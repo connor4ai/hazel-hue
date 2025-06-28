@@ -413,20 +413,33 @@ export default function UploadNew() {
             .gradient-title { 
                 font-size: 2.5rem; 
             }
+            
+            /* Ensure content doesn't get cut off on mobile */
+            .mobile-safe-spacing {
+                padding-bottom: env(safe-area-inset-bottom, 2rem);
+                margin-bottom: 2rem;
+            }
+        }
+        
+        /* Safe area support for iOS devices */
+        @supports (padding: max(0px)) {
+            .mobile-safe-spacing {
+                padding-bottom: max(2rem, env(safe-area-inset-bottom));
+            }
         }
       `}</style>
 
       {/* Background Mesh */}
       <div className="mesh"></div>
 
-      <div className="h-screen overflow-hidden" style={{ fontFamily: 'Inter, sans-serif', background: 'var(--pearl)', color: 'var(--ink)' }}>
-        <div className="h-full flex flex-col">
+      <div className="min-h-screen" style={{ fontFamily: 'Inter, sans-serif', background: 'var(--pearl)', color: 'var(--ink)' }}>
+        <div className="min-h-screen flex flex-col py-4 sm:py-6">
           
           {/* Back Button */}
-          <div className="absolute top-6 left-6 z-10 fade-in">
+          <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-10 fade-in">
             <button
               onClick={() => setLocation('/')}
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors touch-manipulation"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back
@@ -434,20 +447,20 @@ export default function UploadNew() {
           </div>
 
           {/* Centered Content */}
-          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-6">
+          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-12">
             
             {/* Header */}
-            <div className="text-center mb-12 fade-in">
-              <h1 className="gradient-title mb-6">
+            <div className="text-center mb-8 sm:mb-12 fade-in">
+              <h1 className="gradient-title mb-4 sm:mb-6">
                 AI Color Analysis
               </h1>
-              <p className="text-xl text-gray-600">
+              <p className="text-lg sm:text-xl text-gray-600 px-2">
                 Upload your photos and let AI discover your perfect palette
               </p>
             </div>
 
             {/* Main Upload Area */}
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-2xl mobile-safe-spacing">
               {files.length === 0 ? (
                 <div>
                   <input
@@ -466,17 +479,17 @@ export default function UploadNew() {
                     className="hidden"
                     id="photo-upload"
                   />
-                  <label htmlFor="photo-upload" className="elevated-card block cursor-pointer">
-                    <div className="text-center py-20">
-                      <div className="floating mb-8">
-                        <svg className="w-24 h-24 mx-auto" style={{ color: '#9333EA' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <label htmlFor="photo-upload" className="elevated-card block cursor-pointer touch-manipulation">
+                    <div className="text-center py-12 sm:py-20">
+                      <div className="floating mb-6 sm:mb-8">
+                        <svg className="w-16 sm:w-20 lg:w-24 h-16 sm:h-20 lg:h-24 mx-auto" style={{ color: '#9333EA' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                       </div>
-                      <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--ink)' }}>
+                      <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 px-4" style={{ color: 'var(--ink)' }}>
                         Drop your photos here
                       </h2>
-                      <p className="text-lg text-gray-600">
+                      <p className="text-base sm:text-lg text-gray-600 px-4">
                         or click to browse
                       </p>
                     </div>
@@ -484,24 +497,24 @@ export default function UploadNew() {
                 </div>
               ) : (
                 <div className="elevated-card">
-                  <div className="text-center py-8">
-                    <h2 className="text-2xl font-semibold mb-6">Selected Photos ({files.length}/3)</h2>
+                  <div className="text-center py-6 sm:py-8">
+                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 px-4">Selected Photos ({files.length}/3)</h2>
                     
-                    <div className="space-y-4 mb-8">
+                    <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                       {files.map((file, index) => (
-                        <div key={index} className="flex items-center justify-between p-4 bg-white/70 rounded-2xl border border-gray-200">
-                          <div className="flex items-center space-x-3">
-                            <CheckCircle className="w-5 h-5 text-green-500" />
-                            <div className="text-left">
-                              <p className="font-medium">{file.name}</p>
-                              <p className="text-sm text-gray-500">
+                        <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-white/70 rounded-2xl border border-gray-200 mx-2 sm:mx-0">
+                          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 flex-shrink-0" />
+                            <div className="text-left min-w-0 flex-1">
+                              <p className="font-medium text-sm sm:text-base truncate">{file.name}</p>
+                              <p className="text-xs sm:text-sm text-gray-500">
                                 {(file.size / 1024 / 1024).toFixed(1)} MB
                               </p>
                             </div>
                           </div>
                           <button
                             onClick={() => removeFile(index)}
-                            className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                            className="p-2 text-gray-400 hover:text-red-500 transition-colors touch-manipulation flex-shrink-0"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -536,11 +549,12 @@ export default function UploadNew() {
                     <button
                       onClick={handleContinue}
                       disabled={files.length < 3 || isUploading}
-                      className="premium-button flex items-center justify-center"
+                      className="premium-button flex items-center justify-center w-full sm:w-auto touch-manipulation"
                       style={{ 
                         opacity: files.length < 3 || isUploading ? 0.5 : 1,
                         cursor: files.length < 3 || isUploading ? 'not-allowed' : 'pointer',
-                        minWidth: '200px'
+                        minWidth: '200px',
+                        padding: '1rem 2rem'
                       }}
                     >
                       {isUploading ? (
@@ -554,7 +568,7 @@ export default function UploadNew() {
                     </button>
 
                     {files.length < 3 && (
-                      <p className="text-sm text-gray-500 mt-4">
+                      <p className="text-sm text-gray-500 mt-4 px-4">
                         Upload {3 - files.length} more photo{3 - files.length > 1 ? 's' : ''} to continue
                       </p>
                     )}
