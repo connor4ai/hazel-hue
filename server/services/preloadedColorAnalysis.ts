@@ -43,6 +43,18 @@ export class PreloadedColorAnalysisService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
+    
+    // Check Sharp capabilities
+    this.checkSharpCapabilities();
+  }
+
+  private checkSharpCapabilities() {
+    try {
+      console.log('📋 Sharp version:', sharp.versions);
+      console.log('📋 Sharp formats:', sharp.format);
+    } catch (error) {
+      console.error('❌ Error checking Sharp capabilities:', error);
+    }
   }
 
   /**
@@ -52,22 +64,40 @@ export class PreloadedColorAnalysisService {
   private async convertHeicToJpeg(imagePath: string): Promise<string> {
     const fileExtension = path.extname(imagePath).toLowerCase();
     
+    console.log(`🔄 Checking file for conversion: ${path.basename(imagePath)} (ext: ${fileExtension})`);
+    
     // Only convert HEIC files
     if (fileExtension !== '.heic' && fileExtension !== '.heif') {
+      console.log(`⏭️ Skipping conversion - not a HEIC file`);
       return imagePath;
     }
     
     try {
       const convertedPath = imagePath.replace(/\.(heic|heif)$/i, '_converted.jpg');
+      console.log(`🔄 Starting HEIC conversion: ${path.basename(imagePath)} → ${path.basename(convertedPath)}`);
+      
+      // Check if original file exists
+      if (!fs.existsSync(imagePath)) {
+        throw new Error(`Source file does not exist: ${imagePath}`);
+      }
       
       await sharp(imagePath)
         .jpeg({ quality: 95 }) // High quality conversion
         .toFile(convertedPath);
       
-      console.log(`✅ Converted HEIC to JPEG: ${path.basename(imagePath)} → ${path.basename(convertedPath)}`);
+      // Verify converted file was created
+      if (!fs.existsSync(convertedPath)) {
+        throw new Error(`Converted file was not created: ${convertedPath}`);
+      }
+      
+      const originalSize = fs.statSync(imagePath).size;
+      const convertedSize = fs.statSync(convertedPath).size;
+      console.log(`✅ HEIC conversion successful: ${path.basename(imagePath)} (${Math.round(originalSize/1024)}KB) → ${path.basename(convertedPath)} (${Math.round(convertedSize/1024)}KB)`);
+      
       return convertedPath;
     } catch (error) {
       console.error(`❌ Failed to convert HEIC file ${imagePath}:`, error);
+      console.error(`❌ Sharp error details:`, error);
       // Return original path as fallback
       return imagePath;
     }
