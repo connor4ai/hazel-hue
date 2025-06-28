@@ -1073,7 +1073,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or warm black",
       tips: "Your makeup should be rich and warm, enhancing your natural earthiness. Think golden colors that make you look healthy and radiant with autumn's richness."
     },
-    celebrities: ['Julia Roberts', 'Emily Ratajkowski', 'Adriana Lima']
+    celebrities: ['Ana de Armas', 'Beyoncé', 'Julianne Moore']
   },
 
   'Dark Autumn': {

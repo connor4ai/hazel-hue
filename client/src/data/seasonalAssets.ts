@@ -108,9 +108,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'True Autumn': {
     celebrities: [
-      '/attached_assets/Julia Roberts_1750906639761.png',
-      '/attached_assets/Emily Ratajkowski_1750906639761.png',
-      '/attached_assets/Adriana Lima_1750906638336.png'
+      '/attached_assets/Ana de Armas_1751148773416.png',
+      '/attached_assets/Beyonce_1751148773416.png',
+      '/attached_assets/Julianne Moore_1751148773416.png'
     ],
     hairColorGuide: '/attached_assets/60b8db37df1741d699889af4_True Autumn Hair-2_1750816372614.webp',
     colorDimensions: '/attached_assets/60b8dc323931006af3592d5a_True Autumn Colour Dimensions_1750816372614.png',
