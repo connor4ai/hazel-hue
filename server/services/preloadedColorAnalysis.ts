@@ -81,6 +81,10 @@ export class PreloadedColorAnalysisService {
         throw new Error(`Source file does not exist: ${imagePath}`);
       }
       
+      // Test if Sharp can read the HEIC file first
+      const metadata = await sharp(imagePath).metadata();
+      console.log(`📊 HEIC metadata: ${JSON.stringify(metadata)}`);
+      
       await sharp(imagePath)
         .jpeg({ quality: 95 }) // High quality conversion
         .toFile(convertedPath);
