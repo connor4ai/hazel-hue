@@ -456,7 +456,10 @@ export default function ResultsPreviewPage() {
         /* Blur overlay for locked content */
         .blur-overlay {
             position: absolute;
-            inset: 0;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(10, 10, 10, 0.4);
             backdrop-filter: blur(12px);
             display: flex;
@@ -713,7 +716,7 @@ export default function ResultsPreviewPage() {
             <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">✨</div>
-                <h3 className="text-2xl font-semibold text-white">Style Recommendations</h3>
+                <h3 className="text-2xl font-semibold text-white">Style Recs</h3>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
