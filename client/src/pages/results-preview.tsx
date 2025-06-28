@@ -352,312 +352,14 @@ export default function ResultsPreviewPage() {
   const { analysisResult } = order;
 
   return (
-    <>
-      <style>{`
-        /* Dark theme for preview page */
-        .preview-page {
-          background: #0A0A0A;
-          color: #FAFAFA;
-        }
-
-        /* Animated gradient mesh background */
-        .gradient-mesh {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .mesh-gradient {
-          position: absolute;
-          width: 150%;
-          height: 150%;
-          top: -25%;
-          left: -25%;
-          background: conic-gradient(
-            from 0deg at 50% 50%,
-            #9333EA 0deg,
-            #EC4899 60deg,
-            #3B82F6 120deg,
-            #10B981 180deg,
-            #F59E0B 240deg,
-            #EF4444 300deg,
-            #9333EA 360deg
-          );
-          animation: rotate 30s linear infinite;
-          opacity: 0.15;
-          filter: blur(100px);
-        }
-
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        /* Success icon styling */
-        .success-icon {
-          width: 80px;
-          height: 80px;
-          margin: 0 auto 2rem;
-          background: linear-gradient(135deg, #10B981, #3B82F6);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2.5rem;
-          animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-
-        /* Success gradient text */
-        .success-gradient-text {
-          font-size: 2.5rem;
-          font-weight: 700;
-          letter-spacing: -0.02em;
-          background: linear-gradient(135deg, #10B981 0%, #3B82F6 50%, #EC4899 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: gradient-shift 6s ease infinite;
-          background-size: 200% 200%;
-        }
-
-        /* Preview card styling */
-        .preview-card {
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 2rem;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .preview-card:hover {
-          background: rgba(255, 255, 255, 0.08);
-          transform: translateY(-2px);
-        }
-
-        /* Special preview card */
-        .preview-card.complete-card {
-          background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.1));
-          border: 1px solid rgba(147, 51, 234, 0.2);
-        }
-
-        /* Blur overlay for locked content */
-        .blur-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(10, 10, 10, 0.3);
-          backdrop-filter: blur(8px);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          border-radius: 20px;
-        }
-
-        .lock-icon {
-          width: 30px;
-          height: 30px;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1rem;
-        }
-
-        .unlock-text {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Card icon badge */
-        .card-icon {
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(135deg, #9333EA, #EC4899);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.3rem;
-        }
-
-        /* Season name styling */
-        .season-name {
-          font-size: 1.8rem;
-          font-weight: 700;
-          background: linear-gradient(135deg, #F59E0B, #EC4899);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        /* Color preview circles */
-        .color-circle {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          position: relative;
-          filter: blur(3px);
-          opacity: 0.7;
-          animation: pulse 3s ease-in-out infinite;
-        }
-
-        .color-circle:nth-child(1) { animation-delay: 0s; }
-        .color-circle:nth-child(2) { animation-delay: 0.5s; }
-        .color-circle:nth-child(3) { animation-delay: 1s; }
-        .color-circle:nth-child(4) { animation-delay: 1.5s; }
-        .color-circle:nth-child(5) { animation-delay: 2s; }
-
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.1); }
-        }
-
-        /* Style preview blocks */
-        .style-item {
-          flex: 1;
-          height: 80px;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
-          filter: blur(2px);
-        }
-
-        /* Glowing CTA button */
-        .unlock-btn {
-          padding: 1.2rem 3rem;
-          background: linear-gradient(135deg, #10B981, #3B82F6);
-          color: white;
-          border: none;
-          border-radius: 100px;
-          font-size: 1.1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 40px rgba(16, 185, 129, 0.5);
-          }
-        }
-
-        .unlock-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Slide in animations */
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeInScale {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        /* Apply animations */
-        .animate-fade-scale {
-          animation: fadeInScale 1s ease-out;
-        }
-
-        .animate-slide-up {
-          animation: slideInUp 0.8s ease-out backwards;
-        }
-
-        .animate-slide-up:nth-child(1) { animation-delay: 0.1s; }
-        .animate-slide-up:nth-child(2) { animation-delay: 0.2s; }
-        .animate-slide-up:nth-child(3) { animation-delay: 0.3s; }
-        .animate-slide-up:nth-child(4) { animation-delay: 0.4s; }
-
-        /* Sparkle decoration */
-        .sparkle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: white;
-          border-radius: 50%;
-          opacity: 0;
-          animation: sparkle 3s linear infinite;
-        }
-
-        @keyframes sparkle {
-          0%, 100% { opacity: 0; transform: scale(0); }
-          50% { opacity: 1; transform: scale(1); }
-        }
-
-        .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; }
-        .sparkle:nth-child(3) { top: 40%; left: 60%; animation-delay: 2s; }
-
-        /* Price text styling */
-        .price-text {
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-          .success-gradient-text {
-            font-size: 2rem;
-          }
-          
-          .preview-card {
-            padding: 1.5rem;
-          }
-          
-          .style-item {
-            height: 60px;
-          }
-        }
-      `}</style>
-      <div className="min-h-screen relative" style={{ background: '#0A0A0A', color: '#FAFAFA' }}>
-        {/* Animated gradient mesh background */}
-        <div className="gradient-mesh">
-          <div className="mesh-gradient"></div>
-        </div>
-
-        <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+    <div className="min-h-screen bg-cream paper-texture">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8 animate-fade-scale">
-          <div className="success-icon">
-            <CheckCircle className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="success-gradient-text mb-3 sm:mb-4 px-2">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-warm-gray-dark mb-3 sm:mb-4 px-2">
             Your Color Analysis is Ready!
           </h1>
-          <p className="text-base sm:text-lg px-4" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+          <p className="text-base sm:text-lg text-warm-gray px-4">
             Complete your purchase to unlock your personalized color palette and style guide
           </p>
         </div>
@@ -666,117 +368,104 @@ export default function ResultsPreviewPage() {
           {/* Blurred Results Preview */}
           <div className="space-y-4 sm:space-y-6 lg:order-first">
             {/* Season Preview - Blurred */}
-            <div className="preview-card complete-card animate-slide-up text-center">
-              <div className="relative">
-                <div className="sparkle"></div>
-                <div className="sparkle"></div>
-                <div className="sparkle"></div>
-                <div className="card-icon mx-auto mb-4">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <div className="filter blur-sm">
-                  <div className="season-name mb-3 sm:mb-4">
-                    {analysisResult.season}
+            <Card>
+              <CardContent className="p-4 sm:p-6 text-center">
+                <div className="relative">
+                  <div className="filter blur-sm">
+                    <Badge className="text-sm sm:text-lg px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white mb-3 sm:mb-4">
+                      {analysisResult.season}
+                    </Badge>
+                    <h2 className="font-serif text-xl sm:text-2xl font-bold text-warm-gray-dark mb-3 sm:mb-4">
+                      Your Color Season
+                    </h2>
+                    <p className="text-sm sm:text-base text-warm-gray px-2">{analysisResult.description}</p>
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4" style={{ color: '#FAFAFA' }}>
-                    Your Color Season
-                  </h2>
-                  <p className="text-sm sm:text-base px-2" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>{analysisResult.description}</p>
-                </div>
-                <div className="blur-overlay">
-                  <div className="lock-icon">
-                    <Lock className="w-4 h-4 text-white" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-white/90 rounded-lg p-3 sm:p-4 text-center mx-4">
+                      <Lock className="w-5 sm:w-6 h-5 sm:h-6 text-warm-gray-dark mx-auto mb-2" />
+                      <p className="text-xs sm:text-sm text-warm-gray-dark font-medium">Your season is ready!</p>
+                    </div>
                   </div>
-                  <p className="unlock-text">Your season is ready!</p>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Blurred Color Palette */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
-                <div className="card-icon mr-3">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-base sm:text-lg font-semibold" style={{ color: '#FAFAFA' }}>Your Color Palette</h3>
-              </div>
-              <div className="relative">
+            <Card>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center text-base sm:text-lg">
+                  <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-marigold" />
+                  Your Color Palette
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="relative pt-0">
                 <div className="filter blur-sm">
                   <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-3 mb-4">
                     {[...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights].slice(0, 12).map((color, index) => (
                       <div
                         key={index}
-                        className="color-circle"
+                        className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full border-2 border-white shadow-md"
                         style={{ backgroundColor: color }}
                       />
                     ))}
                   </div>
                 </div>
-                <div className="blur-overlay">
-                  <div className="lock-icon">
-                    <Lock className="w-4 h-4 text-white" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white/90 rounded-lg p-3 sm:p-4 text-center mx-4">
+                    <Lock className="w-5 sm:w-6 h-5 sm:h-6 text-warm-gray-dark mx-auto mb-2" />
+                    <p className="text-xs sm:text-sm text-warm-gray-dark font-medium">Unlock to view your colors</p>
                   </div>
-                  <p className="unlock-text">Unlock to view your colors</p>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Blurred Recommendations */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
-                <div className="card-icon mr-3">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-base sm:text-lg font-semibold" style={{ color: '#FAFAFA' }}>Style Recommendations</h3>
-              </div>
-              <div className="relative">
+            <Card>
+              <CardHeader>
+                <CardTitle>Style Recommendations</CardTitle>
+              </CardHeader>
+              <CardContent className="relative">
                 <div className="filter blur-sm space-y-4">
                   <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#FAFAFA' }}>Best Colors for You</h4>
+                    <h4 className="font-semibold mb-2">Best Colors for You</h4>
                     <div className="grid grid-cols-4 gap-2">
                       {analysisResult.signatureColors?.slice(0, 8).map((color, index) => (
                         <div
                           key={index}
-                          className="color-circle"
+                          className="w-8 h-8 rounded-full border border-gray-300"
                           style={{ backgroundColor: color }}
                         />
                       ))}
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#FAFAFA' }}>Makeup & Style Guide</h4>
-                    <div className="flex gap-2">
-                      <div className="style-item"></div>
-                      <div className="style-item"></div>
-                      <div className="style-item"></div>
-                    </div>
+                    <h4 className="font-semibold mb-2">Makeup Recommendations</h4>
+                    <p className="text-sm text-warm-gray">Personalized makeup palette and tips...</p>
                   </div>
                 </div>
-                <div className="blur-overlay">
-                  <div className="lock-icon">
-                    <Lock className="w-4 h-4 text-white" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-white/90 rounded-lg p-4 text-center">
+                    <Lock className="w-6 h-6 text-warm-gray-dark mx-auto mb-2" />
+                    <p className="text-sm text-warm-gray-dark font-medium">Unlock to view recommendations</p>
                   </div>
-                  <p className="unlock-text">Unlock to view recommendations</p>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Payment Section */}
           <div className="lg:sticky lg:top-8 lg:order-last">
-            <div className="preview-card animate-slide-up">
-              <div className="text-center mb-6">
-                <div className="card-icon mx-auto mb-4">
-                  <CreditCard className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold" style={{ color: '#FAFAFA' }}>
+            <Card>
+              <CardHeader className="pb-4 sm:pb-6">
+                <CardTitle className="text-center text-lg sm:text-xl">
+                  <CreditCard className="w-5 sm:w-6 h-5 sm:h-6 mx-auto mb-2 text-terracotta" />
                   Unlock Your Complete Analysis
-                </h2>
-              </div>
-              
-              {/* What's Included */}
-              <div className="mb-4 sm:mb-6">
-                <h3 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base" style={{ color: '#FAFAFA' }}>What you'll get:</h3>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                {/* What's Included */}
+                <div className="mb-4 sm:mb-6">
+                  <h3 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">What you'll get:</h3>
                   <div className="space-y-2 sm:space-y-3">
                     <div className="flex items-center">
                       <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 mr-2 sm:mr-3 flex-shrink-0" />
@@ -803,13 +492,13 @@ export default function ResultsPreviewPage() {
 
                 {/* Payment Form */}
                 {!showPayment ? (
-                  <button 
+                  <Button 
                     onClick={() => setShowPayment(true)}
-                    className="unlock-btn w-full"
+                    className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation"
                   >
                     <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 mr-2" />
                     Unlock Results - $29
-                  </button>
+                  </Button>
                 ) : clientSecret ? (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
                     <PaymentForm orderId={orderId!} onSuccess={handlePaymentSuccess} />
@@ -821,15 +510,14 @@ export default function ResultsPreviewPage() {
                   </div>
                 )}
 
-                <p className="text-xs text-center mt-4 price-text">
+                <p className="text-xs text-warm-gray text-center mt-4">
                   Secure payment processing by Stripe
                 </p>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 }
