@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Download, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users, Share2, Smartphone, Wallet } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Palette, Shirt, Gem, Scissors, Sparkles, Star, ExternalLink, Users, Share2, Smartphone, Wallet } from 'lucide-react';
 import { getSeasonalAssets } from '@/data/seasonalAssets';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -921,7 +921,7 @@ export default function ResultsNew() {
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentStep, setCurrentStep] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
+
   
   // Get seasonal assets based on the detected season
   const seasonalAssets = order?.analysisResult ? getSeasonalAssets(order.analysisResult.season) : null;
@@ -982,40 +982,7 @@ export default function ResultsNew() {
     }
   };
 
-  const handleDownloadPDF = async () => {
-    if (!order) return;
-    
-    setIsDownloading(true);
-    try {
-      const response = await fetch(`/api/orders/${orderId}/pdf`);
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${order.analysisResult?.season}-color-analysis.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-        
-        toast({
-          title: "Download Started",
-          description: "Your color analysis PDF is downloading",
-        });
-      } else {
-        throw new Error('Download failed');
-      }
-    } catch (error) {
-      toast({
-        title: "Download Failed",
-        description: "Unable to download PDF. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsDownloading(false);
-    }
-  };
+
 
   if (isLoading) {
     return (
@@ -1764,9 +1731,9 @@ export default function ResultsNew() {
       )
     },
     { 
-      id: 'download', 
-      title: 'Download & Share', 
-      icon: <Download className="w-6 h-6" />, 
+      id: 'share', 
+      title: 'Share Results', 
+      icon: <Share2 className="w-6 h-6" />, 
       content: (
         <div className="space-y-8">
           <div className="text-center">
@@ -1820,30 +1787,16 @@ export default function ResultsNew() {
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Palette className="w-8 h-8 text-white" />
               </div>
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Download Digital Palette</h4>
-              <p className="text-gray-600 mb-6 text-sm">Get a high-resolution version of your color palette for easy reference while shopping</p>
+              <h4 className="text-xl font-bold text-gray-800 mb-4">Save Your Results</h4>
+              <p className="text-gray-600 mb-6 text-sm">Bookmark this page or share your results with others for reference while shopping</p>
               <Button 
-                onClick={async () => {
-                  try {
-                    const response = await apiRequest('POST', `/api/orders/${orderId}/download-palette`);
-                    const blob = await response.blob();
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `${analysisResult.season.replace(' ', '_')}_Color_Palette.pdf`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    
-                    toast({ title: "Palette downloaded!", description: "Your color palette PDF has been saved" });
-                  } catch (error) {
-                    toast({ title: "Download failed", description: "Please try again", variant: "destructive" });
-                  }
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  toast({ title: "Link copied!", description: "Share this link with others" });
                 }}
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl py-3"
               >
-                Download Palette
+                Copy Link to Results
               </Button>
             </motion.div>
 
@@ -1932,36 +1885,10 @@ export default function ResultsNew() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-rose-100">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-          {/* Mobile: Stack title and button */}
-          <div className="block sm:hidden space-y-3">
-            <div className="text-center">
-              <h1 className="text-lg font-bold text-gray-800">Your Color Analysis Results</h1>
-              <p className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}</p>
-            </div>
-            <Button
-              onClick={handleDownloadPDF}
-              disabled={isDownloading}
-              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-full px-4 py-2 w-full touch-manipulation"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              {isDownloading ? 'Downloading...' : 'Download PDF'}
-            </Button>
-          </div>
-          
-          {/* Desktop: Side by side layout */}
-          <div className="hidden sm:flex items-center justify-between">
-            <div>
-              <h1 className="text-xl lg:text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
-              <p className="text-gray-600">Step {currentStep + 1} of {steps.length}</p>
-            </div>
-            <Button
-              onClick={handleDownloadPDF}
-              disabled={isDownloading}
-              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-full px-6 py-2"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              {isDownloading ? 'Downloading...' : 'Download PDF'}
-            </Button>
+          {/* Mobile and Desktop: Centered title */}
+          <div className="text-center">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
+            <p className="text-sm sm:text-base text-gray-600">Step {currentStep + 1} of {steps.length}</p>
           </div>
         </div>
       </div>
@@ -1988,15 +1915,17 @@ export default function ResultsNew() {
       {/* Step Navigation */}
       <div className="max-w-6xl mx-auto px-4 mb-8">
         <div className="flex items-center justify-between bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
-          <Button
+          <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            variant="outline"
-            className="flex items-center space-x-2 border-rose-200 text-rose-600 hover:bg-rose-50"
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+              currentStep === 0 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                : 'bg-rose-500 text-white hover:bg-rose-600 hover:scale-105'
+            }`}
           >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
-          </Button>
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
           <div className="flex items-center space-x-3 text-center">
             <div className="w-10 h-10 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white">
@@ -2005,15 +1934,17 @@ export default function ResultsNew() {
             <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
           </div>
 
-          <Button
+          <button
             onClick={nextStep}
             disabled={currentStep === steps.length - 1}
-            variant="outline"
-            className="flex items-center space-x-2 border-rose-200 text-rose-600 hover:bg-rose-50"
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+              currentStep === steps.length - 1 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                : 'bg-rose-500 text-white hover:bg-rose-600 hover:scale-105'
+            }`}
           >
-            <span>Next</span>
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
 
