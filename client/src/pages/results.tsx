@@ -184,7 +184,7 @@ export default function Results() {
   const ColorSwatch = ({ color, label }: { color: string; label: string }) => (
     <div className="text-center">
       <div 
-        className="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-white shadow-lg"
+        className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full mx-auto mb-2 border-2 border-white shadow-lg"
         style={{ backgroundColor: color }}
       ></div>
       <p className="text-xs text-warm-gray font-medium">{label}</p>
@@ -217,27 +217,27 @@ export default function Results() {
   return (
     <div className="min-h-screen bg-cream paper-texture">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="mb-6">
-            <Sparkles className="w-16 h-16 mx-auto mb-4" />
+      <div className="bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white py-8 sm:py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 text-center">
+          <div className="mb-4 sm:mb-6">
+            <Sparkles className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 mx-auto mb-3 sm:mb-4" />
           </div>
-          <h1 className="font-serif text-5xl font-bold mb-4">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
             Your Colors Have Arrived!
           </h1>
-          <p className="text-xl opacity-90">
+          <p className="text-base sm:text-lg lg:text-xl opacity-90 px-4">
             Discover your personal color season and transform your style
           </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8">
         {/* Navigation */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-6 lg:mb-8">
           <Button
             variant="ghost"
             onClick={() => setLocation('/account')}
-            className="text-warm-gray hover:text-warm-gray-dark"
+            className="text-warm-gray hover:text-warm-gray-dark touch-manipulation"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Account
@@ -245,36 +245,36 @@ export default function Results() {
         </div>
 
         {/* Color Season Card */}
-        <Card className="mb-8 overflow-hidden">
-          <CardContent className="p-8">
-            <div className="text-center mb-6">
-              <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white">
+        <Card className="mb-6 sm:mb-8 overflow-hidden">
+          <CardContent className="p-4 sm:p-6 lg:p-8">
+            <div className="text-center mb-4 sm:mb-6">
+              <Badge className="text-sm sm:text-base lg:text-lg px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-terracotta via-marigold to-lagoon text-white">
                 {analysisResult.season}
               </Badge>
-              <h2 className="font-serif text-3xl font-bold text-warm-gray-dark mt-4 mb-4">
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-warm-gray-dark mt-3 sm:mt-4 mb-3 sm:mb-4 px-2">
                 Your Color Season
               </h2>
-              <p className="text-lg text-warm-gray max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg text-warm-gray max-w-3xl mx-auto leading-relaxed px-2">
                 {analysisResult.description}
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
           {/* Core Neutrals */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Shirt className="w-5 h-5 mr-2 text-warm-gray-dark" />
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center text-base sm:text-lg">
+                <Shirt className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-warm-gray-dark" />
                 Core Neutrals
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-warm-gray mb-4">
+            <CardContent className="pt-0">
+              <p className="text-xs sm:text-sm text-warm-gray mb-3 sm:mb-4">
                 Your foundational colors for wardrobe staples
               </p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {analysisResult.coreNeutrals.map((color, index) => (
                   <ColorSwatch 
                     key={index} 
@@ -288,17 +288,17 @@ export default function Results() {
 
           {/* Accent Lights */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Heart className="w-5 h-5 mr-2 text-warm-gray-dark" />
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center text-base sm:text-lg">
+                <Heart className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-warm-gray-dark" />
                 Accent Lights
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-warm-gray mb-4">
+            <CardContent className="pt-0">
+              <p className="text-xs sm:text-sm text-warm-gray mb-3 sm:mb-4">
                 Soft, flattering colors for everyday wear
               </p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {analysisResult.accentLights.map((color, index) => (
                   <ColorSwatch 
                     key={index} 
@@ -312,17 +312,17 @@ export default function Results() {
 
           {/* Accent Brights */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Gem className="w-5 h-5 mr-2 text-warm-gray-dark" />
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center text-base sm:text-lg">
+                <Gem className="w-4 sm:w-5 h-4 sm:h-5 mr-2 text-warm-gray-dark" />
                 Accent Brights
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-warm-gray mb-4">
+            <CardContent className="pt-0">
+              <p className="text-xs sm:text-sm text-warm-gray mb-3 sm:mb-4">
                 Bold, statement colors for special occasions
               </p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {analysisResult.accentBrights.map((color, index) => (
                   <ColorSwatch 
                     key={index} 
