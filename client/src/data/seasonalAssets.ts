@@ -9,9 +9,9 @@ export interface SeasonalAssets {
 export const seasonalAssets: Record<string, SeasonalAssets> = {
   'True Winter': {
     celebrities: [
-      '/attached_assets/Adriana Lima_1750906638336.png',
-      '/attached_assets/Katy Perry_1750906638336.png',
-      '/attached_assets/Megan Fox_1750906638336.png'
+      '/attached_assets/Marion Cotillard_1751149343795.png',
+      '/attached_assets/Liv Tyler_1751149343795.png',
+      '/attached_assets/Jennifer Connelly_1751149343795.png'
     ],
     hairColorGuide: '/attached_assets/60b8f81d3f5d232e60b324e6_Bright Winter Hair_1750624165018.webp',
     colorDimensions: '/attached_assets/60b8f521cbd467e4c5ba0270_True Winter Colour Dimensions_1750623961315.webp',

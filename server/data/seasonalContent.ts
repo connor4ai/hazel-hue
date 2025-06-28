@@ -124,7 +124,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Black or navy eyeliner'
       ]
     },
-    celebrities: ['Adriana Lima', 'Katy Perry', 'Megan Fox']
+    celebrities: ['Marion Cotillard', 'Liv Tyler', 'Jennifer Connelly']
   },
 
   'Bright Winter': {
