@@ -86,9 +86,9 @@ export const seasonalAssets: Record<string, SeasonalAssets> = {
 
   'Bright Spring': {
     celebrities: [
-      '/attached_assets/Blake Lively_1750906632490.png',
-      '/attached_assets/Amy Adams_1750906632490.png',
-      '/attached_assets/Emma Stone_1750906635090.png'
+      '/attached_assets/Emma Stone_1751148583264.png',
+      '/attached_assets/Jane Levy_1751148583264.png',
+      '/attached_assets/Mila Jojovich_1751148583264.png'
     ],
     hairColorGuide: '/attached_assets/60b3bd41e891223d04781266_Bright Spring Hair-2_1750811010138.webp',
     colorDimensions: '/attached_assets/60b3ca89184107acb91ae4fe_Bright Spring Colour Dimensions_1750811010138.webp',

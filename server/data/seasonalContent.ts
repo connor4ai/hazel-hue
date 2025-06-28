@@ -883,7 +883,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Electric blue or green accents'
       ]
     },
-    celebrities: ['Blake Lively', 'Amy Adams', 'Emma Stone']
+    celebrities: ['Emma Stone', 'Jane Levy', 'Mila Jovovich']
   },
 
   'Light Spring': {
