@@ -85,28 +85,7 @@ const BrightSpringPalette = () => {
     { name: 'Light Blue', code: '#ADD8E6' }
   ];
 
-  const ColorSwatch = ({ color, name, index }: { color: string; name: string; index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.02, duration: 0.3 }}
-      className="group cursor-pointer"
-      whileHover={{ scale: 1.05, y: -4 }}
-    >
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-        <div 
-          className="h-20 w-full relative"
-          style={{ backgroundColor: color }}
-        >
-          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-200"></div>
-        </div>
-        <div className="p-3 text-center">
-          <p className="text-xs font-semibold text-gray-800 mb-1 uppercase tracking-wide leading-tight">{name}</p>
-          <p className="text-xs font-mono text-gray-600">{color}</p>
-        </div>
-      </div>
-    </motion.div>
-  );
+  
 
   return (
     <motion.div

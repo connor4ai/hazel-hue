@@ -85,28 +85,7 @@ const SoftSummerPalette = () => {
     { name: 'Pale Lavender', code: '#D4D4E8' }
   ];
 
-  const ColorSwatch = ({ color, name, index }: { color: string; name: string; index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.02, duration: 0.3 }}
-      className="group cursor-pointer"
-      whileHover={{ scale: 1.05, y: -4 }}
-    >
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
-        <div 
-          className="h-20 w-full relative"
-          style={{ backgroundColor: color }}
-        >
-          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-5 transition-opacity duration-200"></div>
-        </div>
-        <div className="p-3 text-center">
-          <p className="text-xs font-semibold text-gray-800 mb-1 uppercase tracking-wide leading-tight">{name}</p>
-          <p className="text-xs font-mono text-gray-600">{color}</p>
-        </div>
-      </div>
-    </motion.div>
-  );
+  
 
   return (
     <motion.div
@@ -127,9 +106,9 @@ const SoftSummerPalette = () => {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
         {colors.map((color, index) => (
-          <ColorSwatch 
+          <MobileOptimizedColorSwatch 
             key={index} 
             color={color.code} 
             name={color.name} 

@@ -11,34 +11,7 @@ const BrightWinterPalette = () => {
     setTimeout(() => setCopied(null), 1000);
   };
 
-  const ColorSwatch = ({ color, name }: { color: string; name: string }) => (
-    <motion.div
-      className="relative group cursor-pointer"
-      onClick={() => handleCopyColor(color)}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <div
-        className="w-12 h-12 md:w-14 md:h-14 rounded-xl shadow-md border-2 border-white hover:border-gray-300 transition-all duration-200"
-        style={{ backgroundColor: color }}
-      />
-      <div className="text-center mt-1">
-        <p className="text-xs text-gray-600 font-mono">{color}</p>
-        <p className="text-xs text-gray-700 font-medium">{name}</p>
-      </div>
-      
-      {copied === color && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs whitespace-nowrap z-10"
-        >
-          Copied!
-        </motion.div>
-      )}
-    </motion.div>
-  );
+
 
   const coreNeutrals = [
     { color: '#FFFFFF', name: 'Pure White' },
@@ -85,9 +58,9 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Core Neutrals</h4>
           <p className="text-sm text-gray-600 mb-4">Foundation colors for your wardrobe - use these as your base pieces</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
             {coreNeutrals.map((swatch, index) => (
-              <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
+              <MobileOptimizedColorSwatch key={index} color={swatch.color} name={swatch.name} index={index} />
             ))}
           </div>
         </div>
@@ -96,9 +69,9 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Accent Lights</h4>
           <p className="text-sm text-gray-600 mb-4">Electric highlights and bright accents for impact</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
             {accentLights.map((swatch, index) => (
-              <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
+              <MobileOptimizedColorSwatch key={index} color={swatch.color} name={swatch.name} index={index} />
             ))}
           </div>
         </div>
@@ -107,9 +80,9 @@ const BrightWinterPalette = () => {
         <div>
           <h4 className="text-lg font-bold text-gray-800 mb-4">Accent Brights</h4>
           <p className="text-sm text-gray-600 mb-4">Bold statement colors that showcase your dramatic coloring</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
             {accentBrights.map((swatch, index) => (
-              <ColorSwatch key={index} color={swatch.color} name={swatch.name} />
+              <MobileOptimizedColorSwatch key={index} color={swatch.color} name={swatch.name} index={index} />
             ))}
           </div>
         </div>

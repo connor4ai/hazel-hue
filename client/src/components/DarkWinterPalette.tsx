@@ -2,46 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MobileOptimizedColorSwatch } from './MobileOptimizedColorSwatch';
 
-const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: string; clickable?: boolean }) => {
-  const [copied, setCopied] = useState(false);
 
-  const handleClick = () => {
-    if (!clickable) return;
-    navigator.clipboard.writeText(color);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
-  };
-
-  return (
-    <motion.div
-      className={`relative group ${clickable ? 'cursor-pointer' : ''}`}
-      onClick={handleClick}
-      whileHover={clickable ? { scale: 1.05 } : {}}
-      whileTap={clickable ? { scale: 0.95 } : {}}
-    >
-      <div
-        className="w-16 h-16 md:w-20 md:h-20 rounded-2xl shadow-lg border-2 border-white"
-        style={{ backgroundColor: color }}
-      />
-      {name && (
-        <div className="text-center mt-2">
-          <p className="text-xs font-medium text-gray-700">{name}</p>
-          <p className="text-xs text-gray-500 font-mono">{color}</p>
-        </div>
-      )}
-      {copied && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs"
-        >
-          Copied!
-        </motion.div>
-      )}
-    </motion.div>
-  );
-};
 
 export default function DarkWinterPalette() {
   const palette = [
@@ -138,12 +99,13 @@ export default function DarkWinterPalette() {
           
           {/* Color Grid */}
           <div className="bg-white p-10">
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-4 max-w-6xl mx-auto">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3 max-w-6xl mx-auto">
               {palette.map((color, index) => (
-                <ColorSwatch
+                <MobileOptimizedColorSwatch
                   key={index}
                   color={color.hex}
                   name={color.name}
+                  index={index}
                 />
               ))}
             </div>

@@ -35,14 +35,14 @@ export const MobileOptimizedColorSwatch = ({ color, name, index }: ColorSwatchPr
         </div>
         
         {/* Text Content */}
-        <div className="p-2 sm:p-3 text-center">
-          {/* Color Name - Responsive font sizing and line height */}
-          <p className="text-[9px] sm:text-xs font-semibold text-gray-800 mb-1 uppercase tracking-wide leading-none sm:leading-tight truncate">
+        <div className="p-1 sm:p-2 text-center">
+          {/* Color Name - Highly optimized for mobile */}
+          <p className="text-[8px] sm:text-[9px] md:text-xs font-semibold text-gray-800 mb-0.5 uppercase tracking-tight leading-none truncate px-0.5">
             {name}
           </p>
           
-          {/* Hex Code - Smaller and mono font */}
-          <p className="text-[8px] sm:text-[10px] font-mono text-gray-500 leading-none">
+          {/* Hex Code - Ultra compact for mobile */}
+          <p className="text-[7px] sm:text-[8px] md:text-[10px] font-mono text-gray-500 leading-none">
             {color}
           </p>
         </div>
