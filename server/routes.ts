@@ -1342,20 +1342,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { orderId } = req.params;
       
-      // Update payment status and set to completed
-      await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
-      await storage.updateOrderPaymentIntent(parseInt(orderId), 'free_promo_code');
-      await storage.updateOrderStatus(parseInt(orderId), 'completed');
-
-      // Get the order with analysis results
+      // Get the order first
       const order = await storage.getOrder(parseInt(orderId));
       
-      if (order && order.email && order.analysisResult) {
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Update payment status and set to completed
+      await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
+      await storage.updateOrderStatus(parseInt(orderId), 'completed');
+
+      // Get the updated order with analysis results
+      const updatedOrder = await storage.getOrder(parseInt(orderId));
+      
+      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
         try {
           // Send email with results
-          await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
-          await storage.updateOrderEmailSent(order.id);
-          console.log(`Free analysis results emailed to: ${order.email}`);
+          await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
+          await storage.updateOrderEmailSent(updatedOrder.id);
+          console.log(`Free analysis results emailed to: ${updatedOrder.email}`);
         } catch (emailError) {
           console.error("Error sending free analysis email:", emailError);
           // Don't fail the request if email fails

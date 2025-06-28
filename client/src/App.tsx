@@ -40,6 +40,7 @@ function Router() {
       <Route path="/loading" component={Loading} />
       <Route path="/analyzing" component={Analyzing} />
       <Route path="/results-preview/:orderId" component={ResultsPreviewNew} />
+      <Route path="/preview/:orderId" component={ResultsPreviewNew} />
       <Route path="/results-preview-old/:orderId" component={ResultsPreview} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/processing/:orderId" component={Processing} />
