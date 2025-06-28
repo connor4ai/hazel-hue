@@ -580,8 +580,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (let i = 0; i < photoFiles.length; i++) {
         const file = photoFiles[i];
-        const filename = `${order.id}-${Date.now()}-${i + 1}.jpg`;
+        // Preserve original file extension (important for HEIC detection)
+        const originalExtension = path.extname(file.originalname) || '.jpg';
+        const filename = `${order.id}-${Date.now()}-${i + 1}${originalExtension}`;
         const permanentPath = path.join('uploads', 'images', filename);
+        
+        console.log(`📁 Saving file: ${file.originalname} (${file.mimetype}) → ${filename}`);
         
         // Ensure directory exists
         const dir = path.dirname(permanentPath);
