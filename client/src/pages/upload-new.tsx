@@ -45,15 +45,27 @@ export default function UploadNew() {
       }
 
       validFiles.push(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        newPreviews.push(e.target?.result as string);
+      
+      // For HEIC files, we can't preview them in the browser
+      // So we'll show a placeholder and store the file info
+      if (file.type.includes('heic') || file.type.includes('heif')) {
+        newPreviews.push('heic-placeholder');
         if (newPreviews.length === validFiles.length) {
           setFiles(prev => [...prev, ...validFiles]);
           setPreviews(prev => [...prev, ...newPreviews]);
         }
-      };
-      reader.readAsDataURL(file);
+      } else {
+        // For JPEG/PNG, show actual preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          newPreviews.push(e.target?.result as string);
+          if (newPreviews.length === validFiles.length) {
+            setFiles(prev => [...prev, ...validFiles]);
+            setPreviews(prev => [...prev, ...newPreviews]);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
     });
   };
 
@@ -410,6 +422,28 @@ export default function UploadNew() {
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .heic-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          color: #6c757d;
+        }
+
+        .heic-icon {
+          margin-bottom: 8px;
+          opacity: 0.7;
+        }
+
+        .heic-label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+        }
+
         /* Analyze button */
         .analyze-btn {
           margin-top: 3rem;
@@ -558,7 +592,20 @@ export default function UploadNew() {
               <div key={index} className={`photo-slot ${previews[index] ? 'filled' : ''}`}>
                 {previews[index] ? (
                   <>
-                    <img src={previews[index]} alt={`Photo ${index + 1}`} />
+                    {previews[index] === 'heic-placeholder' ? (
+                      <div className="heic-placeholder">
+                        <div className="heic-icon">
+                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21,15 16,10 5,21"/>
+                          </svg>
+                        </div>
+                        <div className="heic-label">HEIC</div>
+                      </div>
+                    ) : (
+                      <img src={previews[index]} alt={`Photo ${index + 1}`} />
+                    )}
                     <button 
                       className="remove"
                       onClick={() => removePhoto(index)}
