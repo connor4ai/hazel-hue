@@ -435,8 +435,8 @@ export default function ResultsPreviewPage() {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -673,12 +673,12 @@ export default function ResultsPreviewPage() {
             </p>
           </div>
 
-          <div className="max-w-md mx-auto space-y-6">
+          <div className="max-w-lg mx-auto space-y-8">
             {/* Season Preview */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
+            <div className="preview-card animate-slide-up" style={{ minHeight: '200px', position: 'relative' }}>
+              <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">⭐</div>
-                <h3 className="text-xl font-semibold text-white">Your Season</h3>
+                <h3 className="text-2xl font-semibold text-white">Your Season</h3>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
@@ -688,17 +688,17 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Color Palette Preview */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
+            <div className="preview-card animate-slide-up" style={{ minHeight: '200px', position: 'relative' }}>
+              <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">🎨</div>
-                <h3 className="text-xl font-semibold text-white">Your Color Palette</h3>
+                <h3 className="text-2xl font-semibold text-white">Your Color Palette</h3>
               </div>
-              <div className="flex justify-center gap-3 mb-4" style={{ filter: 'blur(4px)' }}>
+              <div className="flex justify-center gap-4 mb-8">
                 {[...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights].slice(0, 5).map((color, index) => (
                   <div
                     key={index}
-                    className="w-12 h-12 rounded-full border-2 border-white/20"
-                    style={{ backgroundColor: color }}
+                    className="w-16 h-16 rounded-full"
+                    style={{ backgroundColor: color, filter: 'blur(8px)' }}
                   />
                 ))}
               </div>
@@ -709,10 +709,10 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Style Recommendations Preview */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
+            <div className="preview-card animate-slide-up" style={{ minHeight: '160px', position: 'relative' }}>
+              <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">✨</div>
-                <h3 className="text-xl font-semibold text-white">Style Recommendations</h3>
+                <h3 className="text-2xl font-semibold text-white">Style Recommendations</h3>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
@@ -721,10 +721,10 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Complete Analysis Card */}
-            <div className="preview-card animate-slide-up">
-              <div className="flex items-center mb-4">
+            <div className="preview-card animate-slide-up" style={{ minHeight: '160px', position: 'relative' }}>
+              <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">📊</div>
-                <h3 className="text-xl font-semibold text-white">Complete Analysis</h3>
+                <h3 className="text-2xl font-semibold text-white">Complete Analysis</h3>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
@@ -733,16 +733,16 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Payment Button */}
-            <div className="pt-4">
+            <div className="pt-8">
               {!showPayment ? (
                 <div className="text-center">
                   <button 
                     onClick={() => setShowPayment(true)}
-                    className="unlock-btn w-full mb-3"
+                    className="unlock-btn w-full mb-4"
                   >
                     Unlock My Color Analysis
                   </button>
-                  <p className="text-white/60 text-sm">
+                  <p className="text-white/60 text-lg">
                     One-time payment • Instant access
                   </p>
                 </div>
@@ -751,9 +751,9 @@ export default function ResultsPreviewPage() {
                   <PaymentForm orderId={orderId!} onSuccess={handlePaymentSuccess} />
                 </Elements>
               ) : (
-                <div className="text-center py-4">
-                  <div className="animate-spin w-6 h-6 border-2 border-white/20 border-t-white rounded-full mx-auto" />
-                  <p className="text-white/60 mt-2">Setting up payment...</p>
+                <div className="text-center py-8">
+                  <div className="animate-spin w-8 h-8 border-2 border-white/20 border-t-white rounded-full mx-auto" />
+                  <p className="text-white/60 mt-4">Setting up payment...</p>
                 </div>
               )}
             </div>
