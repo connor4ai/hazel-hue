@@ -43,10 +43,13 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if (file.mimetype === 'image/jpeg' || 
+        file.mimetype === 'image/png' || 
+        file.mimetype === 'image/heic' || 
+        file.mimetype === 'image/heif') {
       cb(null, true);
     } else {
-      cb(new Error('Only JPEG and PNG files are allowed'));
+      cb(new Error('Only JPEG, PNG, and HEIC files are allowed'));
     }
   },
 });

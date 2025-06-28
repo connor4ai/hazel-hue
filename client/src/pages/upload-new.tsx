@@ -35,10 +35,10 @@ export default function UploadNew() {
       }
 
       // Validate file type
-      if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png')) {
+      if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png') && !file.type.includes('heic') && !file.type.includes('heif')) {
         toast({
           title: "Invalid file type",
-          description: "Please upload JPEG or PNG images only",
+          description: "Please upload JPEG, PNG, or HEIC images only",
           variant: "destructive",
         });
         return;
@@ -535,7 +535,7 @@ export default function UploadNew() {
               ref={fileInputRef}
               type="file" 
               multiple 
-              accept="image/*"
+              accept="image/*,.heic,.heif"
               className="hidden"
               onChange={(e) => e.target.files && handleFileSelect(e.target.files)}
             />
