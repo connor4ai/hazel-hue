@@ -135,7 +135,10 @@ export default function UploadNew() {
   };
 
   const handleAnalyze = async () => {
+    console.log('Analyze button clicked! Files:', files.length);
+    
     if (files.length !== 3) {
+      console.log('Not enough files:', files.length);
       toast({
         title: "Please upload exactly 3 photos",
         description: "We need 3 photos for accurate analysis",
@@ -144,27 +147,36 @@ export default function UploadNew() {
       return;
     }
 
+    console.log('Starting upload process...');
+
     // Create form data
     const formData = new FormData();
     files.forEach((file, index) => {
+      console.log(`Adding file ${index + 1}:`, file.name, file.type);
       formData.append(`photos`, file);
     });
 
     try {
+      console.log('Sending request to /api/upload...');
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
+
+      console.log('Response status:', response.status);
 
       if (!response.ok) {
         throw new Error('Upload failed');
       }
 
       const data = await response.json();
+      console.log('Upload response:', data);
       
       // Navigate to results preview
+      console.log('Navigating to results preview:', `/results-preview/${data.orderId}`);
       setLocation(`/results-preview/${data.orderId}`);
     } catch (error) {
+      console.error('Upload error:', error);
       toast({
         title: "Upload failed",
         description: "Please try again",
@@ -358,6 +370,11 @@ export default function UploadNew() {
               >
                 {files.length === 3 ? "Analyze My Colors" : `Upload ${3 - files.length} more photo${3 - files.length !== 1 ? 's' : ''}`}
               </button>
+              
+              {/* Debug Info */}
+              <div className="mt-4 text-sm text-gray-500 text-center">
+                Debug: {files.length} files uploaded, button {files.length === 3 ? 'enabled' : 'disabled'}
+              </div>
             </div>
 
             {/* Tips */}
