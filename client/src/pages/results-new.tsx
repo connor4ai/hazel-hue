@@ -2009,16 +2009,6 @@ export default function ResultsNew() {
           onDownload={() => setShowInstagramStory(false)}
         />
       )}
-
-      {/* Test Instagram Story Button (temporary for testing) */}
-      {order?.analysisResult && (
-        <button
-          onClick={() => setShowInstagramStory(true)}
-          className="fixed bottom-4 right-4 bg-purple-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-600 transition-colors z-40"
-        >
-          Test Story
-        </button>
-      )}
     </div>
   );
 }
