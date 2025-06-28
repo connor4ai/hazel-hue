@@ -169,12 +169,26 @@ export default function UploadNew() {
         throw new Error('Upload failed');
       }
 
-      const data = await response.json();
-      console.log('Upload response:', data);
+      const responseText = await response.text();
+      console.log('Raw response text:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+        console.log('Parsed response data:', data);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        throw new Error('Invalid response format');
+      }
       
       // Navigate to results preview
-      console.log('Navigating to results preview:', `/results-preview/${data.orderId}`);
-      setLocation(`/results-preview/${data.orderId}`);
+      if (data.orderId) {
+        console.log('Navigating to results preview:', `/results-preview/${data.orderId}`);
+        setLocation(`/results-preview/${data.orderId}`);
+      } else {
+        console.error('No orderId in response:', data);
+        throw new Error('No order ID received');
+      }
     } catch (error) {
       console.error('Upload error:', error);
       toast({
