@@ -149,16 +149,20 @@ export default function UploadNew() {
 
     console.log('Starting upload process...');
 
-    // Create form data
+    // Create form data with specific field names expected by server
     const formData = new FormData();
+    formData.append('photo1', files[0]);
+    formData.append('photo2', files[1]);
+    formData.append('photo3', files[2]);
+    
+    console.log('Adding files to form data:');
     files.forEach((file, index) => {
-      console.log(`Adding file ${index + 1}:`, file.name, file.type);
-      formData.append(`photos`, file);
+      console.log(`photo${index + 1}:`, file.name, file.type);
     });
 
     try {
-      console.log('Sending request to /api/upload...');
-      const response = await fetch('/api/upload', {
+      console.log('Sending request to /api/orders/guest...');
+      const response = await fetch('/api/orders/guest', {
         method: 'POST',
         body: formData,
       });
@@ -182,11 +186,11 @@ export default function UploadNew() {
       }
       
       // Navigate to results preview
-      if (data.orderId) {
-        console.log('Navigating to results preview:', `/results-preview/${data.orderId}`);
-        setLocation(`/results-preview/${data.orderId}`);
+      if (data.id) {
+        console.log('Navigating to results preview:', `/results-preview/${data.id}`);
+        setLocation(`/results-preview/${data.id}`);
       } else {
-        console.error('No orderId in response:', data);
+        console.error('No order id in response:', data);
         throw new Error('No order ID received');
       }
     } catch (error) {
