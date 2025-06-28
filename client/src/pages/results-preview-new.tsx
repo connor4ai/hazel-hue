@@ -149,11 +149,16 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () =>
         <input
           type="email"
           id="email"
+          name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full px-3 py-3 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           placeholder="Enter your email to receive results"
           autoComplete="email"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck="false"
+          inputMode="email"
           required
         />
         {emailError && (
@@ -216,7 +221,14 @@ const PaymentForm = ({ orderId, onSuccess }: { orderId: number, onSuccess: () =>
         </div>
       )}
 
-      {discount < 100 && <PaymentElement />}
+      {discount < 100 && (
+        <PaymentElement 
+          options={{
+            layout: "tabs",
+            paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
+          }}
+        />
+      )}
       
       <Button 
         type="submit"
@@ -724,7 +736,20 @@ export default function ResultsPreview() {
                   </p>
                 </div>
               ) : clientSecret ? (
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                <Elements 
+                  stripe={stripePromise} 
+                  options={{ 
+                    clientSecret,
+                    appearance: {
+                      theme: 'stripe',
+                      variables: {
+                        colorPrimary: '#8b5cf6',
+                        borderRadius: '8px',
+                        spacingUnit: '4px'
+                      }
+                    }
+                  }}
+                >
                   <PaymentForm orderId={orderId!} onSuccess={handlePaymentSuccess} />
                 </Elements>
               ) : (

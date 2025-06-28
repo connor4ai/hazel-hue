@@ -101,9 +101,15 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
           <input
             type="email"
             id="email"
+            name="email"
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="your@email.com"
+            autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck="false"
+            inputMode="email"
           />
           <p className="text-xs text-gray-500 mt-1">We'll email your results to this address</p>
         </div>
@@ -111,7 +117,7 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
         <PaymentElement 
           options={{
             layout: "tabs",
-            paymentMethodOrder: ['apple_pay', 'card']
+            paymentMethodOrder: ['apple_pay', 'google_pay', 'card']
           }}
         />
       </div>
