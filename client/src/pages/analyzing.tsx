@@ -183,41 +183,7 @@ export default function AnalyzingPage() {
           to { transform: rotate(360deg); }
         }
 
-        /* Neural dots animation */
-        .neural-dots {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
 
-        .dot {
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          background: linear-gradient(135deg, #9333EA, #EC4899);
-          border-radius: 50%;
-          animation: orbit 3s linear infinite;
-        }
-
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.5s; }
-        .dot:nth-child(3) { animation-delay: 1s; }
-        .dot:nth-child(4) { animation-delay: 1.5s; }
-
-        @keyframes orbit {
-          from {
-            transform: rotate(0deg) translateX(60px) rotate(0deg);
-            opacity: 0;
-          }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          to {
-            transform: rotate(360deg) translateX(60px) rotate(-360deg);
-            opacity: 0;
-          }
-        }
 
         /* Gradient text animation */
         .gradient-text {
@@ -395,14 +361,6 @@ export default function AnalyzingPage() {
                 <path d="M12 12L8 16"/>
                 <path d="M12 12L16 16"/>
               </svg>
-            </div>
-            
-            {/* Neural dots */}
-            <div className="neural-dots">
-              <div className="dot"></div>
-              <div className="dot"></div>
-              <div className="dot"></div>
-              <div className="dot"></div>
             </div>
           </div>
 
