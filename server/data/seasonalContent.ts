@@ -124,7 +124,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Black or navy eyeliner'
       ]
     },
-    celebrities: ['Anne Hathaway', 'Sandra Bullock', 'Megan Fox']
+    celebrities: ['Adriana Lima', 'Katy Perry', 'Megan Fox']
   },
 
   'Bright Winter': {
@@ -292,12 +292,9 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       ]
     },
     celebrities: [
-      'Sandra Bullock',
-      'Salma Hayek', 
-      'Viola Davis',
-      'Anne Hathaway',
-      'Courteney Cox',
-      'Catherine Zeta-Jones'
+      'Blake Lively',
+      'Cynthia Nixon', 
+      'Amy Adams'
     ]
   },
 
@@ -372,7 +369,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Silver and cool-toned highlighters"
       ]
     },
-    celebrities: ["Sandra Bullock", "Reese Witherspoon", "Jamie Lee Curtis"]
+    celebrities: ["Jane Levy", "Mila Jojovich", "Emma Stone"]
   },
 
   "Deep Winter": {
@@ -446,7 +443,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Deep, rich color palette throughout"
       ]
     },
-    celebrities: ["Sandra Bullock", "Salma Hayek", "Viola Davis"]
+    celebrities: ["Salma Hayek", "Viola Davis", "Sandra Bullock"]
   },
 
   "True Summer": {
@@ -556,7 +553,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or charcoal for natural definition",
       tips: "Your makeup should be soft and cool-toned, creating elegant looks with muted colors that enhance your natural sophistication."
     },
-    celebrities: ["Grace Kelly", "Gwyneth Paltrow", "Cate Blanchett"]
+    celebrities: ["Margot Robbie", "Reese Witherspoon", "Sydney Sweeney"]
   },
 
   "Light Summer": {
@@ -740,7 +737,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Gentle, natural makeup look"
       ]
     },
-    celebrities: ["Jennifer Aniston", "Adriana Lima", "Cara Delevingne"]
+    celebrities: ["Candice Swanepoel", "Sophie Turner", "Taylor Swift"]
   },
 
   'True Spring': {
@@ -886,7 +883,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Electric blue or green accents'
       ]
     },
-    celebrities: ['Jennifer Lopez', 'Beyoncé', 'Priyanka Chopra']
+    celebrities: ['Blake Lively', 'Amy Adams', 'Emma Stone']
   },
 
   'Light Spring': {
@@ -959,7 +956,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Soft brown eyeliner'
       ]
     },
-    celebrities: ['Blake Lively', 'Reese Witherspoon', 'Taylor Swift']
+    celebrities: ['Cynthia Nixon', 'Jane Levy', 'Mila Jojovich']
   },
 
   'True Autumn': {
@@ -1076,7 +1073,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or warm black",
       tips: "Your makeup should be rich and warm, enhancing your natural earthiness. Think golden colors that make you look healthy and radiant with autumn's richness."
     },
-    celebrities: ['Ana de Armas', 'Beyonce', 'Julianne Moore']
+    celebrities: ['Julia Roberts', 'Emily Ratajkowski', 'Adriana Lima']
   },
 
   'Dark Autumn': {
@@ -1193,7 +1190,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Dark brown or black",
       tips: "Your makeup should be rich and dramatic, matching your powerful coloring. Think deep, warm colors that create sophistication and intensity."
     },
-    celebrities: ['Emily Ratajkowski', 'Tyla', 'Julia Roberts']
+    celebrities: ['Katy Perry', 'Megan Fox', 'Tyla']
   },
 
   'Soft Autumn': {
@@ -1319,6 +1316,6 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or soft black",
       tips: "Your makeup should be soft and blended, creating a natural, sophisticated look. Think muted colors that blend seamlessly with your natural coloring for understated elegance."
     },
-    celebrities: ['Drew Barrymore', 'Angelina Jolie', 'Jessica Biel']
+    celebrities: ['Drew Barrymore', 'Jessica Biel', 'Julia Roberts']
   }
 };
