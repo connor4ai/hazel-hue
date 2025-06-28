@@ -1316,6 +1316,6 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       mascara: "Brown or soft black",
       tips: "Your makeup should be soft and blended, creating a natural, sophisticated look. Think muted colors that blend seamlessly with your natural coloring for understated elegance."
     },
-    celebrities: ['Drew Barrymore', 'Angelina Jolie', 'Jessica Biel']
+    celebrities: ['Drew Barrymore', 'Jessica Biel', 'Angelina Jolie']
   }
 };
