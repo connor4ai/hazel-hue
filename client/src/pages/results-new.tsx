@@ -1010,7 +1010,7 @@ export default function ResultsNew() {
   const steps = [
     {
       id: 'overview',
-      title: 'Your Season Overview',
+      title: 'Season Overview',
       icon: <Star className="w-6 h-6" />,
       content: (
         <div className="space-y-8">
