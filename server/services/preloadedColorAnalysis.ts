@@ -1,6 +1,8 @@
 import { seasonalContentData, type SeasonalContent } from '../data/seasonalContent';
 import OpenAI from 'openai';
 import fs from 'fs';
+import path from 'path';
+import sharp from 'sharp';
 
 interface ColorAnalysisResult {
   season: string;
@@ -43,10 +45,76 @@ export class PreloadedColorAnalysisService {
     });
   }
 
+  /**
+   * Convert HEIC files to JPEG format for OpenAI compatibility
+   * Returns the converted file path or original path if no conversion needed
+   */
+  private async convertHeicToJpeg(imagePath: string): Promise<string> {
+    const fileExtension = path.extname(imagePath).toLowerCase();
+    
+    // Only convert HEIC files
+    if (fileExtension !== '.heic' && fileExtension !== '.heif') {
+      return imagePath;
+    }
+    
+    try {
+      const convertedPath = imagePath.replace(/\.(heic|heif)$/i, '_converted.jpg');
+      
+      await sharp(imagePath)
+        .jpeg({ quality: 95 }) // High quality conversion
+        .toFile(convertedPath);
+      
+      console.log(`✅ Converted HEIC to JPEG: ${path.basename(imagePath)} → ${path.basename(convertedPath)}`);
+      return convertedPath;
+    } catch (error) {
+      console.error(`❌ Failed to convert HEIC file ${imagePath}:`, error);
+      // Return original path as fallback
+      return imagePath;
+    }
+  }
+
+  /**
+   * Convert all HEIC files in the array to JPEG format
+   */
+  private async convertAllHeicFiles(imagePaths: string[]): Promise<string[]> {
+    const convertedPaths: string[] = [];
+    
+    for (const imagePath of imagePaths) {
+      const convertedPath = await this.convertHeicToJpeg(imagePath);
+      convertedPaths.push(convertedPath);
+    }
+    
+    return convertedPaths;
+  }
+
+  /**
+   * Clean up converted JPEG files to save disk space
+   */
+  private async cleanupConvertedFiles(convertedPaths: string[]) {
+    for (const convertedPath of convertedPaths) {
+      // Only delete files that were converted (end with _converted.jpg)
+      if (convertedPath.includes('_converted.jpg')) {
+        try {
+          if (fs.existsSync(convertedPath)) {
+            fs.unlinkSync(convertedPath);
+            console.log(`🗑️ Cleaned up converted file: ${path.basename(convertedPath)}`);
+          }
+        } catch (error) {
+          console.error(`Failed to cleanup converted file ${convertedPath}:`, error);
+        }
+      }
+    }
+  }
+
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
       // Check if this is a demo order (with demo images)
       const isDemoOrder = imagePaths.some(path => path.includes('demo'));
+      
+      // Convert HEIC files to JPEG format for OpenAI compatibility
+      console.log('📸 Converting HEIC files to JPEG for OpenAI analysis...');
+      const convertedImagePaths = await this.convertAllHeicFiles(imagePaths);
+      console.log('📸 Image conversion complete, proceeding with analysis...');
       
       if (isDemoOrder) {
         // For demo orders, randomly select from available seasons for testing
@@ -57,9 +125,12 @@ export class PreloadedColorAnalysisService {
         return this.getPreloadedResult(selectedSeason);
       }
       
-      // Use OpenAI to detect the actual season from real uploaded photos
-      const detectedSeason = await this.detectSeason(imagePaths);
+      // Use OpenAI to detect the actual season from real uploaded photos (using converted paths)
+      const detectedSeason = await this.detectSeason(convertedImagePaths);
       console.log(`AI detected season: ${detectedSeason}`);
+      
+      // Clean up converted files after analysis
+      await this.cleanupConvertedFiles(convertedImagePaths);
       
       // Check if we have content for the detected season
       const availableSeasons = ['True Winter', 'Bright Winter', 'Dark Winter', 'True Summer', 'Light Summer', 'Soft Summer', 'True Spring', 'Bright Spring', 'Light Spring', 'True Autumn', 'Dark Autumn', 'Soft Autumn'];
