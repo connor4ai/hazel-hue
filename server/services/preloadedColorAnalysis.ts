@@ -107,13 +107,17 @@ export class PreloadedColorAnalysisService {
    * Convert all HEIC files in the array to JPEG format
    */
   private async convertAllHeicFiles(imagePaths: string[]): Promise<string[]> {
+    console.log(`🔄 Processing ${imagePaths.length} files for HEIC conversion`);
     const convertedPaths: string[] = [];
     
     for (const imagePath of imagePaths) {
+      console.log(`🔄 Processing file: ${imagePath}`);
       const convertedPath = await this.convertHeicToJpeg(imagePath);
       convertedPaths.push(convertedPath);
+      console.log(`✅ Processed: ${imagePath} → ${convertedPath}`);
     }
     
+    console.log(`🏁 Conversion complete. Original paths: ${imagePaths.length}, Converted paths: ${convertedPaths.length}`);
     return convertedPaths;
   }
 
