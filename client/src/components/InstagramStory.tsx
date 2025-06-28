@@ -262,9 +262,9 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
       ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
     });
     
-    // Season icon - positioned just above the first line of season text ("LIGHT")
+    // Season icon - positioned above the first line of season text ("LIGHT")
     ctx.font = '96px Arial';
-    ctx.fillText(data.icon, canvas.width / 2, startY - 80);
+    ctx.fillText(data.icon, canvas.width / 2, startY - 120);
     
     // Subtitle - positioned just below the last line of season text ("SUMMER")
     ctx.font = '300 40px Inter';
