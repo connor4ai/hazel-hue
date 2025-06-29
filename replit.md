@@ -31,11 +31,7 @@ Hazel & Hue is a full-stack web application that provides personalized color ana
 
 ## Key Components
 
-### Authentication System
-- User registration and login with encrypted passwords
-- Session-based authentication using JWT tokens
-- Protected routes for authenticated users
-- Account management with order history
+
 
 ### Photo Upload & Processing
 - Multi-file upload with drag-and-drop interface
@@ -61,19 +57,15 @@ Hazel & Hue is a full-stack web application that provides personalized color ana
 - Style recommendations for clothing, makeup, and accessories
 - Downloadable reports with professional formatting
 
-### Wallet Pass Integration
-- Apple Wallet pass generation for color cards
-- Portable color reference for shopping
-- JSON-based pass data with manifest generation
+
 
 ## Data Flow
 
-1. **User Registration/Login**: Users create accounts or authenticate to access services
-2. **Photo Upload**: Users upload 3 photos following guided instructions
-3. **Payment Processing**: Stripe handles secure payment collection with optional promo codes
-4. **AI Analysis**: Photos are processed through OpenAI API for color analysis
-5. **Report Generation**: Comprehensive PDF reports are generated with personalized recommendations
-6. **Delivery**: Users receive email notifications with downloadable reports and wallet passes
+1. **Photo Upload**: Users upload 3 photos following guided instructions
+2. **Payment Processing**: Stripe handles secure payment collection with optional promo codes
+3. **AI Analysis**: Photos are processed through OpenAI API for color analysis
+4. **Report Generation**: Comprehensive PDF reports are generated with personalized recommendations
+5. **Delivery**: Users receive email notifications with downloadable reports
 
 ## External Dependencies
 
@@ -157,6 +149,7 @@ Hazel & Hue is a full-stack web application that provides personalized color ana
 - June 28, 2025: **APPLE PAY INTEGRATION COMPLETED** - Enhanced mobile checkout experience with Apple Pay as primary payment option; configured Stripe payment intents with explicit payment_method_types including 'apple_pay', 'google_pay', and 'card'; implemented paymentMethodOrder prioritization across all checkout forms; added mobile-optimized email input fields with autoComplete="email", autoCapitalize="none", autoCorrect="off", spellCheck="false", and inputMode="email" for seamless mobile experience; added user-friendly notes explaining Apple Pay availability limitations in development iframe environment while confirming full functionality in production deployment
 - June 28, 2025: **ALL 12 SEASONS MOBILE OPTIMIZATION COMPLETED** - Systematically updated all season palette components (TrueWinter, BrightWinter, DarkWinter, TrueSummer, LightSummer, SoftSummer, TrueSpring, BrightSpring, LightSpring, TrueAutumn, DarkAutumn, SoftAutumn) to use MobileOptimizedColorSwatch component; implemented consistent responsive grid layouts with grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3; fixed color name and hex code text fitting issues on mobile devices; maintained click-to-copy functionality across all seasons
 - June 28, 2025: **SHARING TEXT UPDATED** - Changed all sharing functionality to display "check out my AI color analysis results from hazel & hue!" with hazelandhue.com website link; updated Instagram story sharing, results page sharing, premium results sharing, and mobile app sharing across all platforms for consistent brand messaging
+- June 29, 2025: **SIMPLIFIED USER EXPERIENCE** - Removed digital wallet functionality and authentication system; eliminated Apple Wallet pass generation, user registration, login requirements, and account creation features to streamline the user experience for guest-only color analysis without requiring user accounts
 
 ## User Preferences
 

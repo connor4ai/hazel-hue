@@ -136,31 +136,7 @@ export default function ResultsPremium() {
     }
   };
 
-  const downloadWalletCard = async () => {
-    try {
-      const response = await fetch(`/api/orders/${orderId}/wallet-card`);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${analysisResult?.season.replace(/\s+/g, '-')}-Color-Card.pkpass`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      
-      toast({
-        title: "Color Card Ready",
-        description: "Added to Apple Wallet for shopping color matches.",
-      });
-    } catch (error) {
-      toast({
-        title: "Wallet Card Failed",
-        description: "Please try again in a moment.",
-        variant: "destructive",
-      });
-    }
-  };
+
 
   const shareResults = async () => {
     try {
@@ -610,7 +586,7 @@ export default function ResultsPremium() {
         <div className="max-w-4xl mx-auto mt-8">
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">Take Your Results With You</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Button 
                 onClick={downloadPDF}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold h-12"
@@ -619,13 +595,7 @@ export default function ResultsPremium() {
                 Professional PDF
               </Button>
               
-              <Button 
-                onClick={downloadWalletCard}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold h-12"
-              >
-                <CreditCard className="w-5 h-5 mr-2" />
-                Add to Wallet
-              </Button>
+
               
               <Button 
                 variant="outline" 

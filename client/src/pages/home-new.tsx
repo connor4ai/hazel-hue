@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Palette, 
@@ -11,15 +10,12 @@ import {
   Menu,
   X,
   Home as HomeIcon,
-  HelpCircle,
-  LogIn,
-  User
+  HelpCircle
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function HomeNew() {
   const [, setLocation] = useLocation();
-  const { user, isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Custom cursor functionality
@@ -331,29 +327,7 @@ export default function HomeNew() {
                     <HelpCircle className="w-4 h-4 mr-3" />
                     FAQs
                   </button>
-                  {isAuthenticated ? (
-                    <button
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setLocation('/account');
-                      }}
-                      className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
-                    >
-                      <User className="w-4 h-4 mr-3" />
-                      My Account
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setLocation('/signin');
-                      }}
-                      className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
-                    >
-                      <LogIn className="w-4 h-4 mr-3" />
-                      Sign In
-                    </button>
-                  )}
+
                 </div>
               </motion.div>
             )}

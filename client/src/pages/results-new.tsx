@@ -1860,26 +1860,7 @@ export default function ResultsNew() {
               </Button>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 text-center border border-purple-100"
-            >
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Wallet className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-xl font-bold text-gray-800 mb-4">Save to Digital Wallet</h4>
-              <p className="text-gray-600 mb-6 text-sm">Add your color palette to Apple Wallet or Google Pay for instant access while shopping</p>
-              <Button 
-                onClick={() => {
-                  toast({ title: "Coming soon!", description: "Digital wallet integration will be available soon" });
-                }}
-                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl py-3"
-              >
-                Add to Wallet
-              </Button>
-            </motion.div>
+
           </div>
 
           <motion.div

@@ -765,47 +765,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Generate Apple Wallet card
-  app.get("/api/orders/:orderId/wallet-card", async (req, res) => {
-    try {
-      const { orderId } = req.params;
-      let order;
-      
-      if (orderId.startsWith('free_order_')) {
-        order = await storage.getOrderByPaymentIntent(orderId);
-      } else {
-        order = await storage.getOrder(parseInt(orderId));
-      }
-      
-      if (!order || order.status !== 'completed' || !order.analysisResult) {
-        return res.status(404).json({ message: "Analysis not found" });
-      }
 
-      const walletCardPath = await walletCardService.generateWalletPass(order.analysisResult, orderId);
-      
-      if (!fs.existsSync(walletCardPath)) {
-        return res.status(500).json({ message: "Failed to generate wallet card" });
-      }
-
-      res.setHeader('Content-Type', 'application/vnd.apple.pkpass');
-      const walletSeasonName = (order.analysisResult as any)?.season || 'Color-Analysis';
-      res.setHeader('Content-Disposition', `attachment; filename="${walletSeasonName.replace(/\s+/g, '-')}-Color-Card.pkpass"`);
-      
-      const fileStream = fs.createReadStream(walletCardPath);
-      fileStream.pipe(res);
-      
-      fileStream.on('end', () => {
-        setTimeout(() => {
-          if (fs.existsSync(walletCardPath)) {
-            fs.unlinkSync(walletCardPath);
-          }
-        }, 1000);
-      });
-    } catch (error: any) {
-      console.error("Error generating wallet card:", error);
-      res.status(500).json({ message: "Failed to generate wallet card" });
-    }
-  });
 
   // Admin routes
   app.post("/api/admin/login", async (req, res) => {

@@ -505,31 +505,7 @@ export default function Home() {
               </Card>
             </motion.div>
             
-            {/* Apple Wallet Color Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full bg-white card-hover shadow-lg border-0">
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--muted-blue))' }}>
-                    <Smartphone className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl mb-3" style={{ 
-                    fontFamily: 'Georgia, serif',
-                    color: 'rgb(var(--forest-green))',
-                    fontWeight: 500
-                  }}>
-                    Apple Wallet Color Card
-                  </h3>
-                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
-                    Portable digital color reference card that saves to your phone for convenient shopping and color matching
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+
           </div>
         </div>
       </section>
