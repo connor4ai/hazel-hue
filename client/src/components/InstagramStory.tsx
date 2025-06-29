@@ -280,14 +280,14 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold mb-2">Share Your Results!</h2>
-          <p className="text-gray-600">Download your personalized Instagram story</p>
+      <div className="bg-white rounded-2xl p-4 max-w-sm w-full max-h-[90vh] overflow-y-auto">
+        <div className="text-center mb-4">
+          <h2 className="text-xl font-bold mb-1">Share Your Results!</h2>
+          <p className="text-sm text-gray-600">Download your personalized Instagram story</p>
         </div>
         
         {/* Preview */}
-        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-6"
+        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-4"
              style={{
                background: season === 'Light Spring' ? 'linear-gradient(135deg, #FFE5E5, #FFE5B4, #E5FFE5, #E5F3FF)' :
                           season === 'True Spring' ? 'linear-gradient(135deg, #FFCC99, #FFB380, #FFD700, #FF8C69)' :
@@ -326,34 +326,34 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
         </div>
 
         {/* Color palette preview */}
-        <div className="flex justify-center gap-2 mb-6">
+        <div className="flex justify-center gap-2 mb-4">
           {data.colors.map((color, index) => (
             <div
               key={index}
-              className="w-8 h-8 rounded-lg shadow-md"
+              className="w-6 h-6 rounded-md shadow-md"
               style={{ backgroundColor: color }}
             />
           ))}
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 mb-2">
           <button
             onClick={shareImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
           >
             Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
-            className="px-6 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+            className="px-4 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
           >
             Close
           </button>
         </div>
         
-        <p className="text-xs text-gray-500 text-center mt-4">
-          Perfect for Instagram Stories • 1080x1920px
+        <p className="text-xs text-gray-500 text-center">
+          Perfect for Instagram Stories
         </p>
       </div>
     </div>
