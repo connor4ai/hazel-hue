@@ -42,6 +42,17 @@ app.use((req, res, next) => {
   const attachedAssetsPath = path.resolve(process.cwd(), "attached_assets");
   app.use("/attached_assets", express.static(attachedAssetsPath));
   
+  // Serve SEO files from root
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.resolve(process.cwd(), 'robots.txt'));
+  });
+  
+  app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.resolve(process.cwd(), 'sitemap.xml'));
+  });
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

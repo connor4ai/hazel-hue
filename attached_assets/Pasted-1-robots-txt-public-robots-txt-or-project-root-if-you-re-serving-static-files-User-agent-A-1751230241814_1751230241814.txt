@@ -1,0 +1,117 @@
+1. robots.txt → /public/robots.txt (or project root if you’re serving static files)
+
+User-agent: *
+Allow: /
+
+# Tell Google where the sitemap lives
+Sitemap: https://hazelandhue.com/sitemap.xml
+2. XML sitemap → /public/sitemap.xml
+
+Update or duplicate the <url> block for every live page.
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://hazelandhue.com/</loc>
+    <lastmod>2025-06-29</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 🔁 Copy-paste this block for each additional URL
+  <url>
+    <loc>https://hazelandhue.com/soft-autumn</loc>
+    <lastmod>2025-06-29</lastmod>
+    <priority>0.80</priority>
+  </url>
+  -->
+</urlset>
+After you push, open Google Search Console → Sitemaps → “Add new sitemap” → /sitemap.xml.
+
+3. Universal <head> snippet
+
+Add this at the top of every HTML page (or in your layout template if you’re using a framework).
+
+<!-- ——— SEO essentials ——— -->
+<title>Hazel &amp; Hue | Personalized Seasonal Color Analysis</title>
+<meta name="description"
+      content="Discover your perfect palette with our AI-assisted 12-season color analysis. Book in Austin or online." />
+<link rel="canonical" href="https://hazelandhue.com/" />
+
+<!-- Open Graph for social shares -->
+<meta property="og:type"        content="website" />
+<meta property="og:title"       content="Hazel &amp; Hue" />
+<meta property="og:description" content="Find the colors that make you glow." />
+<meta property="og:url"         content="https://hazelandhue.com/" />
+<meta property="og:image"       content="https://hazelandhue.com/og-cover.jpg" />
+
+<!-- Mobile & charset (skip if you already have them) -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+Swap the title / description when you reuse this snippet on deeper pages (e.g., “Soft Autumn Palette Guide”).
+
+4. Structured data (JSON-LD) — paste directly under the meta tags above
+
+Replace address/phone/social URLs with your real info.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Hazel & Hue",
+  "url": "https://hazelandhue.com",
+  "image": "https://hazelandhue.com/logo.png",
+  "telephone": "+1-512-555-5555",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Austin St.",
+    "addressLocality": "Austin",
+    "addressRegion": "TX",
+    "postalCode": "78701",
+    "addressCountry": "US"
+  },
+  "sameAs": ["https://www.instagram.com/hazelandhue"]
+}
+</script>
+Add a second block like the one below on any FAQ-style page to earn rich-result stars:
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is seasonal color analysis?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Seasonal color analysis matches your undertones with a 12-season palette so your clothes and makeup always flatter you."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do I need to visit your studio?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "No—virtual consultations are available. Upload two daylight photos and get your full report in 48 hours."
+   }
+  }
+ ]
+}
+</script>
+5. Image SEO rule of thumb
+
+Inside your HTML or Markdown:
+
+<img src="/images/soft-autumn-swatches.webp"
+     alt="Soft Autumn color palette swatches on fabric" width="400" height="250" loading="lazy">
+Tips to copy into your workflow:
+
+# Convert heavy PNGs to WebP inside Replit’s shell
+curl -sL https://deb.nodesource.com/setup | bash -
+sudo apt-get install -y webp
+for f in images/*.png; do cwebp "$f" -q 80 -o "${f%.png}.webp"; done
+6. Canonical tag on the booking sub-domain (if you control that HTML)
+
+Add this in the <head> of the booking pages to consolidate ranking signals:
+
+<link rel="canonical" href="https://hazelandhue.com/">

@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function FAQs() {
   const [, setLocation] = useLocation();
@@ -39,8 +40,28 @@ export default function FAQs() {
     }
   ];
 
+  // Create structured data for FAQ schema
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
     <>
+      <SEOHead 
+        title="Frequently Asked Questions | Hazel & Hue Color Analysis"
+        description="Get answers to common questions about our AI-powered color analysis service. Learn about the process, accuracy, privacy, and results."
+        path="/faqs"
+        structuredData={faqStructuredData}
+      />
       {/* Premium styles */}
       <style>{`
         :root {

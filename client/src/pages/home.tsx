@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
+import { SEOHead } from "@/components/SEOHead";
 import { motion } from "framer-motion";
 import { 
   Palette, 
@@ -56,6 +57,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      <SEOHead 
+        title="Hazel & Hue | AI-Powered Personal Color Analysis in 30 Seconds"
+        description="Discover your perfect palette with our AI-powered 12-season color analysis. Get personalized style recommendations, makeup guides, and professional reports instantly."
+        path="/"
+      />
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">

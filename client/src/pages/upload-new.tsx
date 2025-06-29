@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import { SEOHead } from '@/components/SEOHead';
 import { 
   Upload, 
   CheckCircle, 
@@ -178,6 +179,11 @@ export default function UploadNew() {
 
   return (
     <>
+      <SEOHead 
+        title="Upload Your Photos | Hazel & Hue Color Analysis"
+        description="Upload 3 clear selfies for your personalized AI color analysis. Get professional seasonal color recommendations in 30 seconds."
+        path="/upload"
+      />
       {/* Modern Design System Styles */}
       <style>{`
         /* Import Google Font */
