@@ -35,11 +35,7 @@ export default function FAQs() {
     },
     {
       question: "Can I get a refund?",
-      answer: "We offer a 30-day satisfaction guarantee. If you're not completely happy with your color analysis results, contact our support team for a full refund."
-    },
-    {
-      question: "What if I disagree with my results?",
-      answer: "While our AI is highly accurate, personal preference matters too. Your results include guidance on how to adapt recommendations to your style. You can also contact us for a consultation to discuss your analysis."
+      answer: "We do not provide refunds, however, if you believe you have a unique situation, feel free to reach out to us at jayda@hazelandhue.com."
     }
   ];
 
