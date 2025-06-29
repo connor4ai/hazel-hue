@@ -289,88 +289,146 @@ export default function UploadPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <AlertCircle className="w-5 h-5 mr-2 text-lagoon" />
-                  Photo Guidelines
+                  Photo Guidelines for Best Results
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Photo Examples with Real Images */}
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <Sun className="w-5 h-5 text-marigold mt-1" />
-                    <div>
-                      <p className="font-semibold text-warm-gray-dark">Natural Lighting</p>
-                      <p className="text-sm text-warm-gray">Take photos in bright, natural daylight near a window. Avoid artificial lighting or harsh shadows.</p>
-                    </div>
-                  </div>
+                  <h4 className="font-semibold text-warm-gray-dark text-lg">Photo Examples</h4>
                   
-                  <div className="flex items-start space-x-3">
-                    <User className="w-5 h-5 text-terracotta mt-1" />
-                    <div>
-                      <p className="font-semibold text-warm-gray-dark">No Makeup</p>
-                      <p className="text-sm text-warm-gray">Clean face with no makeup or very minimal makeup. This helps us see your natural skin tone.</p>
+                  <div className="space-y-4">
+                    {/* Good Example */}
+                    <div className="border-2 border-green-200 bg-green-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                        <span className="font-semibold text-green-800">Perfect Example ✓</span>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <img 
+                          src="/attached_assets/IMG_2843_1751224590512.jpg" 
+                          alt="Good photo example - close-up selfie with natural lighting"
+                          className="w-20 h-20 object-cover rounded-lg border-2 border-green-300"
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm text-green-700">
+                            <strong>Close-up selfie</strong> with natural lighting, minimal makeup, clear view of eyes and hair, simple background
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <RotateCcw className="w-5 h-5 text-sage mt-1" />
-                    <div>
-                      <p className="font-semibold text-warm-gray-dark">Different Angles</p>
-                      <p className="text-sm text-warm-gray">Upload 3 photos: front view, side profile, and another angle. Hair pulled back shows more of your face.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <Shirt className="w-5 h-5 text-lagoon mt-1" />
-                    <div>
-                      <p className="font-semibold text-warm-gray-dark">Neutral Clothing</p>
-                      <p className="text-sm text-warm-gray">Wear neutral colors (white, beige, gray) to avoid color reflection on your face.</p>
+
+                    {/* Bad Examples */}
+                    <div className="border-2 border-red-200 bg-red-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <AlertCircle className="w-5 h-5 text-red-600" />
+                        <span className="font-semibold text-red-800">Avoid These ✗</span>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-4">
+                          <img 
+                            src="/attached_assets/IMG_2845_1751224590513.jpg" 
+                            alt="Bad photo example - multiple people with sunglasses"
+                            className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                          />
+                          <p className="text-sm text-red-700">
+                            <strong>Multiple people & sunglasses</strong> - Can't see eyes or determine which person to analyze
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                          <img 
+                            src="/attached_assets/IMG_2846_1751224590513.jpg" 
+                            alt="Bad photo example - too far away with sunglasses"
+                            className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                          />
+                          <p className="text-sm text-red-700">
+                            <strong>Too far away & covered eyes</strong> - Face too small, features not visible
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-gradient-to-r from-terracotta/10 to-marigold/10 rounded-lg">
-                  <h4 className="font-semibold text-warm-gray-dark mb-3">Example Photos</h4>
-                  <div className="grid grid-cols-3 gap-3 text-xs text-warm-gray">
-                    <div className="text-center">
-                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center">
-                        <div className="text-center">
-                          <User className="w-8 h-8 text-blue-400 mx-auto mb-1" />
-                          <div className="text-xs text-blue-600 font-medium">Good</div>
-                        </div>
+                {/* Detailed Requirements */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-warm-gray-dark text-lg">Requirements for Accurate Analysis</h4>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <User className="w-5 h-5 text-lagoon mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">Close-up & Single Subject</p>
+                        <p className="text-sm text-warm-gray">Face should fill most of the frame. Only one person per photo for accurate analysis.</p>
                       </div>
-                      <p className="font-medium">Natural Light</p>
-                      <p className="text-xs">Clear, well-lit face</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center">
-                        <div className="text-center">
-                          <User className="w-8 h-8 text-green-400 mx-auto mb-1" />
-                          <div className="text-xs text-green-600 font-medium">Good</div>
-                        </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Sun className="w-5 h-5 text-marigold mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">Natural Lighting</p>
+                        <p className="text-sm text-warm-gray">Take photos in bright, natural daylight near a window. Avoid flash, artificial lighting, or harsh shadows.</p>
                       </div>
-                      <p className="font-medium">Front View</p>
-                      <p className="text-xs">Minimal makeup</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-full h-20 rounded-lg overflow-hidden mb-2 border border-gray-200 bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center">
-                        <div className="text-center">
-                          <User className="w-8 h-8 text-purple-400 mx-auto mb-1" />
-                          <div className="text-xs text-purple-600 font-medium">Good</div>
-                        </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Camera className="w-5 h-5 text-terracotta mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">Eyes & Hair Visible</p>
+                        <p className="text-sm text-warm-gray">Remove sunglasses, hats, or anything covering your eyes and hair. Both are crucial for accurate analysis.</p>
                       </div>
-                      <p className="font-medium">Good Angle</p>
-                      <p className="text-xs">Neutral clothing</p>
+                    </div>
+                  
+                    <div className="flex items-start space-x-3">
+                      <Sparkles className="w-5 h-5 text-terracotta mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">Minimal Makeup</p>
+                        <p className="text-sm text-warm-gray">Clean face with no makeup or very minimal makeup. This helps us see your natural skin tone.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <RotateCcw className="w-5 h-5 text-sage mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">Simple Background</p>
+                        <p className="text-sm text-warm-gray">Use a plain, neutral background. Avoid busy patterns or strong colors that might affect the analysis.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <AlertCircle className="w-5 h-5 text-lagoon mt-1" />
+                      <div>
+                        <p className="font-semibold text-warm-gray-dark">No Filters or Flash</p>
+                        <p className="text-sm text-warm-gray">Upload unfiltered photos taken without flash. Beauty filters and artificial lighting can alter your natural coloring.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <h4 className="font-semibold text-green-800 mb-2">Pro Tips for Best Results</h4>
-                  <ul className="text-sm text-green-700 space-y-1">
-                    <li>• Stand 2-3 feet from a window for soft, even lighting</li>
-                    <li>• Face the light source directly to avoid shadows</li>
-                    <li>• Remove accessories like hats or sunglasses</li>
-                    <li>• Ensure your face fills most of the frame</li>
-                    <li>• Photos should be clear and not blurry</li>
+                {/* Pro Tips */}
+                <div className="p-4 bg-gradient-to-r from-sage/20 to-lagoon/20 border border-sage/30 rounded-lg">
+                  <h4 className="font-semibold text-warm-gray-dark mb-3">Pro Tips for Best Results</h4>
+                  <ul className="text-sm text-warm-gray space-y-2">
+                    <li className="flex items-start space-x-2">
+                      <span className="text-lagoon font-bold">•</span>
+                      <span>Stand 2-3 feet from a window for soft, even lighting</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-lagoon font-bold">•</span>
+                      <span>Face the light source directly to avoid shadows</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-lagoon font-bold">•</span>
+                      <span>Remove accessories like hats, sunglasses, or heavy jewelry</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-lagoon font-bold">•</span>
+                      <span>Ensure your face fills most of the frame</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-lagoon font-bold">•</span>
+                      <span>Photos should be clear and not blurry</span>
+                    </li>
                   </ul>
                 </div>
               </CardContent>
