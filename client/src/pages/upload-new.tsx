@@ -459,6 +459,130 @@ export default function UploadNew() {
               </p>
             </div>
 
+            {/* Photo Guidelines Section */}
+            <div className="w-full max-w-4xl mb-8 fade-in">
+              <div className="elevated-card p-6 sm:p-8">
+                <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center" style={{ color: 'var(--ink)' }}>
+                  📸 Photo Guidelines for Best Results
+                </h2>
+                
+                {/* Photo Examples with Real Images */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--ink)' }}>Photo Examples</h3>
+                  
+                  <div className="space-y-4">
+                    {/* Good Example */}
+                    <div className="border-2 border-green-200 bg-green-50 rounded-xl p-4">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                        <span className="font-semibold text-green-800">Perfect Example ✓</span>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <img 
+                          src="/attached_assets/IMG_2843_1751224590512.jpg" 
+                          alt="Good photo example - close-up selfie with natural lighting"
+                          className="w-20 h-20 object-cover rounded-lg border-2 border-green-300"
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm text-green-700">
+                            <strong>Close-up selfie</strong> with natural lighting, minimal makeup, clear view of eyes and hair, simple background
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bad Examples */}
+                    <div className="border-2 border-red-200 bg-red-50 rounded-xl p-4">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <AlertCircle className="w-5 h-5 text-red-600" />
+                        <span className="font-semibold text-red-800">Avoid These ✗</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="flex items-center space-x-3">
+                          <img 
+                            src="/attached_assets/IMG_2845_1751224590513.jpg" 
+                            alt="Bad photo example - multiple people with sunglasses"
+                            className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                          />
+                          <p className="text-xs text-red-700">
+                            <strong>Multiple people & sunglasses</strong> - Can't see eyes
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <img 
+                            src="/attached_assets/IMG_2846_1751224590513.jpg" 
+                            alt="Bad photo example - too far away with sunglasses"
+                            className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                          />
+                          <p className="text-xs text-red-700">
+                            <strong>Too far away</strong> - Face too small, features not visible
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Requirements Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <div className="flex items-start space-x-3">
+                    <User className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Close-up & Single Subject</p>
+                      <p className="text-sm text-gray-600">Face fills most frame, one person only</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <Sun className="w-5 h-5 text-yellow-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Natural Lighting</p>
+                      <p className="text-sm text-gray-600">Bright daylight near window, no flash</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <Camera className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Eyes & Hair Visible</p>
+                      <p className="text-sm text-gray-600">Remove sunglasses, hats, or covers</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Sparkles className="w-5 h-5 text-pink-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Minimal Makeup</p>
+                      <p className="text-sm text-gray-600">Clean face to see natural skin tone</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pro Tips */}
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-4">
+                  <h4 className="font-semibold text-purple-800 mb-3">💡 Pro Tips for Best Results</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-purple-700">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-purple-600 font-bold">•</span>
+                      <span>Stand 2-3 feet from a window</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-purple-600 font-bold">•</span>
+                      <span>Face the light source directly</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-purple-600 font-bold">•</span>
+                      <span>Remove heavy accessories</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-purple-600 font-bold">•</span>
+                      <span>Use a plain, neutral background</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Main Upload Area */}
             <div className="w-full max-w-2xl mobile-safe-spacing">
               {files.length === 0 ? (
