@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { SEOHead } from "@/components/SEOHead";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { AdvancedSEO } from "@/components/AdvancedSEO";
 import { motion } from "framer-motion";
 import { 
   Palette, 
@@ -57,10 +59,48 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      <PerformanceOptimizer />
+      <AdvancedSEO 
+        page="home" 
+        additionalKeywords={["personal style consultant", "color matching service", "seasonal color palette", "style analysis online"]}
+        businessInfo={{ rating: 4.9, reviewCount: 127, priceRange: "$" }}
+      />
       <SEOHead 
         title="Hazel & Hue | AI-Powered Personal Color Analysis in 30 Seconds"
         description="Discover your perfect palette with our AI-powered 12-season color analysis. Get personalized style recommendations, makeup guides, and professional reports instantly."
         path="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "AI-Powered Color Analysis",
+          "provider": {
+            "@type": "Organization",
+            "name": "Hazel & Hue"
+          },
+          "description": "Professional 12-season color analysis using AI technology to determine your perfect color palette",
+          "serviceType": "Personal Color Analysis",
+          "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceUrl": "https://hazelandhue.com",
+            "serviceSmsNumber": null,
+            "servicePhone": null,
+            "serviceLocation": {
+              "@type": "Place",
+              "name": "Online"
+            }
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "29.99",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "validFrom": "2025-01-01"
+          },
+          "audience": {
+            "@type": "Audience",
+            "audienceType": "Anyone interested in personal style and color matching"
+          }
+        }}
       />
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">

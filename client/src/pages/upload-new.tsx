@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
+import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';
 import { 
   Upload, 
   CheckCircle, 

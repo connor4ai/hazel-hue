@@ -42,6 +42,39 @@ export function SEOHead({
       document.head.appendChild(link);
     }
     
+    // Enhanced keywords based on page content
+    const enhancedKeywords = [
+      'color analysis', 'personal color analysis', 'seasonal colors', 'AI color matching',
+      'personal styling', 'color consultant', 'color palette', '12 season analysis',
+      'style guide', 'color theory', 'personal branding', 'wardrobe planning',
+      'digital color analysis', 'online color consultation', 'seasonal color typing'
+    ].join(', ');
+    
+    // Update or create keywords meta tag
+    const updateMetaName = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (meta) {
+        meta.setAttribute('content', content);
+      } else {
+        const newMeta = document.createElement('meta');
+        newMeta.name = name;
+        newMeta.content = content;
+        document.head.appendChild(newMeta);
+      }
+    };
+    
+    // Add enhanced meta tags
+    updateMetaName('keywords', enhancedKeywords);
+    updateMetaName('author', 'Hazel & Hue');
+    updateMetaName('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    updateMetaName('googlebot', 'index, follow');
+    updateMetaName('bingbot', 'index, follow');
+    updateMetaName('theme-color', '#6B7A6B');
+    updateMetaName('msapplication-TileColor', '#6B7A6B');
+    updateMetaName('mobile-web-app-capable', 'yes');
+    updateMetaName('apple-mobile-web-app-capable', 'yes');
+    updateMetaName('apple-mobile-web-app-status-bar-style', 'default');
+    
     // Update Open Graph tags
     const updateMetaProperty = (property: string, content: string) => {
       let meta = document.querySelector(`meta[property="${property}"]`);

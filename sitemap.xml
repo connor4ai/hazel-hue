@@ -1,26 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Main Pages -->
   <url>
     <loc>https://hazelandhue.com/</loc>
     <lastmod>2025-06-29</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://hazelandhue.com/og-cover.jpg</image:loc>
+      <image:title>Hazel & Hue Color Analysis</image:title>
+      <image:caption>AI-powered seasonal color analysis platform</image:caption>
+    </image:image>
   </url>
   
   <url>
     <loc>https://hazelandhue.com/upload</loc>
     <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://hazelandhue.com/faqs</loc>
     <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://hazelandhue.com/checkout</loc>
     <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  
+  <!-- Seasonal Color Analysis Pages (SEO Landing Pages) -->
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/true-winter</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/bright-winter</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/dark-winter</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/true-summer</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/light-summer</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/soft-summer</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/true-spring</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/bright-spring</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/light-spring</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/true-autumn</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/dark-autumn</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis/soft-autumn</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Additional SEO Pages -->
+  <url>
+    <loc>https://hazelandhue.com/how-it-works</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://hazelandhue.com/color-analysis-guide</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
 </urlset>
