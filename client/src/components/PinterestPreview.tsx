@@ -30,45 +30,15 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
         setLoading(true);
         setError(null);
 
-        // Try Pinterest oEmbed first
-        const oembedUrl = `https://www.pinterest.com/oembed/?url=${encodeURIComponent(url)}`;
+        // Use our server-side Pinterest preview endpoint
+        const response = await fetch(`/api/pinterest/preview?url=${encodeURIComponent(url)}`);
         
-        try {
-          const response = await fetch(oembedUrl);
-          if (response.ok) {
-            const oembedData = await response.json();
-            setData(oembedData);
-            return;
-          }
-        } catch (oembedError) {
-          console.log('oEmbed failed, trying fallback methods');
-        }
-
-        // Fallback: Parse URL and create preview from Pinterest URL structure
-        const urlPattern = /pinterest\.com\/([^\/]+)\/([^\/]+)?/;
-        const match = url.match(urlPattern);
-        
-        if (match) {
-          const username = match[1];
-          const boardName = match[2];
-          
-          const fallbackData: PinterestData = {
-            title: boardName ? 
-              `${boardName.replace(/-/g, ' ')} by ${username}` : 
-              `${username}'s Pinterest Profile`,
-            description: boardName ? 
-              `Explore curated pins in the ${boardName.replace(/-/g, ' ')} collection` :
-              `Discover pins and boards from ${username}`,
-            author_name: username,
-            author_url: `https://pinterest.com/${username}`,
-            provider_name: 'Pinterest',
-            type: boardName ? 'board' : 'profile',
-            thumbnail_url: `https://i.pinimg.com/200x150/c5/c5/c5/c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5.jpg`
-          };
-          
-          setData(fallbackData);
+        if (response.ok) {
+          const previewData = await response.json();
+          setData(previewData);
         } else {
-          throw new Error('Invalid Pinterest URL format');
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to fetch Pinterest preview');
         }
 
       } catch (err) {
@@ -135,19 +105,11 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
       <div className="p-4">
         <div className="flex space-x-4">
           {/* Thumbnail */}
-          {data.thumbnail_url && (
-            <div className="flex-shrink-0">
-              <img 
-                src={data.thumbnail_url} 
-                alt={data.title}
-                className="w-16 h-16 rounded-lg object-cover border border-gray-200"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="%23e11d48" stroke-width="2"%3E%3Crect x="3" y="3" width="18" height="18" rx="2"%/%3E%3Ccircle cx="9" cy="9" r="2"%/%3E%3Cpath d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"%/%3E%3C/svg%3E';
-                }}
-              />
+          <div className="flex-shrink-0">
+            <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-red-100 to-pink-100 border border-red-200 flex items-center justify-center">
+              <Grid className="w-8 h-8 text-red-500" />
             </div>
-          )}
+          </div>
 
           {/* Text Content */}
           <div className="flex-1 min-w-0">

@@ -1265,6 +1265,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Pinterest preview endpoint
+  app.get("/api/pinterest/preview", async (req: Request, res: Response) => {
+    try {
+      const { url } = req.query;
+      
+      if (!url || typeof url !== 'string') {
+        return res.status(400).json({ error: 'URL parameter is required' });
+      }
+
+      if (!url.includes('pinterest.com')) {
+        return res.status(400).json({ error: 'Invalid Pinterest URL' });
+      }
+
+      // Parse URL structure for fallback preview
+      const urlPattern = /pinterest\.com\/([^\/]+)\/([^\/]+)?/;
+      const match = url.match(urlPattern);
+      
+      if (match) {
+        const username = match[1];
+        const boardName = match[2];
+        
+        // Clean up board name for display
+        const displayBoardName = boardName ? 
+          boardName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
+          null;
+        
+        const previewData = {
+          title: displayBoardName ? 
+            `${displayBoardName}` : 
+            `${username}'s Pinterest Profile`,
+          description: displayBoardName ? 
+            `Curated inspiration board with ${displayBoardName.toLowerCase()} ideas perfect for your coloring` :
+            `Discover pins and boards from ${username}`,
+          author_name: username,
+          author_url: `https://pinterest.com/${username}`,
+          provider_name: 'Pinterest',
+          type: boardName ? 'board' : 'profile',
+          url: url,
+          thumbnail_url: null // Will be handled by component
+        };
+        
+        return res.json(previewData);
+      }
+
+      return res.status(400).json({ error: 'Invalid Pinterest URL format' });
+
+    } catch (error) {
+      console.error('Pinterest preview error:', error);
+      return res.status(500).json({ error: 'Failed to fetch Pinterest preview' });
+    }
+  });
+
   // Promo code validation endpoint
   app.post("/api/promo/validate", async (req: Request, res: Response) => {
     try {
