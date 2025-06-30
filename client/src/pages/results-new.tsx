@@ -50,6 +50,86 @@ const getMetalColorSwatch = (metalName: string) => {
   }
 };
 
+// Hair colors to avoid helper function
+const getHairColorsToAvoid = (season: string) => {
+  const hairAvoidColors = {
+    'Light Spring': [
+      { name: 'Black', color: '#000000' },
+      { name: 'Ash Blonde', color: '#C0C0C0' },
+      { name: 'Cool Brown', color: '#8B4513' },
+      { name: 'Platinum', color: '#E5E4E2' }
+    ],
+    'True Spring': [
+      { name: 'Ash Tones', color: '#A9A9A9' },
+      { name: 'Cool Colors', color: '#778899' },
+      { name: 'Black', color: '#000000' },
+      { name: 'Platinum', color: '#E5E4E2' }
+    ],
+    'Bright Spring': [
+      { name: 'Muted Colors', color: '#D2B48C' },
+      { name: 'Ash Tones', color: '#A9A9A9' },
+      { name: 'Cool Brown', color: '#8B4513' },
+      { name: 'Gray', color: '#808080' }
+    ],
+    'Light Summer': [
+      { name: 'Warm Tones', color: '#D2691E' },
+      { name: 'Golden Brown', color: '#DAA520' },
+      { name: 'Auburn', color: '#A52A2A' },
+      { name: 'Brassy Blonde', color: '#FFA500' }
+    ],
+    'True Summer': [
+      { name: 'Warm Colors', color: '#CD853F' },
+      { name: 'Golden Tones', color: '#FFD700' },
+      { name: 'Auburn', color: '#A52A2A' },
+      { name: 'Orange Tones', color: '#FF8C00' }
+    ],
+    'Soft Summer': [
+      { name: 'Harsh Colors', color: '#000000' },
+      { name: 'Bright Tones', color: '#FF0000' },
+      { name: 'Golden Brown', color: '#DAA520' },
+      { name: 'Warm Auburn', color: '#A0522D' }
+    ],
+    'True Winter': [
+      { name: 'Warm Tones', color: '#D2691E' },
+      { name: 'Golden Brown', color: '#DAA520' },
+      { name: 'Auburn', color: '#A52A2A' },
+      { name: 'Orange Red', color: '#FF4500' }
+    ],
+    'Bright Winter': [
+      { name: 'Muted Colors', color: '#D2B48C' },
+      { name: 'Warm Brown', color: '#8B4513' },
+      { name: 'Golden Tones', color: '#DAA520' },
+      { name: 'Auburn', color: '#A52A2A' }
+    ],
+    'Dark Winter': [
+      { name: 'Light Colors', color: '#F5F5DC' },
+      { name: 'Warm Tones', color: '#D2691E' },
+      { name: 'Golden Brown', color: '#DAA520' },
+      { name: 'Light Brown', color: '#DEB887' }
+    ],
+    'True Autumn': [
+      { name: 'Cool Colors', color: '#4682B4' },
+      { name: 'Ash Tones', color: '#A9A9A9' },
+      { name: 'Black', color: '#000000' },
+      { name: 'Platinum', color: '#E5E4E2' }
+    ],
+    'Dark Autumn': [
+      { name: 'Light Colors', color: '#F5F5DC' },
+      { name: 'Cool Tones', color: '#4682B4' },
+      { name: 'Ash Blonde', color: '#C0C0C0' },
+      { name: 'Platinum', color: '#E5E4E2' }
+    ],
+    'Soft Autumn': [
+      { name: 'Bright Colors', color: '#FF0000' },
+      { name: 'Black', color: '#000000' },
+      { name: 'Cool Tones', color: '#4682B4' },
+      { name: 'Ash Tones', color: '#A9A9A9' }
+    ]
+  };
+  
+  return hairAvoidColors[season as keyof typeof hairAvoidColors] || hairAvoidColors['Light Spring'];
+};
+
 // Jewelry color helper function
 const getJewelryColorSwatch = (jewelryItem: string, usedNames: Set<string>) => {
   const itemLower = jewelryItem.toLowerCase();
@@ -1525,16 +1605,16 @@ export default function ResultsNew() {
                 ))}
               </div>
               <div className="mt-6 grid grid-cols-4 gap-3">
-                {['#D2B48C', '#CD853F', '#DEB887', '#F4A460'].map((color, index) => (
+                {getHairColorsToAvoid(analysisResult.season).map((colorData, index) => (
                   <div key={index} className="text-center">
                     <div
                       className="w-12 h-12 rounded-full mx-auto mb-2 border-2 border-red-300 relative"
-                      style={{ backgroundColor: color }}
+                      style={{ backgroundColor: colorData.color }}
                     >
                       <div className="absolute inset-0 rounded-full border-2 border-red-500 opacity-60"></div>
                       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-red-600 text-lg">×</div>
                     </div>
-                    <p className="text-xs text-gray-600">Warm tones</p>
+                    <p className="text-xs text-gray-600">{colorData.name}</p>
                   </div>
                 ))}
               </div>
