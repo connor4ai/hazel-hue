@@ -18,6 +18,7 @@ import LightSpringPalette from '@/components/LightSpringPalette';
 import TrueAutumnPalette from '@/components/TrueAutumnPalette';
 import DarkAutumnPalette from '@/components/DarkAutumnPalette';
 import SoftAutumnPalette from '@/components/SoftAutumnPalette';
+import { PinterestPreview } from '@/components/PinterestPreview';
 import InstagramStory from '@/components/InstagramStory';
 
 // Metal color helper function
@@ -892,26 +893,10 @@ const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
       <p className="text-gray-600 text-sm mb-4">Curated inspiration board with looks perfect for your coloring</p>
     </div>
     
-    <div className="bg-white rounded-xl p-4 mb-4">
-      <div className="relative h-64 bg-gradient-to-br from-pink-100 to-purple-100 rounded-lg overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-3 mx-auto shadow-lg">
-              <ExternalLink className="w-8 h-8 text-pink-600" />
-            </div>
-            <p className="text-gray-700 font-medium">Pinterest Board Preview</p>
-            <p className="text-gray-500 text-sm">Click to view full board</p>
-          </div>
-        </div>
-      </div>
+    {/* Pinterest Preview Component */}
+    <div className="mb-4">
+      <PinterestPreview url={url} className="w-full" />
     </div>
-    
-    <Button
-      onClick={() => window.open(url, '_blank')}
-      className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-xl py-2"
-    >
-      View Full Pinterest Board
-    </Button>
   </motion.div>
 );
 

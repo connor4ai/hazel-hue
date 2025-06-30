@@ -29,6 +29,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Account from "@/pages/account";
 import OrderLookup from "@/pages/order-lookup";
+import PinterestTest from "@/pages/pinterest-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -60,6 +61,7 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/account" component={Account} />
       <Route path="/lookup" component={OrderLookup} />
+      <Route path="/pinterest-test" component={PinterestTest} />
       <Route component={NotFound} />
     </Switch>
   );
