@@ -342,9 +342,7 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
           </button>
         </div>
         
-        <p className="text-xs text-gray-500 text-center">
-          Perfect for Instagram Stories
-        </p>
+
       </div>
     </div>
   );
