@@ -14,7 +14,18 @@ interface BlogPost {
   slug: string;
 }
 
-const blogPosts: BlogPost[] = [];
+const blogPosts: BlogPost[] = [
+  {
+    id: '1',
+    title: 'True Spring vs Warm Spring: Tests, Palettes & Pro Outfit Ideas',
+    excerpt: 'Evidence‑backed draping tests, palette tips and outfit ideas to determine whether you\'re True Spring or Warm Spring. Use three science‑backed tests to settle the debate.',
+    category: 'Color Theory',
+    date: '2025-06-29',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'true-spring-vs-warm-spring'
+  }
+];
 
 export default function Blog() {
   const [, setLocation] = useLocation();
