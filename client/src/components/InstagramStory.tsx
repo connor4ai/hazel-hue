@@ -283,7 +283,6 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
       <div className="bg-white rounded-2xl p-4 max-w-sm w-full max-h-[80vh] overflow-y-auto">
         <div className="text-center mb-4">
           <h2 className="text-xl font-bold mb-1">Share Your Results!</h2>
-          <p className="text-sm text-gray-600">Download your personalized Instagram story</p>
         </div>
         
         {/* Preview */}
@@ -325,16 +324,7 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
           </div>
         </div>
 
-        {/* Color palette preview */}
-        <div className="flex justify-center gap-2 mb-4">
-          {data.colors.map((color, index) => (
-            <div
-              key={index}
-              className="w-6 h-6 rounded-md shadow-md"
-              style={{ backgroundColor: color }}
-            />
-          ))}
-        </div>
+
 
         {/* Action buttons */}
         <div className="flex gap-3 mb-2">
