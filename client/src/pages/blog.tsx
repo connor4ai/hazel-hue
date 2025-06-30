@@ -24,6 +24,16 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'true-spring-vs-warm-spring'
+  },
+  {
+    id: '2',
+    title: 'Light Spring vs Light Summer: Tests, Palettes & Pro Outfit Ideas',
+    excerpt: 'Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you\'re Light Spring or Light Summer. Use three laboratory‑validated tests to find your season.',
+    category: 'Color Theory',
+    date: '2025-06-29',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'light-spring-vs-light-summer'
   }
 ];
 
