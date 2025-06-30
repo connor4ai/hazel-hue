@@ -728,7 +728,7 @@ export default function ResultsPreviewPage() {
             </div>
 
             {/* Clothing & Makeup Pinterest Boards Preview */}
-            <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
+            <div className="preview-card animate-slide-up" style={{ height: '216px', position: 'relative' }}>
               <div className="flex items-center mb-8">
                 <div className="card-icon mr-4">📌</div>
                 <h3 className="text-2xl font-semibold text-white">Clothing & Makeup Pinterest Boards</h3>
