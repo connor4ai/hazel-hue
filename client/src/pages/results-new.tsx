@@ -25,29 +25,54 @@ import InstagramStory from '@/components/InstagramStory';
 const getMetalColorSwatch = (metalName: string) => {
   const metalLower = metalName.toLowerCase();
   
-  if (metalLower.includes('silver') || metalLower.includes('platinum')) {
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400' };
+  if (metalLower.includes('silver') || metalLower.includes('bright silver')) {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500' };
+  } else if (metalLower.includes('platinum')) {
+    return { gradient: 'bg-gradient-to-br from-gray-200 to-gray-400' };
   } else if (metalLower.includes('white gold')) {
-    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200' };
-  } else if (metalLower.includes('gunmetal') || metalLower.includes('black metal')) {
-    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700' };
-  } else if (metalLower.includes('gold') && !metalLower.includes('rose')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-400' };
-  } else if (metalLower.includes('rose gold')) {
-    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-300' };
-  } else if (metalLower.includes('brass')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-500' };
-  } else if (metalLower.includes('copper')) {
-    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-500' };
-  } else if (metalLower.includes('bronze')) {
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700' };
-  } else if (metalLower.includes('pewter')) {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500' };
+    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-300' };
   } else if (metalLower.includes('chrome')) {
-    return { gradient: 'bg-gradient-to-br from-gray-200 to-gray-300' };
+    return { gradient: 'bg-gradient-to-br from-blue-100 to-blue-200' };
+  } else if (metalLower.includes('gunmetal') || metalLower.includes('black metal')) {
+    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800' };
+  } else if (metalLower.includes('rose gold')) {
+    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-400' };
+  } else if (metalLower.includes('champagne gold') || metalLower.includes('light gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-200 to-yellow-300' };
+  } else if (metalLower.includes('yellow gold') || (metalLower.includes('gold') && !metalLower.includes('rose') && !metalLower.includes('white'))) {
+    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-500' };
+  } else if (metalLower.includes('brass')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600' };
+  } else if (metalLower.includes('copper')) {
+    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-600' };
+  } else if (metalLower.includes('bronze')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800' };
+  } else if (metalLower.includes('pewter')) {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600' };
   } else {
     return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400' };
   }
+};
+
+// Best metals helper function
+const getBestMetals = (analysisResult: any) => {
+  if (analysisResult.accessories && analysisResult.accessories.bestMetals) {
+    return analysisResult.accessories.bestMetals;
+  }
+  
+  // Fallback - extract metals from the metals description text
+  const metalsText = analysisResult.accessories?.metals || '';
+  const commonMetals = [
+    'Silver', 'Gold', 'Rose Gold', 'White Gold', 'Platinum', 'Chrome', 
+    'Gunmetal', 'Brass', 'Copper', 'Bronze', 'Pewter', 'Champagne Gold',
+    'Light Gold', 'Yellow Gold'
+  ];
+  
+  const foundMetals = commonMetals.filter(metal => 
+    metalsText.toLowerCase().includes(metal.toLowerCase())
+  );
+  
+  return foundMetals.length > 0 ? foundMetals.slice(0, 5) : ['Silver', 'Gold', 'Rose Gold', 'Gunmetal', 'Brass'];
 };
 
 // Hair colors to avoid helper function
@@ -1390,22 +1415,18 @@ export default function ResultsNew() {
                 <div>
                   <p className="text-gray-700 leading-relaxed mb-4">{analysisResult.accessories.metals}</p>
                   <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
-                    {(() => {
-                      const usedNames = new Set<string>();
-                      const metalsList = ['Silver', 'Gold', 'Rose Gold', 'Gunmetal', 'Brass'];
-                      return metalsList.map((metal, index) => {
-                        const metalColors = getMetalColorSwatch(metal);
-                        return (
-                          <div key={index} className="text-center">
-                            <div 
-                              className={`w-12 h-12 ${metalColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
-                              title={metal}
-                            ></div>
-                            <p className="text-xs font-medium text-gray-700">{metal}</p>
-                          </div>
-                        );
-                      });
-                    })()}
+                    {getBestMetals(analysisResult).map((metal, index) => {
+                      const metalColors = getMetalColorSwatch(metal);
+                      return (
+                        <div key={index} className="text-center">
+                          <div 
+                            className={`w-12 h-12 ${metalColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                            title={metal}
+                          ></div>
+                          <p className="text-xs font-medium text-gray-700">{metal}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
