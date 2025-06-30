@@ -31,7 +31,9 @@ import {
   Eye,
   Award,
   Zap,
-  Mail
+  Mail,
+  Menu,
+  X
 } from "lucide-react";
 import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
@@ -40,6 +42,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -207,9 +210,111 @@ export default function Home() {
                 </div>
               )}
             </div>
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-forest-green hover:bg-forest-green/10"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="fixed inset-0 bg-black/50" onClick={() => setMobileMenuOpen(false)} />
+          <motion.div 
+            className="fixed top-16 left-0 right-0 bg-white shadow-lg border-b border-gray-100"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="py-6 px-4 space-y-4">
+              <button 
+                onClick={() => {
+                  scrollToSection('how-it-works');
+                  setMobileMenuOpen(false);
+                }} 
+                className="block w-full text-left py-3 px-4 rounded-lg transition-colors hover:bg-gray-50" 
+                style={{ 
+                  color: 'rgb(107, 122, 107)',
+                  fontFamily: 'Georgia, serif',
+                  fontWeight: 500
+                }}
+              >
+                How It Works
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('deliverables');
+                  setMobileMenuOpen(false);
+                }} 
+                className="block w-full text-left py-3 px-4 rounded-lg transition-colors hover:bg-gray-50" 
+                style={{ 
+                  color: 'rgb(107, 122, 107)',
+                  fontFamily: 'Georgia, serif',
+                  fontWeight: 500
+                }}
+              >
+                What You Get
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('faq');
+                  setMobileMenuOpen(false);
+                }} 
+                className="block w-full text-left py-3 px-4 rounded-lg transition-colors hover:bg-gray-50" 
+                style={{ 
+                  color: 'rgb(107, 122, 107)',
+                  fontFamily: 'Georgia, serif',
+                  fontWeight: 500
+                }}
+              >
+                FAQ
+              </button>
+              <button 
+                onClick={() => {
+                  setLocation('/blog');
+                  setMobileMenuOpen(false);
+                }} 
+                className="block w-full text-left py-3 px-4 rounded-lg transition-colors hover:bg-gray-50" 
+                style={{ 
+                  color: 'rgb(107, 122, 107)',
+                  fontFamily: 'Georgia, serif',
+                  fontWeight: 500
+                }}
+              >
+                Blog
+              </button>
+              <div className="pt-4 border-t border-gray-200">
+                <Button
+                  onClick={() => {
+                    setLocation('/upload');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full hover:opacity-90 transition-all duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, #E85A4F 0%, #D4A574 100%)',
+                    fontFamily: 'Georgia, serif',
+                    fontWeight: 600,
+                    boxShadow: '0 4px 15px rgba(232, 90, 79, 0.3)'
+                  }}
+                >
+                  Get Your Analysis
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden pt-32 md:pt-40" style={{ backgroundColor: '#F5F2ED' }}>
