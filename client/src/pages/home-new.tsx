@@ -10,7 +10,8 @@ import {
   Menu,
   X,
   Home as HomeIcon,
-  HelpCircle
+  HelpCircle,
+  BookOpen
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -326,6 +327,16 @@ export default function HomeNew() {
                   >
                     <HelpCircle className="w-4 h-4 mr-3" />
                     FAQs
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setLocation('/blog');
+                    }}
+                    className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
+                  >
+                    <BookOpen className="w-4 h-4 mr-3" />
+                    Blog
                   </button>
 
                 </div>
