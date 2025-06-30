@@ -14,6 +14,9 @@ import {
   BookOpen
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { SEOHead } from "@/components/SEOHead";
+import { AdvancedSEO } from "@/components/AdvancedSEO";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 
 export default function HomeNew() {
   const [, setLocation] = useLocation();
@@ -60,6 +63,62 @@ export default function HomeNew() {
 
   return (
     <>
+      <PerformanceOptimizer />
+      <AdvancedSEO 
+        page="home" 
+        additionalKeywords={[
+          "AI color analysis online", "personal color test", "seasonal color palette finder", 
+          "digital color consultant", "color matching AI", "virtual color analysis",
+          "best color analysis app", "professional color analysis online", "color season test",
+          "AI makeup recommendations", "personal color profile", "color analysis service"
+        ]}
+        businessInfo={{ rating: 4.9, reviewCount: 127, priceRange: "$" }}
+      />
+      <SEOHead 
+        title="AI Color Analysis | Hazel & Hue - Discover Your Perfect Colors in 30 Seconds"
+        description="Get your professional AI-powered color analysis instantly. Discover your seasonal color palette, perfect makeup shades, and personalized style recommendations. Try our advanced color matching technology now."
+        path="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "AI Color Analysis",
+          "provider": {
+            "@type": "Organization",
+            "name": "Hazel & Hue",
+            "url": "https://hazelandhue.com",
+            "logo": "https://hazelandhue.com/logo.png",
+            "description": "Leading AI-powered personal color analysis platform"
+          },
+          "description": "Professional 12-season color analysis using advanced AI technology to determine your perfect color palette and style recommendations",
+          "serviceType": "Personal Color Analysis",
+          "category": "Beauty and Style Consultation",
+          "areaServed": "Worldwide",
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Color Analysis Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "AI Color Analysis Report",
+                  "description": "Comprehensive color analysis with personalized recommendations"
+                },
+                "price": "29.99",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock"
+              }
+            ]
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "127",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }}
+      />
       {/* Premium styles */}
       <style>{`
         :root {

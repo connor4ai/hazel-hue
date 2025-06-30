@@ -2,6 +2,7 @@ import { useLocation } from 'wouter';
 import { BookOpen, Calendar, User, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
+import { AdvancedSEO } from '@/components/AdvancedSEO';
 
 interface BlogPost {
   id: string;
@@ -161,9 +162,43 @@ export default function Blog() {
         }
       `}</style>
 
+      <AdvancedSEO 
+        page="home" 
+        additionalKeywords={[
+          "color analysis blog", "seasonal color theory", "color analysis tips", "personal styling blog",
+          "color theory articles", "seasonal styling guides", "AI color analysis insights", "color consultant blog",
+          "color palette guides", "seasonal color content", "professional color analysis", "style expert advice"
+        ]}
+      />
       <SEOHead 
-        title="Blog - Color Analysis & Styling Tips | Hazel & Hue"
-        description="Discover expert insights on color analysis, personal styling, and beauty tips. Learn how to enhance your natural beauty with AI-powered color recommendations."
+        title="Color Analysis Blog | Expert Style Tips & Seasonal Guides | Hazel & Hue"
+        description="Discover expert insights on AI color analysis, seasonal color theory, and personal styling tips. Learn professional techniques to enhance your natural beauty with scientific color matching."
+        path="/blog"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Hazel & Hue Color Analysis Blog",
+          "description": "Expert insights on color analysis, seasonal color theory, and personal styling",
+          "url": "https://hazelandhue.com/blog",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Hazel & Hue",
+            "url": "https://hazelandhue.com",
+            "logo": "https://hazelandhue.com/logo.png"
+          },
+          "blogPost": blogPosts.map(post => ({
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "datePublished": post.date,
+            "author": {
+              "@type": "Organization",
+              "name": post.author
+            },
+            "url": `https://hazelandhue.com/blog/${post.slug}`,
+            "mainEntityOfPage": `https://hazelandhue.com/blog/${post.slug}`
+          }))
+        }}
       />
 
       {/* Animated Mesh Background */}

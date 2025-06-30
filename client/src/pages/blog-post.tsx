@@ -231,7 +231,7 @@ export default function BlogPost() {
       <SEOHead 
         title={`${blogPost.title} | Hazel & Hue Blog`}
         description={blogPost.excerpt}
-        canonical={`/blog/${blogPost.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+        path={`/blog/${blogPost.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
       />
 
       {/* Animated Mesh Background */}

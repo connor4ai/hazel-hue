@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { SEOHead } from "@/components/SEOHead";
+import { AdvancedSEO } from "@/components/AdvancedSEO";
 
 export default function FAQs() {
   const [, setLocation] = useLocation();
@@ -56,9 +57,17 @@ export default function FAQs() {
 
   return (
     <>
+      <AdvancedSEO 
+        page="faqs" 
+        additionalKeywords={[
+          "color analysis questions", "AI color analysis FAQ", "seasonal color analysis help",
+          "color analysis accuracy", "personal color test questions", "how does color analysis work",
+          "color analysis process", "color consultation FAQ", "color matching questions"
+        ]}
+      />
       <SEOHead 
-        title="Frequently Asked Questions | Hazel & Hue Color Analysis"
-        description="Get answers to common questions about our AI-powered color analysis service. Learn about the process, accuracy, privacy, and results."
+        title="AI Color Analysis FAQs | Hazel & Hue - Your Questions Answered"
+        description="Get answers to common questions about our AI-powered color analysis service. Learn about the process, accuracy, privacy, and results. Start your color journey with confidence."
         path="/faqs"
         structuredData={faqStructuredData}
       />

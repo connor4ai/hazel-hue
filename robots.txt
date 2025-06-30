@@ -1,5 +1,28 @@
 User-agent: *
 Allow: /
+Allow: /blog/
+Allow: /upload
+Allow: /faqs
+Allow: /checkout
 
-# Tell Google where the sitemap lives
+# Priority crawling for important SEO pages
+Allow: /blog/true-spring-vs-warm-spring
+Allow: /blog/light-spring-vs-light-summer
+
+# Block unnecessary admin/API routes
+Disallow: /api/
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /results/
+Disallow: /processing/
+Disallow: /analyzing
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Tell search engines where the sitemap lives
 Sitemap: https://hazelandhue.com/sitemap.xml
+
+# Additional sitemaps for different content types
+Sitemap: https://hazelandhue.com/blog-sitemap.xml

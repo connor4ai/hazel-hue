@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
+import { AdvancedSEO } from '@/components/AdvancedSEO';
 import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';
 import { 
   Upload, 
@@ -180,10 +181,57 @@ export default function UploadNew() {
 
   return (
     <>
+      <AdvancedSEO 
+        page="upload" 
+        additionalKeywords={[
+          "upload photos color analysis", "AI photo analysis", "color analysis selfie upload",
+          "personal color test photos", "seasonal color analysis upload", "color matching photos",
+          "professional color analysis photos", "AI color consultation upload"
+        ]}
+      />
       <SEOHead 
-        title="Upload Your Photos | Hazel & Hue Color Analysis"
-        description="Upload 3 clear selfies for your personalized AI color analysis. Get professional seasonal color recommendations in 30 seconds."
+        title="Upload Photos for AI Color Analysis | Hazel & Hue - Start Your Color Journey"
+        description="Upload 3 clear selfies for your personalized AI color analysis. Get professional seasonal color recommendations, makeup guides, and style advice in 30 seconds. Start your color journey now."
         path="/upload"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Upload Photos for AI Color Analysis",
+          "description": "Simple step-by-step guide to upload photos for professional color analysis",
+          "totalTime": "PT30S",
+          "supply": [
+            {
+              "@type": "HowToSupply",
+              "name": "3 clear selfie photos"
+            }
+          ],
+          "tool": [
+            {
+              "@type": "HowToTool", 
+              "name": "Smartphone or camera"
+            }
+          ],
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Take clear selfies in natural lighting",
+              "text": "Take 3 clear selfies without makeup in natural daylight",
+              "url": "https://hazelandhue.com/upload#guidelines"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Upload your photos",
+              "text": "Upload your photos using our secure upload system",
+              "url": "https://hazelandhue.com/upload#upload"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Get instant AI analysis",
+              "text": "Receive your personalized color analysis in 30 seconds",
+              "url": "https://hazelandhue.com/upload#analysis"
+            }
+          ]
+        }}
       />
       {/* Modern Design System Styles */}
       <style>{`

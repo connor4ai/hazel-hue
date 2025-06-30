@@ -44,10 +44,14 @@ export function SEOHead({
     
     // Enhanced keywords based on page content
     const enhancedKeywords = [
-      'color analysis', 'personal color analysis', 'seasonal colors', 'AI color matching',
-      'personal styling', 'color consultant', 'color palette', '12 season analysis',
-      'style guide', 'color theory', 'personal branding', 'wardrobe planning',
-      'digital color analysis', 'online color consultation', 'seasonal color typing'
+      'color analysis', 'AI color analysis', 'personal color analysis', 'seasonal color analysis',
+      'color analysis online', 'AI color matching', 'virtual color analysis', 'digital color analysis',
+      'personal color test', 'color consultant', 'color palette finder', '12 season color analysis',
+      'seasonal colors', 'color season test', 'best color analysis', 'professional color analysis',
+      'AI makeup recommendations', 'personal color profile', 'color analysis service',
+      'color matching app', 'online color consultation', 'seasonal color typing',
+      'personal styling', 'style guide', 'color theory', 'personal branding', 'wardrobe planning',
+      'color palette generator', 'AI beauty analysis', 'personalized color recommendations'
     ].join(', ');
     
     // Update or create keywords meta tag
