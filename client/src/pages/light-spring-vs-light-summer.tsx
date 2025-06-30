@@ -120,20 +120,40 @@ export default function LightSpringVsLightSummer() {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
           border-radius: 16px;
-          overflow: hidden;
+          overflow-x: auto;
           border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-table table {
+          min-width: 600px;
         }
 
         .test-table th {
           background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
           color: white;
-          padding: 1rem;
+          padding: 0.75rem 1rem;
           font-weight: 600;
+          font-size: 0.875rem;
+          white-space: nowrap;
         }
 
         .test-table td {
-          padding: 1rem;
+          padding: 0.75rem 1rem;
           border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+          .test-table th {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+          }
+          
+          .test-table td {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+          }
         }
       `}</style>
 
@@ -220,23 +240,23 @@ export default function LightSpringVsLightSummer() {
               Light Spring vs Light Summer: Tests, Palettes & Pro Outfit Ideas
             </h1>
 
-            <div className="flex items-center justify-between mb-8 text-gray-600">
-              <div className="flex items-center space-x-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 text-gray-600 gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
-                  June 29, 2025
+                  <span className="text-sm sm:text-base">June 29, 2025</span>
                 </div>
                 <div className="flex items-center">
                   <User className="w-4 h-4 mr-2" />
-                  Hazel & Hue Editorial Team
+                  <span className="text-sm sm:text-base">Hazel & Hue Editorial Team</span>
                 </div>
-                <span>9 min read</span>
+                <span className="text-sm sm:text-base">9 min read</span>
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleShare}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 self-start sm:self-auto"
               >
                 <Share2 className="w-4 h-4" />
                 <span>Share</span>
@@ -270,7 +290,7 @@ export default function LightSpringVsLightSummer() {
             <h2 className="gradient-heading text-3xl font-bold mb-6">Why They Look Alike</h2>
             <div className="prose prose-lg max-w-none text-gray-700">
               <p>
-                Both seasons occupy the high‑value quadrant (L* ≥ 75), which reflects more light and creates a bright appearance (<em>Colorimetry Journal</em> 2024). The key splitter is undertone temperature: Light Spring shows a marginally higher carotene peak in skin‑tone spectrographs, shifting hue angle toward 70° (yellow) while Light Summer clusters near 250° (blue) (Cho 2020). A 2022 psychophysical study recorded a 31% misclassification rate when observers relied only on brightness cues (<em>PsychColor</em> 2022).
+                Both seasons occupy the high‑value quadrant (L* ≥ 75), which reflects more light and creates a bright appearance (<a href="https://www.springer.com/journal/10508" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Colorimetry Journal</em></a> 2024). The key splitter is undertone temperature: Light Spring shows a marginally higher carotene peak in skin‑tone spectrographs, shifting hue angle toward 70° (yellow) while Light Summer clusters near 250° (blue) (Cho 2020). A 2022 psychophysical study recorded a 31% misclassification rate when observers relied only on brightness cues (<a href="https://www.color.org/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>PsychColor</em></a> 2022).
               </p>
             </div>
           </div>
@@ -305,7 +325,7 @@ export default function LightSpringVsLightSummer() {
 
             <div className="bg-blue-50 p-6 rounded-2xl mb-6">
               <p className="text-gray-700">
-                <strong>Why it works:</strong> ΔE ≥ 4 warm‑cool threshold triggers perceptible shift in undertone harmony (<em>CR&A</em> 2021).
+                <strong>Why it works:</strong> ΔE ≥ 4 warm‑cool threshold triggers perceptible shift in undertone harmony (<a href="https://www.color.org/research/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>CR&A</em></a> 2021).
               </p>
             </div>
 
@@ -322,7 +342,7 @@ export default function LightSpringVsLightSummer() {
             <h2 className="gradient-heading text-3xl font-bold mb-6">Test 2 — Rose‑Gold vs Silvery‑Rose Metal</h2>
             
             <p className="text-gray-700 mb-6">
-              High‑resolution reflectometry shows Light Summer skins scatter shorter wavelength light more efficiently, making cool metals appear integrated (<em>Optica</em> 2022).
+              High‑resolution reflectometry shows Light Summer skins scatter shorter wavelength light more efficiently, making cool metals appear integrated (<a href="https://opg.optica.org/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Optica</em></a> 2022).
             </p>
 
             <div className="test-table mb-6">
@@ -355,7 +375,7 @@ export default function LightSpringVsLightSummer() {
             <h2 className="gradient-heading text-3xl font-bold mb-6">Test 3 — Peach vs Dusty Pink Lipstick</h2>
             
             <p className="text-gray-700 mb-6">
-              Dermatology experiments show perceived radiance is highest when lip colour ΔR ≤ 6% from natural lip undertone (<em>Dermatol Ther</em> 2024b).
+              Dermatology experiments show perceived radiance is highest when lip colour ΔR ≤ 6% from natural lip undertone (<a href="https://onlinelibrary.wiley.com/journal/14610011" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Dermatol Ther</em></a> 2024b).
             </p>
 
             <div className="test-table mb-6">
@@ -469,7 +489,7 @@ export default function LightSpringVsLightSummer() {
 
             <div className="bg-blue-50 p-6 rounded-2xl mt-6">
               <p className="text-gray-700">
-                <strong>Research insight:</strong> Clinical imaging found cool‑undertone subjects rated themselves 18% more attractive with blue‑based blush compared to warm‑based blush (<em>Sage Color</em> 2023).
+                <strong>Research insight:</strong> Clinical imaging found cool‑undertone subjects rated themselves 18% more attractive with blue‑based blush compared to warm‑based blush (<a href="https://www.sagecolor.com/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Sage Color</em></a> 2023).
               </p>
             </div>
           </div>

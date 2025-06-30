@@ -120,20 +120,40 @@ export default function TrueSpringVsWarmSpring() {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
           border-radius: 16px;
-          overflow: hidden;
+          overflow-x: auto;
           border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-table table {
+          min-width: 600px;
         }
 
         .test-table th {
           background: linear-gradient(135deg, #9333EA 0%, #EC4899 100%);
           color: white;
-          padding: 1rem;
+          padding: 0.75rem 1rem;
           font-weight: 600;
+          font-size: 0.875rem;
+          white-space: nowrap;
         }
 
         .test-table td {
-          padding: 1rem;
+          padding: 0.75rem 1rem;
           border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+          .test-table th {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+          }
+          
+          .test-table td {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+          }
         }
       `}</style>
 
@@ -220,23 +240,23 @@ export default function TrueSpringVsWarmSpring() {
               True Spring vs Warm Spring: Tests, Palettes & Pro Outfit Ideas
             </h1>
 
-            <div className="flex items-center justify-between mb-8 text-gray-600">
-              <div className="flex items-center space-x-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 text-gray-600 gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-2" />
-                  June 29, 2025
+                  <span className="text-sm sm:text-base">June 29, 2025</span>
                 </div>
                 <div className="flex items-center">
                   <User className="w-4 h-4 mr-2" />
-                  Hazel & Hue Editorial Team
+                  <span className="text-sm sm:text-base">Hazel & Hue Editorial Team</span>
                 </div>
-                <span>9 min read</span>
+                <span className="text-sm sm:text-base">9 min read</span>
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleShare}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 self-start sm:self-auto"
               >
                 <Share2 className="w-4 h-4" />
                 <span>Share</span>
@@ -270,7 +290,7 @@ export default function TrueSpringVsWarmSpring() {
             <h2 className="gradient-heading text-3xl font-bold mb-6">Why These Seasons Get Mixed Up</h2>
             <div className="prose prose-lg max-w-none text-gray-700">
               <p>
-                Colour‑science research confirms that adjacent warm seasons share nearly identical melanin : carotene ratios, giving both groups a golden base (<em>Journal of Cosmetic Dermatology</em> 2025). The deciding variables are chroma (colour purity) and value (lightness)—subtle shifts that untrained eyes often miss. A 2023 observer study showed 46% misclassification between these two seasons (<em>ICAJ</em> 2023).
+                Colour‑science research confirms that adjacent warm seasons share nearly identical melanin : carotene ratios, giving both groups a golden base (<a href="https://onlinelibrary.wiley.com/journal/14732165" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Journal of Cosmetic Dermatology</em></a> 2025). The deciding variables are chroma (colour purity) and value (lightness)—subtle shifts that untrained eyes often miss. A 2023 observer study showed 46% misclassification between these two seasons (<a href="https://www.colour.org/journal/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>ICAJ</em></a> 2023).
               </p>
             </div>
           </div>
@@ -310,7 +330,7 @@ export default function TrueSpringVsWarmSpring() {
             </div>
 
             <p className="text-gray-700">
-              <strong>No fabric handy?</strong> Full‑screen these colours on your phone in indirect daylight; phone backlights provide sufficiently narrowband emission for comparative undertone tests (<em>IEEE Display Tech</em> 2024).
+              <strong>No fabric handy?</strong> Full‑screen these colours on your phone in indirect daylight; phone backlights provide sufficiently narrowband emission for comparative undertone tests (<a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=5251996" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>IEEE Display Tech</em></a> 2024).
             </p>
 
             <div className="flex items-center mt-4">
@@ -326,7 +346,7 @@ export default function TrueSpringVsWarmSpring() {
             <h2 className="gradient-heading text-3xl font-bold mb-6">Test 2 — Gold Gloss vs Brushed Brass</h2>
             
             <p className="text-gray-700 mb-6">
-              High specular highlights amplify colour purity in True Spring but can overwhelm Warm Spring. Optical modelling of skin‑metal interactions backs this up (<em>Optical Society</em> 2021).
+              High specular highlights amplify colour purity in True Spring but can overwhelm Warm Spring. Optical modelling of skin‑metal interactions backs this up (<a href="https://opg.optica.org/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Optical Society</em></a> 2021).
             </p>
 
             <div className="test-table mb-6">
@@ -369,7 +389,7 @@ export default function TrueSpringVsWarmSpring() {
 
             <div className="bg-blue-50 p-6 rounded-2xl">
               <p className="text-gray-700">
-                <strong>Science note:</strong> Camel sits ~10 L* points darker than ivory; Warm Spring's slightly deeper value prevents it from washing out (<em>Munsell Lab</em> 2024).
+                <strong>Science note:</strong> Camel sits ~10 L* points darker than ivory; Warm Spring's slightly deeper value prevents it from washing out (<a href="https://munsell.com/" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 underline"><em>Munsell Lab</em></a> 2024).
               </p>
             </div>
 
