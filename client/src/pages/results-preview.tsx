@@ -733,7 +733,7 @@ export default function ResultsPreviewPage() {
                 <div className="card-icon mr-4">📌</div>
                 <h3 className="text-2xl font-semibold text-white">Clothing & Makeup Pinterest Boards</h3>
               </div>
-              <div className="preview-content mb-4" style={{ filter: 'blur(4px)' }}>
+              <div className="preview-content mb-4" style={{ filter: 'blur(2px)' }}>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-white/20 rounded-lg p-3">
                     <div className="text-sm text-white/80">Spring Clothing</div>
@@ -757,7 +757,7 @@ export default function ResultsPreviewPage() {
                 <div className="card-icon mr-4">💎</div>
                 <h3 className="text-2xl font-semibold text-white">Jewelry Recs</h3>
               </div>
-              <div className="preview-content mb-4" style={{ filter: 'blur(4px)' }}>
+              <div className="preview-content mb-4" style={{ filter: 'blur(2px)' }}>
                 <div className="space-y-2">
                   <div className="text-sm text-white/80">• Gold metals complement your warmth</div>
                   <div className="text-sm text-white/80">• Delicate chains and fine details</div>
