@@ -134,6 +134,64 @@ const getJewelryRecommendations = (season: string) => {
   return jewelryRecs[season as keyof typeof jewelryRecs] || jewelryRecs['Bright Winter'];
 };
 
+// Eyewear recommendations helper function
+const getEyewearRecommendations = (analysisResult: any) => {
+  if (analysisResult.accessories && analysisResult.accessories.eyewearFrames) {
+    return analysisResult.accessories.eyewearFrames;
+  }
+  
+  // Extract frame types from the glasses description text
+  const glassesText = Array.isArray(analysisResult.accessories.glasses) 
+    ? analysisResult.accessories.glasses.join(' ') 
+    : (analysisResult.accessories.glasses || '');
+    
+  const commonFrameTypes = [
+    'Electric Blue Acetate', 'Bright Silver Wire', 'Chrome Wire', 'Black Frames', 'White Frames',
+    'Tortoiseshell', 'Cat-Eye', 'Round Frames', 'Square Frames', 'Aviator', 'Oversized',
+    'Metal Frames', 'Plastic Frames', 'Clear Frames', 'Bold Shapes', 'Minimalist',
+    'Angular Frames', 'Soft Frames', 'Dark Frames', 'Light Frames'
+  ];
+  
+  const foundFrames = commonFrameTypes.filter(frame => 
+    glassesText.toLowerCase().includes(frame.toLowerCase().replace(' frames', ''))
+  );
+  
+  return foundFrames.length > 0 ? foundFrames.slice(0, 6) : ['Black Frames', 'Silver Frames', 'Modern Frames'];
+};
+
+// Enhanced eyewear color helper function
+const getEyewearColorSwatch = (frameType: string, usedNames: Set<string>) => {
+  const frameTypeLower = frameType.toLowerCase();
+  
+  if (frameTypeLower.includes('electric blue') || frameTypeLower.includes('blue acetate')) {
+    return { gradient: 'bg-gradient-to-br from-blue-400 to-blue-600', name: 'Electric Blue' };
+  } else if (frameTypeLower.includes('bright silver') || frameTypeLower.includes('silver wire')) {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Bright Silver' };
+  } else if (frameTypeLower.includes('chrome wire') || frameTypeLower.includes('chrome')) {
+    return { gradient: 'bg-gradient-to-br from-blue-100 to-blue-300', name: 'Chrome Wire' };
+  } else if (frameTypeLower.includes('black')) {
+    return { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black' };
+  } else if (frameTypeLower.includes('white')) {
+    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'White' };
+  } else if (frameTypeLower.includes('tortoiseshell') || frameTypeLower.includes('tortoise')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Tortoiseshell' };
+  } else if (frameTypeLower.includes('clear')) {
+    return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200', name: 'Clear' };
+  } else if (frameTypeLower.includes('gold') || frameTypeLower.includes('golden')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-500', name: 'Gold' };
+  } else if (frameTypeLower.includes('rose gold')) {
+    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-400', name: 'Rose Gold' };
+  } else if (frameTypeLower.includes('metal') || frameTypeLower.includes('silver')) {
+    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Silver' };
+  } else if (frameTypeLower.includes('modern')) {
+    return { gradient: 'bg-gradient-to-br from-slate-400 to-slate-600', name: 'Modern' };
+  } else if (frameTypeLower.includes('classic')) {
+    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700', name: 'Classic' };
+  } else {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Frame' };
+  }
+};
+
 // Best metals helper function
 const getBestMetals = (analysisResult: any) => {
   if (analysisResult.accessories && analysisResult.accessories.bestMetals) {
@@ -317,68 +375,7 @@ const getJewelryColorSwatch = (jewelryItem: string, usedNames: Set<string>) => {
   }
 };
 
-// Eyewear color helper function
-const getEyewearColorSwatch = (frameType: string, usedNames: Set<string>) => {
-  const frameLower = frameType.toLowerCase();
-  
-  if (frameLower.includes('black') && !usedNames.has('Black')) {
-    usedNames.add('Black');
-    return { gradient: 'bg-gradient-to-br from-gray-800 to-gray-900', name: 'Black' };
-  } else if (frameLower.includes('silver') && !usedNames.has('Silver')) {
-    usedNames.add('Silver');
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Silver' };
-  } else if (frameLower.includes('gold') && !frameLower.includes('rose') && !usedNames.has('Gold')) {
-    usedNames.add('Gold');
-    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-400', name: 'Gold' };
-  } else if ((frameLower.includes('tortoiseshell') || frameLower.includes('tortoise')) && !usedNames.has('Tortoiseshell')) {
-    usedNames.add('Tortoiseshell');
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-700', name: 'Tortoiseshell' };
-  } else if ((frameLower.includes('navy') || frameLower.includes('dark blue')) && !usedNames.has('Navy')) {
-    usedNames.add('Navy');
-    return { gradient: 'bg-gradient-to-br from-blue-700 to-blue-800', name: 'Navy' };
-  } else if ((frameLower.includes('burgundy') || frameLower.includes('wine')) && !usedNames.has('Burgundy')) {
-    usedNames.add('Burgundy');
-    return { gradient: 'bg-gradient-to-br from-red-700 to-red-800', name: 'Burgundy' };
-  } else if (frameLower.includes('coral') && !usedNames.has('Coral')) {
-    usedNames.add('Coral');
-    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-500', name: 'Coral' };
-  } else if (frameLower.includes('turquoise') && !usedNames.has('Turquoise')) {
-    usedNames.add('Turquoise');
-    return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-500', name: 'Turquoise' };
-  } else if ((frameLower.includes('gray') || frameLower.includes('grey')) && !usedNames.has('Gray')) {
-    usedNames.add('Gray');
-    return { gradient: 'bg-gradient-to-br from-gray-500 to-gray-600', name: 'Gray' };
-  } else if (frameLower.includes('gunmetal') && !usedNames.has('Gunmetal')) {
-    usedNames.add('Gunmetal');
-    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700', name: 'Gunmetal' };
-  } else if (frameLower.includes('rose gold') && !usedNames.has('Rose Gold')) {
-    usedNames.add('Rose Gold');
-    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-300', name: 'Rose Gold' };
-  } else if (frameLower.includes('peach') && !usedNames.has('Peach')) {
-    usedNames.add('Peach');
-    return { gradient: 'bg-gradient-to-br from-orange-200 to-orange-300', name: 'Peach' };
-  } else if (frameLower.includes('champagne') && !usedNames.has('Champagne')) {
-    usedNames.add('Champagne');
-    return { gradient: 'bg-gradient-to-br from-yellow-100 to-yellow-200', name: 'Champagne' };
-  } else if (frameLower.includes('brown') && !usedNames.has('Brown')) {
-    usedNames.add('Brown');
-    return { gradient: 'bg-gradient-to-br from-amber-700 to-amber-800', name: 'Brown' };
-  } else if (frameLower.includes('clear') && !usedNames.has('Clear')) {
-    usedNames.add('Clear');
-    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'Clear' };
-  }
-  
-  // Fallback options that avoid duplicates
-  if (!usedNames.has('Classic')) {
-    usedNames.add('Classic');
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Classic' };
-  } else if (!usedNames.has('Modern')) {
-    usedNames.add('Modern');
-    return { gradient: 'bg-gradient-to-br from-slate-400 to-slate-500', name: 'Modern' };
-  } else {
-    return { gradient: 'bg-gradient-to-br from-stone-400 to-stone-500', name: 'Stylish' };
-  }
-};
+
 
 // Makeup color helper functions
 const getFoundationColors = (season: string) => {
@@ -1587,24 +1584,19 @@ export default function ResultsNew() {
                   ))}
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {(() => {
+                  {getEyewearRecommendations(analysisResult).map((frameType: string, index: number) => {
                     const usedNames = new Set<string>();
-                    return (Array.isArray(analysisResult.accessories.glasses) ? 
-                      analysisResult.accessories.glasses : 
-                      ['Black frames', 'Silver frames', 'Tortoiseshell frames']
-                    ).slice(0, 6).map((item: string, index: number) => {
-                      const eyewearColors = getEyewearColorSwatch(item, usedNames);
-                      return (
-                        <div key={index} className="text-center">
-                          <div 
-                            className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
-                            title={item}
-                          ></div>
-                          <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
-                        </div>
-                      );
-                    });
-                  })()}
+                    const eyewearColors = getEyewearColorSwatch(frameType, usedNames);
+                    return (
+                      <div key={index} className="text-center">
+                        <div 
+                          className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
+                          title={frameType}
+                        ></div>
+                        <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
             </div>
