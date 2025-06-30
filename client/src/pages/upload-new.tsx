@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
@@ -22,7 +21,6 @@ import {
 
 export default function UploadNew() {
   const [, setLocation] = useLocation();
-  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);

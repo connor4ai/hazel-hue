@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
+
 import { SEOHead } from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { AdvancedSEO } from "@/components/AdvancedSEO";
@@ -43,7 +43,7 @@ export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, isAuthenticated } = useAuth();
+
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -148,67 +148,22 @@ export default function Home() {
               }}>
                 Blog
               </button>
-              {isAuthenticated ? (
-                <div className="flex items-center space-x-4">
-                  <Button
-                    onClick={() => setLocation('/account')}
-                    variant="ghost"
-                    className="hover:opacity-80"
-                    style={{ 
-                      color: 'rgb(var(--forest-green))',
-                      fontFamily: 'Georgia, serif',
-                      fontWeight: 500
-                    }}
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    My Account
-                  </Button>
-                  <Button 
-                    onClick={() => setLocation('/upload')} 
-                    className="text-white px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
-                    style={{ 
-                      backgroundColor: 'rgb(var(--muted-blue))',
-                      fontFamily: 'Georgia, serif',
-                      fontWeight: 500,
-                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
-                  >
-                    Get My Analysis
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-4">
-                  <Button
-                    onClick={() => setLocation('/login')}
-                    variant="ghost"
-                    className="hover:opacity-80"
-                    style={{ 
-                      color: 'rgb(var(--forest-green))',
-                      fontFamily: 'Georgia, serif',
-                      fontWeight: 500
-                    }}
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
-                  </Button>
-                  <Button 
-                    onClick={() => setLocation('/upload')} 
-                    className="text-white px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
-                    style={{ 
-                      backgroundColor: 'rgb(var(--muted-blue))',
-                      fontFamily: 'Georgia, serif',
-                      fontWeight: 500,
-                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
-                  >
-                    Get My Analysis
-                  </Button>
-                </div>
-              )}
+              <div className="flex items-center space-x-4">
+                <Button 
+                  onClick={() => setLocation('/upload')} 
+                  className="text-white px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
+                  style={{ 
+                    backgroundColor: 'rgb(var(--muted-blue))',
+                    fontFamily: 'Georgia, serif',
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
+                >
+                  Get My Analysis
+                </Button>
+              </div>
             </div>
             
             {/* Mobile menu button */}

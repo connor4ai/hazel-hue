@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import { 
   Palette, 
@@ -37,7 +36,6 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
-  const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);

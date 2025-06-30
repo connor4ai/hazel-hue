@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,7 +20,6 @@ import {
 
 export default function UploadPage() {
   const [, setLocation] = useLocation();
-  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
 
