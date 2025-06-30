@@ -279,15 +279,15 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-4 max-w-sm w-full max-h-[90vh] overflow-y-auto">
-        <div className="text-center mb-4">
-          <h2 className="text-xl font-bold mb-1">Share Your Results!</h2>
-          <p className="text-sm text-gray-600">Download your personalized Instagram story</p>
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-3">
+      <div className="bg-white rounded-2xl p-3 max-w-xs w-full max-h-[85vh] overflow-y-auto">
+        <div className="text-center mb-3">
+          <h2 className="text-lg font-bold mb-1">You are a {season}!</h2>
+          <p className="text-xs text-gray-600">Perfect for sharing your results</p>
         </div>
         
-        {/* Preview */}
-        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-4"
+        {/* Preview - Made smaller */}
+        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-lg overflow-hidden mb-3 max-h-48"
              style={{
                background: season === 'Light Spring' ? 'linear-gradient(135deg, #FFE5E5, #FFE5B4, #E5FFE5, #E5F3FF)' :
                           season === 'True Spring' ? 'linear-gradient(135deg, #FFCC99, #FFB380, #FFD700, #FF8C69)' :
@@ -303,57 +303,57 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
                           season === 'Dark Winter' ? 'linear-gradient(135deg, #000000, #8B0000, #191970, #2F4F4F)' :
                           'linear-gradient(135deg, #FF69B4, #00CED1, #FFD700, #32CD32)'
              }}>
-          <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-white text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-between p-2 text-white text-center">
             <div>
-              <div className="text-xs mb-2 bg-white bg-opacity-20 rounded-full px-3 py-1">
-                ✨ AI Color Analysis
+              <div className="text-[10px] mb-1 bg-white bg-opacity-20 rounded-full px-2 py-0.5">
+                ✨ AI Analysis
               </div>
-              <div className="text-lg font-black">I'M A</div>
+              <div className="text-sm font-black">I'M A</div>
             </div>
             
             <div>
-              <div className="text-2xl mb-2">{data.icon}</div>
-              <div className="text-lg font-bold leading-tight">
+              <div className="text-lg mb-1">{data.icon}</div>
+              <div className="text-sm font-bold leading-tight">
                 {season.toUpperCase().split(' ').map((word, index) => (
                   <div key={index}>{word}</div>
                 ))}
               </div>
-              <div className="text-xs mt-1 opacity-90">{data.subtitle}</div>
+              <div className="text-[10px] mt-1 opacity-90">{data.subtitle}</div>
             </div>
             
-            <div className="text-xs">@hazelandhue</div>
+            <div className="text-[10px]">@hazelandhue</div>
           </div>
         </div>
 
-        {/* Color palette preview */}
-        <div className="flex justify-center gap-2 mb-4">
-          {data.colors.map((color, index) => (
+        {/* Color palette preview - Made smaller */}
+        <div className="flex justify-center gap-1 mb-3">
+          {data.colors.slice(0, 5).map((color, index) => (
             <div
               key={index}
-              className="w-6 h-6 rounded-md shadow-md"
+              className="w-4 h-4 rounded-md shadow-md"
               style={{ backgroundColor: color }}
             />
           ))}
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-3 mb-2">
+        {/* Action buttons - Made more mobile-friendly */}
+        <div className="flex gap-2 mb-2">
           <button
             onClick={shareImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2.5 px-3 rounded-lg font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-sm"
           >
-            Share
+            Save & Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
-            className="px-4 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+            className="px-3 py-2.5 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm"
           >
-            Close
+            Next
           </button>
         </div>
         
-        <p className="text-xs text-gray-500 text-center">
-          Perfect for Instagram Stories
+        <p className="text-[10px] text-gray-500 text-center">
+          Share your color season results!
         </p>
       </div>
     </div>
