@@ -138,6 +138,13 @@ export default function Home() {
               }}>
                 FAQ
               </button>
+              <button onClick={() => setLocation('/blog')} className="transition-colors hover:opacity-80" style={{ 
+                color: 'rgb(var(--forest-green))',
+                fontFamily: 'Georgia, serif',
+                fontWeight: 500
+              }}>
+                Blog
+              </button>
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
                   <Button
