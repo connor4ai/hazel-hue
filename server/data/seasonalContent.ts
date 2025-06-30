@@ -211,14 +211,14 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         'Deep to Medium value range (avoiding very light colors)'
       ],
       signatureColors: [
-        'Deep Burgundy (#722F37) - Your most sophisticated color',
-        'Midnight Blue (#191970) - Dark and mysterious',
-        'Forest Green (#355E3B) - Rich and luxurious',
-        'Charcoal Grey (#36454F) - Your perfect neutral',
-        'Deep Purple (#301934) - Regal and elegant',
-        'Black (#000000) - Classic and timeless',
-        'Pine Green (#01796F) - Deep and natural',
-        'Deep Magenta (#8B008B) - Bold yet sophisticated'
+        'Deep Burgundy (#722F37)',
+        'Midnight Blue (#191970)',
+        'Forest Green (#355E3B)',
+        'Charcoal Grey (#36454F)',
+        'Deep Purple (#301934)',
+        'Black (#000000)',
+        'Pine Green (#01796F)',
+        'Deep Magenta (#8B008B)'
       ],
       colorsToAvoid: [
         'Light colors and pastels',

@@ -794,8 +794,11 @@ const parseSignatureColor = (colorString: string) => {
     // Extract hex code
     const hex = hexMatch[0];
     
-    // Extract color name (everything before the hex code, remove parentheses)
-    const name = colorString.replace(hex, '').replace(/[()]/g, '').trim();
+    // Extract color name (everything before the hex code, remove parentheses and descriptions)
+    let name = colorString.split('(')[0].split(' - ')[0].trim();
+    
+    // Remove any descriptive text that might be after the color name
+    name = name.replace(/\s*-\s*.*$/, '').trim();
     
     return { hex, name: name || 'Color' };
   } else {
