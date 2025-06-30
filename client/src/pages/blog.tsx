@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Search, Filter, BookOpen, Calendar, User, ChevronRight, ArrowLeft } from 'lucide-react';
+import { BookOpen, Calendar, User, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { SEOHead } from '@/components/SEOHead';
 
 interface BlogPost {
@@ -16,82 +14,10 @@ interface BlogPost {
   slug: string;
 }
 
-const blogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Understanding Your Color Season: A Complete Guide',
-    excerpt: 'Discover how the 12-season color analysis system works and learn to identify which colors make you look your absolute best.',
-    category: 'Color Theory',
-    date: '2025-06-29',
-    author: 'Hazel & Hue Team',
-    readTime: '8 min read',
-    slug: 'understanding-your-color-season-complete-guide'
-  },
-  {
-    id: '2',
-    title: 'The Science Behind AI Color Analysis',
-    excerpt: 'Explore how artificial intelligence analyzes facial features, skin undertones, and contrast levels to determine your perfect color palette.',
-    category: 'Technology',
-    date: '2025-06-28',
-    author: 'Hazel & Hue Team',
-    readTime: '6 min read',
-    slug: 'science-behind-ai-color-analysis'
-  },
-  {
-    id: '3',
-    title: 'Building a Capsule Wardrobe with Your Season Colors',
-    excerpt: 'Learn how to create a versatile, cohesive wardrobe using your personalized color palette for maximum impact and confidence.',
-    category: 'Styling',
-    date: '2025-06-27',
-    author: 'Hazel & Hue Team',
-    readTime: '10 min read',
-    slug: 'building-capsule-wardrobe-season-colors'
-  },
-  {
-    id: '4',
-    title: 'Makeup Colors That Enhance Your Natural Beauty',
-    excerpt: 'Discover which eyeshadow, lipstick, and blush shades work best for your color season and skin undertones.',
-    category: 'Beauty',
-    date: '2025-06-26',
-    author: 'Hazel & Hue Team',
-    readTime: '7 min read',
-    slug: 'makeup-colors-enhance-natural-beauty'
-  },
-  {
-    id: '5',
-    title: 'Color Psychology: How Colors Affect Perception',
-    excerpt: 'Understanding the psychological impact of colors and how wearing your best colors can boost confidence and make lasting impressions.',
-    category: 'Psychology',
-    date: '2025-06-25',
-    author: 'Hazel & Hue Team',
-    readTime: '5 min read',
-    slug: 'color-psychology-how-colors-affect-perception'
-  },
-  {
-    id: '6',
-    title: 'Seasonal Color Transitions: Adapting Your Palette',
-    excerpt: 'Learn how to adapt your core color palette across different seasons while maintaining your authentic color harmony.',
-    category: 'Styling',
-    date: '2025-06-24',
-    author: 'Hazel & Hue Team',
-    readTime: '9 min read',
-    slug: 'seasonal-color-transitions-adapting-palette'
-  }
-];
-
-const categories = ['All', 'Color Theory', 'Technology', 'Styling', 'Beauty', 'Psychology'];
+const blogPosts: BlogPost[] = [];
 
 export default function Blog() {
   const [, setLocation] = useLocation();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
 
   return (
     <>
@@ -217,7 +143,6 @@ export default function Blog() {
       <SEOHead 
         title="Blog - Color Analysis & Styling Tips | Hazel & Hue"
         description="Discover expert insights on color analysis, personal styling, and beauty tips. Learn how to enhance your natural beauty with AI-powered color recommendations."
-        canonical="/blog"
       />
 
       {/* Animated Mesh Background */}
@@ -255,45 +180,9 @@ export default function Blog() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          {/* Search and Filter Section */}
-          <div className="mb-12 card-hover rounded-3xl p-8">
-            <div className="flex flex-col md:flex-row gap-6">
-              {/* Search */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder="Search articles..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-12 h-14 border-0 bg-white/50 backdrop-blur-sm rounded-2xl text-lg focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-              
-              {/* Category Filter */}
-              <div className="flex gap-3 flex-wrap">
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant="outline"
-                    onClick={() => setSelectedCategory(category)}
-                    className={`h-14 px-6 rounded-2xl border-0 transition-all duration-300 ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                        : 'bg-white/50 backdrop-blur-sm text-gray-700 hover:bg-white/70'
-                    }`}
-                  >
-                    <Filter className="w-4 h-4 mr-2" />
-                    {category}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Blog Posts Grid */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPosts.map((post, index) => (
+            {blogPosts.map((post, index) => (
               <article
                 key={post.id}
                 className="card-hover rounded-3xl p-8 cursor-pointer group"
@@ -342,23 +231,14 @@ export default function Blog() {
             ))}
           </div>
 
-          {/* No Results */}
-          {filteredPosts.length === 0 && (
+          {/* No Posts Yet */}
+          {blogPosts.length === 0 && (
             <div className="text-center py-16">
               <BookOpen className="w-20 h-20 mx-auto mb-6 text-gray-400" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">No articles found</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">No articles yet</h3>
               <p className="text-gray-600 mb-8 text-lg">
-                Try adjusting your search terms or filter criteria.
+                New articles coming soon! Check back later for the latest insights.
               </p>
-              <Button
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('All');
-                }}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-2xl text-lg"
-              >
-                Clear Filters
-              </Button>
             </div>
           )}
 
