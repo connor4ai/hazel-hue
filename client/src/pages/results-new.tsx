@@ -293,52 +293,60 @@ const getHairColorsToAvoid = (season: string) => {
   return hairAvoidColors[season as keyof typeof hairAvoidColors] || hairAvoidColors['Light Spring'];
 };
 
-// Jewelry color helper function
-const getJewelryColorSwatch = (jewelryItem: string, usedNames: Set<string>) => {
+// Enhanced jewelry display helper function
+const getJewelryDisplay = (jewelryItem: string) => {
   const itemLower = jewelryItem.toLowerCase();
   
-  // Primary jewelry types - specific to what users see in descriptions
-  if (itemLower.includes('silver')) {
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver' };
-  } else if (itemLower.includes('gemstone') || itemLower.includes('deep-set')) {
-    return { gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700', name: 'Gemstone' };
-  } else if (itemLower.includes('vintage') || itemLower.includes('brooch')) {
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Vintage' };
+  // Style/Shape-based items get icons
+  if (itemLower.includes('vintage') || itemLower.includes('brooch')) {
+    return { type: 'icon', icon: '🏺', name: 'Vintage', bgClass: 'bg-amber-100' };
   } else if (itemLower.includes('chain') || itemLower.includes('heavy')) {
-    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Chain' };
+    return { type: 'icon', icon: '🔗', name: 'Chain', bgClass: 'bg-gray-100' };
+  } else if (itemLower.includes('geometric') || itemLower.includes('angular')) {
+    return { type: 'icon', icon: '⬟', name: 'Geometric', bgClass: 'bg-blue-100' };
+  } else if (itemLower.includes('delicate') || itemLower.includes('fine')) {
+    return { type: 'icon', icon: '✨', name: 'Delicate', bgClass: 'bg-pink-100' };
+  } else if (itemLower.includes('statement') || itemLower.includes('bold')) {
+    return { type: 'icon', icon: '💎', name: 'Statement', bgClass: 'bg-purple-100' };
+  } else if (itemLower.includes('minimalist') || itemLower.includes('simple')) {
+    return { type: 'icon', icon: '○', name: 'Minimalist', bgClass: 'bg-gray-50' };
+  } else if (itemLower.includes('ornate') || itemLower.includes('detailed')) {
+    return { type: 'icon', icon: '🌟', name: 'Ornate', bgClass: 'bg-yellow-100' };
+  } else if (itemLower.includes('architectural') || itemLower.includes('structured')) {
+    return { type: 'icon', icon: '⬜', name: 'Architectural', bgClass: 'bg-slate-100' };
+  }
+  
+  // Color/Material-based items get color swatches
+  else if (itemLower.includes('silver')) {
+    return { type: 'color', gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver' };
   } else if (itemLower.includes('gold') && !itemLower.includes('rose')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Gold' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Gold' };
+  } else if (itemLower.includes('rose gold')) {
+    return { type: 'color', gradient: 'bg-gradient-to-br from-pink-300 to-pink-500', name: 'Rose Gold' };
+  } else if (itemLower.includes('gemstone') || itemLower.includes('deep-set')) {
+    return { type: 'color', gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700', name: 'Gemstone' };
   } else if (itemLower.includes('pearl')) {
-    return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-200', name: 'Pearl' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-gray-50 to-gray-200', name: 'Pearl' };
   } else if (itemLower.includes('crystal') || itemLower.includes('diamond')) {
-    return { gradient: 'bg-gradient-to-br from-blue-100 to-blue-300', name: 'Crystal' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-blue-100 to-blue-300', name: 'Crystal' };
   } else if (itemLower.includes('onyx') || itemLower.includes('black')) {
-    return { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Onyx' };
-  }
-  
-  // Specific gemstones
-  if (itemLower.includes('emerald')) {
-    return { gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700', name: 'Emerald' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Onyx' };
+  } else if (itemLower.includes('emerald')) {
+    return { type: 'color', gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700', name: 'Emerald' };
   } else if (itemLower.includes('sapphire')) {
-    return { gradient: 'bg-gradient-to-br from-blue-600 to-blue-800', name: 'Sapphire' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-blue-600 to-blue-800', name: 'Sapphire' };
   } else if (itemLower.includes('ruby')) {
-    return { gradient: 'bg-gradient-to-br from-red-500 to-red-700', name: 'Ruby' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-red-500 to-red-700', name: 'Ruby' };
   } else if (itemLower.includes('amethyst')) {
-    return { gradient: 'bg-gradient-to-br from-purple-400 to-purple-600', name: 'Amethyst' };
-  } else if (itemLower.includes('topaz')) {
-    return { gradient: 'bg-gradient-to-br from-blue-300 to-blue-500', name: 'Topaz' };
-  } else if (itemLower.includes('garnet')) {
-    return { gradient: 'bg-gradient-to-br from-red-700 to-red-900', name: 'Garnet' };
-  } else if (itemLower.includes('aquamarine')) {
-    return { gradient: 'bg-gradient-to-br from-cyan-300 to-cyan-500', name: 'Aquamarine' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-purple-400 to-purple-600', name: 'Amethyst' };
   } else if (itemLower.includes('turquoise')) {
-    return { gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-600', name: 'Turquoise' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-cyan-400 to-cyan-600', name: 'Turquoise' };
   } else if (itemLower.includes('coral')) {
-    return { gradient: 'bg-gradient-to-br from-orange-400 to-orange-600', name: 'Coral' };
+    return { type: 'color', gradient: 'bg-gradient-to-br from-orange-400 to-orange-600', name: 'Coral' };
   }
   
-  // Fallback
-  return { gradient: 'bg-gradient-to-br from-slate-400 to-slate-600', name: 'Jewelry' };
+  // Default fallback
+  return { type: 'color', gradient: 'bg-gradient-to-br from-slate-400 to-slate-600', name: 'Jewelry' };
 };
 
 
@@ -1496,13 +1504,12 @@ export default function ResultsNew() {
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {(() => {
-                    const usedNames = new Set<string>();
                     // Extract jewelry types from the text recommendations
                     const jewelryText = Array.isArray(analysisResult.accessories.jewelry) 
                       ? analysisResult.accessories.jewelry.join(' ') 
                       : '';
                     
-                    const jewelryTypes = ['Silver', 'Gemstone', 'Vintage', 'Chain', 'Gold', 'Pearl', 'Crystal', 'Onyx'];
+                    const jewelryTypes = ['Silver', 'Gemstone', 'Vintage', 'Chain', 'Gold', 'Pearl', 'Crystal', 'Onyx', 'Statement', 'Ornate', 'Heavy', 'Architectural'];
                     const matchedTypes = jewelryTypes.filter(type => 
                       jewelryText.toLowerCase().includes(type.toLowerCase())
                     ).slice(0, 8);
@@ -1510,14 +1517,23 @@ export default function ResultsNew() {
                     const displayTypes = matchedTypes.length > 0 ? matchedTypes : ['Silver', 'Gemstone', 'Vintage', 'Chain'];
                     
                     return displayTypes.map((type: string, index: number) => {
-                      const jewelryColors = getJewelryColorSwatch(type, usedNames);
+                      const jewelryDisplay = getJewelryDisplay(type);
                       return (
                         <div key={index} className="text-center">
-                          <div 
-                            className={`w-10 h-10 ${jewelryColors.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
-                            title={type}
-                          ></div>
-                          <p className="text-xs font-medium text-gray-700">{jewelryColors.name}</p>
+                          {jewelryDisplay.type === 'icon' ? (
+                            <div 
+                              className={`w-10 h-10 ${jewelryDisplay.bgClass} rounded-full mb-2 border-2 border-white shadow-md flex items-center justify-center text-lg`}
+                              title={type}
+                            >
+                              {jewelryDisplay.icon}
+                            </div>
+                          ) : (
+                            <div 
+                              className={`w-10 h-10 ${jewelryDisplay.gradient} rounded-full mb-2 border-2 border-white shadow-md`}
+                              title={type}
+                            ></div>
+                          )}
+                          <p className="text-xs font-medium text-gray-700">{jewelryDisplay.name}</p>
                         </div>
                       );
                     });
