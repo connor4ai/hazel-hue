@@ -54,6 +54,86 @@ const getMetalColorSwatch = (metalName: string) => {
   }
 };
 
+// Jewelry recommendations helper function
+const getJewelryRecommendations = (season: string) => {
+  const jewelryRecs = {
+    'Light Spring': {
+      rings: 'Delicate, feminine designs',
+      necklaces: 'Light, airy pieces',
+      earrings: 'Small, elegant styles',
+      watches: 'Thin, refined faces'
+    },
+    'True Spring': {
+      rings: 'Bold, statement designs',
+      necklaces: 'Vibrant, colorful pieces',
+      earrings: 'Dramatic, eye-catching styles',
+      watches: 'Sporty, energetic faces'
+    },
+    'Bright Spring': {
+      rings: 'Modern, geometric designs',
+      necklaces: 'Bold, architectural pieces',
+      earrings: 'Structured, angular styles',
+      watches: 'High-contrast, dynamic faces'
+    },
+    'Light Summer': {
+      rings: 'Soft, romantic designs',
+      necklaces: 'Delicate, layered pieces',
+      earrings: 'Gentle, flowing styles',
+      watches: 'Subtle, elegant faces'
+    },
+    'True Summer': {
+      rings: 'Classic, timeless designs',
+      necklaces: 'Sophisticated, refined pieces',
+      earrings: 'Graceful, balanced styles',
+      watches: 'Traditional, polished faces'
+    },
+    'Soft Summer': {
+      rings: 'Understated, muted designs',
+      necklaces: 'Gentle, harmonious pieces',
+      earrings: 'Soft, blended styles',
+      watches: 'Muted, sophisticated faces'
+    },
+    'True Winter': {
+      rings: 'Sharp, dramatic designs',
+      necklaces: 'Bold, statement pieces',
+      earrings: 'Strong, geometric styles',
+      watches: 'High-contrast, striking faces'
+    },
+    'Bright Winter': {
+      rings: 'Clean, geometric designs',
+      necklaces: 'Bold, statement pieces',
+      earrings: 'Structured, angular styles',
+      watches: 'Modern, sleek faces'
+    },
+    'Dark Winter': {
+      rings: 'Sophisticated, dramatic designs',
+      necklaces: 'Rich, luxurious pieces',
+      earrings: 'Bold, powerful styles',
+      watches: 'Dark, elegant faces'
+    },
+    'True Autumn': {
+      rings: 'Warm, organic designs',
+      necklaces: 'Rich, textured pieces',
+      earrings: 'Natural, flowing styles',
+      watches: 'Warm, classic faces'
+    },
+    'Dark Autumn': {
+      rings: 'Deep, sophisticated designs',
+      necklaces: 'Rich, dramatic pieces',
+      earrings: 'Bold, luxurious styles',
+      watches: 'Dark, refined faces'
+    },
+    'Soft Autumn': {
+      rings: 'Muted, natural designs',
+      necklaces: 'Gentle, organic pieces',
+      earrings: 'Soft, harmonious styles',
+      watches: 'Warm, understated faces'
+    }
+  };
+  
+  return jewelryRecs[season as keyof typeof jewelryRecs] || jewelryRecs['Bright Winter'];
+};
+
 // Best metals helper function
 const getBestMetals = (analysisResult: any) => {
   if (analysisResult.accessories && analysisResult.accessories.bestMetals) {
@@ -1429,28 +1509,6 @@ export default function ResultsNew() {
                     })}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white rounded-xl p-4 text-center">
-                    <div className="text-2xl mb-2">💍</div>
-                    <p className="text-sm font-medium text-gray-700">Rings</p>
-                    <p className="text-xs text-gray-500">Clean, geometric designs</p>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 text-center">
-                    <div className="text-2xl mb-2">📿</div>
-                    <p className="text-sm font-medium text-gray-700">Necklaces</p>
-                    <p className="text-xs text-gray-500">Bold, statement pieces</p>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 text-center">
-                    <div className="text-2xl mb-2">👂</div>
-                    <p className="text-sm font-medium text-gray-700">Earrings</p>
-                    <p className="text-xs text-gray-500">Structured, angular styles</p>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 text-center">
-                    <div className="text-2xl mb-2">⌚</div>
-                    <p className="text-sm font-medium text-gray-700">Watches</p>
-                    <p className="text-xs text-gray-500">Modern, sleek faces</p>
-                  </div>
-                </div>
               </div>
             </motion.div>
 
@@ -1486,6 +1544,28 @@ export default function ResultsNew() {
                       );
                     });
                   })()}
+                </div>
+                
+                {/* Jewelry Type Recommendations */}
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  <h5 className="text-lg font-semibold text-gray-800 mb-4">Jewelry Type Recommendations</h5>
+                  <div className="grid grid-cols-2 gap-4">
+                    {(() => {
+                      const jewelryRecs = getJewelryRecommendations(analysisResult.season);
+                      return [
+                        { key: 'rings', icon: '💍', title: 'Rings', description: jewelryRecs.rings },
+                        { key: 'necklaces', icon: '📿', title: 'Necklaces', description: jewelryRecs.necklaces },
+                        { key: 'earrings', icon: '👂', title: 'Earrings', description: jewelryRecs.earrings },
+                        { key: 'watches', icon: '⌚', title: 'Watches', description: jewelryRecs.watches }
+                      ].map((item) => (
+                        <div key={item.key} className="bg-gray-50 rounded-xl p-4 text-center">
+                          <div className="text-2xl mb-2">{item.icon}</div>
+                          <p className="text-sm font-medium text-gray-700 mb-1">{item.title}</p>
+                          <p className="text-xs text-gray-600">{item.description}</p>
+                        </div>
+                      ));
+                    })()}
+                  </div>
                 </div>
               </motion.div>
 
