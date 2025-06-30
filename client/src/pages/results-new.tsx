@@ -1049,7 +1049,8 @@ export default function ResultsNew() {
             <motion.h2
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-4"
+              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-4 leading-tight"
+              style={{ lineHeight: '1.2' }}
             >
               {analysisResult.season}
             </motion.h2>
