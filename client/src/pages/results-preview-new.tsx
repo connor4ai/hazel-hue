@@ -708,27 +708,46 @@ export default function ResultsPreview() {
               </div>
             </div>
 
-            {/* Style Recommendations Preview */}
+            {/* Clothing & Makeup Pinterest Boards Preview */}
             <div className="preview-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
-                <div className="card-icon mr-4">✨</div>
-                <h3 className="card-title">Style Recs</h3>
+                <div className="card-icon mr-4">📌</div>
+                <h3 className="card-title">Clothing & Makeup Pinterest Boards</h3>
+              </div>
+              <div className="preview-content mb-4" style={{ filter: 'blur(4px)' }}>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-white/20 rounded-lg p-3">
+                    <div className="text-sm text-white/80">Spring Clothing</div>
+                    <div className="text-xs text-white/60">127 pins</div>
+                  </div>
+                  <div className="bg-white/20 rounded-lg p-3">
+                    <div className="text-sm text-white/80">Fresh Makeup</div>
+                    <div className="text-xs text-white/60">89 pins</div>
+                  </div>
+                </div>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
-                <div className="unlock-text">Unlock to view recommendations</div>
+                <div className="unlock-text">Unlock Pinterest boards</div>
               </div>
             </div>
 
-            {/* Complete Analysis Card */}
+            {/* Jewelry Recommendations Preview */}
             <div className="preview-card complete-card animate-slide-up" style={{ height: '180px', position: 'relative' }}>
               <div className="flex items-center mb-8">
-                <div className="card-icon mr-4">📊</div>
-                <h3 className="card-title">Complete Analysis</h3>
+                <div className="card-icon mr-4">💎</div>
+                <h3 className="card-title">Jewelry Recs</h3>
+              </div>
+              <div className="preview-content mb-4" style={{ filter: 'blur(4px)' }}>
+                <div className="space-y-2">
+                  <div className="text-sm text-white/80">• Gold metals complement your warmth</div>
+                  <div className="text-sm text-white/80">• Delicate chains and fine details</div>
+                  <div className="text-sm text-white/80">• Pearl and gemstone accents</div>
+                </div>
               </div>
               <div className="blur-overlay">
                 <div className="lock-icon">🔒</div>
-                <div className="unlock-text">Unlock Your Complete Analysis</div>
+                <div className="unlock-text">Unlock jewelry guide</div>
               </div>
             </div>
 
