@@ -189,6 +189,14 @@
       #fd79a8, #a29bfe, #6c5ce7, #fd79a8, #ff6b6b
     );
   }
+
+  .shadow-coral {
+    box-shadow: 0 4px 14px 0 rgba(232, 90, 79, 0.15);
+  }
+
+  .shadow-coral:hover {
+    box-shadow: 0 6px 20px 0 rgba(232, 90, 79, 0.25);
+  }
 }
 
 @layer utilities {

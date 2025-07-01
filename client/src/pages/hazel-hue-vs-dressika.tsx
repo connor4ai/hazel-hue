@@ -122,22 +122,19 @@ export default function HazelHueVsDressikaPage() {
         ]}
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-cream via-sage-light to-dusty-rose-light">
+      <div className="min-h-screen bg-cream paper-texture">
         {/* Navigation */}
-        <nav className="bg-white/95 backdrop-blur-sm border-b border-sage-green/20 sticky top-0 z-50">
+        <nav className="bg-forest text-cream shadow-lg sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-forest-green to-sage-green rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">H&H</span>
-                </div>
-                <span className="text-xl font-playfair font-semibold text-forest-green">Hazel & Hue</span>
+              <Link href="/" className="text-2xl font-bold text-cream hover:text-golden transition-colors">
+                Hazel & Hue
               </Link>
               
               <div className="hidden md:flex items-center space-x-8">
-                <Link href="/blog" className="text-forest-green hover:text-warm-coral transition-colors">Blog</Link>
-                <Link href="/faqs" className="text-forest-green hover:text-warm-coral transition-colors">FAQs</Link>
-                <Link href="/upload" className="bg-warm-coral text-white px-6 py-2 rounded-lg hover:bg-dusty-rose transition-colors">
+                <Link href="/blog" className="text-cream hover:text-golden transition-colors">Blog</Link>
+                <Link href="/faqs" className="text-cream hover:text-golden transition-colors">FAQs</Link>
+                <Link href="/upload" className="bg-coral text-white px-6 py-2 rounded-lg hover:bg-coral-dark transition-all duration-200 shadow-coral">
                   Get My Analysis
                 </Link>
               </div>

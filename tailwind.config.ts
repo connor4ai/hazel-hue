@@ -61,6 +61,16 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // Hazel & Hue brand colors
+        forest: "#2D5A3D",
+        cream: "#F1FAEE",
+        coral: "#E85A4F", 
+        "coral-dark": "#d44639",
+        golden: "#F4A261",
+        sage: "#A8DADC",
+        "sage-light": "#c8e6e8",
+        "dusty-rose": "#E76F51",
+        "dusty-rose-light": "#f0a396",
       },
       keyframes: {
         "accordion-down": {
