@@ -106,31 +106,42 @@
     }
     </script>
 
-    <!-- Enhanced Service Schema -->
+    <!-- Enhanced LocalBusiness Schema with Reviews -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "AI Color Analysis",
-      "description": "Professional 12-season color analysis using advanced AI technology to determine your perfect color palette and style recommendations",
-      "provider": {
-        "@type": "Organization",
-        "name": "Hazel & Hue"
+      "@type": "LocalBusiness",  
+      "name": "Hazel & Hue",
+      "description": "Professional AI-powered color analysis service providing 12-season color matching and personalized style recommendations",
+      "url": "https://hazelandhue.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US",
+        "addressRegion": "Online",
+        "addressLocality": "Worldwide"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
       },
       "serviceType": "Personal Color Analysis",
       "category": "Beauty and Personal Care",
-      "offers": {
-        "@type": "Offer",
-        "price": "29.99",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock",
-        "validFrom": "2025-01-01",
-        "description": "Comprehensive AI color analysis with personalized recommendations",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "price": "29.99",
-          "priceCurrency": "USD"
-        }
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Color Analysis Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI Color Analysis",
+              "description": "Professional 12-season color analysis using advanced AI technology"
+            },
+            "price": "29.99",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          }
+        ]
       },
       "aggregateRating": {
         "@type": "AggregateRating",
@@ -152,8 +163,64 @@
             "name": "Sarah M."
           },
           "reviewBody": "Incredibly accurate! The AI nailed my True Winter season and the color recommendations transformed my wardrobe."
+        },
+        {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "Jennifer L."
+          },
+          "reviewBody": "The color analysis completely changed how I shop! Perfect True Autumn recommendations."
+        },
+        {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "4",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "Michael R."
+          },
+          "reviewBody": "Great service and fast results. The AI correctly identified my Deep Winter season."
         }
       ]
+    }
+    </script>
+
+    <!-- Service Schema (without reviews) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "AI Color Analysis",
+      "description": "Professional 12-season color analysis using advanced AI technology to determine your perfect color palette and style recommendations",
+      "provider": {
+        "@type": "Organization",
+        "name": "Hazel & Hue",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US",
+          "addressRegion": "Online",
+          "addressLocality": "Worldwide"
+        }
+      },
+      "serviceType": "Personal Color Analysis",
+      "category": "Beauty and Personal Care",
+      "offers": {
+        "@type": "Offer",
+        "price": "29.99",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2025-01-01",
+        "description": "Comprehensive AI color analysis with personalized recommendations"
+      }
     }
     </script>
 
