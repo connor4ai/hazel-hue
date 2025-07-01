@@ -166,32 +166,85 @@ const getEyewearRecommendations = (analysisResult: any) => {
 const getEyewearColorSwatch = (frameType: string, usedNames: Set<string>) => {
   const frameTypeLower = frameType.toLowerCase();
   
-  if (frameTypeLower.includes('electric blue') || frameTypeLower.includes('blue acetate')) {
+  // Electric and bright blues
+  if (frameTypeLower.includes('electric blue') || frameTypeLower.includes('turquoise acetate')) {
     return { gradient: 'bg-gradient-to-br from-blue-400 to-blue-600', name: 'Electric Blue' };
-  } else if (frameTypeLower.includes('bright silver') || frameTypeLower.includes('silver wire')) {
+  } else if (frameTypeLower.includes('bright turquoise') || frameTypeLower.includes('turquoise')) {
+    return { gradient: 'bg-gradient-to-br from-teal-400 to-teal-600', name: 'Turquoise' };
+  } else if (frameTypeLower.includes('light blue') || frameTypeLower.includes('soft blue')) {
+    return { gradient: 'bg-gradient-to-br from-blue-200 to-blue-400', name: 'Light Blue' };
+  } else if (frameTypeLower.includes('navy') || frameTypeLower.includes('deep blue')) {
+    return { gradient: 'bg-gradient-to-br from-blue-800 to-blue-900', name: 'Navy Blue' };
+  
+  // Corals and warm tones
+  } else if (frameTypeLower.includes('coral') || frameTypeLower.includes('bright coral')) {
+    return { gradient: 'bg-gradient-to-br from-orange-400 to-red-500', name: 'Coral' };
+  } else if (frameTypeLower.includes('hot pink') || frameTypeLower.includes('bright pink')) {
+    return { gradient: 'bg-gradient-to-br from-pink-500 to-pink-700', name: 'Hot Pink' };
+  } else if (frameTypeLower.includes('warm peach') || frameTypeLower.includes('peach')) {
+    return { gradient: 'bg-gradient-to-br from-orange-200 to-orange-400', name: 'Peach' };
+  
+  // Silvers and metals
+  } else if (frameTypeLower.includes('bright silver') || frameTypeLower.includes('polished silver')) {
     return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Bright Silver' };
-  } else if (frameTypeLower.includes('chrome wire') || frameTypeLower.includes('chrome')) {
-    return { gradient: 'bg-gradient-to-br from-blue-100 to-blue-300', name: 'Chrome Wire' };
+  } else if (frameTypeLower.includes('light silver') || frameTypeLower.includes('delicate silver')) {
+    return { gradient: 'bg-gradient-to-br from-gray-200 to-gray-300', name: 'Light Silver' };
+  } else if (frameTypeLower.includes('gunmetal') || frameTypeLower.includes('chrome')) {
+    return { gradient: 'bg-gradient-to-br from-gray-500 to-gray-700', name: 'Gunmetal' };
+  } else if (frameTypeLower.includes('pewter') || frameTypeLower.includes('brushed silver')) {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Pewter' };
+  
+  // Golds
+  } else if (frameTypeLower.includes('bright gold') || frameTypeLower.includes('polished gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Gold' };
+  } else if (frameTypeLower.includes('light gold') || frameTypeLower.includes('champagne gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-200 to-yellow-400', name: 'Champagne' };
+  } else if (frameTypeLower.includes('deep gold') || frameTypeLower.includes('rich gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-600 to-yellow-700', name: 'Rich Gold' };
+  } else if (frameTypeLower.includes('muted gold') || frameTypeLower.includes('brushed gold')) {
+    return { gradient: 'bg-gradient-to-br from-yellow-500 to-yellow-600', name: 'Muted Gold' };
+  
+  // Tortoiseshells
+  } else if (frameTypeLower.includes('warm tortoiseshell') || frameTypeLower.includes('golden tortoiseshell')) {
+    return { gradient: 'bg-gradient-to-br from-amber-500 to-amber-700', name: 'Warm Tortoise' };
+  } else if (frameTypeLower.includes('dark tortoiseshell') || frameTypeLower.includes('rich tortoiseshell')) {
+    return { gradient: 'bg-gradient-to-br from-amber-700 to-amber-900', name: 'Dark Tortoise' };
+  } else if (frameTypeLower.includes('cool tortoiseshell') || frameTypeLower.includes('muted tortoiseshell')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-gray-600', name: 'Cool Tortoise' };
+  } else if (frameTypeLower.includes('soft tortoiseshell') || frameTypeLower.includes('gentle tortoiseshell')) {
+    return { gradient: 'bg-gradient-to-br from-amber-400 to-amber-600', name: 'Soft Tortoise' };
+  
+  // Browns and earthy tones
+  } else if (frameTypeLower.includes('cognac') || frameTypeLower.includes('warm brown')) {
+    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Cognac' };
+  } else if (frameTypeLower.includes('chocolate brown') || frameTypeLower.includes('dark brown')) {
+    return { gradient: 'bg-gradient-to-br from-amber-800 to-amber-900', name: 'Chocolate' };
+  } else if (frameTypeLower.includes('burgundy') || frameTypeLower.includes('deep burgundy')) {
+    return { gradient: 'bg-gradient-to-br from-red-800 to-red-900', name: 'Burgundy' };
+  } else if (frameTypeLower.includes('taupe') || frameTypeLower.includes('soft taupe')) {
+    return { gradient: 'bg-gradient-to-br from-stone-400 to-stone-600', name: 'Taupe' };
+  
+  // Greens
+  } else if (frameTypeLower.includes('sage green') || frameTypeLower.includes('soft green')) {
+    return { gradient: 'bg-gradient-to-br from-green-300 to-green-500', name: 'Sage Green' };
+  
+  // Grays
+  } else if (frameTypeLower.includes('cool gray') || frameTypeLower.includes('soft gray')) {
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Cool Gray' };
+  } else if (frameTypeLower.includes('light gray') || frameTypeLower.includes('charcoal')) {
+    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Charcoal' };
+  
+  // Blacks and whites
   } else if (frameTypeLower.includes('black')) {
     return { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black' };
   } else if (frameTypeLower.includes('white')) {
     return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'White' };
-  } else if (frameTypeLower.includes('tortoiseshell') || frameTypeLower.includes('tortoise')) {
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Tortoiseshell' };
-  } else if (frameTypeLower.includes('clear')) {
+  } else if (frameTypeLower.includes('clear') || frameTypeLower.includes('rimless')) {
     return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200', name: 'Clear' };
-  } else if (frameTypeLower.includes('gold') || frameTypeLower.includes('golden')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-500', name: 'Gold' };
-  } else if (frameTypeLower.includes('rose gold')) {
-    return { gradient: 'bg-gradient-to-br from-pink-200 to-pink-400', name: 'Rose Gold' };
-  } else if (frameTypeLower.includes('metal') || frameTypeLower.includes('silver')) {
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Silver' };
-  } else if (frameTypeLower.includes('modern')) {
-    return { gradient: 'bg-gradient-to-br from-slate-400 to-slate-600', name: 'Modern' };
-  } else if (frameTypeLower.includes('classic')) {
-    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-700', name: 'Classic' };
+  
+  // Fallback - try to extract any color word
   } else {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Frame' };
+    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Neutral' };
   }
 };
 
