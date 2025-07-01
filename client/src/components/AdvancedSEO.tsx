@@ -32,6 +32,9 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       "@type": "ProfessionalService",
       "name": "Hazel & Hue",
       "serviceType": "Personal Color Analysis",
+      "telephone": "+1-800-HAZEL-HUE",
+      "priceRange": "$29.99",
+      "image": "https://hazelandhue.com/og-image.png",
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "US",
@@ -45,6 +48,7 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       "provider": {
         "@type": "Organization",
         "name": "Hazel & Hue",
+        "telephone": "+1-800-HAZEL-HUE",
         "address": {
           "@type": "PostalAddress",
           "addressCountry": "US",
