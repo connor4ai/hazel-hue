@@ -56,7 +56,8 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  // SSR middleware for critical pages (before Vite setup)
+  // SSR middleware for critical pages (before Vite setup) - DISABLED FOR DEBUGGING
+  // Only serve SSR to actual bots, not regular users
   app.get('*', (req: Request, res: Response, next: NextFunction) => {
     const url = req.path;
     
@@ -64,12 +65,13 @@ app.use((req, res, next) => {
     if (isSSRRoute(url)) {
       // Check if request is from a search engine crawler or social media bot
       const userAgent = req.get('User-Agent') || '';
-      const isBot = /bot|crawler|spider|crawling|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram/i.test(userAgent);
+      const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram/i.test(userAgent);
       
       // Also serve SSR for specific query parameters that indicate SEO needs
       const forceSSR = req.query.ssr === 'true' || req.query._escaped_fragment_ !== undefined;
       
-      if (isBot || forceSSR || app.get("env") === "production") {
+      // TEMPORARILY DISABLED - Only serve to very specific bots
+      if (forceSSR && isBot) {
         const ssrHtml = renderSSRPage(url);
         if (ssrHtml) {
           res.setHeader('Content-Type', 'text/html');
