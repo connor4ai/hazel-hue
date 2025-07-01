@@ -676,14 +676,14 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
         "Value: Medium with gentle tones"
       ],
       signatureColors: [
-        "#9370DB", // Medium Purple
-        "#708090", // Slate Gray
-        "#20B2AA", // Light Sea Green
-        "#F5F5DC", // Beige
-        "#CD5C5C", // Indian Red
-        "#6495ED", // Cornflower Blue
-        "#BC8F8F", // Rosy Brown
-        "#DDA0DD"  // Plum
+        "Medium Purple (#9370DB)",
+        "Slate Gray (#708090)",
+        "Light Sea Green (#20B2AA)",
+        "Beige (#F5F5DC)",
+        "Indian Red (#CD5C5C)",
+        "Cornflower Blue (#6495ED)",
+        "Rosy Brown (#BC8F8F)",
+        "Plum (#DDA0DD)"
       ],
       colorsToAvoid: [
         "Bright, clear colors, Black, Orange",
