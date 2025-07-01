@@ -27,6 +27,7 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
   useEffect(() => {
     const fetchPinterestData = async () => {
       try {
+        console.log('PinterestPreview: Starting fetch for URL:', url);
         setLoading(true);
         setError(null);
 
@@ -35,14 +36,16 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
         
         if (response.ok) {
           const previewData = await response.json();
+          console.log('PinterestPreview: Received data:', previewData);
           setData(previewData);
         } else {
           const errorData = await response.json();
+          console.error('PinterestPreview: API error:', errorData);
           throw new Error(errorData.error || 'Failed to fetch Pinterest preview');
         }
 
       } catch (err) {
-        console.error('Error fetching Pinterest data:', err);
+        console.error('PinterestPreview: Error fetching Pinterest data:', err);
         setError('Failed to load Pinterest preview');
       } finally {
         setLoading(false);
@@ -50,7 +53,11 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
     };
 
     if (url && (url.includes('pinterest.com') || url.includes('pin.it'))) {
+      console.log('PinterestPreview: Valid Pinterest URL detected, fetching data');
       fetchPinterestData();
+    } else {
+      console.log('PinterestPreview: Invalid or missing URL:', url);
+      setLoading(false);
     }
   }, [url]);
 
