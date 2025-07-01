@@ -45,6 +45,16 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'soft-autumn-vs-soft-summer'
+  },
+  {
+    id: '4',
+    title: 'Warm Autumn vs Warm Spring: Tests, Palettes & Pro Outfit Ideas',
+    excerpt: 'Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you\'re Warm Autumn or Warm Spring. Lab-validated tests for warm undertone seasonal types.',
+    category: 'Color Theory',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'warm-autumn-vs-warm-spring'
   }
 ];
 

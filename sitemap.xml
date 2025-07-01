@@ -95,6 +95,18 @@
     </image:image>
   </url>
   
+  <url>
+    <loc>https://hazelandhue.com/blog/warm-autumn-vs-warm-spring</loc>
+    <lastmod>2025-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hazelandhue.com/warm-autumn-warm-spring-comparison.jpg</image:loc>
+      <image:title>Warm Autumn vs Warm Spring Color Analysis</image:title>
+      <image:caption>Lab-validated draping tests and palette comparison for warm seasonal types</image:caption>
+    </image:image>
+  </url>
+  
   <!-- Seasonal Color Analysis Pages (SEO Landing Pages) -->
   <url>
     <loc>https://hazelandhue.com/color-analysis/true-winter</loc>

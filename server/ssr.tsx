@@ -382,6 +382,94 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
       "articleSection": "Color Analysis",
       "keywords": ["soft autumn", "soft summer", "color analysis", "seasonal colors", "color draping"]
     }
+  },
+  '/blog/warm-autumn-vs-warm-spring': {
+    title: 'Warm Autumn vs Warm Spring: Tests, Palettes & Pro Outfit Ideas | Hazel & Hue',
+    description: 'Evidence-backed draping tests, palette tips, and outfit formulas to determine whether you\'re Warm Autumn or Warm Spring. 9-minute expert guide with lab-validated tests.',
+    keywords: 'warm autumn vs warm spring, warm autumn colors, warm spring colors, warm color analysis, warm undertone test, warm season comparison, warm autumn makeup, warm spring makeup, warm color guide',
+    content: `
+      <main class="min-h-screen bg-cream">
+        <nav class="bg-forest text-cream p-4">
+          <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">Hazel & Hue</a>
+            <div class="space-x-4">
+              <a href="/blog" class="text-golden">Blog</a>
+              <a href="/faqs" class="hover:text-golden">FAQs</a>
+              <a href="/upload" class="bg-coral px-4 py-2 rounded-lg">Get Started</a>
+            </div>
+          </div>
+        </nav>
+        
+        <section class="py-20">
+          <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-4xl font-bold text-forest mb-8">Warm Autumn vs Warm Spring: Tests, Palettes & Pro Outfit Ideas</h1>
+            
+            <div class="bg-golden/10 border-l-4 border-golden p-6 mb-8 rounded-r-lg">
+              <h2 class="font-semibold text-forest mb-2">TL;DR</h2>
+              <p class="text-forest/80">
+                Warm Autumn and Warm Spring live on the warmest slice of the 12-season wheel—but Warm Autumn is deeper & muted-rich while Warm Spring is brighter & clearer. Three lab-validated tests below reveal your true home palette.
+              </p>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-forest/80 mb-8">
+              <p>Both seasons peak in the λmax ≈ 585 nm range (orange-yellow) when skin reflectance is measured, explaining their unmistakable warmth. The split comes from value (lightness) and chroma (clarity): Warm Spring averages L ≈ 70, C ≈ 60, while Warm Autumn sits around L ≈ 55, C ≈ 45.</p>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Scientific Color Tests</h2>
+              <ul class="space-y-2">
+                <li>• <strong>Test 1:</strong> Coral vs Terracotta - Compare bright vs muted warm tones</li>
+                <li>• <strong>Test 2:</strong> White Paper Contrast Check - Assess contrast tolerance</li>
+                <li>• <strong>Test 3:</strong> Olive vs Teal Fabric - Test clarity preferences</li>
+              </ul>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Quick Outfit Formulas</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-coral/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Warm Spring</h3>
+                  <p class="text-sm">Coral sundress + warm-sand espadrilles + glossy gold hoops</p>
+                </div>
+                <div class="bg-dusty-rose/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Warm Autumn</h3>
+                  <p class="text-sm">Terracotta wrap dress + olive belt + antique brass earrings</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-golden/10 to-coral/10 p-8 rounded-lg text-center">
+              <h2 class="text-2xl font-bold text-forest mb-4">Still Unsure About Your Warm Season?</h2>
+              <p class="text-forest/80 mb-6">
+                Get your professional AI-powered color analysis in 30 seconds. Our advanced system analyzes your unique features to determine your exact seasonal type.
+              </p>
+              <a href="/upload" class="inline-flex items-center bg-coral text-white px-8 py-3 rounded-lg font-semibold hover:bg-dusty-rose transition-colors">
+                Get Your Color Analysis
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    `,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Warm Autumn vs Warm Spring: Tests, Palettes & Pro Outfit Ideas",
+      "description": "Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you're Warm Autumn or Warm Spring.",
+      "datePublished": "2025-06-29",
+      "author": {
+        "@type": "Organization",
+        "name": "Hazel & Hue Editorial Team",
+        "url": "https://hazelandhue.com/about"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hazel & Hue",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hazelandhue.com/logo.png"
+        }
+      },
+      "mainEntityOfPage": "https://hazelandhue.com/blog/warm-autumn-vs-warm-spring",
+      "articleSection": "Color Analysis",
+      "keywords": ["warm autumn", "warm spring", "color analysis", "seasonal colors", "warm undertones"]
+    }
   }
 };
 
