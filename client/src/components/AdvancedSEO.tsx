@@ -29,8 +29,14 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
         "@context": "https://schema.org",
         "@type": "AggregateRating",
         "itemReviewed": {
-          "@type": "Service",
-          "name": "Hazel & Hue Color Analysis"
+          "@type": "LocalBusiness",
+          "name": "Hazel & Hue",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "US",
+            "addressRegion": "Online",
+            "addressLocality": "Worldwide"
+          }
         },
         "ratingValue": businessInfo.rating,
         "reviewCount": businessInfo.reviewCount,
