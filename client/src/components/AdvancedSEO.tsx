@@ -37,9 +37,11 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       "image": "https://hazelandhue.com/og-image.png",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "US",
+        "streetAddress": "Online Platform",
+        "addressLocality": "Worldwide",
         "addressRegion": "Online",
-        "addressLocality": "Worldwide"
+        "postalCode": "00000",
+        "addressCountry": "US"
       },
       "areaServed": {
         "@type": "Place",
@@ -51,9 +53,11 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
         "telephone": "+1-800-HAZEL-HUE",
         "address": {
           "@type": "PostalAddress",
-          "addressCountry": "US",
+          "streetAddress": "Online Platform",
+          "addressLocality": "Worldwide",
           "addressRegion": "Online",
-          "addressLocality": "Worldwide"
+          "postalCode": "00000",
+          "addressCountry": "US"
         }
       },
       "hasOfferCatalog": {
@@ -112,6 +116,9 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
   };
 
   const currentPageData = pageStructuredData[page];
+  
+  // Debug log to verify rendering
+  console.log('AdvancedSEO rendering for page:', page, 'with data:', currentPageData ? 'present' : 'missing');
 
   return (
     <>
