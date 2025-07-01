@@ -51,6 +51,7 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
         "@type": "Organization",
         "name": "Hazel & Hue",
         "telephone": "+1-800-HAZEL-HUE",
+        "image": "https://hazelandhue.com/og-image.png",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Online Platform",
@@ -116,9 +117,6 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
   };
 
   const currentPageData = pageStructuredData[page];
-  
-  // Debug log to verify rendering
-  console.log('AdvancedSEO rendering for page:', page, 'with data:', currentPageData ? 'present' : 'missing');
 
   return (
     <>
