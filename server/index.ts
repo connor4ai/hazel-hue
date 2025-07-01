@@ -81,10 +81,17 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  // SSR middleware COMPLETELY DISABLED for debugging network issues
-  // app.get('*', (req: Request, res: Response, next: NextFunction) => {
-  //   next();
-  // });
+  // SSR middleware for search engines only
+  app.get('*', (req: Request, res: Response, next: NextFunction) => {
+    const userAgent = req.get('User-Agent') || '';
+    const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet/i.test(userAgent);
+    
+    if (isSearchEngineBot && isSSRRoute(req.path)) {
+      renderSSRPage(req, res);
+    } else {
+      next();
+    }
+  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

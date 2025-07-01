@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 interface SSRPageConfig {
   title: string;
   description: string;
@@ -295,9 +297,14 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
   }
 };
 
-export function renderSSRPage(url: string): string | null {
+export function renderSSRPage(req: any, res: any): void {
+  const url = req.path;
   const route = SSR_ROUTES[url];
-  if (!route) return null;
+  
+  if (!route) {
+    res.status(404).send('Page not found');
+    return;
+  }
 
   try {
     const { title, description, keywords, structuredData, content } = route;
@@ -384,10 +391,11 @@ export function renderSSRPage(url: string): string | null {
 </body>
 </html>`;
 
-    return html;
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
   } catch (error) {
     console.error('SSR rendering error:', error);
-    return null;
+    res.status(500).send('Internal Server Error');
   }
 }
 
