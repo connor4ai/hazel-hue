@@ -21,7 +21,7 @@ const LightSpringPalette = lazy(() => import('@/components/LightSpringPalette'))
 const TrueAutumnPalette = lazy(() => import('@/components/TrueAutumnPalette'));
 const DarkAutumnPalette = lazy(() => import('@/components/DarkAutumnPalette'));
 const SoftAutumnPalette = lazy(() => import('@/components/SoftAutumnPalette'));
-import { PinterestPreview } from '@/components/PinterestPreview';
+import { PinterestBoardWidget } from '@/components/PinterestPreview';
 import InstagramStory from '@/components/InstagramStory';
 
 // Metal color helper function
@@ -1094,23 +1094,29 @@ const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: 
   );
 };
 
-const PinterestEmbed = ({ url, title, season }: { url: string; title: string; season?: string }) => (
+const InteractivePinterestSection = ({ url, title, season }: { url: string; title: string; season?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 border border-pink-100"
   >
-    <div className="text-center mb-4">
+    <div className="text-center mb-6">
       <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
         <ExternalLink className="w-6 h-6 text-white" />
       </div>
       <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
-      <p className="text-gray-600 text-sm mb-4">Curated inspiration board with looks perfect for your coloring</p>
+      <p className="text-gray-600 text-sm mb-4">Interactive Pinterest board - explore and save ideas directly!</p>
     </div>
     
-    {/* Pinterest Preview Component */}
-    <div className="mb-4">
-      <PinterestPreview url={url} className="w-full" season={season} />
+    {/* Interactive Pinterest Board Widget */}
+    <div className="rounded-lg overflow-hidden">
+      <PinterestBoardWidget 
+        url={url} 
+        className="w-full" 
+        season={season}
+        width={600}
+        height={600}
+      />
     </div>
   </motion.div>
 );
@@ -1507,7 +1513,7 @@ export default function ResultsNew() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <PinterestEmbed 
+              <InteractivePinterestSection 
                 url={analysisResult.clothing.pinterestUrl} 
                 title="Clothing Inspiration" 
                 season={analysisResult.season}
@@ -1941,7 +1947,7 @@ export default function ResultsNew() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <PinterestEmbed 
+              <InteractivePinterestSection 
                 url={analysisResult.makeup.pinterestUrl} 
                 title={`${analysisResult.season} Makeup Looks`} 
                 season={analysisResult.season}

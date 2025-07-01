@@ -1,5 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Grid, User } from 'lucide-react';
+
+// Extend window object for Pinterest widgets
+declare global {
+  interface Window {
+    PinUtils?: {
+      build: () => void;
+    };
+  }
+}
 
 interface PinterestPreviewProps {
   url: string;
@@ -225,57 +234,153 @@ export function PinterestPreview({ url, className = "", season }: PinterestPrevi
   );
 }
 
-// Enhanced Pinterest embed component using Pinterest's widget
-interface PinterestEmbedProps {
+// Interactive Pinterest board widget component
+interface PinterestBoardWidgetProps {
   url: string;
   className?: string;
   width?: number;
   height?: number;
+  season?: string;
 }
 
-export function PinterestEmbed({ url, className = "", width = 345, height = 400 }: PinterestEmbedProps) {
-  const [embedCode, setEmbedCode] = useState<string>('');
+export function PinterestBoardWidget({ url, className = "", width = 600, height = 400, season }: PinterestBoardWidgetProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load Pinterest's pinit.js script
-    const script = document.createElement('script');
-    script.src = 'https://assets.pinterest.com/js/pinit.js';
-    script.async = true;
-    script.setAttribute('data-pin-hover', 'true');
-    document.body.appendChild(script);
+    let mounted = true;
 
-    // Generate embed code based on URL type
-    const generateEmbedCode = () => {
-      const urlParts = url.split('/');
-      const isBoard = urlParts.length > 4 && !url.includes('/pin/');
-      
-      if (isBoard) {
-        // Board embed
-        return `<a data-pin-do="embedBoard" data-pin-board-width="${width}" data-pin-scale-height="${height}" data-pin-scale-width="80" href="${url}"></a>`;
-      } else if (url.includes('/pin/')) {
-        // Pin embed
-        return `<a data-pin-do="embedPin" data-pin-width="medium" href="${url}"></a>`;
-      } else {
-        // Profile embed
-        return `<a data-pin-do="embedUser" data-pin-board-width="${width}" data-pin-scale-height="${height}" data-pin-scale-width="80" href="${url}"></a>`;
+    const loadPinterestWidget = async () => {
+      try {
+        // Remove existing Pinterest script if present
+        const existingScript = document.querySelector('script[src*="pinit.js"]');
+        if (existingScript) {
+          existingScript.remove();
+        }
+
+        // Load Pinterest's widget script
+        const script = document.createElement('script');
+        script.src = 'https://assets.pinterest.com/js/pinit.js';
+        script.async = true;
+        script.setAttribute('data-pin-hover', 'true');
+        
+        script.onload = () => {
+          if (mounted && window.PinUtils) {
+            // Build the widget after script loads
+            window.PinUtils.build();
+            setIsLoaded(true);
+          }
+        };
+
+        script.onerror = () => {
+          if (mounted) {
+            setError('Failed to load Pinterest widget');
+          }
+        };
+
+        document.head.appendChild(script);
+
+      } catch (err) {
+        if (mounted) {
+          console.error('Pinterest widget error:', err);
+          setError('Failed to initialize Pinterest widget');
+        }
       }
     };
 
-    setEmbedCode(generateEmbedCode());
+    loadPinterestWidget();
 
     return () => {
-      // Clean up script if component unmounts
-      const existingScript = document.querySelector('script[src="https://assets.pinterest.com/js/pinit.js"]');
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
+      mounted = false;
     };
-  }, [url, width, height]);
+  }, [url]);
+
+  // Determine Pinterest URL for embedding
+  const getEmbedUrl = (originalUrl: string) => {
+    // If it's a pin.it short URL, we need to use a fallback approach
+    if (originalUrl.includes('pin.it')) {
+      // For pin.it URLs, we'll create a generic board URL
+      return 'https://www.pinterest.com/hazelandhue/';
+    }
+    return originalUrl;
+  };
+
+  const embedUrl = getEmbedUrl(url);
+  const isBoard = embedUrl.includes('/boards/') || (!embedUrl.includes('/pin/') && embedUrl.split('/').length > 4);
+
+  if (error) {
+    return (
+      <div className={`bg-red-50 border border-red-200 rounded-lg p-6 ${className}`}>
+        <div className="text-center">
+          <div className="text-red-600 mb-2">Pinterest board temporarily unavailable</div>
+          <a 
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            <span>View on Pinterest</span>
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div 
-      className={`pinterest-embed ${className}`}
-      dangerouslySetInnerHTML={{ __html: embedCode }}
-    />
+    <div className={`pinterest-widget-container ${className}`} ref={widgetRef}>
+      {/* Loading state */}
+      {!isLoaded && (
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 animate-pulse">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Grid className="w-6 h-6 text-red-500" />
+            </div>
+            <div className="text-gray-600">Loading Pinterest board...</div>
+          </div>
+        </div>
+      )}
+
+      {/* Pinterest widget embed */}
+      <div className="pinterest-embed-wrapper">
+        {isBoard ? (
+          <a 
+            data-pin-do="embedBoard" 
+            data-pin-board-width={width}
+            data-pin-scale-height={height}
+            data-pin-scale-width="80"
+            href={embedUrl}
+            style={{ display: isLoaded ? 'block' : 'none' }}
+          >
+            Pinterest Board
+          </a>
+        ) : (
+          <a 
+            data-pin-do="embedUser" 
+            data-pin-board-width={width}
+            data-pin-scale-height={height}
+            data-pin-scale-width="80"
+            href={embedUrl}
+            style={{ display: isLoaded ? 'block' : 'none' }}
+          >
+            Pinterest Profile
+          </a>
+        )}
+      </div>
+
+      {/* Fallback link */}
+      <div className="mt-4 text-center">
+        <a 
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center space-x-2 text-red-600 hover:text-red-800 font-medium transition-colors"
+        >
+          <ExternalLink className="w-4 h-4" />
+          <span>View full board on Pinterest</span>
+        </a>
+      </div>
+    </div>
   );
 }
