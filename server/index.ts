@@ -68,7 +68,7 @@ app.use((req, res, next) => {
     }
   }));
   
-  // Serve SEO files from root
+  // Serve SEO and security files from root
   app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
     res.sendFile(path.resolve(process.cwd(), 'robots.txt'));
@@ -78,6 +78,15 @@ app.use((req, res, next) => {
     res.type('application/xml');
     res.sendFile(path.resolve(process.cwd(), 'sitemap.xml'));
   });
+  
+  // Serve .well-known directory for security and validation files
+  app.get('/.well-known/security.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.resolve(process.cwd(), 'public/.well-known/security.txt'));
+  });
+  
+  // Serve other .well-known files if needed
+  app.use('/.well-known', express.static(path.resolve(process.cwd(), 'public/.well-known')));
   
   const server = await registerRoutes(app);
 

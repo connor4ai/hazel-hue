@@ -78,7 +78,49 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
           </div>
         </section>
 
-        <section class="benefits py-16 bg-white">
+        <section class="competitive-features py-16 bg-white">
+          <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-forest mb-12">
+              Advanced Features That Set Us Apart
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
+              <div class="bg-gradient-to-br from-coral/10 to-coral/5 p-6 rounded-lg border border-coral/20">
+                <h4 class="font-bold text-forest mb-3">180+ Color Palette</h4>
+                <p class="text-forest/70 text-sm">Complete seasonal palette with exact hex codes and color names for precision matching</p>
+              </div>
+              <div class="bg-gradient-to-br from-golden/10 to-golden/5 p-6 rounded-lg border border-golden/20">
+                <h4 class="font-bold text-forest mb-3">Makeup Color Matching</h4>
+                <p class="text-forest/70 text-sm">Foundation, eyeshadow, lipstick, and blush recommendations with specific shade guidance</p>
+              </div>
+              <div class="bg-gradient-to-br from-sage/10 to-sage/5 p-6 rounded-lg border border-sage/20">
+                <h4 class="font-bold text-forest mb-3">Hair Color Guide</h4>
+                <p class="text-forest/70 text-sm">Professional hair color recommendations with enhancement options and colors to avoid</p>
+              </div>
+              <div class="bg-gradient-to-br from-dusty-rose/10 to-dusty-rose/5 p-6 rounded-lg border border-dusty-rose/20">
+                <h4 class="font-bold text-forest mb-3">Metal & Jewelry Guide</h4>
+                <p class="text-forest/70 text-sm">Best metals for jewelry, watches, and accessories based on your seasonal type</p>
+              </div>
+              <div class="bg-gradient-to-br from-forest/10 to-forest/5 p-6 rounded-lg border border-forest/20">
+                <h4 class="font-bold text-forest mb-3">Wardrobe Planning</h4>
+                <p class="text-forest/70 text-sm">Core neutrals, accent colors, and outfit coordination strategies for your season</p>
+              </div>
+              <div class="bg-gradient-to-br from-coral/10 to-coral/5 p-6 rounded-lg border border-coral/20">
+                <h4 class="font-bold text-forest mb-3">Digital Style Board</h4>
+                <p class="text-forest/70 text-sm">Interactive color swatches, Pinterest boards, and shopping integration</p>
+              </div>
+              <div class="bg-gradient-to-br from-golden/10 to-golden/5 p-6 rounded-lg border border-golden/20">
+                <h4 class="font-bold text-forest mb-3">Professional PDF Report</h4>
+                <p class="text-forest/70 text-sm">6-page comprehensive analysis with color theory explanations and style guidance</p>
+              </div>
+              <div class="bg-gradient-to-br from-sage/10 to-sage/5 p-6 rounded-lg border border-sage/20">
+                <h4 class="font-bold text-forest mb-3">Instant Results</h4>
+                <p class="text-forest/70 text-sm">30-second analysis with immediate access to results via email and web portal</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="benefits py-16 bg-sage/10">
           <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-forest mb-12">
               Why Choose AI Color Analysis?
@@ -201,17 +243,62 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
     `,
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "ProfessionalService"],
       "name": "Hazel & Hue",
-      "description": "Professional AI-powered color analysis service",
+      "description": "Advanced AI-powered color analysis platform providing personalized seasonal color palettes, makeup recommendations, and comprehensive style guidance using 12-season color theory",
       "url": "https://hazelandhue.com",
+      "logo": "https://hazelandhue.com/logo.png",
       "telephone": "+1-555-COLOR-HUE",
+      "email": "jayda@hazelandhue.com",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "US"
+        "addressCountry": "US",
+        "addressRegion": "Online Platform"
       },
       "openingHours": "Mo-Su 00:00-23:59",
-      "priceRange": "$$$"
+      "priceRange": "$",
+      "serviceType": "AI Color Analysis",
+      "areaServed": "Worldwide",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Color Analysis Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "AI Color Analysis Report",
+            "description": "Complete 6-page professional color analysis with 180+ color palette, makeup recommendations, hair color guide, and style recommendations",
+            "category": "Beauty & Personal Care",
+            "availability": "InStock",
+            "deliveryMethod": "Digital Download"
+          }
+        ]
+      },
+      "knowsAbout": [
+        "Color Theory",
+        "Seasonal Color Analysis", 
+        "12-Season Color System",
+        "Personal Styling",
+        "Makeup Color Matching",
+        "Wardrobe Planning",
+        "AI Computer Vision"
+      ],
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Analysis Speed",
+          "value": "30 seconds"
+        },
+        {
+          "@type": "PropertyValue", 
+          "name": "Color Palette Size",
+          "value": "180+ colors"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Seasonal Systems Supported",
+          "value": "12-season color analysis"
+        }
+      ]
     }
   },
   '/blog': {

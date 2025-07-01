@@ -36,8 +36,28 @@
     <meta name="mobile-web-app-capable" content="yes" />
     
     <!-- Performance & Loading -->
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
     <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="dns-prefetch" href="https://api.hazelandhue.com">
+    <link rel="dns-prefetch" href="https://hazelandhue.com">
+    
+    <!-- Critical Technical SEO - Search Console Verification -->
+    <meta name="google-site-verification" content="your-google-verification-code" />
+    <meta name="msvalidate.01" content="your-bing-verification-code" />
+    <meta name="p:domain_verify" content="your-pinterest-verification-code" />
+    <meta name="yandex-verification" content="your-yandex-verification-code" />
+    
+    <!-- Enhanced Schema.org Microdata -->
+    <meta itemprop="name" content="Hazel & Hue - AI Color Analysis">
+    <meta itemprop="description" content="Professional AI-powered color analysis with personalized seasonal color palettes">
+    <meta itemprop="image" content="https://hazelandhue.com/og-cover.jpg">
+    
+    <!-- Additional SEO Enhancement -->
+    <meta name="page-topic" content="AI color analysis, seasonal color analysis, personal styling">
+    <meta name="page-type" content="Professional Service">
+    <meta name="expires" content="never">
     
     <!-- Social Media Optimization -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -57,16 +77,43 @@
     <meta property="og:site_name" content="Hazel & Hue" />
     <meta property="og:locale" content="en_US" />
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- Google Analytics 4 - Ready for Production Tracking ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YourActualTrackingID"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-YourActualTrackingID', {
         page_title: document.title,
-        page_location: window.location.href
+        page_location: window.location.href,
+        // Enhanced tracking for SEO and user behavior
+        send_page_view: true,
+        anonymize_ip: true,
+        custom_map: {
+          'custom_parameter_1': 'color_analysis_type',
+          'custom_parameter_2': 'seasonal_result'
+        }
       });
+      
+      // Track color analysis completion events
+      window.trackColorAnalysis = function(season, method) {
+        gtag('event', 'color_analysis_complete', {
+          'color_analysis_type': method || 'AI',
+          'seasonal_result': season,
+          'event_category': 'engagement',
+          'event_label': season + '_analysis',
+          'value': 1
+        });
+      };
+      
+      // Track key user actions for SEO insights
+      window.trackUserAction = function(action, category, label) {
+        gtag('event', action, {
+          'event_category': category || 'user_interaction',
+          'event_label': label,
+          'send_to': 'G-YourActualTrackingID'
+        });
+      };
     </script>
 
     <!-- Fonts -->
