@@ -2,6 +2,7 @@ import { useLocation } from 'wouter';
 import { ArrowLeft, Calendar, User, Clock, Share, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SEOHead } from '@/components/SEOHead';
+import { AdvancedSEO } from '@/components/AdvancedSEO';
 
 // Sample blog post data
 const blogPost = {
@@ -103,6 +104,42 @@ export default function BlogPost() {
 
   return (
     <>
+      <SEOHead 
+        title="Understanding Your Color Season: Complete Guide | Hazel & Hue Blog"
+        description="Discover how the 12-season color analysis system works. Learn to identify which colors make you look your absolute best with our comprehensive guide to seasonal color theory."
+        path="/blog/understanding-color-season"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": blogPost.title,
+          "description": blogPost.excerpt,
+          "author": {
+            "@type": "Organization",
+            "name": blogPost.author
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Hazel & Hue",
+            "logo": "https://hazelandhue.com/logo.png"
+          },
+          "datePublished": blogPost.date,
+          "dateModified": blogPost.date,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://hazelandhue.com/blog/understanding-color-season"
+          },
+          "image": "https://hazelandhue.com/color-season-guide.jpg"
+        }}
+      />
+      <AdvancedSEO 
+        page="home" 
+        additionalKeywords={[
+          "color season guide", "12 season color analysis", "seasonal color theory", "color analysis guide",
+          "winter summer spring autumn colors", "color season identification", "personal color analysis guide",
+          "color theory basics", "seasonal color palettes", "color analysis explained", "how to find your color season",
+          "AI color analysis guide", "color season types", "color analysis education", "seasonal styling guide"
+        ]}
+      />
       <style>{`
         /* Animated Gradient Mesh Background */
         .mesh {

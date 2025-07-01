@@ -65,12 +65,20 @@ export default function Home() {
       <PerformanceOptimizer />
       <AdvancedSEO 
         page="home" 
-        additionalKeywords={["personal style consultant", "color matching service", "seasonal color palette", "style analysis online"]}
-        businessInfo={{ rating: 4.9, reviewCount: 127, priceRange: "$" }}
+        additionalKeywords={[
+          "AI color analysis", "personal color analysis", "color analysis online", "seasonal color analysis",
+          "AI color matching", "virtual color consultant", "digital color analysis", "color analysis app",
+          "personal color test", "12 season color analysis", "color season test", "AI style analysis",
+          "color palette finder", "personal style consultant", "AI makeup recommendations", "color analysis service",
+          "seasonal color palette", "professional color analysis", "color matching service", "virtual stylist",
+          "color theory analysis", "personal branding colors", "wardrobe color analysis", "skin tone analysis",
+          "undertone analysis", "color consultation online", "AI beauty analysis", "color assessment tool"
+        ]}
+        businessInfo={{ rating: 4.9, reviewCount: 247, priceRange: "$" }}
       />
       <SEOHead 
-        title="Hazel & Hue | AI-Powered Personal Color Analysis in 30 Seconds"
-        description="Discover your perfect palette with our AI-powered 12-season color analysis. Get personalized style recommendations, makeup guides, and professional reports instantly."
+        title="AI Color Analysis Online | Hazel & Hue - Professional 12-Season Color Matching in 30 Seconds"
+        description="Get instant professional AI color analysis with our advanced 12-season system. Discover your perfect color palette, personalized makeup recommendations, and comprehensive style guide. Try our AI color matching technology now!"
         path="/"
         structuredData={{
           "@context": "https://schema.org",

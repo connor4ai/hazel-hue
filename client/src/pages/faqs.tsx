@@ -60,14 +60,16 @@ export default function FAQs() {
       <AdvancedSEO 
         page="faqs" 
         additionalKeywords={[
-          "color analysis questions", "AI color analysis FAQ", "seasonal color analysis help",
-          "color analysis accuracy", "personal color test questions", "how does color analysis work",
-          "color analysis process", "color consultation FAQ", "color matching questions"
+          "color analysis FAQ", "AI color analysis questions", "seasonal color analysis help", "how accurate is color analysis",
+          "color analysis process explained", "what is 12 season color analysis", "personal color test accuracy",
+          "AI color matching questions", "virtual color consultant FAQ", "color analysis privacy policy",
+          "color analysis refund policy", "how long does color analysis take", "color analysis photo requirements",
+          "seasonal color palette questions", "AI beauty analysis FAQ", "personal styling questions"
         ]}
       />
       <SEOHead 
-        title="AI Color Analysis FAQs | Hazel & Hue - Your Questions Answered"
-        description="Get answers to common questions about our AI-powered color analysis service. Learn about the process, accuracy, privacy, and results. Start your color journey with confidence."
+        title="Color Analysis FAQ | AI Color Analysis Questions Answered | Hazel & Hue"
+        description="Get expert answers about AI color analysis: accuracy rates, photo requirements, privacy, refunds, and results. Learn how our 12-season color analysis works and what to expect from your personalized style guide."
         path="/faqs"
         structuredData={faqStructuredData}
       />

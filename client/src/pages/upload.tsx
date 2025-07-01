@@ -16,6 +16,8 @@ import {
   RotateCcw,
   Shirt
 } from 'lucide-react';
+import { SEOHead } from '@/components/SEOHead';
+import { AdvancedSEO } from '@/components/AdvancedSEO';
 
 
 export default function UploadPage() {
@@ -173,6 +175,42 @@ export default function UploadPage() {
 
   return (
     <div className="min-h-screen bg-cream paper-texture">
+      <SEOHead 
+        title="Upload Photos for AI Color Analysis | Hazel & Hue - Start Your Analysis"
+        description="Upload 3 photos to discover your perfect seasonal color palette with our AI color analysis. Get personalized makeup recommendations and style guidance in 30 seconds."
+        path="/upload"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Upload Photos for AI Color Analysis",
+          "description": "Step-by-step guide to upload photos for professional AI color analysis",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Take Clear Photos",
+              "text": "Take 3 clear selfies in natural lighting without makeup"
+            },
+            {
+              "@type": "HowToStep", 
+              "name": "Upload Photos",
+              "text": "Upload your photos using our secure upload system"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Get Analysis",
+              "text": "Receive your AI-powered seasonal color analysis in 30 seconds"
+            }
+          ]
+        }}
+      />
+      <AdvancedSEO 
+        page="upload" 
+        additionalKeywords={[
+          "upload photos color analysis", "AI color analysis upload", "photo requirements color analysis",
+          "selfie color analysis", "color analysis photos", "how to upload color analysis photos",
+          "AI color matching photos", "color analysis selfie guide", "photo upload requirements"
+        ]}
+      />
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-8">
           <Button

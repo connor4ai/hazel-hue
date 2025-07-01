@@ -1,15 +1,16 @@
 User-agent: *
 Allow: /
-Allow: /blog/
 Allow: /upload
-Allow: /faqs
+Allow: /faqs  
 Allow: /checkout
+Allow: /blog/
+Allow: /attached_assets/
 
-# Priority crawling for important SEO pages
+# High-priority SEO pages  
 Allow: /blog/true-spring-vs-warm-spring
 Allow: /blog/light-spring-vs-light-summer
 
-# Block unnecessary admin/API routes
+# Block private and unnecessary routes
 Disallow: /api/
 Disallow: /admin/
 Disallow: /login
@@ -17,12 +18,39 @@ Disallow: /register
 Disallow: /results/
 Disallow: /processing/
 Disallow: /analyzing
+Disallow: /uploads/
+Disallow: /*.pdf$
+
+# Special instructions for different search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot  
+Allow: /
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 3
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
 
 # Crawl delay to be respectful
 Crawl-delay: 1
 
-# Tell search engines where the sitemap lives
+# Tell search engines where sitemaps live
 Sitemap: https://hazelandhue.com/sitemap.xml
-
-# Additional sitemaps for different content types
 Sitemap: https://hazelandhue.com/blog-sitemap.xml
+Sitemap: https://hazelandhue.com/images-sitemap.xml
+
+# Cache directive
+Cache: public, max-age=31536000
