@@ -15,6 +15,11 @@ import LightSpringVsLightSummer from "@/pages/light-spring-vs-light-summer";
 import SoftAutumnVsSoftSummer from "@/pages/blog-soft-autumn-vs-soft-summer";
 import WarmAutumnVsWarmSpring from "@/pages/blog-warm-autumn-vs-warm-spring";
 import DeepWinterVsDeepAutumn from "@/pages/blog-deep-winter-vs-deep-autumn";
+import ColorTrends2026 from "@/pages/blog-2026-color-trends";
+import PhotographyGuide from "@/pages/blog-photography-guide";
+import TrueSpringCapsule from "@/pages/blog-true-spring-capsule";
+import UndertonesScience from "@/pages/blog-undertones-science";
+import SoftMakeupSwatches from "@/pages/blog-soft-makeup-swatches";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -44,6 +49,11 @@ function Router() {
       <Route path="/blog/soft-autumn-vs-soft-summer" component={SoftAutumnVsSoftSummer} />
       <Route path="/blog/warm-autumn-vs-warm-spring" component={WarmAutumnVsWarmSpring} />
       <Route path="/blog/deep-winter-vs-deep-autumn" component={DeepWinterVsDeepAutumn} />
+      <Route path="/blog/2026-color-trends" component={ColorTrends2026} />
+      <Route path="/blog/photography-guide" component={PhotographyGuide} />
+      <Route path="/blog/true-spring-capsule" component={TrueSpringCapsule} />
+      <Route path="/blog/undertones-science" component={UndertonesScience} />
+      <Route path="/blog/soft-makeup-swatches" component={SoftMakeupSwatches} />
       <Route path="/blog/:postId" component={BlogPost} />
 
       <Route path="/upload" component={UploadNew} />

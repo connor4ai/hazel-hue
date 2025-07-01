@@ -65,6 +65,56 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'deep-winter-vs-deep-autumn'
+  },
+  {
+    id: '6',
+    title: '2026 Color Trends for Every Season',
+    excerpt: 'Discover 2026\'s hottest color trends mapped to all 12 seasonal palettes. From Digital Lime to Cyber Grape, find your perfect trending colors with AI precision.',
+    category: 'Color Trends',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '8 min read',
+    slug: '2026-color-trends'
+  },
+  {
+    id: '7',
+    title: 'How to Photograph Yourself for AI Color Analysis',
+    excerpt: 'Master the perfect lighting and phone settings for accurate AI color analysis. Step-by-step daylight setup guide drives better color matching results.',
+    category: 'Photography Guide',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '6 min read',
+    slug: 'photography-guide'
+  },
+  {
+    id: '8',
+    title: 'Capsule Wardrobe: True Spring Edition',
+    excerpt: 'Build a versatile True Spring wardrobe with 10 interchangeable pieces. Master coral, golden, and turquoise styling with our downloadable checklist.',
+    category: 'Style Guide',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '7 min read',
+    slug: 'true-spring-capsule'
+  },
+  {
+    id: '9',
+    title: 'Cool vs Warm Undertones—A Spectrophotometry Deep Dive',
+    excerpt: 'Peer-reviewed science behind undertones: hemoglobin reflection curves, melanin ratios, and spectrophotometry data. Evidence-based color analysis research.',
+    category: 'Scientific Research',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '12 min read',
+    slug: 'undertones-science'
+  },
+  {
+    id: '10',
+    title: 'Makeup Swatch Library for Soft Seasons',
+    excerpt: 'Curated makeup swatches for Soft Summer and Soft Autumn with HEX codes, product photos, and direct purchase links. Master the art of muted beauty.',
+    category: 'Makeup Guide',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '8 min read',
+    slug: 'soft-makeup-swatches'
   }
 ];
 
