@@ -1235,10 +1235,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No email address found" });
       }
 
-      await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
-      await storage.updateOrderEmailSent(order.id);
-      
-      res.json({ success: true, message: "Results emailed successfully" });
+      try {
+        await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
+        await storage.updateOrderEmailSent(order.id);
+        res.json({ success: true, message: "Results emailed successfully" });
+      } catch (emailError: any) {
+        // Handle SendGrid credits exceeded gracefully
+        if (emailError.message && emailError.message.includes('Maximum credits exceeded')) {
+          console.log(`📧 Email delivery paused due to SendGrid limits. Results accessible at: /results/${order.id}`);
+          res.json({ 
+            success: true, 
+            message: "Analysis complete! Results are available in your dashboard.",
+            note: "Email delivery temporarily unavailable"
+          });
+        } else {
+          throw emailError;
+        }
+      }
       
     } catch (error) {
       console.error("Error emailing results:", error);

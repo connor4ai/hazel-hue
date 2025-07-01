@@ -48,11 +48,33 @@ class EmailService {
       console.error('Error sending email:', error);
       
       // Provide more helpful error messages for common SendGrid issues
-      if (error.code === 403) {
+      if (error.code === 401) {
+        const errorDetails = error.response?.body?.errors?.[0]?.message || 'Unauthorized';
+        
+        if (errorDetails.includes('Maximum credits exceeded')) {
+          console.error('❌ SendGrid credits exceeded. Email delivery temporarily unavailable.');
+          console.log('📧 Email would have been sent to:', email, 'with order ID:', orderId);
+          console.log('🔗 Results URL for customer:', this.validateResultsUrl(orderId));
+          
+          // Log the email content that would have been sent for debugging
+          console.log('📝 Email subject:', '🎨 Your Personal Color Analysis Results are Ready!');
+          console.log('🎯 Customer can access results directly at:', this.validateResultsUrl(orderId));
+          
+          // Throw a specific error that can be caught upstream
+          throw new Error('Maximum credits exceeded');
+        }
+        
         const errorMsg = 'SendGrid authentication failed. Please ensure:\n' +
           '1. Your SENDGRID_API_KEY is valid\n' +
           '2. Your sender email is verified in SendGrid\n' +
-          '3. Set SENDGRID_FROM_EMAIL environment variable to your verified sender';
+          '3. SendGrid account has sufficient credits\n' +
+          'Error details: ' + errorDetails;
+        console.error(errorMsg);
+        throw new Error(errorMsg);
+      }
+      
+      if (error.code === 403) {
+        const errorMsg = 'SendGrid permission denied. Please check your API key permissions.';
         console.error(errorMsg);
         throw new Error(errorMsg);
       }
