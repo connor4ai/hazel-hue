@@ -83,6 +83,18 @@
     </image:image>
   </url>
   
+  <url>
+    <loc>https://hazelandhue.com/blog/soft-autumn-vs-soft-summer</loc>
+    <lastmod>2025-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hazelandhue.com/soft-autumn-soft-summer-comparison.jpg</image:loc>
+      <image:title>Soft Autumn vs Soft Summer Color Analysis</image:title>
+      <image:caption>Evidence-backed draping tests and palette comparison for muted seasonal types</image:caption>
+    </image:image>
+  </url>
+  
   <!-- Seasonal Color Analysis Pages (SEO Landing Pages) -->
   <url>
     <loc>https://hazelandhue.com/color-analysis/true-winter</loc>

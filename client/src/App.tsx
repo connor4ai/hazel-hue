@@ -12,6 +12,7 @@ import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
 import TrueSpringVsWarmSpring from "@/pages/true-spring-vs-warm-spring";
 import LightSpringVsLightSummer from "@/pages/light-spring-vs-light-summer";
+import SoftAutumnVsSoftSummer from "@/pages/blog-soft-autumn-vs-soft-summer";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/blog" component={Blog} />
       <Route path="/blog/true-spring-vs-warm-spring" component={TrueSpringVsWarmSpring} />
       <Route path="/blog/light-spring-vs-light-summer" component={LightSpringVsLightSummer} />
+      <Route path="/blog/soft-autumn-vs-soft-summer" component={SoftAutumnVsSoftSummer} />
       <Route path="/blog/:postId" component={BlogPost} />
 
       <Route path="/upload" component={UploadNew} />

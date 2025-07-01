@@ -35,6 +35,16 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'light-spring-vs-light-summer'
+  },
+  {
+    id: '3',
+    title: 'Soft Autumn vs Soft Summer: Tests, Palettes & Pro Outfit Ideas',
+    excerpt: 'Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you\'re Soft Autumn or Soft Summer. Scientific undertone analysis and professional styling guidance.',
+    category: 'Color Theory',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'soft-autumn-vs-soft-summer'
   }
 ];
 

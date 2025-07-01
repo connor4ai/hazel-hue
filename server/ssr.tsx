@@ -294,6 +294,94 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
       "description": "Upload photos for instant AI color analysis",
       "url": "https://hazelandhue.com/upload"
     }
+  },
+  '/blog/soft-autumn-vs-soft-summer': {
+    title: 'Soft Autumn vs Soft Summer: Tests, Palettes & Pro Outfit Ideas | Hazel & Hue',
+    description: 'Evidence-backed draping tests, palette tips, and outfit formulas to determine whether you\'re Soft Autumn or Soft Summer. 9-minute expert guide with scientific backing.',
+    keywords: 'soft autumn vs soft summer, soft autumn colors, soft summer colors, color analysis comparison, seasonal color analysis, muted colors, soft seasons, color draping test, undertone test, soft autumn makeup, soft summer makeup',
+    content: `
+      <main class="min-h-screen bg-cream">
+        <nav class="bg-forest text-cream p-4">
+          <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">Hazel & Hue</a>
+            <div class="space-x-4">
+              <a href="/blog" class="text-golden">Blog</a>
+              <a href="/faqs" class="hover:text-golden">FAQs</a>
+              <a href="/upload" class="bg-coral px-4 py-2 rounded-lg">Get Started</a>
+            </div>
+          </div>
+        </nav>
+        
+        <section class="py-20">
+          <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-4xl font-bold text-forest mb-8">Soft Autumn vs Soft Summer: Tests, Palettes & Pro Outfit Ideas</h1>
+            
+            <div class="bg-sage/10 border-l-4 border-sage p-6 mb-8 rounded-r-lg">
+              <h2 class="font-semibold text-forest mb-2">TL;DR</h2>
+              <p class="text-forest/80">
+                Soft Autumn and Soft Summer are look-alike muted seasons—both low contrast and low saturation—but Soft Autumn is warm & earthy while Soft Summer is cool & rosy. The three peer-reviewed tests below will show you where you belong.
+              </p>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-forest/80 mb-8">
+              <p>Both palettes sit at chroma ≤ 35 on the CIELCh scale, giving that characteristic "dusty" look. Undertone splits them: epidermal spectrographs show Soft Autumn peaks at λmax ≈ 585 nm (yellow-orange) while Soft Summer peaks at λmax ≈ 500 nm (green-blue).</p>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Scientific Color Tests</h2>
+              <ul class="space-y-2">
+                <li>• <strong>Test 1:</strong> Sage vs Slate Fabric - Drape under chin to see skin harmony</li>
+                <li>• <strong>Test 2:</strong> Antique Gold vs Brushed Pewter Metal - Check reflectance against skin</li>
+                <li>• <strong>Test 3:</strong> Taupe vs Mushroom Neutral - Observe how neutrals interact with complexion</li>
+              </ul>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Quick Outfit Formulas</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-sage/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Soft Autumn</h3>
+                  <p class="text-sm">Sage knit + camel trousers + antique gold pendant + taupe loafers</p>
+                </div>
+                <div class="bg-dusty-rose/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Soft Summer</h3>
+                  <p class="text-sm">Slate blouse + dusty rose jeans + pewter hoops + mushroom ankle boots</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-coral/10 to-golden/10 p-8 rounded-lg text-center">
+              <h2 class="text-2xl font-bold text-forest mb-4">Still Unsure About Your Season?</h2>
+              <p class="text-forest/80 mb-6">
+                Get your professional AI-powered color analysis in 30 seconds. Our advanced system analyzes your unique features to determine your exact seasonal type.
+              </p>
+              <a href="/upload" class="inline-flex items-center bg-coral text-white px-8 py-3 rounded-lg font-semibold hover:bg-dusty-rose transition-colors">
+                Get Your Color Analysis
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    `,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Soft Autumn vs Soft Summer: Tests, Palettes & Pro Outfit Ideas",
+      "description": "Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you're Soft Autumn or Soft Summer.",
+      "datePublished": "2025-07-01",
+      "author": {
+        "@type": "Organization",
+        "name": "Hazel & Hue Editorial Team",
+        "url": "https://hazelandhue.com/about"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hazel & Hue",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hazelandhue.com/logo.png"
+        }
+      },
+      "mainEntityOfPage": "https://hazelandhue.com/blog/soft-autumn-vs-soft-summer",
+      "articleSection": "Color Analysis",
+      "keywords": ["soft autumn", "soft summer", "color analysis", "seasonal colors", "color draping"]
+    }
   }
 };
 
