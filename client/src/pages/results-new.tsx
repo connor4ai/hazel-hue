@@ -1094,7 +1094,7 @@ const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: 
   );
 };
 
-const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
+const PinterestEmbed = ({ url, title, season }: { url: string; title: string; season?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -1110,7 +1110,7 @@ const PinterestEmbed = ({ url, title }: { url: string; title: string }) => (
     
     {/* Pinterest Preview Component */}
     <div className="mb-4">
-      <PinterestPreview url={url} className="w-full" />
+      <PinterestPreview url={url} className="w-full" season={season} />
     </div>
   </motion.div>
 );
@@ -1510,6 +1510,7 @@ export default function ResultsNew() {
               <PinterestEmbed 
                 url={analysisResult.clothing.pinterestUrl} 
                 title="Clothing Inspiration" 
+                season={analysisResult.season}
               />
             </motion.div>
           </div>
@@ -1943,6 +1944,7 @@ export default function ResultsNew() {
               <PinterestEmbed 
                 url={analysisResult.makeup.pinterestUrl} 
                 title={`${analysisResult.season} Makeup Looks`} 
+                season={analysisResult.season}
               />
             </motion.div>
           </div>

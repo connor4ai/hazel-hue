@@ -1294,7 +1294,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const pinItMatch = url.match(/pin\.it\/([^\/\?]+)/);
           if (pinItMatch) {
             const pinId = pinItMatch[1];
-            // For pin.it URLs, we'll create a generic Pinterest board preview
+            // For pin.it URLs, we'll create a generic Pinterest board preview with visual thumbnail
             const previewData = {
               title: 'Pinterest Board',
               description: 'Curated inspiration board with styling ideas perfect for your coloring',
@@ -1303,7 +1303,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               provider_name: 'Pinterest',
               type: 'board',
               url: url,
-              thumbnail_url: null
+              thumbnail_url: `https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}` // Placeholder visual
             };
             
             return res.json(previewData);
