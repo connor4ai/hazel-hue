@@ -1090,7 +1090,7 @@ export default function ResultsNew() {
 
   useEffect(() => {
     // Auto-email results when they're ready
-    if (order && order.status === 'completed' && !order.emailSent) {
+    if (order && order.status === 'completed') {
       emailResults().catch(error => {
         console.error('Error in emailResults useEffect:', error);
       });
@@ -1488,7 +1488,7 @@ export default function ResultsNew() {
                 <div>
                   <p className="text-gray-700 leading-relaxed mb-4">{analysisResult.accessories.metals}</p>
                   <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
-                    {getBestMetals(analysisResult).map((metal, index) => {
+                    {getBestMetals(analysisResult).map((metal: string, index: number) => {
                       const metalColors = getMetalColorSwatch(metal);
                       return (
                         <div key={index} className="text-center">
@@ -1927,13 +1927,13 @@ export default function ResultsNew() {
                   <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden">
                     <img
                       src={celebrityImage}
-                      alt={`${order.analysisResult.season} Celebrity ${index + 1}`}
+                      alt={`${order.analysisResult?.season || 'Celebrity'} Celebrity ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <h4 className="text-lg font-bold text-gray-800 text-center">
-                    {(Array.isArray(order.analysisResult.celebrities) ? 
-                      order.analysisResult.celebrities[index] : 
+                    {(Array.isArray(order.analysisResult?.celebrities) ? 
+                      order.analysisResult?.celebrities[index] : 
                       `Celebrity ${index + 1}`) || `Celebrity ${index + 1}`}
                   </h4>
                 </motion.div>
@@ -1974,13 +1974,11 @@ export default function ResultsNew() {
           <div className="text-center">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">Save & Share Your Results</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">Keep your color analysis handy for shopping and styling</p>
-            {order?.email && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4 max-w-md mx-auto">
-                <p className="text-sm text-blue-700">
-                  ✉️ Results have been emailed to <strong>{order.email}</strong>
-                </p>
-              </div>
-            )}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4 max-w-md mx-auto">
+              <p className="text-sm text-blue-700">
+                ✉️ Your results are ready to share and save
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">

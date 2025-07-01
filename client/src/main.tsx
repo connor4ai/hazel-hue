@@ -1,11 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { preloadCriticalResources, trackPerformance, injectCriticalCSS } from "./utils/performance";
+import { trackPerformance } from "./utils/performance";
 
-// Initialize performance optimizations
-injectCriticalCSS();
-preloadCriticalResources();
+// Initialize minimal performance tracking only
 trackPerformance();
 
 createRoot(document.getElementById("root")!).render(<App />);

@@ -2,24 +2,31 @@
 
 // Preload critical resources
 export const preloadCriticalResources = () => {
-  // Preload critical fonts
-  const playfairFont = new FontFace('Playfair Display', 'url(https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap)');
-  playfairFont.load().then(() => {
-    document.fonts.add(playfairFont);
-  });
+  try {
+    // Preload critical fonts with error handling
+    const playfairFont = new FontFace('Playfair Display', 'url(https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap)');
+    playfairFont.load().then(() => {
+      document.fonts.add(playfairFont);
+    }).catch(error => {
+      console.warn('Font loading failed:', error);
+    });
 
-  // Preload critical images
-  const criticalImages = [
-    '/attached_assets/12-tone-chart-value-temperature_1750623961315.png'
-  ];
-  
-  criticalImages.forEach(src => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-  });
+    // Preload critical images
+    const criticalImages = [
+      '/attached_assets/12-tone-chart-value-temperature_1750623961315.png'
+    ];
+    
+    criticalImages.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      link.onerror = () => console.warn('Image preload failed:', src);
+      document.head.appendChild(link);
+    });
+  } catch (error) {
+    console.warn('Resource preloading failed:', error);
+  }
 };
 
 // Optimize image loading with intersection observer
