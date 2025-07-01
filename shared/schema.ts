@@ -19,6 +19,9 @@ export const orders = pgTable("orders", {
   userId: integer("user_id").references(() => users.id).notNull(),
   paymentIntentId: text("payment_intent_id").unique(),
   amount: integer("amount").notNull(), // in cents
+  originalAmount: integer("original_amount"), // original price before discount
+  promoCodeId: integer("promo_code_id").references(() => promoCodes.id),
+  discountAmount: integer("discount_amount").default(0), // discount applied in cents
   status: text("status").notNull().default("pending"), // pending, processing, completed, failed
   paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
   email: text("email"), // customer email for guest orders
@@ -36,6 +39,19 @@ export const userSessions = pgTable("user_sessions", {
   sessionToken: text("session_token").notNull().unique(),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const promoCodes = pgTable("promo_codes", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  discountPercent: integer("discount_percent").notNull(), // 0-100
+  discountAmount: integer("discount_amount"), // in cents, alternative to percentage
+  isActive: boolean("is_active").default(true),
+  expiresAt: timestamp("expires_at"),
+  usageLimit: integer("usage_limit"), // null = unlimited
+  usageCount: integer("usage_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -65,6 +81,9 @@ export const insertOrderSchema = createInsertSchema(orders).pick({
   userId: true,
   paymentIntentId: true,
   amount: true,
+  originalAmount: true,
+  promoCodeId: true,
+  discountAmount: true,
   status: true,
   paymentStatus: true,
 }).extend({
@@ -77,6 +96,19 @@ export const insertSessionSchema = createInsertSchema(userSessions).pick({
   expiresAt: true,
 });
 
+export const insertPromoCodeSchema = createInsertSchema(promoCodes).pick({
+  code: true,
+  discountPercent: true,
+  discountAmount: true,
+  isActive: true,
+  expiresAt: true,
+  usageLimit: true,
+});
+
+export const validatePromoCodeSchema = z.object({
+  code: z.string().min(1, "Promo code is required"),
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type RegisterUser = z.infer<typeof registerUserSchema>;
 export type LoginUser = z.infer<typeof loginSchema>;
@@ -85,3 +117,6 @@ export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type Order = typeof orders.$inferSelect;
 export type UserSession = typeof userSessions.$inferSelect;
 export type InsertSession = z.infer<typeof insertSessionSchema>;
+export type PromoCode = typeof promoCodes.$inferSelect;
+export type InsertPromoCode = z.infer<typeof insertPromoCodeSchema>;
+export type ValidatePromoCode = z.infer<typeof validatePromoCodeSchema>;

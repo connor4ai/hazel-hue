@@ -240,17 +240,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { promoCode, orderId } = req.body;
       let amount = 2900; // $29.00 in cents
+      const originalAmount = amount;
       let discount = 0;
+      let appliedPromoCode = null;
 
       // Apply promo code discounts
       if (promoCode) {
-        const validPromoCodes: Record<string, number> = {
-          'CONNOR': 100, // 100% off (free)
-        };
-
-        if (validPromoCodes[promoCode.toUpperCase()]) {
-          discount = validPromoCodes[promoCode.toUpperCase()];
-          amount = Math.round(amount * (1 - discount / 100));
+        appliedPromoCode = await storage.getPromoCodeByCode(promoCode.toUpperCase());
+        
+        if (appliedPromoCode && appliedPromoCode.isActive) {
+          // Check if expired
+          if (!appliedPromoCode.expiresAt || new Date() <= appliedPromoCode.expiresAt) {
+            // Check usage limit
+            if (!appliedPromoCode.usageLimit || (appliedPromoCode.usageCount || 0) < appliedPromoCode.usageLimit) {
+              discount = appliedPromoCode.discountPercent;
+              amount = Math.round(amount * (1 - discount / 100));
+            }
+          }
         }
       }
 
@@ -260,12 +266,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const freeOrderId = `free_order_${Date.now()}`;
         
         // Create order record for free order
-        await storage.createOrder({
+        const order = await storage.createOrder({
           userId: 1, // Default user for guest orders
           paymentIntentId: freeOrderId,
           amount: 0,
+          originalAmount: originalAmount,
+          promoCodeId: appliedPromoCode?.id,
+          discountAmount: originalAmount,
           status: 'completed',
         });
+
+        // Increment promo code usage count if applicable
+        if (appliedPromoCode) {
+          await storage.incrementPromoCodeUsage(appliedPromoCode.id);
+        }
 
         res.json({ 
           clientSecret: null, // No payment required
@@ -1373,25 +1387,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Promo code is required" });
       }
 
-      // Define available promo codes
-      const promoCodes: { [key: string]: number } = {
-        'CONNOR': 100
-      };
-
-      const discount = promoCodes[code.toUpperCase()];
+      // Get promo code from database
+      const promoCode = await storage.getPromoCodeByCode(code.toUpperCase());
       
-      if (discount) {
-        res.json({ 
-          valid: true, 
-          discount,
-          message: `${discount}% discount applied!`
-        });
-      } else {
-        res.status(400).json({ 
+      if (!promoCode) {
+        return res.status(400).json({ 
           valid: false, 
           message: "Invalid promo code" 
         });
       }
+
+      // Check if promo code is active
+      if (!promoCode.isActive) {
+        return res.status(400).json({ 
+          valid: false, 
+          message: "This promo code is no longer active" 
+        });
+      }
+
+      // Check if promo code has expired
+      if (promoCode.expiresAt && new Date() > promoCode.expiresAt) {
+        return res.status(400).json({ 
+          valid: false, 
+          message: "This promo code has expired" 
+        });
+      }
+
+      // Check usage limit
+      if (promoCode.usageLimit && (promoCode.usageCount || 0) >= promoCode.usageLimit) {
+        return res.status(400).json({ 
+          valid: false, 
+          message: "This promo code has reached its usage limit" 
+        });
+      }
+
+      res.json({ 
+        valid: true, 
+        discount: promoCode.discountPercent,
+        discountAmount: promoCode.discountAmount,
+        message: `${promoCode.discountPercent}% discount applied!`
+      });
       
     } catch (error) {
       console.error("Error validating promo code:", error);

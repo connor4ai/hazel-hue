@@ -1,6 +1,6 @@
-import { users, orders, userSessions, type User, type InsertUser, type Order, type InsertOrder, type UserSession, type InsertSession } from "@shared/schema";
+import { users, orders, userSessions, promoCodes, type User, type InsertUser, type Order, type InsertOrder, type UserSession, type InsertSession, type PromoCode, type InsertPromoCode } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -33,6 +33,11 @@ export interface IStorage {
   updateOrderPaymentIntent(id: number, paymentIntentId: string): Promise<Order>;
   updateOrderPaymentStatus(id: number, paymentStatus: string): Promise<Order>;
   getAllOrders(): Promise<Order[]>;
+
+  // Promo code operations
+  getPromoCodeByCode(code: string): Promise<PromoCode | undefined>;
+  createPromoCode(promoCode: InsertPromoCode): Promise<PromoCode>;
+  incrementPromoCodeUsage(id: number): Promise<PromoCode>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -224,6 +229,32 @@ export class DatabaseStorage implements IStorage {
 
   async getAllOrders(): Promise<Order[]> {
     return await db.select().from(orders).orderBy(desc(orders.createdAt));
+  }
+
+  // Promo code operations
+  async getPromoCodeByCode(code: string): Promise<PromoCode | undefined> {
+    const [promoCode] = await db.select().from(promoCodes).where(eq(promoCodes.code, code));
+    return promoCode || undefined;
+  }
+
+  async createPromoCode(insertPromoCode: InsertPromoCode): Promise<PromoCode> {
+    const [promoCode] = await db
+      .insert(promoCodes)
+      .values(insertPromoCode)
+      .returning();
+    return promoCode;
+  }
+
+  async incrementPromoCodeUsage(id: number): Promise<PromoCode> {
+    const [promoCode] = await db
+      .update(promoCodes)
+      .set({ 
+        usageCount: sql`usage_count + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(promoCodes.id, id))
+      .returning();
+    return promoCode;
   }
 }
 
