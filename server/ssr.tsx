@@ -34,9 +34,16 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
             <p class="text-xl text-forest/80 mb-8 max-w-2xl mx-auto">
               Get your professional color analysis in 30 seconds. Upload 3 photos and receive your personalized seasonal color palette with expert style recommendations.
             </p>
-            <a href="/upload" class="bg-coral text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-dusty-rose transition-colors">
-              Start Your Color Analysis
-            </a>
+            <div class="space-y-4">
+              <a href="/upload" class="bg-coral text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-dusty-rose transition-colors inline-block">
+                Start Your Color Analysis
+              </a>
+              <div class="text-sm text-forest/60">
+                Or learn more: <a href="/blog" class="text-coral hover:underline">Color Analysis Blog</a> | 
+                <a href="/faqs" class="text-coral hover:underline">FAQs</a> | 
+                <a href="/color-analysis-quiz" class="text-coral hover:underline">Free Quiz</a>
+              </div>
+            </div>
           </div>
         </section>
         
@@ -70,6 +77,126 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
             </div>
           </div>
         </section>
+
+        <section class="benefits py-16 bg-white">
+          <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-forest mb-12">
+              Why Choose AI Color Analysis?
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              <div>
+                <h3 class="text-2xl font-bold text-forest mb-4">Advanced 12-Season System</h3>
+                <p class="text-forest/80 mb-6">
+                  Our comprehensive 12-season color analysis system goes beyond basic warm/cool categorization. 
+                  Discover whether you're a True Winter, Bright Spring, Soft Autumn, or any of the other 9 seasonal types. 
+                  Each season has a unique 64-color palette carefully curated for your undertones, contrast level, and color clarity.
+                </p>
+                <h3 class="text-2xl font-bold text-forest mb-4">Professional Accuracy</h3>
+                <p class="text-forest/80">
+                  Our AI technology achieves 95% accuracy by analyzing your skin undertones, eye color patterns, 
+                  and hair color characteristics. This matches professional in-person consultations while being 
+                  available instantly from anywhere in the world.
+                </p>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-forest mb-4">Complete Style Guide</h3>
+                <p class="text-forest/80 mb-6">
+                  Beyond just colors, receive comprehensive styling recommendations including makeup palettes, 
+                  jewelry metals, hair color suggestions, and wardrobe coordination tips. Learn which colors 
+                  to avoid and why, backed by color theory science.
+                </p>
+                <h3 class="text-2xl font-bold text-forest mb-4">Instant Digital Delivery</h3>
+                <p class="text-forest/80">
+                  Get your complete 6-page professional color analysis report immediately via email. 
+                  Share your results on social media, save to your phone, or print for reference while shopping. 
+                  Your results are accessible anytime through our secure results portal.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="testimonials py-16 bg-sage/10">
+          <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-forest mb-12">
+              Color Analysis Science
+            </h2>
+            <div class="max-w-4xl mx-auto text-center">
+              <p class="text-lg text-forest/80 mb-8">
+                Our AI color analysis is based on established color theory principles developed by Johannes Itten, 
+                Suzanne Caygill, and modern color scientists. The 12-season system considers three key factors: 
+                undertone (warm/cool), value (light/dark), and chroma (clear/muted).
+              </p>
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h4 class="font-bold text-forest mb-2">Undertone Analysis</h4>
+                  <p class="text-forest/70 text-sm">
+                    Determines if your natural coloring has warm (yellow-based) or cool (blue-based) undertones
+                  </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h4 class="font-bold text-forest mb-2">Value Assessment</h4>
+                  <p class="text-forest/70 text-sm">
+                    Evaluates the lightness or darkness of your overall coloring and contrast levels
+                  </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h4 class="font-bold text-forest mb-2">Chroma Measurement</h4>
+                  <p class="text-forest/70 text-sm">
+                    Analyzes how clear and vibrant versus soft and muted your natural colors appear
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="bg-forest text-cream py-12">
+          <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+              <div>
+                <h4 class="font-bold text-xl mb-4">Hazel & Hue</h4>
+                <p class="text-cream/80 text-sm mb-4">
+                  Professional AI-powered color analysis using advanced 12-season color theory for accurate seasonal typing.
+                </p>
+                <div class="space-y-2 text-sm">
+                  <a href="/upload" class="text-golden hover:text-cream block">Get Your Analysis</a>
+                  <a href="/color-analysis-quiz" class="text-golden hover:text-cream block">Free Color Quiz</a>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-4">Color Analysis</h4>
+                <div class="space-y-2 text-sm">
+                  <a href="/blog/true-spring-vs-warm-spring" class="text-cream/80 hover:text-cream block">True Spring vs Warm Spring</a>
+                  <a href="/blog/light-spring-vs-light-summer" class="text-cream/80 hover:text-cream block">Light Spring vs Light Summer</a>
+                  <a href="/blog/soft-autumn-vs-soft-summer" class="text-cream/80 hover:text-cream block">Soft Autumn vs Soft Summer</a>
+                  <a href="/blog/warm-autumn-vs-warm-spring" class="text-cream/80 hover:text-cream block">Warm Autumn vs Warm Spring</a>
+                  <a href="/blog/deep-winter-vs-deep-autumn" class="text-cream/80 hover:text-cream block">Deep Winter vs Deep Autumn</a>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-4">AI Technology</h4>
+                <div class="space-y-2 text-sm">
+                  <a href="/ai-color-analysis" class="text-cream/80 hover:text-cream block">AI Color Analysis Guide</a>
+                  <a href="/hazel-hue-vs-dressika" class="text-cream/80 hover:text-cream block">vs Dressika</a>
+                  <a href="/hazel-hue-vs-mycoloranalysis" class="text-cream/80 hover:text-cream block">vs MyColorAnalysis</a>
+                  <a href="/blog" class="text-cream/80 hover:text-cream block">Color Theory Blog</a>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-4">Support</h4>
+                <div class="space-y-2 text-sm">
+                  <a href="/faqs" class="text-cream/80 hover:text-cream block">Frequently Asked Questions</a>
+                  <a href="/checkout" class="text-cream/80 hover:text-cream block">Pricing</a>
+                  <a href="https://pinterest.com/hazelandhue" class="text-cream/80 hover:text-cream block">Pinterest Boards</a>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-cream/20 mt-8 pt-8 text-center text-sm text-cream/60">
+              <p>&copy; 2025 Hazel & Hue. AI-powered seasonal color analysis for your perfect palette.</p>
+            </div>
+          </div>
+        </footer>
       </main>
     `,
     structuredData: {
@@ -839,6 +966,18 @@ export function renderSSRPage(req: any, res: any): void {
   
   <!-- Structured Data -->
   ${structuredData ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : ''}
+  
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+      page_title: document.title,
+      page_location: window.location.href
+    });
+  </script>
   
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
