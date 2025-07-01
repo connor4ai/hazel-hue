@@ -1,6 +1,5 @@
 import { useStripe, Elements, PaymentElement, useElements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ComponentType } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +10,73 @@ import { Loader2, CreditCard, ArrowLeft, CheckCircle, Tag, Smartphone, Percent }
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-// Make sure to call `loadStripe` outside of a component's render to avoid
-// recreating the `Stripe` object on every render.
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
-  throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
+// Import the properly configured stripePromise with error handling
+import { stripePromise } from '@/lib/stripe';
+
+// Error boundary wrapper for Stripe Elements
+function StripeElementsWrapper({ 
+  clientSecret, 
+  originalAmount, 
+  finalAmount, 
+  discount, 
+  promoCode, 
+  onPaymentSuccess 
+}: {
+  clientSecret: string;
+  originalAmount: number;
+  finalAmount: number;
+  discount: number;
+  promoCode: string;
+  onPaymentSuccess: (paymentIntentId: string) => void;
+}) {
+  const [stripeError, setStripeError] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Check if Stripe loaded successfully
+    stripePromise?.then((stripe) => {
+      if (!stripe) {
+        setStripeError('Payment processing is temporarily unavailable');
+      }
+    }).catch((error) => {
+      console.error('Stripe loading error:', error);
+      setStripeError('Payment processing is temporarily unavailable');
+    });
+  }, []);
+
+  if (stripeError) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-red-600 mb-4">{stripeError}</div>
+        <p className="text-gray-600">Please refresh the page or try again later.</p>
+      </div>
+    );
+  }
+
+  return (
+    <Elements 
+      stripe={stripePromise} 
+      options={{ 
+        clientSecret,
+        appearance: {
+          theme: 'stripe',
+          variables: {
+            colorPrimary: '#f97316',
+            borderRadius: '8px',
+          }
+        }
+      }}
+    >
+      <CheckoutForm
+        clientSecret={clientSecret}
+        originalAmount={originalAmount}
+        finalAmount={finalAmount}
+        discount={discount}
+        promoCode={promoCode}
+        onPaymentSuccess={onPaymentSuccess}
+      />
+    </Elements>
+  );
 }
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 interface CheckoutFormProps {
   clientSecret: string;
@@ -482,28 +542,14 @@ export default function CheckoutEnhanced() {
                   </p>
                 </div>
               ) : clientSecret ? (
-                <Elements 
-                  stripe={stripePromise} 
-                  options={{ 
-                    clientSecret,
-                    appearance: {
-                      theme: 'stripe',
-                      variables: {
-                        colorPrimary: '#f97316',
-                        borderRadius: '8px',
-                      }
-                    }
-                  }}
-                >
-                  <CheckoutForm
-                    clientSecret={clientSecret}
-                    originalAmount={originalAmount}
-                    finalAmount={finalAmount}
-                    discount={discount}
-                    promoCode={appliedPromoCode}
-                    onPaymentSuccess={handlePaymentSuccess}
-                  />
-                </Elements>
+                <StripeElementsWrapper
+                  clientSecret={clientSecret}
+                  originalAmount={originalAmount}
+                  finalAmount={finalAmount}
+                  discount={discount}
+                  promoCode={appliedPromoCode}
+                  onPaymentSuccess={handlePaymentSuccess}
+                />
               ) : (
                 <div className="text-center py-8">
                   <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-orange-500" />
