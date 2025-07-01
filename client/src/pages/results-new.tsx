@@ -6,18 +6,21 @@ import { getSeasonalAssets } from '@/data/seasonalAssets';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-import TrueWinterPalette from '@/components/TrueWinterPalette';
-import BrightWinterPalette from '@/components/BrightWinterPalette';
-import DarkWinterPalette from '@/components/DarkWinterPalette';
-import TrueSummerPalette from '@/components/TrueSummerPalette';
-import LightSummerPalette from '@/components/LightSummerPalette';
-import SoftSummerPalette from '@/components/SoftSummerPalette';
-import TrueSpringPalette from '@/components/TrueSpringPalette';
-import BrightSpringPalette from '@/components/BrightSpringPalette';
-import LightSpringPalette from '@/components/LightSpringPalette';
-import TrueAutumnPalette from '@/components/TrueAutumnPalette';
-import DarkAutumnPalette from '@/components/DarkAutumnPalette';
-import SoftAutumnPalette from '@/components/SoftAutumnPalette';
+import { lazy, Suspense } from 'react';
+
+// Lazy load palette components for better performance
+const TrueWinterPalette = lazy(() => import('@/components/TrueWinterPalette'));
+const BrightWinterPalette = lazy(() => import('@/components/BrightWinterPalette'));
+const DarkWinterPalette = lazy(() => import('@/components/DarkWinterPalette'));
+const TrueSummerPalette = lazy(() => import('@/components/TrueSummerPalette'));
+const LightSummerPalette = lazy(() => import('@/components/LightSummerPalette'));
+const SoftSummerPalette = lazy(() => import('@/components/SoftSummerPalette'));
+const TrueSpringPalette = lazy(() => import('@/components/TrueSpringPalette'));
+const BrightSpringPalette = lazy(() => import('@/components/BrightSpringPalette'));
+const LightSpringPalette = lazy(() => import('@/components/LightSpringPalette'));
+const TrueAutumnPalette = lazy(() => import('@/components/TrueAutumnPalette'));
+const DarkAutumnPalette = lazy(() => import('@/components/DarkAutumnPalette'));
+const SoftAutumnPalette = lazy(() => import('@/components/SoftAutumnPalette'));
 import { PinterestPreview } from '@/components/PinterestPreview';
 import InstagramStory from '@/components/InstagramStory';
 
@@ -1327,18 +1330,25 @@ export default function ResultsNew() {
       icon: <Palette className="w-6 h-6" />,
       content: (
         <div className="space-y-8">
-          {analysisResult.season === 'True Winter' && <TrueWinterPalette />}
-          {analysisResult.season === 'Bright Winter' && <BrightWinterPalette />}
-          {analysisResult.season === 'Dark Winter' && <DarkWinterPalette />}
-          {analysisResult.season === 'True Summer' && <TrueSummerPalette />}
-          {analysisResult.season === 'Light Summer' && <LightSummerPalette />}
-          {analysisResult.season === 'Soft Summer' && <SoftSummerPalette />}
-          {analysisResult.season === 'True Spring' && <TrueSpringPalette />}
-          {analysisResult.season === 'Bright Spring' && <BrightSpringPalette />}
-          {analysisResult.season === 'Light Spring' && <LightSpringPalette />}
-          {analysisResult.season === 'True Autumn' && <TrueAutumnPalette />}
-          {analysisResult.season === 'Dark Autumn' && <DarkAutumnPalette />}
-          {analysisResult.season === 'Soft Autumn' && <SoftAutumnPalette />}
+          <Suspense fallback={
+            <div className="flex items-center justify-center p-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-500"></div>
+              <span className="ml-3 text-gray-600">Loading color palette...</span>
+            </div>
+          }>
+            {analysisResult.season === 'True Winter' && <TrueWinterPalette />}
+            {analysisResult.season === 'Bright Winter' && <BrightWinterPalette />}
+            {analysisResult.season === 'Dark Winter' && <DarkWinterPalette />}
+            {analysisResult.season === 'True Summer' && <TrueSummerPalette />}
+            {analysisResult.season === 'Light Summer' && <LightSummerPalette />}
+            {analysisResult.season === 'Soft Summer' && <SoftSummerPalette />}
+            {analysisResult.season === 'True Spring' && <TrueSpringPalette />}
+            {analysisResult.season === 'Bright Spring' && <BrightSpringPalette />}
+            {analysisResult.season === 'Light Spring' && <LightSpringPalette />}
+            {analysisResult.season === 'True Autumn' && <TrueAutumnPalette />}
+            {analysisResult.season === 'Dark Autumn' && <DarkAutumnPalette />}
+            {analysisResult.season === 'Soft Autumn' && <SoftAutumnPalette />}
+          </Suspense>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

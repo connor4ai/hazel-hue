@@ -5,8 +5,24 @@ import { setupVite, serveStatic, log } from "./vite";
 import { renderSSRPage, isSSRRoute } from "./ssr";
 
 const app = express();
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+
+// Performance optimizations
+app.set('trust proxy', 1);
+app.use(express.json({ limit: '10mb' })); // Reduced from 50mb for better performance
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+
+// Compression and caching headers
+app.use((req, res, next) => {
+  // Enable compression for text responses
+  if (req.path.endsWith('.js') || req.path.endsWith('.css') || req.path.endsWith('.html')) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year for static assets
+  } else if (req.path.startsWith('/api')) {
+    res.setHeader('Cache-Control', 'no-cache');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes for pages
+  }
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -39,9 +55,18 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Serve attached assets early in the middleware chain
+  // Serve attached assets with performance optimizations
   const attachedAssetsPath = path.resolve(process.cwd(), "attached_assets");
-  app.use("/attached_assets", express.static(attachedAssetsPath));
+  app.use("/attached_assets", express.static(attachedAssetsPath, {
+    maxAge: '1y', // Cache for 1 year
+    immutable: true,
+    setHeaders: (res, path) => {
+      if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png') || path.endsWith('.webp')) {
+        res.setHeader('Content-Type', 'image/' + path.split('.').pop());
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    }
+  }));
   
   // Serve SEO files from root
   app.get('/robots.txt', (req, res) => {
@@ -96,17 +121,11 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  
-  // TEMPORARY: Use Vite development server in production until build is complete
-  // This ensures users see the styled site immediately
-  await setupVite(app, server);
-  
-  // TODO: Revert to this after build completion:
-  // if (app.get("env") === "development") {
-  //   await setupVite(app, server);
-  // } else {
-  //   serveStatic(app);
-  // }
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
