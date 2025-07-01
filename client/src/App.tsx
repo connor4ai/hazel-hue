@@ -20,6 +20,11 @@ import PhotographyGuide from "@/pages/blog-photography-guide";
 import TrueSpringCapsule from "@/pages/blog-true-spring-capsule";
 import UndertonesScience from "@/pages/blog-undertones-science";
 import SoftMakeupSwatches from "@/pages/blog-soft-makeup-swatches";
+import DrapingGuide from "@/pages/blog-draping-guide";
+import DeepWinterOffice from "@/pages/blog-deep-winter-office";
+import SustainableThrifting from "@/pages/blog-sustainable-thrifting";
+import WarmSpringHoliday from "@/pages/blog-warm-spring-holiday";
+import ColorMyths from "@/pages/blog-color-myths";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -54,6 +59,11 @@ function Router() {
       <Route path="/blog/true-spring-capsule" component={TrueSpringCapsule} />
       <Route path="/blog/undertones-science" component={UndertonesScience} />
       <Route path="/blog/soft-makeup-swatches" component={SoftMakeupSwatches} />
+      <Route path="/blog/draping-guide" component={DrapingGuide} />
+      <Route path="/blog/deep-winter-office" component={DeepWinterOffice} />
+      <Route path="/blog/sustainable-thrifting" component={SustainableThrifting} />
+      <Route path="/blog/warm-spring-holiday" component={WarmSpringHoliday} />
+      <Route path="/blog/color-myths" component={ColorMyths} />
       <Route path="/blog/:postId" component={BlogPost} />
 
       <Route path="/upload" component={UploadNew} />

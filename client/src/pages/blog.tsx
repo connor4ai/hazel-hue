@@ -115,6 +115,56 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '8 min read',
     slug: 'soft-makeup-swatches'
+  },
+  {
+    id: '11',
+    title: 'Beginner\'s Guide to Draping at Home (With Printable Cards)',
+    excerpt: 'Master professional color draping techniques at home with our printable PDF color cards. Discover your seasonal palette through proven DIY methods.',
+    category: 'DIY Guide',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'draping-guide'
+  },
+  {
+    id: '12',
+    title: 'Best Neutrals for Deep Winter Offices',
+    excerpt: 'Master professional Deep Winter style with sophisticated neutral combinations. Create powerful office looks that command respect and project confidence.',
+    category: 'Professional Style',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '7 min read',
+    slug: 'deep-winter-office'
+  },
+  {
+    id: '13',
+    title: 'Sustainability: Thrifting by Season to Cut Fashion Waste',
+    excerpt: 'Transform thrift shopping with seasonal color analysis. Reduce textile waste while building a curated wardrobe that enhances your natural coloring.',
+    category: 'Sustainability',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '8 min read',
+    slug: 'sustainable-thrifting'
+  },
+  {
+    id: '14',
+    title: 'Holiday Party Colors That Flatter Warm Spring',
+    excerpt: 'Celebrate in style with Warm Spring\'s festive color palette. From coral celebrations to golden glamour, master holiday party dressing with Pinterest-worthy looks.',
+    category: 'Holiday Style',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '6 min read',
+    slug: 'warm-spring-holiday'
+  },
+  {
+    id: '15',
+    title: 'Common Myths About the 12-Season System (Debunked)',
+    excerpt: 'Address skepticism with peer-reviewed research. Evidence-based responses to common doubts about seasonal color analysis with scientific citations.',
+    category: 'Educational',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'color-myths'
   }
 ];
 
