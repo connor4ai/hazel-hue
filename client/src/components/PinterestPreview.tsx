@@ -49,7 +49,7 @@ export function PinterestPreview({ url, className = "" }: PinterestPreviewProps)
       }
     };
 
-    if (url && url.includes('pinterest.com')) {
+    if (url && (url.includes('pinterest.com') || url.includes('pin.it'))) {
       fetchPinterestData();
     }
   }, [url]);

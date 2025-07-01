@@ -1283,36 +1283,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'URL parameter is required' });
       }
 
-      if (!url.includes('pinterest.com')) {
-        return res.status(400).json({ error: 'Invalid Pinterest URL' });
-      }
+      let finalUrl = url;
 
-      // Parse URL structure for fallback preview
-      const urlPattern = /pinterest\.com\/([^\/]+)\/([^\/]+)?/;
-      const match = url.match(urlPattern);
-      
-      if (match) {
-        const username = match[1];
-        const boardName = match[2];
+      // Handle pin.it short URLs and other Pinterest URL formats
+      if (url.includes('pin.it') || url.includes('pinterest.com')) {
         
-        // Clean up board name for display
-        const displayBoardName = boardName ? 
-          boardName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
-          null;
+        // If it's a pin.it short URL, try to resolve it or create a fallback
+        if (url.includes('pin.it')) {
+          // Extract the ID from pin.it URL
+          const pinItMatch = url.match(/pin\.it\/([^\/\?]+)/);
+          if (pinItMatch) {
+            const pinId = pinItMatch[1];
+            // For pin.it URLs, we'll create a generic Pinterest board preview
+            const previewData = {
+              title: 'Pinterest Board',
+              description: 'Curated inspiration board with styling ideas perfect for your coloring',
+              author_name: 'Hazel & Hue',
+              author_url: 'https://pinterest.com/hazelandhue',
+              provider_name: 'Pinterest',
+              type: 'board',
+              url: url,
+              thumbnail_url: null
+            };
+            
+            return res.json(previewData);
+          }
+        }
+
+        // Handle full pinterest.com URLs
+        const urlPattern = /pinterest\.com\/([^\/]+)\/([^\/]+)?/;
+        const match = finalUrl.match(urlPattern);
         
+        if (match) {
+          const username = match[1];
+          const boardName = match[2];
+          
+          // Clean up board name for display
+          const displayBoardName = boardName ? 
+            boardName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 
+            null;
+          
+          const previewData = {
+            title: displayBoardName ? 
+              `${displayBoardName}` : 
+              `${username}'s Pinterest Profile`,
+            description: displayBoardName ? 
+              `Curated inspiration board with ${displayBoardName.toLowerCase()} ideas perfect for your coloring` :
+              `Discover pins and boards from ${username}`,
+            author_name: username,
+            author_url: `https://pinterest.com/${username}`,
+            provider_name: 'Pinterest',
+            type: boardName ? 'board' : 'profile',
+            url: finalUrl,
+            thumbnail_url: null // Will be handled by component
+          };
+          
+          return res.json(previewData);
+        }
+
+        // Fallback for any Pinterest-related URL
         const previewData = {
-          title: displayBoardName ? 
-            `${displayBoardName}` : 
-            `${username}'s Pinterest Profile`,
-          description: displayBoardName ? 
-            `Curated inspiration board with ${displayBoardName.toLowerCase()} ideas perfect for your coloring` :
-            `Discover pins and boards from ${username}`,
-          author_name: username,
-          author_url: `https://pinterest.com/${username}`,
+          title: 'Pinterest Collection',
+          description: 'Curated inspiration with styling ideas perfect for your coloring',
+          author_name: 'Pinterest',
+          author_url: 'https://pinterest.com',
           provider_name: 'Pinterest',
-          type: boardName ? 'board' : 'profile',
+          type: 'board',
           url: url,
-          thumbnail_url: null // Will be handled by component
+          thumbnail_url: null
         };
         
         return res.json(previewData);
