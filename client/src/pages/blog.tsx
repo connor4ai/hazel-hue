@@ -55,6 +55,16 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'warm-autumn-vs-warm-spring'
+  },
+  {
+    id: '5',
+    title: 'Deep Winter vs Deep Autumn: Tests, Palettes & Pro Outfit Ideas',
+    excerpt: 'Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you\'re Deep Winter or Deep Autumn. Research-driven tests for deep seasonal types.',
+    category: 'Color Theory',
+    date: '2025-07-01',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '9 min read',
+    slug: 'deep-winter-vs-deep-autumn'
   }
 ];
 

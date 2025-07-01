@@ -470,6 +470,94 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
       "articleSection": "Color Analysis",
       "keywords": ["warm autumn", "warm spring", "color analysis", "seasonal colors", "warm undertones"]
     }
+  },
+  '/blog/deep-winter-vs-deep-autumn': {
+    title: 'Deep Winter vs Deep Autumn: Tests, Palettes & Pro Outfit Ideas | Hazel & Hue',
+    description: 'Evidence-backed draping tests, palette tips, and outfit formulas to determine whether you\'re Deep Winter or Deep Autumn. 9-minute expert guide with research-driven tests.',
+    keywords: 'deep winter vs deep autumn, deep winter colors, deep autumn colors, deep color analysis, deep season test, winter autumn comparison, deep season colors, deep winter makeup, deep autumn makeup, deep color guide',
+    content: `
+      <main class="min-h-screen bg-cream">
+        <nav class="bg-forest text-cream p-4">
+          <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">Hazel & Hue</a>
+            <div class="space-x-4">
+              <a href="/blog" class="text-golden">Blog</a>
+              <a href="/faqs" class="hover:text-golden">FAQs</a>
+              <a href="/upload" class="bg-coral px-4 py-2 rounded-lg">Get Started</a>
+            </div>
+          </div>
+        </nav>
+        
+        <section class="py-20">
+          <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-4xl font-bold text-forest mb-8">Deep Winter vs Deep Autumn: Tests, Palettes & Pro Outfit Ideas</h1>
+            
+            <div class="bg-golden/10 border-l-4 border-golden p-6 mb-8 rounded-r-lg">
+              <h2 class="font-semibold text-forest mb-2">TL;DR</h2>
+              <p class="text-forest/80">
+                Deep Winter and Deep Autumn both crave depth, but Deep Winter is cool & high-contrast while Deep Autumn is warm & earthy. Three research-driven tests below will clarify your palette and unlock outfit strategies.
+              </p>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-forest/80 mb-8">
+              <p>Skin reflectance curves for both seasons show elevated melanin with similar value levels (L ≈ 35-40), creating shared depth. Undertone separates them: Deep Winter's hemoglobin reflection dips toward shorter wavelengths, giving a cooler spectral profile, while Deep Autumn peaks nearer 585 nm (warm).</p>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Research-Driven Tests</h2>
+              <ul class="space-y-2">
+                <li>• <strong>Test 1:</strong> Jet Black vs Espresso - Compare pure vs warm deep tones</li>
+                <li>• <strong>Test 2:</strong> Royal Purple vs Deep Teal - Test hue angle preferences</li>
+                <li>• <strong>Test 3:</strong> Gunmetal vs Copper Metal - Assess metal interactions</li>
+              </ul>
+              
+              <h2 class="text-2xl font-bold text-forest mt-8 mb-4">Quick Outfit Formulas</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-coral/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Deep Winter</h3>
+                  <p class="text-sm">Black blazer + white tee + royal-purple scarf + silver hoops</p>
+                </div>
+                <div class="bg-dusty-rose/10 p-4 rounded-lg">
+                  <h3 class="font-semibold text-forest mb-2">Deep Autumn</h3>
+                  <p class="text-sm">Espresso leather jacket + deep-teal blouse + bronze necklace</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-golden/10 to-coral/10 p-8 rounded-lg text-center">
+              <h2 class="text-2xl font-bold text-forest mb-4">Still Unsure About Your Deep Season?</h2>
+              <p class="text-forest/80 mb-6">
+                Get your professional AI-powered color analysis in 30 seconds. Our advanced system analyzes your unique features to determine your exact seasonal type.
+              </p>
+              <a href="/upload" class="inline-flex items-center bg-coral text-white px-8 py-3 rounded-lg font-semibold hover:bg-dusty-rose transition-colors">
+                Get Your Color Analysis
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    `,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Deep Winter vs Deep Autumn: Tests, Palettes & Pro Outfit Ideas",
+      "description": "Evidence‑backed draping tests, palette tips, and outfit formulas to determine whether you're Deep Winter or Deep Autumn.",
+      "datePublished": "2025-06-29",
+      "author": {
+        "@type": "Organization",
+        "name": "Hazel & Hue Editorial Team",
+        "url": "https://hazelandhue.com/about"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hazel & Hue",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hazelandhue.com/logo.png"
+        }
+      },
+      "mainEntityOfPage": "https://hazelandhue.com/blog/deep-winter-vs-deep-autumn",
+      "articleSection": "Color Analysis",
+      "keywords": ["deep winter", "deep autumn", "color analysis", "seasonal colors", "deep seasons"]
+    }
   }
 };
 

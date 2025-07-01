@@ -14,6 +14,7 @@ import TrueSpringVsWarmSpring from "@/pages/true-spring-vs-warm-spring";
 import LightSpringVsLightSummer from "@/pages/light-spring-vs-light-summer";
 import SoftAutumnVsSoftSummer from "@/pages/blog-soft-autumn-vs-soft-summer";
 import WarmAutumnVsWarmSpring from "@/pages/blog-warm-autumn-vs-warm-spring";
+import DeepWinterVsDeepAutumn from "@/pages/blog-deep-winter-vs-deep-autumn";
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/blog/light-spring-vs-light-summer" component={LightSpringVsLightSummer} />
       <Route path="/blog/soft-autumn-vs-soft-summer" component={SoftAutumnVsSoftSummer} />
       <Route path="/blog/warm-autumn-vs-warm-spring" component={WarmAutumnVsWarmSpring} />
+      <Route path="/blog/deep-winter-vs-deep-autumn" component={DeepWinterVsDeepAutumn} />
       <Route path="/blog/:postId" component={BlogPost} />
 
       <Route path="/upload" component={UploadNew} />

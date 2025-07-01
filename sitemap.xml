@@ -107,6 +107,18 @@
     </image:image>
   </url>
   
+  <url>
+    <loc>https://hazelandhue.com/blog/deep-winter-vs-deep-autumn</loc>
+    <lastmod>2025-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hazelandhue.com/deep-winter-deep-autumn-comparison.jpg</image:loc>
+      <image:title>Deep Winter vs Deep Autumn Color Analysis</image:title>
+      <image:caption>Research-driven draping tests and palette comparison for deep seasonal types</image:caption>
+    </image:image>
+  </url>
+  
   <!-- Seasonal Color Analysis Pages (SEO Landing Pages) -->
   <url>
     <loc>https://hazelandhue.com/color-analysis/true-winter</loc>
