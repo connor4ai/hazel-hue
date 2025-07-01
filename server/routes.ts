@@ -687,11 +687,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { orderId } = req.params;
       
+      // Validate orderId parameter
+      if (!orderId || orderId === 'undefined' || orderId === 'null' || orderId === 'NaN') {
+        return res.status(400).json({ message: "Invalid order ID" });
+      }
+      
       let order;
       if (orderId.startsWith('free_order_')) {
         order = await storage.getOrderByPaymentIntent(orderId);
       } else {
-        order = await storage.getOrder(parseInt(orderId));
+        const numericOrderId = parseInt(orderId);
+        if (isNaN(numericOrderId)) {
+          return res.status(400).json({ message: "Invalid order ID format" });
+        }
+        order = await storage.getOrder(numericOrderId);
       }
       
       if (!order) {

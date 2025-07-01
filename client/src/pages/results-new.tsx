@@ -1592,8 +1592,6 @@ export default function ResultsNew() {
                 <div className="space-y-3 mb-4">
                   {(Array.isArray(analysisResult.accessories.glasses) ? 
                     analysisResult.accessories.glasses : 
-                    analysisResult.accessories.description ? 
-                    [analysisResult.accessories.description] : 
                     ['Choose frames that complement your features']
                   ).map((item, index) => (
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
@@ -1698,8 +1696,6 @@ export default function ResultsNew() {
               <div className="space-y-4">
                 {(Array.isArray(analysisResult.hairColor.avoidColors) ? 
                   analysisResult.hairColor.avoidColors : 
-                  analysisResult.hairColor.description ? 
-                  [analysisResult.hairColor.description] : 
                   ['Avoid colors that clash with your natural coloring']
                 ).map((color, index) => (
                   <motion.p
@@ -1877,8 +1873,6 @@ export default function ResultsNew() {
               <div className="space-y-4">
                 {(Array.isArray(analysisResult.makeup.guidelines) ? 
                   analysisResult.makeup.guidelines : 
-                  analysisResult.makeup.description ? 
-                  [analysisResult.makeup.description] : 
                   ['Follow your seasonal color palette for best makeup results']
                 ).map((guideline, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-4">
