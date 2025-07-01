@@ -72,7 +72,7 @@ export default function HomeNew() {
           "best color analysis app", "professional color analysis online", "color season test",
           "AI makeup recommendations", "personal color profile", "color analysis service"
         ]}
-        businessInfo={{ rating: 4.9, reviewCount: 127, priceRange: "$" }}
+        businessInfo={{ priceRange: "$" }}
       />
       <SEOHead 
         title="AI Color Analysis | Hazel & Hue - Discover Your Perfect Colors in 30 Seconds"
@@ -109,13 +109,6 @@ export default function HomeNew() {
                 "availability": "https://schema.org/InStock"
               }
             ]
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "127",
-            "bestRating": "5",
-            "worstRating": "1"
           }
         }}
       />

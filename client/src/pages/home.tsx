@@ -74,7 +74,7 @@ export default function Home() {
           "color theory analysis", "personal branding colors", "wardrobe color analysis", "skin tone analysis",
           "undertone analysis", "color consultation online", "AI beauty analysis", "color assessment tool"
         ]}
-        businessInfo={{ rating: 4.9, reviewCount: 247, priceRange: "$" }}
+        businessInfo={{ priceRange: "$" }}
       />
       <SEOHead 
         title="AI Color Analysis Online | Hazel & Hue - Professional 12-Season Color Matching in 30 Seconds"
