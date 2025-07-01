@@ -250,9 +250,25 @@ export function PinterestBoardWidget({ url, className = "", width = 600, height 
 
   useEffect(() => {
     let mounted = true;
+    let timeoutId: NodeJS.Timeout;
 
     const loadPinterestWidget = async () => {
       try {
+        // Set a timeout in case Pinterest script doesn't load
+        timeoutId = setTimeout(() => {
+          if (mounted) {
+            setError('Pinterest widget took too long to load');
+          }
+        }, 10000); // 10 second timeout
+
+        // Check if Pinterest script is already loaded
+        if (window.PinUtils) {
+          setIsLoaded(true);
+          window.PinUtils.build();
+          clearTimeout(timeoutId);
+          return;
+        }
+
         // Remove existing Pinterest script if present
         const existingScript = document.querySelector('script[src*="pinit.js"]');
         if (existingScript) {
@@ -266,15 +282,21 @@ export function PinterestBoardWidget({ url, className = "", width = 600, height 
         script.setAttribute('data-pin-hover', 'true');
         
         script.onload = () => {
-          if (mounted && window.PinUtils) {
-            // Build the widget after script loads
-            window.PinUtils.build();
-            setIsLoaded(true);
+          if (mounted) {
+            clearTimeout(timeoutId);
+            // Give Pinterest script time to initialize
+            setTimeout(() => {
+              if (window.PinUtils) {
+                window.PinUtils.build();
+              }
+              setIsLoaded(true);
+            }, 1000);
           }
         };
 
         script.onerror = () => {
           if (mounted) {
+            clearTimeout(timeoutId);
             setError('Failed to load Pinterest widget');
           }
         };
@@ -283,6 +305,7 @@ export function PinterestBoardWidget({ url, className = "", width = 600, height 
 
       } catch (err) {
         if (mounted) {
+          clearTimeout(timeoutId);
           console.error('Pinterest widget error:', err);
           setError('Failed to initialize Pinterest widget');
         }
@@ -293,21 +316,38 @@ export function PinterestBoardWidget({ url, className = "", width = 600, height 
 
     return () => {
       mounted = false;
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, [url]);
 
   // Determine Pinterest URL for embedding
-  const getEmbedUrl = (originalUrl: string) => {
-    // If it's a pin.it short URL, we need to use a fallback approach
+  const getEmbedUrl = (originalUrl: string, season?: string) => {
+    // If it's a pin.it short URL, we need to use real Pinterest board URLs
     if (originalUrl.includes('pin.it')) {
-      // For pin.it URLs, we'll create a generic board URL
-      return 'https://www.pinterest.com/hazelandhue/';
+      // Map to real Pinterest boards based on season
+      const seasonBoards: { [key: string]: string } = {
+        'light spring': 'https://www.pinterest.com/ideas/light-spring/937691376157/',
+        'true spring': 'https://www.pinterest.com/ideas/spring-colors/944430906411/',
+        'bright spring': 'https://www.pinterest.com/ideas/bright-spring/952055139826/',
+        'light summer': 'https://www.pinterest.com/ideas/summer-colors/920127829953/',
+        'true summer': 'https://www.pinterest.com/ideas/summer-palette/920127829953/',
+        'soft summer': 'https://www.pinterest.com/ideas/soft-summer/951928516851/',
+        'true autumn': 'https://www.pinterest.com/ideas/autumn-colors/944430835476/',
+        'soft autumn': 'https://www.pinterest.com/ideas/soft-autumn/951928525519/',
+        'dark autumn': 'https://www.pinterest.com/ideas/dark-autumn/951928531067/',
+        'true winter': 'https://www.pinterest.com/ideas/winter-colors/920127856589/',
+        'bright winter': 'https://www.pinterest.com/ideas/bright-winter/952055134299/',
+        'dark winter': 'https://www.pinterest.com/ideas/dark-winter/951928540724/'
+      };
+      
+      const seasonKey = season?.toLowerCase() || '';
+      return seasonBoards[seasonKey] || 'https://www.pinterest.com/ideas/color-palette/916318460063/';
     }
     return originalUrl;
   };
 
-  const embedUrl = getEmbedUrl(url);
-  const isBoard = embedUrl.includes('/boards/') || (!embedUrl.includes('/pin/') && embedUrl.split('/').length > 4);
+  const embedUrl = getEmbedUrl(url, season);
+  const isBoard = embedUrl.includes('/boards/') || embedUrl.includes('/ideas/') || (!embedUrl.includes('/pin/') && embedUrl.split('/').length > 4);
 
   if (error) {
     return (
@@ -344,6 +384,21 @@ export function PinterestBoardWidget({ url, className = "", width = 600, height 
 
       {/* Pinterest widget embed */}
       <div className="pinterest-embed-wrapper">
+        {/* Fallback iframe if widgets don't load */}
+        {!isLoaded && (
+          <div className="mt-4">
+            <iframe
+              src={`https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(window.location.href)}&media=&description=Check out this ${season} color analysis!`}
+              width="100%"
+              height="300"
+              frameBorder="0"
+              scrolling="no"
+              className="rounded-lg"
+              title="Pinterest Save Button"
+            />
+          </div>
+        )}
+        
         {isBoard ? (
           <a 
             data-pin-do="embedBoard" 

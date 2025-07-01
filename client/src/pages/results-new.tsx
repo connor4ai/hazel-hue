@@ -1094,32 +1094,89 @@ const ColorSwatch = ({ color, name, clickable = true }: { color: string; name?: 
   );
 };
 
-const InteractivePinterestSection = ({ url, title, season }: { url: string; title: string; season?: string }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 border border-pink-100"
-  >
-    <div className="text-center mb-6">
-      <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
-        <ExternalLink className="w-6 h-6 text-white" />
+const VisualPinterestBoard = ({ url, title, season }: { url: string; title: string; season?: string }) => {
+  // Get season-specific colors for visual preview
+  const getSeasonColors = (season?: string) => {
+    switch (season?.toLowerCase()) {
+      case 'light spring':
+        return ['#FFB6C1', '#FFA07A', '#FFE4B5', '#FFFFE0', '#98FB98', '#87CEEB'];
+      case 'true spring':
+        return ['#FF4500', '#FFD700', '#32CD32', '#1E90FF', '#DC143C', '#9370DB'];
+      case 'bright spring':
+        return ['#00FA9A', '#00FFFF', '#FF69B4', '#FFD700', '#FF0000', '#0000FF'];
+      case 'light summer':
+        return ['#B0C4DE', '#F0B6C1', '#DDA0DD', '#D3D3D3', '#90EE90', '#708090'];
+      case 'true summer':
+        return ['#4169E1', '#9370DB', '#FF69B4', '#808080', '#32CD32', '#708090'];
+      case 'soft summer':
+        return ['#708090', '#87CEEB', '#DDA0DD', '#F0B6C1', '#D3D3D3', '#90EE90'];
+      case 'true autumn':
+        return ['#FF8C00', '#DAA520', '#DC143C', '#FFD700', '#228B22', '#8B4513'];
+      case 'soft autumn':
+        return ['#D2691E', '#FF8C00', '#FFD700', '#228B22', '#DC143C', '#A0522D'];
+      case 'dark autumn':
+        return ['#8B0000', '#FF4500', '#B8860B', '#006400', '#B8860B', '#654321'];
+      case 'true winter':
+        return ['#191970', '#8B0000', '#800080', '#FF1493', '#2F4F4F', '#000000'];
+      case 'bright winter':
+        return ['#0000FF', '#FF0000', '#800080', '#FF1493', '#00FF00', '#FFD700'];
+      case 'dark winter':
+        return ['#2F4F4F', '#191970', '#4B0082', '#8B0000', '#006400', '#000000'];
+      default:
+        return ['#FF1493', '#FF69B4', '#FF4500', '#FF6347', '#D2691E', '#FFD700'];
+    }
+  };
+
+  const seasonColors = getSeasonColors(season);
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 border border-pink-100 hover:shadow-lg transition-all duration-300"
+    >
+      <div className="text-center mb-6">
+        <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+          <ExternalLink className="w-6 h-6 text-white" />
+        </div>
+        <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
+        <p className="text-gray-600 text-sm mb-4">Curated Pinterest inspiration board with {season?.toLowerCase()} styling ideas</p>
       </div>
-      <h4 className="text-lg font-bold text-gray-800 mb-2">{title}</h4>
-      <p className="text-gray-600 text-sm mb-4">Interactive Pinterest board - explore and save ideas directly!</p>
-    </div>
-    
-    {/* Interactive Pinterest Board Widget */}
-    <div className="rounded-lg overflow-hidden">
-      <PinterestBoardWidget 
-        url={url} 
-        className="w-full" 
-        season={season}
-        width={600}
-        height={600}
-      />
-    </div>
-  </motion.div>
-);
+      
+      {/* Visual Color Preview Grid */}
+      <div className="mb-6">
+        <div className="grid grid-cols-6 gap-2 mb-4">
+          {seasonColors.map((color, index) => (
+            <div 
+              key={index}
+              className="aspect-square rounded-lg shadow-sm border border-white/50"
+              style={{ backgroundColor: color }}
+            />
+          ))}
+        </div>
+        <p className="text-xs text-gray-500 text-center">Preview of your {season?.toLowerCase()} color palette</p>
+      </div>
+      
+      {/* Pinterest CTA Button */}
+      <a 
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 shadow-lg"
+      >
+        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          <span className="text-red-600 font-bold text-sm">P</span>
+        </div>
+        <span>Explore {title} on Pinterest</span>
+        <ExternalLink className="w-5 h-5" />
+      </a>
+      
+      <p className="text-xs text-gray-500 text-center mt-3">
+        Click to browse hundreds of curated {season?.toLowerCase()} styling ideas
+      </p>
+    </motion.div>
+  );
+};
 
 export default function ResultsNew() {
   const params = useParams();
@@ -1513,7 +1570,7 @@ export default function ResultsNew() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <InteractivePinterestSection 
+              <VisualPinterestBoard 
                 url={analysisResult.clothing.pinterestUrl} 
                 title="Clothing Inspiration" 
                 season={analysisResult.season}
@@ -1947,7 +2004,7 @@ export default function ResultsNew() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <InteractivePinterestSection 
+              <VisualPinterestBoard 
                 url={analysisResult.makeup.pinterestUrl} 
                 title={`${analysisResult.season} Makeup Looks`} 
                 season={analysisResult.season}
