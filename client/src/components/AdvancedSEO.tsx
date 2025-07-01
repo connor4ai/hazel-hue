@@ -21,34 +21,8 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       keywordMeta.content = uniqueKeywords.join(', ');
     }
 
-    // Add structured data for aggregate rating if available
-    if (businessInfo?.rating && businessInfo?.reviewCount) {
-      const ratingScript = document.createElement('script');
-      ratingScript.type = 'application/ld+json';
-      ratingScript.textContent = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "AggregateRating",
-        "itemReviewed": {
-          "@type": "LocalBusiness",
-          "name": "Hazel & Hue",
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "US",
-            "addressRegion": "Online",
-            "addressLocality": "Worldwide"
-          }
-        },
-        "ratingValue": businessInfo.rating,
-        "reviewCount": businessInfo.reviewCount,
-        "bestRating": "5",
-        "worstRating": "1"
-      });
-      document.head.appendChild(ratingScript);
-      
-      return () => {
-        document.head.removeChild(ratingScript);
-      };
-    }
+    // Note: AggregateRating is embedded within LocalBusiness schemas instead of standalone
+    // to avoid Google Rich Results validation issues with itemReviewed field
   }, [page, additionalKeywords, businessInfo]);
 
   // Page-specific structured data

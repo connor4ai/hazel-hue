@@ -63,13 +63,7 @@ export const businessSchema = {
       }
     ]
   },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "127",
-    "bestRating": "5",
-    "worstRating": "1"
-  },
+
   "openingHours": "Mo,Tu,We,Th,Fr,Sa,Su 00:00-23:59",
   "paymentAccepted": "Cash, Credit Card, PayPal, Apple Pay, Google Pay"
 };
