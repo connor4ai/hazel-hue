@@ -81,34 +81,10 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  // SSR middleware for critical pages (before Vite setup) - DISABLED FOR DEBUGGING
-  // Only serve SSR to actual bots, not regular users
-  app.get('*', (req: Request, res: Response, next: NextFunction) => {
-    const url = req.path;
-    
-    // Check if this is a request for a critical SSR page
-    if (isSSRRoute(url)) {
-      // Check if request is from a search engine crawler or social media bot
-      const userAgent = req.get('User-Agent') || '';
-      const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram/i.test(userAgent);
-      
-      // Also serve SSR for specific query parameters that indicate SEO needs
-      const forceSSR = req.query.ssr === 'true' || req.query._escaped_fragment_ !== undefined;
-      
-      // TEMPORARILY DISABLED - Only serve to very specific bots
-      if (forceSSR && isBot) {
-        const ssrHtml = renderSSRPage(url);
-        if (ssrHtml) {
-          res.setHeader('Content-Type', 'text/html');
-          res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
-          res.send(ssrHtml);
-          return;
-        }
-      }
-    }
-    
-    next();
-  });
+  // SSR middleware COMPLETELY DISABLED for debugging network issues
+  // app.get('*', (req: Request, res: Response, next: NextFunction) => {
+  //   next();
+  // });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
