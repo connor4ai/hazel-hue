@@ -139,113 +139,114 @@ const getJewelryRecommendations = (season: string) => {
 
 // Eyewear recommendations helper function
 const getEyewearRecommendations = (analysisResult: any) => {
-  if (analysisResult.accessories && analysisResult.accessories.eyewearFrames) {
-    return analysisResult.accessories.eyewearFrames;
+  // Return the actual glasses array from seasonal content
+  if (analysisResult.accessories && Array.isArray(analysisResult.accessories.glasses)) {
+    return analysisResult.accessories.glasses;
   }
   
-  // Extract frame types from the glasses description text
-  const glassesText = Array.isArray(analysisResult.accessories.glasses) 
-    ? analysisResult.accessories.glasses.join(' ') 
-    : (analysisResult.accessories.glasses || '');
-    
-  const commonFrameTypes = [
-    'Electric Blue Acetate', 'Bright Silver Wire', 'Chrome Wire', 'Black Frames', 'White Frames',
-    'Tortoiseshell', 'Cat-Eye', 'Round Frames', 'Square Frames', 'Aviator', 'Oversized',
-    'Metal Frames', 'Plastic Frames', 'Clear Frames', 'Bold Shapes', 'Minimalist',
-    'Angular Frames', 'Soft Frames', 'Dark Frames', 'Light Frames'
-  ];
-  
-  const foundFrames = commonFrameTypes.filter(frame => 
-    glassesText.toLowerCase().includes(frame.toLowerCase().replace(' frames', ''))
-  );
-  
-  return foundFrames.length > 0 ? foundFrames.slice(0, 6) : ['Black Frames', 'Silver Frames', 'Modern Frames'];
+  // Fallback for backwards compatibility
+  return ['Classic frames that complement your features'];
 };
 
 // Enhanced eyewear color helper function
-const getEyewearColorSwatch = (frameType: string, usedNames: Set<string>) => {
-  const frameTypeLower = frameType.toLowerCase();
+const getSeasonalEyewearColors = (season: string) => {
+  const seasonalEyewear = {
+    'True Winter': [
+      { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black Acetate' },
+      { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver Wire' },
+      { gradient: 'bg-gradient-to-br from-gray-500 to-gray-700', name: 'Gunmetal' },
+      { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'White Frames' }
+    ],
+    'Bright Winter': [
+      { gradient: 'bg-gradient-to-br from-blue-400 to-blue-600', name: 'Electric Blue' },
+      { gradient: 'bg-gradient-to-br from-gray-200 to-gray-400', name: 'Bright Silver' },
+      { gradient: 'bg-gradient-to-br from-gray-500 to-gray-700', name: 'Chrome' },
+      { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black' }
+    ],
+    'Dark Winter': [
+      { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black Acetate' },
+      { gradient: 'bg-gradient-to-br from-gray-500 to-gray-700', name: 'Gunmetal' },
+      { gradient: 'bg-gradient-to-br from-red-800 to-red-900', name: 'Deep Burgundy' },
+      { gradient: 'bg-gradient-to-br from-amber-700 to-gray-600', name: 'Dark Tortoise' }
+    ],
+    'Cool Winter': [
+      { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver Wire' },
+      { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Cool Gray' },
+      { gradient: 'bg-gradient-to-br from-blue-800 to-blue-900', name: 'Navy Blue' },
+      { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Charcoal' }
+    ],
+    'Deep Winter': [
+      { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black Acetate' },
+      { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver' },
+      { gradient: 'bg-gradient-to-br from-blue-800 to-blue-900', name: 'Deep Navy' },
+      { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Charcoal' }
+    ],
+    'True Summer': [
+      { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Silver Wire' },
+      { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Cool Gray' },
+      { gradient: 'bg-gradient-to-br from-blue-800 to-blue-900', name: 'Navy' },
+      { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Medium Gray' }
+    ],
+    'Light Summer': [
+      { gradient: 'bg-gradient-to-br from-gray-200 to-gray-300', name: 'Light Silver' },
+      { gradient: 'bg-gradient-to-br from-gray-300 to-gray-400', name: 'Soft Gray' },
+      { gradient: 'bg-gradient-to-br from-blue-200 to-blue-400', name: 'Light Blue' },
+      { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200', name: 'Rimless' }
+    ],
+    'Soft Summer': [
+      { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Soft Gray' },
+      { gradient: 'bg-gradient-to-br from-amber-600 to-gray-600', name: 'Muted Tortoise' },
+      { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Pewter' },
+      { gradient: 'bg-gradient-to-br from-stone-400 to-stone-600', name: 'Taupe' }
+    ],
+    'True Spring': [
+      { gradient: 'bg-gradient-to-br from-amber-500 to-amber-700', name: 'Warm Tortoise' },
+      { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Gold Wire' },
+      { gradient: 'bg-gradient-to-br from-orange-400 to-red-500', name: 'Coral' },
+      { gradient: 'bg-gradient-to-br from-teal-400 to-teal-600', name: 'Turquoise' }
+    ],
+    'Bright Spring': [
+      { gradient: 'bg-gradient-to-br from-teal-400 to-teal-600', name: 'Bright Turquoise' },
+      { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Bright Gold' },
+      { gradient: 'bg-gradient-to-br from-orange-400 to-red-500', name: 'Coral' },
+      { gradient: 'bg-gradient-to-br from-pink-500 to-pink-700', name: 'Hot Pink' }
+    ],
+    'Light Spring': [
+      { gradient: 'bg-gradient-to-br from-yellow-200 to-yellow-400', name: 'Light Gold' },
+      { gradient: 'bg-gradient-to-br from-orange-200 to-orange-400', name: 'Peach' },
+      { gradient: 'bg-gradient-to-br from-yellow-300 to-yellow-500', name: 'Champagne' },
+      { gradient: 'bg-gradient-to-br from-amber-400 to-amber-600', name: 'Soft Tortoise' }
+    ],
+    'True Autumn': [
+      { gradient: 'bg-gradient-to-br from-amber-500 to-amber-700', name: 'Warm Tortoise' },
+      { gradient: 'bg-gradient-to-br from-yellow-600 to-yellow-700', name: 'Rich Gold' },
+      { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Cognac' },
+      { gradient: 'bg-gradient-to-br from-amber-700 to-amber-900', name: 'Chocolate' }
+    ],
+    'Dark Autumn': [
+      { gradient: 'bg-gradient-to-br from-amber-700 to-amber-900', name: 'Dark Tortoise' },
+      { gradient: 'bg-gradient-to-br from-yellow-600 to-yellow-700', name: 'Deep Gold' },
+      { gradient: 'bg-gradient-to-br from-red-800 to-red-900', name: 'Burgundy' },
+      { gradient: 'bg-gradient-to-br from-amber-800 to-amber-900', name: 'Chocolate' }
+    ],
+    'Soft Autumn': [
+      { gradient: 'bg-gradient-to-br from-stone-400 to-stone-600', name: 'Taupe' },
+      { gradient: 'bg-gradient-to-br from-green-300 to-green-500', name: 'Sage Green' },
+      { gradient: 'bg-gradient-to-br from-yellow-500 to-yellow-600', name: 'Muted Gold' },
+      { gradient: 'bg-gradient-to-br from-amber-400 to-amber-600', name: 'Gentle Tortoise' }
+    ]
+  };
+
+  // Handle potential season name variations
+  const normalizedSeason = season.trim();
+  const exactMatch = seasonalEyewear[normalizedSeason as keyof typeof seasonalEyewear];
   
-  // Electric and bright blues
-  if (frameTypeLower.includes('electric blue') || frameTypeLower.includes('turquoise acetate')) {
-    return { gradient: 'bg-gradient-to-br from-blue-400 to-blue-600', name: 'Electric Blue' };
-  } else if (frameTypeLower.includes('bright turquoise') || frameTypeLower.includes('turquoise')) {
-    return { gradient: 'bg-gradient-to-br from-teal-400 to-teal-600', name: 'Turquoise' };
-  } else if (frameTypeLower.includes('light blue') || frameTypeLower.includes('soft blue')) {
-    return { gradient: 'bg-gradient-to-br from-blue-200 to-blue-400', name: 'Light Blue' };
-  } else if (frameTypeLower.includes('navy') || frameTypeLower.includes('deep blue')) {
-    return { gradient: 'bg-gradient-to-br from-blue-800 to-blue-900', name: 'Navy Blue' };
-  
-  // Corals and warm tones
-  } else if (frameTypeLower.includes('coral') || frameTypeLower.includes('bright coral')) {
-    return { gradient: 'bg-gradient-to-br from-orange-400 to-red-500', name: 'Coral' };
-  } else if (frameTypeLower.includes('hot pink') || frameTypeLower.includes('bright pink')) {
-    return { gradient: 'bg-gradient-to-br from-pink-500 to-pink-700', name: 'Hot Pink' };
-  } else if (frameTypeLower.includes('warm peach') || frameTypeLower.includes('peach')) {
-    return { gradient: 'bg-gradient-to-br from-orange-200 to-orange-400', name: 'Peach' };
-  
-  // Silvers and metals
-  } else if (frameTypeLower.includes('bright silver') || frameTypeLower.includes('polished silver')) {
-    return { gradient: 'bg-gradient-to-br from-gray-300 to-gray-500', name: 'Bright Silver' };
-  } else if (frameTypeLower.includes('light silver') || frameTypeLower.includes('delicate silver')) {
-    return { gradient: 'bg-gradient-to-br from-gray-200 to-gray-300', name: 'Light Silver' };
-  } else if (frameTypeLower.includes('gunmetal') || frameTypeLower.includes('chrome')) {
-    return { gradient: 'bg-gradient-to-br from-gray-500 to-gray-700', name: 'Gunmetal' };
-  } else if (frameTypeLower.includes('pewter') || frameTypeLower.includes('brushed silver')) {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-500', name: 'Pewter' };
-  
-  // Golds
-  } else if (frameTypeLower.includes('bright gold') || frameTypeLower.includes('polished gold')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-400 to-yellow-600', name: 'Gold' };
-  } else if (frameTypeLower.includes('light gold') || frameTypeLower.includes('champagne gold')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-200 to-yellow-400', name: 'Champagne' };
-  } else if (frameTypeLower.includes('deep gold') || frameTypeLower.includes('rich gold')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-600 to-yellow-700', name: 'Rich Gold' };
-  } else if (frameTypeLower.includes('muted gold') || frameTypeLower.includes('brushed gold')) {
-    return { gradient: 'bg-gradient-to-br from-yellow-500 to-yellow-600', name: 'Muted Gold' };
-  
-  // Tortoiseshells
-  } else if (frameTypeLower.includes('warm tortoiseshell') || frameTypeLower.includes('golden tortoiseshell')) {
-    return { gradient: 'bg-gradient-to-br from-amber-500 to-amber-700', name: 'Warm Tortoise' };
-  } else if (frameTypeLower.includes('dark tortoiseshell') || frameTypeLower.includes('rich tortoiseshell')) {
-    return { gradient: 'bg-gradient-to-br from-amber-700 to-amber-900', name: 'Dark Tortoise' };
-  } else if (frameTypeLower.includes('cool tortoiseshell') || frameTypeLower.includes('muted tortoiseshell')) {
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-gray-600', name: 'Cool Tortoise' };
-  } else if (frameTypeLower.includes('soft tortoiseshell') || frameTypeLower.includes('gentle tortoiseshell')) {
-    return { gradient: 'bg-gradient-to-br from-amber-400 to-amber-600', name: 'Soft Tortoise' };
-  
-  // Browns and earthy tones
-  } else if (frameTypeLower.includes('cognac') || frameTypeLower.includes('warm brown')) {
-    return { gradient: 'bg-gradient-to-br from-amber-600 to-amber-800', name: 'Cognac' };
-  } else if (frameTypeLower.includes('chocolate brown') || frameTypeLower.includes('dark brown')) {
-    return { gradient: 'bg-gradient-to-br from-amber-800 to-amber-900', name: 'Chocolate' };
-  } else if (frameTypeLower.includes('burgundy') || frameTypeLower.includes('deep burgundy')) {
-    return { gradient: 'bg-gradient-to-br from-red-800 to-red-900', name: 'Burgundy' };
-  } else if (frameTypeLower.includes('taupe') || frameTypeLower.includes('soft taupe')) {
-    return { gradient: 'bg-gradient-to-br from-stone-400 to-stone-600', name: 'Taupe' };
-  
-  // Greens
-  } else if (frameTypeLower.includes('sage green') || frameTypeLower.includes('soft green')) {
-    return { gradient: 'bg-gradient-to-br from-green-300 to-green-500', name: 'Sage Green' };
-  
-  // Grays
-  } else if (frameTypeLower.includes('cool gray') || frameTypeLower.includes('soft gray')) {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Cool Gray' };
-  } else if (frameTypeLower.includes('light gray') || frameTypeLower.includes('charcoal')) {
-    return { gradient: 'bg-gradient-to-br from-gray-600 to-gray-800', name: 'Charcoal' };
-  
-  // Blacks and whites
-  } else if (frameTypeLower.includes('black')) {
-    return { gradient: 'bg-gradient-to-br from-gray-800 to-black', name: 'Black' };
-  } else if (frameTypeLower.includes('white')) {
-    return { gradient: 'bg-gradient-to-br from-gray-100 to-gray-200', name: 'White' };
-  } else if (frameTypeLower.includes('clear') || frameTypeLower.includes('rimless')) {
-    return { gradient: 'bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200', name: 'Clear' };
-  
-  // Fallback - try to extract any color word
-  } else {
-    return { gradient: 'bg-gradient-to-br from-gray-400 to-gray-600', name: 'Neutral' };
+  if (exactMatch) {
+    return exactMatch;
   }
+  
+  // Fallback to True Winter if no match found
+  return seasonalEyewear['True Winter'];
 };
 
 // Best metals helper function
@@ -1714,20 +1715,16 @@ export default function ResultsNew() {
                     <p key={index} className="text-gray-700 text-sm leading-relaxed">{item}</p>
                   ))}
                 </div>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {getEyewearRecommendations(analysisResult).map((frameType: string, index: number) => {
-                    const usedNames = new Set<string>();
-                    const eyewearColors = getEyewearColorSwatch(frameType, usedNames);
-                    return (
-                      <div key={index} className="text-center">
-                        <div 
-                          className={`w-16 h-10 ${eyewearColors.gradient} rounded-lg mx-auto mb-2 border border-gray-300`}
-                          title={frameType}
-                        ></div>
-                        <p className="text-xs font-medium text-gray-700">{eyewearColors.name}</p>
-                      </div>
-                    );
-                  })}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {getSeasonalEyewearColors(analysisResult.season).map((colorOption, index) => (
+                    <div key={index} className="text-center">
+                      <div 
+                        className={`w-16 h-10 ${colorOption.gradient} rounded-lg mx-auto mb-2 border border-gray-300 shadow-sm`}
+                        title={colorOption.name}
+                      ></div>
+                      <p className="text-xs font-medium text-gray-700">{colorOption.name}</p>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             </div>
