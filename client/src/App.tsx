@@ -40,6 +40,10 @@ import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import OrderLookup from "@/pages/order-lookup";
 import PinterestTest from "@/pages/pinterest-test";
+import HazelHueVsDressika from "@/pages/hazel-hue-vs-dressika";
+import HazelHueVsMyColorAnalysis from "@/pages/hazel-hue-vs-mycoloranalysis";
+import ColorAnalysisQuiz from "@/pages/color-analysis-quiz";
+import AIColorAnalysis from "@/pages/ai-color-analysis";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -83,6 +87,15 @@ function Router() {
 
       <Route path="/lookup" component={OrderLookup} />
       <Route path="/pinterest-test" component={PinterestTest} />
+      
+      {/* Interactive Tools & Landing Pages */}
+      <Route path="/color-analysis-quiz" component={ColorAnalysisQuiz} />
+      <Route path="/ai-color-analysis" component={AIColorAnalysis} />
+      
+      {/* Comparison Pages */}
+      <Route path="/hazel-hue-vs-dressika" component={HazelHueVsDressika} />
+      <Route path="/hazel-hue-vs-mycoloranalysis" component={HazelHueVsMyColorAnalysis} />
+      
       <Route component={NotFound} />
     </Switch>
   );
