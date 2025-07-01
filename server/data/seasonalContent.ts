@@ -94,7 +94,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#DC143C', '#000080', '#50C878', '#FF1493', '#4169E1', '#800020']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/5msDn2lWd',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-winter-outfits/',
       guidelines: [
         'Black and white are your power neutrals',
         'Choose pure, saturated colors without yellow undertones',
@@ -116,7 +116,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'True Winters look stunning in dramatic hair colors with cool undertones.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/4jTgHGE0j',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-winter-makeup/',
       guidelines: [
         'Bold, dramatic makeup',
         'True red or bright pink lipstick',
@@ -168,7 +168,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#FF1493', '#FF00FF', '#8B2F8B', '#4169E1', '#0000FF', '#00A651']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/3N5d043Xa',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/bright-winter-outfits/',
       guidelines: [
         'Your wardrobe should be built around high-impact, statement pieces',
         'You can wear head-to-toe bright colors that would overwhelm other seasons',
@@ -190,7 +190,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Bright Winters often have naturally dark hair with high contrast against pale skin.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/1RvCERX0Z',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/bright-winter-makeup/',
       guidelines: [
         'You can handle the most dramatic makeup looks',
         'Bright red, hot pink, electric purple, bright berry lipstick',
@@ -246,7 +246,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#8B1538', '#191970', '#663399', '#800080', '#2E8B57', '#008B8B']
     },
     clothing: {
-      pinterestUrl: 'https://www.pinterest.com/HueMatcher/dark-winter-outfits/',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/dark-winter-outfits/',
       guidelines: [
         'Build around deep, rich colors that create mystery and elegance',
         'Black is excellent, but consider deep burgundy and midnight blue as powerful alternatives',
@@ -281,7 +281,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Dark Winters typically have naturally dark hair - deep brown or black. Embrace your natural darkness and avoid anything that lightens or warms your coloring.'
     },
     makeup: {
-      pinterestUrl: 'https://www.pinterest.com/HueMatcher/dark-winter-makeup/',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/dark-winter-makeup/',
       guidelines: [
         'Foundation with cool undertones - avoid warm or golden tones',
         'Lipstick in deep burgundy, wine, deep berry, or dark red',
@@ -339,7 +339,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#4B0082", "#20B2AA", "#8B008B", "#4682B4", "#6A5ACD", "#483D8B"]
     },
     clothing: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/true-summer-outfits/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/true-summer-outfits/",
       guidelines: [
         "Choose sophisticated blues and purples as your foundation",
         "Gray serves as your perfect neutral - from charcoal to light gray",
@@ -361,7 +361,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Cool undertones are essential. Your hair should complement your sophisticated, cool coloring."
     },
     makeup: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/true-summer-makeup/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/true-summer-makeup/",
       guidelines: [
         "Cool-toned foundation with pink or neutral undertones",
         "Berry and cool pink lipsticks",
@@ -413,7 +413,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#6A5ACD", "#4682B4", "#20B2AA", "#8470FF", "#9370DB", "#7B68EE"]
     },
     clothing: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/light-summer-outfits/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/light-summer-outfits/",
       guidelines: [
         "Embrace deep, rich colors as your signature",
         "Navy and deep gray are your perfect neutrals",
@@ -435,7 +435,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Your hair should match your natural depth and intensity. Deep, rich colors are most flattering."
     },
     makeup: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/light-summer-makeup/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/light-summer-makeup/",
       guidelines: [
         "Light, cool-toned foundation with pink undertones",
         "Soft pink and rose lip colors", 
@@ -479,7 +479,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#6495ED", "#DDA0DD", "#20B2AA", "#CD5C5C"]
     },
     clothing: {
-      pinterestUrl: "https://pin.it/339TCPy6G",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/true-summer-outfits/",
       guidelines: [
         "Soft blues and purples are your signature colors",
         "Gray is your perfect neutral in all its variations",
@@ -501,7 +501,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Soft, cool tones that complement your gentle coloring work best. Avoid harsh contrasts."
     },
     makeup: {
-      pinterestUrl: "https://pin.it/4jTgHGE0j",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/true-summer-makeup/",
       foundation: "Soft, cool-toned foundation with blue or pink undertones",
       
       eyeshadowPalettes: [
@@ -589,7 +589,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#B0E0E6", "#DDA0DD", "#87CEEB", "#FFB6C1"]
     },
     clothing: {
-      pinterestUrl: "https://pin.it/5D4woGTlr",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/light-summer-outfits/",
       guidelines: [
         "Light blues and lavenders are perfect for you",
         "White and light gray are your ideal neutrals",
@@ -611,7 +611,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Light, cool colors that maintain your delicate, ethereal appearance work best."
     },
     makeup: {
-      pinterestUrl: "https://pin.it/654Gk4Nrv",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/light-summer-makeup/",
       foundation: "Light, cool-toned foundation with pink or neutral undertones",
       
       eyeshadowPalettes: [
@@ -707,7 +707,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ["#9370DB", "#20B2AA", "#CD5C5C", "#6495ED", "#8470FF", "#778899"]
     },
     clothing: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/soft-summer-outfits/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/soft-summer-outfits/",
       guidelines: [
         "Muted blues and purples are your signature",
         "Soft gray and muted beige work as neutrals",
@@ -729,7 +729,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: "Soft, muted colors that blend with your natural coloring are most flattering."
     },
     makeup: {
-      pinterestUrl: "https://www.pinterest.com/HueMatcher/soft-summer-makeup/",
+      pinterestUrl: "https://www.pinterest.com/hazelandhue/soft-summer-makeup/",
       guidelines: [
         "Muted, cool-toned foundation",
         "Soft, muted lip colors",
@@ -780,7 +780,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#FF7F50', '#FF8C00', '#7CFC00', '#4CBB17', '#FF6347', '#32CD32']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/truespring',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-spring-outfits/',
       guidelines: [
         'Warm, clear colors are your signature',
         'Golden and coral tones are perfect',
@@ -802,7 +802,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'True Springs shine in warm, golden hair colors with sunny highlights.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/truespringmakeup',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-spring-makeup/',
       guidelines: [
         'Warm, fresh makeup',
         'Coral or peach lipstick',
@@ -853,7 +853,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#FF6347', '#FF4500', '#32CD32', '#FF00FF', '#FF1493', '#00FF7F']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/1BqAZuRko',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/bright-spring-outfits/',
       guidelines: [
         'Electric, vibrant colors are your strength',
         'High contrast combinations work perfectly',
@@ -875,7 +875,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Bright Springs can handle the most vibrant hair colors and dramatic changes.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/brightspringmakeup',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/bright-spring-makeup/',
       guidelines: [
         'Bold, vibrant makeup',
         'Bright coral or fuchsia lipstick',
@@ -926,7 +926,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#F08080', '#FFD700', '#32CD32', '#87CEEB', '#FF7F50', '#98FB98']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/10Gbz4387',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/light-spring-outfits/',
       guidelines: [
         'Light, warm colors are perfect',
         'Cream is better than white',
@@ -948,7 +948,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Light Springs look beautiful in soft, warm hair colors that enhance their delicate coloring.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/lightspringmakeup',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/light-spring-makeup/',
       guidelines: [
         'Soft, warm makeup',
         'Peachy or coral lipstick',
@@ -999,7 +999,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#B7410E', '#CC5500', '#355E3B', '#800020', '#B22222', '#8B4513']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/trueautumn',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-autumn-outfits/',
       guidelines: [
         'Rich, warm earth tones are your signature',
         'Golden browns and rusts are perfect',
@@ -1021,7 +1021,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'True Autumns shine in rich, warm hair colors that echo autumn leaves.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/6oshETYvm',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/true-autumn-makeup/',
       foundation: "Warm undertones - golden, bronze, or warm beige bases",
       
       eyeshadowPalettes: [
@@ -1116,7 +1116,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#722F37', '#B22222', '#013220', '#355E3B', '#8B0000', '#556B2F']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/darkautumn',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/dark-autumn-outfits/',
       guidelines: [
         'Deep, rich colors are your power palette',
         'Chocolate brown can replace black',
@@ -1138,7 +1138,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Dark Autumns look stunning in deep, rich hair colors that match their sophisticated coloring.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/5RmF5PveK',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/dark-autumn-makeup/',
       foundation: "Deep warm undertones - golden, bronze, or olive bases",
       
       eyeshadowPalettes: [
@@ -1236,7 +1236,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       accentBrights: ['#9CAF88', '#8FBC8F', '#BDB76B', '#556B2F', '#5F9EA0', '#CD5C5C']
     },
     clothing: {
-      pinterestUrl: 'https://pin.it/53u5QJ3To',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/soft-autumn-outfits/',
       guidelines: [
         'Your wardrobe should focus on tonal dressing and sophisticated, muted combinations',
         'Taupe and mushroom serve as your perfect neutral bases instead of black or white',
@@ -1264,7 +1264,7 @@ export const seasonalContentData: Record<string, SeasonalContent> = {
       guidance: 'Soft Autumns typically have naturally light brown to dark blonde hair with mixed warm and cool tones. When coloring, maintain the muted, harmonious quality and avoid bright or high-contrast colors that would overwhelm your gentle, sophisticated presence.'
     },
     makeup: {
-      pinterestUrl: 'https://pin.it/6QKrA6KaV',
+      pinterestUrl: 'https://www.pinterest.com/hazelandhue/soft-autumn-makeup/',
       foundation: "Neutral to warm undertones with natural finish",
       
       eyeshadowPalettes: [
