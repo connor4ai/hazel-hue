@@ -9,17 +9,41 @@ class EmailService {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   }
 
+  // Validate that a results URL would be accessible
+  validateResultsUrl(orderId: string): string {
+    let baseUrl;
+    
+    if (process.env.NODE_ENV === 'production') {
+      baseUrl = process.env.PRODUCTION_URL || 
+                process.env.REPLIT_DEV_DOMAIN || 
+                'https://hazelandhue.com';
+      
+      if (!baseUrl.startsWith('https://')) {
+        baseUrl = `https://${baseUrl.replace(/^https?:\/\//, '')}`;
+      }
+    } else {
+      baseUrl = 'http://localhost:5000';
+    }
+    
+    const resultsUrl = `${baseUrl}/results/${orderId}`;
+    console.log(`🔍 URL validation - Generated: ${resultsUrl}`);
+    
+    return resultsUrl;
+  }
+
   async sendAnalysisReport(email: string, analysisResult: any, orderId: string) {
     try {
+      const emailHtml = this.generateEmailTemplate(analysisResult, orderId);
+      
       const msg = {
         to: email,
         from: process.env.SENDGRID_FROM_EMAIL || 'test@example.com', // Use verified sender from env
         subject: '🎨 Your Personal Color Analysis Results are Ready!',
-        html: this.generateEmailTemplate(analysisResult, orderId)
+        html: emailHtml
       };
 
       await sgMail.send(msg);
-      console.log('Analysis report email sent successfully to:', email);
+      console.log(`✅ Analysis report email sent successfully to: ${email} with order ID: ${orderId}`);
     } catch (error: any) {
       console.error('Error sending email:', error);
       
@@ -38,10 +62,32 @@ class EmailService {
   }
 
   private generateEmailTemplate(analysisResult: any, orderId: string): string {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://hazelandhue.com' 
-      : 'http://localhost:5000';
+    // Use environment variable for production URL, with intelligent fallbacks
+    let baseUrl;
+    
+    if (process.env.NODE_ENV === 'production') {
+      // Priority order: custom PRODUCTION_URL, Replit domain, fallback to hazelandhue.com
+      baseUrl = process.env.PRODUCTION_URL || 
+                process.env.REPLIT_DEV_DOMAIN || 
+                'https://hazelandhue.com';
+      
+      // Ensure HTTPS for production
+      if (!baseUrl.startsWith('https://')) {
+        baseUrl = `https://${baseUrl.replace(/^https?:\/\//, '')}`;
+      }
+    } else {
+      // Development environment
+      baseUrl = 'http://localhost:5000';
+    }
+    
     const resultsUrl = `${baseUrl}/results/${orderId}`;
+    
+    console.log(`🔗 Email results link generated: ${resultsUrl}`);
+    
+    // Verify the results URL structure is correct
+    if (!resultsUrl.includes('/results/') || !orderId) {
+      console.error(`⚠️  Invalid results URL structure: ${resultsUrl}, orderId: ${orderId}`);
+    }
     
     // Extract Pinterest links from the analysis result
     const pinterestLinks = analysisResult.pinterest || [];
