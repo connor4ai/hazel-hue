@@ -16,8 +16,9 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
     const keywordMeta = document.querySelector('meta[name="keywords"]') as HTMLMetaElement;
     if (keywordMeta && additionalKeywords.length > 0) {
       const currentKeywords = keywordMeta.content;
-      const newKeywords = [...new Set([...currentKeywords.split(', '), ...additionalKeywords])];
-      keywordMeta.content = newKeywords.join(', ');
+      const allKeywords = currentKeywords.split(', ').concat(additionalKeywords);
+      const uniqueKeywords = allKeywords.filter((keyword, index) => allKeywords.indexOf(keyword) === index);
+      keywordMeta.content = uniqueKeywords.join(', ');
     }
 
     // Add structured data for aggregate rating if available
@@ -51,9 +52,25 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       "@type": "ProfessionalService",
       "name": "Hazel & Hue",
       "serviceType": "Personal Color Analysis",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US",
+        "addressRegion": "Online",
+        "addressLocality": "Worldwide"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
+      },
       "provider": {
         "@type": "Organization",
-        "name": "Hazel & Hue"
+        "name": "Hazel & Hue",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US",
+          "addressRegion": "Online",
+          "addressLocality": "Worldwide"
+        }
       },
       "hasOfferCatalog": {
         "@type": "OfferCatalog",

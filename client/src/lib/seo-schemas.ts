@@ -19,6 +19,12 @@ export const organizationSchema = {
   "logo": "https://hazelandhue.com/logo.png",
   "description": "Leading AI-powered personal color analysis platform",
   "foundingDate": "2024",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "US",
+    "addressRegion": "Online",
+    "addressLocality": "Worldwide"
+  },
   "serviceArea": {
     "@type": "Place",
     "name": "Worldwide"
