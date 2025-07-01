@@ -1083,13 +1083,17 @@ export default function ResultsNew() {
       setLocation('/');
       return;
     }
-    fetchOrderResults();
+    fetchOrderResults().catch(error => {
+      console.error('Error in fetchOrderResults useEffect:', error);
+    });
   }, [orderId]);
 
   useEffect(() => {
     // Auto-email results when they're ready
     if (order && order.status === 'completed' && !order.emailSent) {
-      emailResults();
+      emailResults().catch(error => {
+        console.error('Error in emailResults useEffect:', error);
+      });
     }
   }, [order]);
 
@@ -1156,6 +1160,7 @@ export default function ResultsNew() {
         throw new Error('Order not found');
       }
     } catch (error) {
+      console.error('Error fetching order results:', error);
       toast({
         title: "Error",
         description: "Failed to load your results",
@@ -1169,9 +1174,13 @@ export default function ResultsNew() {
 
   const emailResults = async () => {
     try {
-      await apiRequest('POST', `/api/orders/${orderId}/email-results`);
+      const response = await apiRequest('POST', `/api/orders/${orderId}/email-results`);
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
     } catch (error) {
       console.error('Failed to email results:', error);
+      // Silently fail for email sending to not disrupt user experience
     }
   };
 
@@ -2025,51 +2034,7 @@ export default function ResultsNew() {
                 Copy Link to Results
               </Button>
             </motion.div>
-
-
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-100"
-          >
-            <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">Create Your Account</h4>
-            <div className="text-center mb-6">
-              <p className="text-gray-600 mb-4">Save your results permanently and access them anytime</p>
-              <Button 
-                onClick={() => {
-                  // This would typically open a registration modal
-                  toast({ 
-                    title: "Account Creation", 
-                    description: "Registration feature coming soon! Your results are saved for now." 
-                  });
-                }}
-                className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white px-8 py-3 rounded-xl"
-              >
-                Create Free Account
-              </Button>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6 text-left">
-              <div>
-                <h5 className="font-semibold text-gray-800 mb-2">Shopping</h5>
-                <p className="text-gray-600 text-sm">Take screenshots of your color swatches to match colors while shopping in stores or online</p>
-              </div>
-              <div>
-                <h5 className="font-semibold text-gray-800 mb-2">Wardrobe</h5>
-                <p className="text-gray-600 text-sm">Focus on building a capsule wardrobe with your core neutral colors as the foundation</p>
-              </div>
-              <div>
-                <h5 className="font-semibold text-gray-800 mb-2">Makeup</h5>
-                <p className="text-gray-600 text-sm">Show your makeup artist or sales associate your color palette for personalized recommendations</p>
-              </div>
-              <div>
-                <h5 className="font-semibold text-gray-800 mb-2">Hair Color</h5>
-                <p className="text-gray-600 text-sm">Bring your analysis to your colorist for the most flattering hair color choices</p>
-              </div>
-            </div>
-          </motion.div>
         </div>
       )
     }
