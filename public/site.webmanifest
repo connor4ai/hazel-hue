@@ -1,0 +1,22 @@
+{
+    "name": "Hazel & Hue - AI Color Analysis",
+    "short_name": "Hazel & Hue",
+    "description": "Professional AI-powered color analysis and seasonal palette discovery",
+    "icons": [
+        {
+            "src": "/images/logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#2D5A3D",
+    "background_color": "#F1FAEE",
+    "display": "standalone",
+    "start_url": "/",
+    "scope": "/"
+}

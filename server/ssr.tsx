@@ -1020,6 +1020,15 @@ export function renderSSRPage(req: any, res: any): void {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/logo.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#2D5A3D">
+  
   <!-- SEO Meta Tags -->
   <title>${title}</title>
   <meta name="description" content="${description}" />
@@ -1039,7 +1048,7 @@ export function renderSSRPage(req: any, res: any): void {
   <meta name="twitter:creator" content="@hazelandhue" />
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${description}" />
-  <meta name="twitter:image" content="https://hazelandhue.com/og-cover.jpg" />
+  <meta name="twitter:image" content="https://hazelandhue.com/images/og-preview.png" />
   <link rel="canonical" href="https://hazelandhue.com${url}" />
   
   <!-- Open Graph for social shares -->
@@ -1047,7 +1056,11 @@ export function renderSSRPage(req: any, res: any): void {
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${description}" />
   <meta property="og:url" content="https://hazelandhue.com${url}" />
-  <meta property="og:image" content="https://hazelandhue.com/og-cover.jpg" />
+  <meta property="og:image" content="https://hazelandhue.com/images/og-preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Hazel & Hue AI Color Analysis - Professional Color Matching" />
   <meta property="og:site_name" content="Hazel & Hue" />
   <meta property="og:locale" content="en_US" />
   
