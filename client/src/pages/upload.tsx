@@ -46,10 +46,16 @@ export default function UploadPage() {
     }
 
     // Validate file type
-    if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png'))) {
+    const allowedTypes = ['jpeg', 'jpg', 'png', 'heic', 'heif'];
+    const isValidType = file.type.startsWith('image/') && 
+      (allowedTypes.some(type => file.type.includes(type)) || 
+       file.name.toLowerCase().endsWith('.heic') || 
+       file.name.toLowerCase().endsWith('.heif'));
+    
+    if (!isValidType) {
       toast({
         title: "Invalid file type",
-        description: "Please upload only JPEG or PNG files",
+        description: "Please upload JPEG, PNG, or HEIC files",
         variant: "destructive",
       });
       return;
@@ -78,8 +84,14 @@ export default function UploadPage() {
       }
 
       // Validate file type
-      if (!file.type.startsWith('image/') || (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png'))) {
-        errors.push(`${file.name} is not a valid image file`);
+      const allowedTypes = ['jpeg', 'jpg', 'png', 'heic', 'heif'];
+      const isValidType = file.type.startsWith('image/') && 
+        (allowedTypes.some(type => file.type.includes(type)) || 
+         file.name.toLowerCase().endsWith('.heic') || 
+         file.name.toLowerCase().endsWith('.heif'));
+      
+      if (!isValidType) {
+        errors.push(`${file.name} is not a valid image file (JPEG, PNG, or HEIC only)`);
         continue;
       }
 

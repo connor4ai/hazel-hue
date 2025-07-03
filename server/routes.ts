@@ -43,10 +43,25 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    // Allow JPEG, PNG, HEIC, and HEIF files
+    const allowedMimeTypes = [
+      'image/jpeg',
+      'image/jpg', 
+      'image/png',
+      'image/heic',
+      'image/heif'
+    ];
+    
+    // Also check file extension for HEIC files (some browsers may not set correct MIME type)
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.heic', '.heif'];
+    const hasValidExtension = allowedExtensions.some(ext => 
+      file.originalname.toLowerCase().endsWith(ext)
+    );
+    
+    if (allowedMimeTypes.includes(file.mimetype) || hasValidExtension) {
       cb(null, true);
     } else {
-      cb(new Error('Only JPEG and PNG files are allowed'));
+      cb(new Error('Only JPEG, PNG, and HEIC files are allowed'));
     }
   },
 });
