@@ -47,12 +47,19 @@ export default function UploadZone({
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+    console.log('File input change triggered, files:', files);
     if (files && files.length > 0) {
+      console.log('Selected file:', {
+        name: files[0].name,
+        type: files[0].type,
+        size: files[0].size
+      });
       onFileSelect(files[0]);
     }
   };
 
   const handleClick = () => {
+    console.log('File input clicked, accept attribute:', fileInputRef.current?.accept);
     fileInputRef.current?.click();
   };
 
@@ -65,7 +72,7 @@ export default function UploadZone({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,.heic,.heif"
+        accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
         onChange={handleFileInputChange}
         style={{ display: 'none' }}
       />

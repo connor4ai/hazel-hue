@@ -279,7 +279,7 @@ export default function UploadPage() {
                     <input
                       type="file"
                       multiple
-                      accept="image/jpeg,image/jpg,image/png,image/heic,image/heif,.heic,.heif"
+                      accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
                       onChange={(e) => {
                         if (e.target.files) {
                           if (e.target.files.length === 1) {
