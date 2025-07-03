@@ -45,12 +45,27 @@ export default function UploadPage() {
       return;
     }
 
-    // Validate file type
-    const allowedTypes = ['jpeg', 'jpg', 'png', 'heic', 'heif'];
-    const isValidType = file.type.startsWith('image/') && 
-      (allowedTypes.some(type => file.type.includes(type)) || 
-       file.name.toLowerCase().endsWith('.heic') || 
-       file.name.toLowerCase().endsWith('.heif'));
+    // Validate file type - improved HEIC support
+    const fileName = file.name.toLowerCase();
+    const isHeicFile = fileName.endsWith('.heic') || fileName.endsWith('.heif');
+    const isStandardImage = file.type === 'image/jpeg' || 
+                           file.type === 'image/jpg' || 
+                           file.type === 'image/png';
+    const isHeicMimeType = file.type === 'image/heic' || 
+                          file.type === 'image/heif';
+    
+    // Debug logging for HEIC files
+    if (isHeicFile || isHeicMimeType) {
+      console.log('HEIC file detected:', {
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+        isHeicFile,
+        isHeicMimeType
+      });
+    }
+    
+    const isValidType = isStandardImage || isHeicMimeType || isHeicFile;
     
     if (!isValidType) {
       toast({
@@ -83,12 +98,16 @@ export default function UploadPage() {
         continue;
       }
 
-      // Validate file type
-      const allowedTypes = ['jpeg', 'jpg', 'png', 'heic', 'heif'];
-      const isValidType = file.type.startsWith('image/') && 
-        (allowedTypes.some(type => file.type.includes(type)) || 
-         file.name.toLowerCase().endsWith('.heic') || 
-         file.name.toLowerCase().endsWith('.heif'));
+      // Validate file type - improved HEIC support
+      const fileName = file.name.toLowerCase();
+      const isHeicFile = fileName.endsWith('.heic') || fileName.endsWith('.heif');
+      const isStandardImage = file.type === 'image/jpeg' || 
+                             file.type === 'image/jpg' || 
+                             file.type === 'image/png';
+      const isHeicMimeType = file.type === 'image/heic' || 
+                            file.type === 'image/heif';
+      
+      const isValidType = isStandardImage || isHeicMimeType || isHeicFile;
       
       if (!isValidType) {
         errors.push(`${file.name} is not a valid image file (JPEG, PNG, or HEIC only)`);
