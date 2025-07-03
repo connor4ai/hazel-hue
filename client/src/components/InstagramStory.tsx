@@ -279,14 +279,14 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl p-4 max-w-sm w-full max-h-[80vh] overflow-y-auto">
-        <div className="text-center mb-4">
-          <h2 className="text-xl font-bold mb-1">Share Your Results!</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-2xl p-3 sm:p-4 max-w-sm w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto flex flex-col">
+        <div className="text-center mb-3 sm:mb-4 flex-shrink-0">
+          <h2 className="text-lg sm:text-xl font-bold mb-1">Share Your Results!</h2>
         </div>
         
         {/* Preview */}
-        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-4"
+        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-3 flex-shrink-0"
              style={{
                background: season === 'Light Spring' ? 'linear-gradient(135deg, #FFE5E5, #FFE5B4, #E5FFE5, #E5F3FF)' :
                           season === 'True Spring' ? 'linear-gradient(135deg, #FFCC99, #FFB380, #FFD700, #FF8C69)' :
@@ -327,16 +327,16 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
 
 
         {/* Action buttons */}
-        <div className="flex gap-3 mb-2">
+        <div className="flex gap-2 sm:gap-3 mt-auto pt-2">
           <button
             onClick={shareImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-sm sm:text-base"
           >
             Save & Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
-            className="px-4 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+            className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base flex-shrink-0"
           >
             Next
           </button>
