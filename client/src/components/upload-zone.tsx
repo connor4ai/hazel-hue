@@ -65,7 +65,7 @@ export default function UploadZone({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*,.heic,.heif"
+        accept="*"
         onChange={handleFileInputChange}
         style={{ display: 'none' }}
       />
