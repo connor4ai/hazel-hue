@@ -279,7 +279,7 @@ export default function UploadPage() {
                     <input
                       type="file"
                       multiple
-                      accept="*"
+                      accept=""
                       onChange={(e) => {
                         if (e.target.files) {
                           if (e.target.files.length === 1) {

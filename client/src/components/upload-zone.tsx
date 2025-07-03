@@ -65,7 +65,7 @@ export default function UploadZone({
       <input
         ref={fileInputRef}
         type="file"
-        accept="*"
+        accept=""
         onChange={handleFileInputChange}
         style={{ display: 'none' }}
       />
@@ -100,9 +100,12 @@ export default function UploadZone({
             </div>
             <h3 className="font-semibold text-warm-gray-dark mb-2">{instruction.title}</h3>
             <p className="text-sm text-warm-gray mb-4">{instruction.description}</p>
-            <div className="flex items-center text-xs text-warm-gray">
+            <div className="flex items-center text-xs text-warm-gray mb-2">
               <Upload className="h-3 w-3 mr-1" />
               Click or drag to upload
+            </div>
+            <div className="text-xs text-coral">
+              HEIC files? Try drag & drop instead of clicking
             </div>
           </div>
         )}
