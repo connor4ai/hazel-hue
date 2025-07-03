@@ -3,13 +3,39 @@ import path from "path";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { renderSSRPage, isSSRRoute } from "./ssr";
+import { logger } from "./utils/logger";
+import { 
+  performanceMiddleware, 
+  monitorMemoryUsage, 
+  setupGracefulShutdown, 
+  setupErrorHandling 
+} from "./utils/performance";
+import { securityHeaders, rateLimit } from "./utils/security";
+import { healthCheck, metrics, statusDashboard } from "./utils/monitoring";
 
 const app = express();
 
+// Monitoring and health check endpoints (FIRST - highest priority)
+app.get('/health', healthCheck);
+app.get('/metrics', metrics);
+app.get('/status', statusDashboard);
+
+// Initialize monitoring and error handling
+setupErrorHandling();
+setupGracefulShutdown();
+monitorMemoryUsage();
+
 // Performance optimizations
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '10mb' })); // Reduced from 50mb for better performance
+app.use(express.json({ limit: '10mb' })); 
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+
+// Add security headers and performance monitoring
+app.use(securityHeaders);
+app.use(performanceMiddleware);
+
+// Rate limiting for API routes
+app.use('/api', rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
 
 // Compression and caching headers
 app.use((req, res, next) => {
@@ -90,8 +116,13 @@ app.use((req, res, next) => {
   
   const server = await registerRoutes(app);
 
-  // SSR middleware for search engines only
+  // SSR middleware for search engines only (exclude monitoring endpoints)
   app.get('*', (req: Request, res: Response, next: NextFunction) => {
+    // Skip SSR for monitoring and utility endpoints
+    if (req.path.startsWith('/health') || req.path.startsWith('/metrics') || req.path.startsWith('/status')) {
+      return next();
+    }
+    
     const userAgent = req.get('User-Agent') || '';
     const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet/i.test(userAgent);
     
@@ -119,15 +150,40 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
+  // Global error handling middleware (must be last)
+  app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    const requestId = (req as any).requestId || 'unknown';
+    logger.requestError(req, error, requestId);
+    
+    if (res.headersSent) {
+      return next(error);
+    }
+    
+    res.status(500).json({
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+      requestId
+    });
+  });
+
+  // 404 handler
+  app.use((req: Request, res: Response) => {
+    const requestId = (req as any).requestId || 'unknown';
+    logger.warn('404 Not Found', { path: req.path, method: req.method }, requestId);
+    res.status(404).json({ message: 'Not found', requestId });
+  });
+
   // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = 5000;
   server.listen({
     port,
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
+    logger.info(`Server started on port ${port}`, {
+      environment: process.env.NODE_ENV,
+      port,
+      timestamp: new Date().toISOString()
+    });
     log(`serving on port ${port}`);
   });
 })();
