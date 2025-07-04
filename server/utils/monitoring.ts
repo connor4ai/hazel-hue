@@ -24,10 +24,14 @@ export function getSystemHealth(): SystemHealth {
   
   let status: 'healthy' | 'degraded' | 'unhealthy' = 'healthy';
   
-  // Determine health status
-  if (memoryPercentage > 90 || systemMetrics.activeRequests > 50) {
+  // Determine health status with production-safe thresholds
+  if (memoryPercentage > 85 || systemMetrics.activeRequests > 100) {
     status = 'unhealthy';
-  } else if (memoryPercentage > 70 || systemMetrics.activeRequests > 20) {
+    // Force garbage collection if available
+    if (global.gc) {
+      global.gc();
+    }
+  } else if (memoryPercentage > 60 || systemMetrics.activeRequests > 50) {
     status = 'degraded';
   }
   
