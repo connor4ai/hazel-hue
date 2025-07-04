@@ -129,6 +129,24 @@ export default function RedditLanding() {
     setIsUploading(true);
     
     try {
+      // First create a temporary order
+      const orderResponse = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: 2900, // $29.00
+          status: 'pending'
+        }),
+      });
+
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const { order } = await orderResponse.json();
+      
       // Process files for submission
       const fileData = await Promise.all(
         files.map(async (file) => {
@@ -146,8 +164,12 @@ export default function RedditLanding() {
         })
       );
 
+      // Store photos and order ID
       sessionStorage.setItem('uploadedPhotos', JSON.stringify(fileData));
-      setLocation('/results-preview');
+      sessionStorage.setItem('currentOrderId', order.id.toString());
+      
+      // Navigate to results preview with order ID
+      setLocation(`/results-preview/${order.id}`);
       
     } catch (error) {
       console.error('Error starting analysis:', error);
