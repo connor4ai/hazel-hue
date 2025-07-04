@@ -118,29 +118,49 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    You are a professional color analyst. Analyze the provided photos to determine this person's seasonal color type.
+    Analyze these photos to determine the seasonal color type. Look carefully at skin undertones, natural contrast, and overall coloring intensity.
 
-    You must respond with EXACTLY ONE of these 12 seasons:
+    MUST respond with exactly one of these 12 seasons:
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
 
-    Analysis steps:
-    1. Look at skin undertones (cool vs warm)
-    2. Assess overall contrast level (high, medium, low)
-    3. Evaluate color clarity (bright/clear vs soft/muted)
-    4. Consider all photos together for consistency
+    Key Analysis Points:
 
-    Season guidelines:
-    - WINTER: Cool undertones + high contrast (sharp, dramatic coloring)
-    - SUMMER: Cool undertones + soft/muted (gentle, low contrast)
-    - SPRING: Warm undertones + bright/clear (golden, vibrant)
-    - AUTUMN: Warm undertones + rich/deep (earthy, golden-bronze)
+    UNDERTONE (Most Important):
+    - Cool: Pink, blue, or purple undertones (usually blue veins)
+    - Warm: Golden, yellow, or peach undertones (usually green veins)
 
-    Subcategories:
-    - True = classic example
-    - Light = lighter coloring
-    - Dark = deeper coloring  
-    - Bright = higher contrast/more vibrant
-    - Soft = lower contrast/more muted
+    CONTRAST LEVEL:
+    - High: Sharp contrast between hair/skin/eyes (dramatic features)
+    - Medium: Moderate contrast
+    - Low: Gentle, similar tones throughout (soft, blended features)
+
+    COLOR INTENSITY:
+    - Bright/Clear: Can handle vibrant, saturated colors
+    - Soft/Muted: Best in gentle, toned-down colors
+
+    SPECIFIC SEASON IDENTIFICATION:
+
+    SPRING (Warm + Bright):
+    - Bright Spring: Warm undertones + HIGH contrast + BRIGHT coloring (vibrant, electric)
+    - True Spring: Warm undertones + medium contrast + clear colors
+    - Light Spring: Warm undertones + LOW contrast + light, delicate coloring
+
+    AUTUMN (Warm + Rich):
+    - Dark Autumn: Warm undertones + HIGH contrast + DEEP coloring (rich, dramatic)
+    - True Autumn: Warm undertones + medium contrast + rich earth tones
+    - Soft Autumn: Warm undertones + LOW contrast + MUTED coloring (gentle, subdued)
+
+    WINTER (Cool + Dramatic):
+    - Dark Winter: Cool undertones + HIGH contrast + DEEP coloring
+    - True Winter: Cool undertones + HIGH contrast + pure, icy colors
+    - Bright Winter: Cool undertones + HIGH contrast + VIBRANT coloring
+
+    SUMMER (Cool + Soft):
+    - Light Summer: Cool undertones + LOW contrast + light, delicate coloring
+    - True Summer: Cool undertones + medium contrast + muted cool colors
+    - Soft Summer: Cool undertones + LOW contrast + very MUTED coloring
+
+    Critical: Bright Spring has WARM undertones with HIGH contrast and BRIGHT coloring. Soft Autumn has WARM undertones with LOW contrast and MUTED coloring. These are opposites in intensity.
 
     Respond with ONLY the season name.
     `;
