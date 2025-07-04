@@ -16,146 +16,99 @@ export default function RefundPolicyPage() {
 
           <div className="space-y-8">
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">1. Our Commitment to Satisfaction</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">1. No Refund Policy</h2>
               <p className="text-gray-700">
-                At Hazel & Hue, we stand behind the quality of our AI color analysis service. We want you to be completely satisfied with your results. 
-                This refund policy outlines when and how refunds are available.
+                At Hazel & Hue, all sales are final. Due to the digital nature of our AI color analysis service and the immediate delivery of personalized results, we do not offer refunds once your analysis has been completed and delivered.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">2. Satisfaction Guarantee</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">2. Service Delivery</h2>
               <div className="space-y-3 text-gray-700">
-                <p>We offer a <strong>7-day satisfaction guarantee</strong> from the date of your analysis completion.</p>
-                <p>You may request a full refund if:</p>
+                <p>Once you complete your purchase:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Our AI was unable to process your photos due to technical issues</li>
-                  <li>You received incomplete or corrupted analysis results</li>
-                  <li>The analysis failed to generate due to system errors</li>
-                  <li>You did not receive your results via email within 24 hours</li>
+                  <li>Your photos are immediately processed through our AI system</li>
+                  <li>A personalized color analysis report is generated within 30 seconds</li>
+                  <li>Results are delivered via email with lifetime access</li>
+                  <li>The service is considered fully delivered upon email receipt</li>
                 </ul>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">3. Refund Eligibility Criteria</h2>
-              <div className="space-y-4 text-gray-700">
-                <h3 className="text-lg font-medium text-green-700">✓ Eligible for Full Refund:</h3>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Technical failure in processing your analysis</li>
-                  <li>System error preventing result generation</li>
-                  <li>Non-delivery of results due to our error</li>
-                  <li>Duplicate charges or billing errors</li>
-                  <li>Service unavailable for extended periods</li>
-                </ul>
-
-                <h3 className="text-lg font-medium text-orange-700">△ Case-by-Case Review:</h3>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Dissatisfaction with color recommendations (we'll offer guidance first)</li>
-                  <li>Results that don't match personal preferences</li>
-                  <li>Quality issues due to poor photo submission</li>
-                </ul>
-
-                <h3 className="text-lg font-medium text-red-700">✗ Not Eligible for Refund:</h3>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>Change of mind after receiving complete results</li>
-                  <li>Disagreement with AI analysis based on personal preference</li>
-                  <li>Poor results due to low-quality photo uploads</li>
-                  <li>Requests made more than 7 days after completion</li>
-                  <li>Use of promotional codes or discounts (unless technical failure)</li>
-                </ul>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. Refund Process</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">3. Understanding Our Policy</h2>
               <div className="space-y-3 text-gray-700">
-                <p>To request a refund:</p>
-                <ol className="list-decimal pl-6 space-y-2">
-                  <li>Contact us at refunds@hazelandhue.com within 7 days</li>
-                  <li>Include your order number and reason for the refund request</li>
-                  <li>Provide any relevant details about technical issues experienced</li>
-                  <li>Our team will review your request within 1-2 business days</li>
-                  <li>If approved, refunds are processed within 3-5 business days</li>
-                </ol>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">5. Refund Methods</h2>
-              <div className="space-y-3 text-gray-700">
+                <p>This policy exists because:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Refunds are issued to the original payment method</li>
-                  <li>Credit card refunds appear within 3-5 business days</li>
-                  <li>PayPal refunds are typically processed within 1-2 business days</li>
-                  <li>Bank transfers may take 5-10 business days depending on your bank</li>
+                  <li>Digital analysis results are delivered immediately and cannot be "returned"</li>
+                  <li>Each analysis is personalized and cannot be resold to another customer</li>
+                  <li>Processing costs and AI analysis resources are consumed upon delivery</li>
+                  <li>Industry standard for digital services with immediate delivery</li>
                 </ul>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">6. Partial Refunds</h2>
-              <p className="text-gray-700">
-                In some cases, we may offer partial refunds or service credits. This might apply when you've received 
-                some value from the service but experienced issues that impacted the overall experience.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">7. Technical Support First</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. Quality Assurance</h2>
               <div className="space-y-3 text-gray-700">
-                <p>Before requesting a refund, we encourage you to contact our support team:</p>
+                <p>We ensure service quality through:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>We can often resolve technical issues quickly</li>
-                  <li>Our team can provide additional guidance on your results</li>
-                  <li>We may be able to reprocess your analysis with better parameters</li>
-                  <li>Many concerns can be addressed without requiring a refund</li>
+                  <li>Advanced AI algorithms trained on professional color analysis principles</li>
+                  <li>Comprehensive photo guidelines for optimal results</li>
+                  <li>Detailed analysis reports with 180+ personalized colors</li>
+                  <li>Professional makeup and styling recommendations</li>
+                  <li>Customer support for questions about your results</li>
                 </ul>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">8. Promotional Codes and Discounts</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">5. Technical Support</h2>
               <div className="space-y-3 text-gray-700">
-                <p>Special terms for promotional orders:</p>
+                <p>If you experience technical issues:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Free analyses (100% discount codes) are generally non-refundable</li>
-                  <li>Heavily discounted orders may have limited refund eligibility</li>
-                  <li>Technical failures are still eligible for refund regardless of discount</li>
-                  <li>Each promotional campaign may have specific terms</li>
+                  <li>Contact support@hazelandhue.com for assistance</li>
+                  <li>We can help interpret your results and recommendations</li>
+                  <li>Our team can provide additional styling guidance</li>
+                  <li>Technical delivery issues will be resolved promptly</li>
                 </ul>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">9. Processing Fees</h2>
-              <p className="text-gray-700">
-                We do not charge processing fees for legitimate refund requests. However, payment processor fees 
-                (typically 2.9% + $0.30) are non-refundable as they have already been charged by Stripe.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">10. Dispute Resolution</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">6. Billing and Payment</h2>
               <div className="space-y-3 text-gray-700">
-                <p>If you're not satisfied with our refund decision:</p>
+                <p>Payment terms:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>You may escalate to our management team</li>
-                  <li>We'll conduct a thorough review of your case</li>
-                  <li>You have the right to dispute charges with your credit card company</li>
-                  <li>We're committed to fair and reasonable resolutions</li>
+                  <li>All payments are processed securely through Stripe</li>
+                  <li>Billing disputes should be directed to support@hazelandhue.com</li>
+                  <li>Unauthorized charges will be investigated and resolved</li>
+                  <li>Payment processing fees are non-refundable</li>
                 </ul>
               </div>
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">11. Contact Information</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">7. Customer Rights</h2>
+              <div className="space-y-3 text-gray-700">
+                <p>Your rights include:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Lifetime access to your color analysis results</li>
+                  <li>Customer support for questions about your analysis</li>
+                  <li>The right to dispute unauthorized charges with your bank</li>
+                  <li>Access to accurate and professional color recommendations</li>
+                </ul>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">8. Contact Information</h2>
               <div className="text-gray-700">
-                <p>For refund requests or questions about this policy:</p>
+                <p>For questions about this policy or technical support:</p>
                 <div className="mt-3 p-4 bg-gray-50 rounded-lg">
-                  <p><strong>Refund Department</strong></p>
-                  <p>Email: refunds@hazelandhue.com</p>
-                  <p>Support: support@hazelandhue.com</p>
+                  <p><strong>Hazel & Hue Support</strong></p>
+                  <p>Email: support@hazelandhue.com</p>
+                  <p>Website: hazelandhue.com</p>
                   <p>Response Time: 1-2 business days</p>
                   <p>Business Hours: Monday-Friday, 9 AM - 5 PM EST</p>
                 </div>
@@ -163,10 +116,10 @@ export default function RefundPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">12. Policy Updates</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">9. Policy Updates</h2>
               <p className="text-gray-700">
                 We may update this refund policy from time to time. Any changes will be posted on this page with an updated effective date. 
-                Changes will not affect refund requests already in progress.
+                This policy applies to all purchases made after the effective date listed above.
               </p>
             </section>
           </div>
