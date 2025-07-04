@@ -1275,7 +1275,7 @@ export default function ResultsNew() {
         const data = await response.json();
         setOrder(data.order);
         
-        if (data.order.status !== 'completed' || !data.order.analysisResult) {
+        if ((data.order.status !== 'completed' && data.order.status !== 'analyzed') || !data.order.analysisResult) {
           toast({
             title: "Analysis Not Ready",
             description: "Your color analysis is still processing",
