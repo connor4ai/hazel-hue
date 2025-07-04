@@ -149,8 +149,8 @@ function CheckoutForm({
     // Development testing bypass for STRIPE promo code
     if (promoCode === 'STRIPE' && import.meta.env.DEV) {
       toast({
-        title: "Development Test Mode",
-        description: "STRIPE promo code test completed successfully! ($0.29 payment simulated)",
+        title: "Development Test Mode", 
+        description: "STRIPE promo code test completed successfully! ($0.58 payment simulated)",
       });
       
       // Simulate successful payment for testing

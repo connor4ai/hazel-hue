@@ -32,6 +32,12 @@ export interface IStorage {
   updateOrderEmailSent(id: number): Promise<Order>;
   updateOrderPaymentIntent(id: number, paymentIntentId: string): Promise<Order>;
   updateOrderPaymentStatus(id: number, paymentStatus: string): Promise<Order>;
+  updateOrderPromoInfo(id: number, promoInfo: {
+    originalAmount: number;
+    promoCodeId: number;
+    discountAmount: number;
+    amount: number;
+  }): Promise<Order>;
   getAllOrders(): Promise<Order[]>;
 
   // Promo code operations
@@ -204,6 +210,26 @@ export class DatabaseStorage implements IStorage {
     const [order] = await db
       .update(orders)
       .set({ paymentIntentId, updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return order;
+  }
+
+  async updateOrderPromoInfo(id: number, promoInfo: {
+    originalAmount: number;
+    promoCodeId: number;
+    discountAmount: number;
+    amount: number;
+  }): Promise<Order> {
+    const [order] = await db
+      .update(orders)
+      .set({ 
+        originalAmount: promoInfo.originalAmount,
+        promoCodeId: promoInfo.promoCodeId,
+        discountAmount: promoInfo.discountAmount,
+        amount: promoInfo.amount,
+        updatedAt: new Date() 
+      })
       .where(eq(orders.id, id))
       .returning();
     return order;

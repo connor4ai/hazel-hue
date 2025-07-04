@@ -337,10 +337,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           },
         });
 
-        // If orderId provided, update existing order with payment intent
+        // If orderId provided, update existing order with payment intent and discount info
         if (orderId) {
           try {
             await storage.updateOrderPaymentIntent(parseInt(orderId), paymentIntent.id);
+            
+            // Also update the order with promo code information if applicable
+            if (appliedPromoCode) {
+              await storage.updateOrderPromoInfo(parseInt(orderId), {
+                originalAmount: originalAmount,
+                promoCodeId: appliedPromoCode.id,
+                discountAmount: originalAmount - amount,
+                amount: amount
+              });
+            }
           } catch (error) {
             console.error('Error updating order with payment intent:', error);
           }
@@ -349,9 +359,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.createOrder({
             userId: 1, // Default user for guest orders
             paymentIntentId: paymentIntent.id,
-            amount: 2900,
+            amount: amount, // Use the discounted amount, not hardcoded 2900
+            originalAmount: originalAmount,
+            promoCodeId: appliedPromoCode?.id,
+            discountAmount: originalAmount - amount,
             status: 'pending',
           });
+        }
+
+        // Increment promo code usage count if applicable
+        if (appliedPromoCode) {
+          await storage.incrementPromoCodeUsage(appliedPromoCode.id);
         }
 
         res.json({ 
