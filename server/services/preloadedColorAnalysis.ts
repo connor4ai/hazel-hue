@@ -118,46 +118,54 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    CRITICAL: Analyze skin undertones FIRST before anything else.
+    You are analyzing photos for professional color analysis. Follow this exact process:
 
-    UNDERTONE TEST (MOST IMPORTANT STEP):
-    Look at these areas and determine if the person has COOL or WARM undertones:
-    - Neck and jawline (ignore face makeup)
-    - Compare skin to pure white - does it look pink/blue (COOL) or yellow/golden (WARM)?
-    - Natural flush color - pink/rose (COOL) or peach/coral (WARM)?
+    STEP 1: UNDERTONE ANALYSIS (CRITICAL - DETERMINES CATEGORY)
+    Look at the skin tone in natural areas (neck, chest, behind ears):
+    
+    COOL UNDERTONES = Pink, blue, or purple cast in skin
+    Signs: Skin looks rosy, pink flush when blushing, blue/purple veins visible
+    → MUST be Summer or Winter (NEVER Spring/Autumn)
+    
+    WARM UNDERTONES = Yellow, golden, or peachy cast in skin  
+    Signs: Skin looks golden/yellow, peach flush when blushing, green veins visible
+    → MUST be Spring or Autumn (NEVER Summer/Winter)
 
-    If you see ANY pink, blue, or purple cast = COOL undertones = SUMMER or WINTER only
-    If you see ANY yellow, golden, or peach cast = WARM undertones = SPRING or AUTUMN only
+    STEP 2: CONTRAST ASSESSMENT
+    HIGH CONTRAST = Dramatic difference between hair/skin/eyes (striking features)
+    MEDIUM CONTRAST = Noticeable but not dramatic differences
+    LOW CONTRAST = Gentle, blended appearance (soft features)
 
-    COOL UNDERTONE SEASONS:
-    - True Summer: Cool + medium contrast + muted colors
-    - Light Summer: Cool + low contrast + light, delicate
-    - Soft Summer: Cool + low contrast + very muted
-    - True Winter: Cool + high contrast + pure, dramatic
-    - Bright Winter: Cool + high contrast + vibrant, electric  
-    - Dark Winter: Cool + high contrast + deep, dramatic
+    STEP 3: COLOR INTENSITY
+    BRIGHT/CLEAR = Can handle vivid, saturated colors
+    MUTED/SOFT = Best in gentle, toned-down colors
 
-    WARM UNDERTONE SEASONS:
-    - True Spring: Warm + medium contrast + clear, bright
-    - Bright Spring: Warm + high contrast + vibrant, electric
-    - Light Spring: Warm + low contrast + light, delicate
-    - True Autumn: Warm + medium contrast + rich, earthy
-    - Dark Autumn: Warm + high contrast + deep, rich
-    - Soft Autumn: Warm + low contrast + muted, gentle
+    SEASONAL CATEGORIES:
 
-    COMMON MISTAKES TO AVOID:
-    - Do NOT confuse hair color with skin undertones
-    - Do NOT let surface redness fool you - look for the base undertone
-    - Cool undertones can NEVER be Spring or Autumn
-    - Warm undertones can NEVER be Summer or Winter
+    IF COOL UNDERTONES:
+    - Light Summer: Cool + low contrast + light delicate coloring
+    - True Summer: Cool + medium contrast + muted cool colors  
+    - Soft Summer: Cool + low contrast + very muted/soft
+    - Dark Winter: Cool + high contrast + deep dramatic coloring
+    - True Winter: Cool + high contrast + pure icy colors
+    - Bright Winter: Cool + high contrast + bright vivid colors
 
-    STEP 1: Determine COOL or WARM undertones
-    STEP 2: Assess contrast level (high/medium/low)  
-    STEP 3: Assess color intensity (bright/muted)
-    STEP 4: Match to exact season
+    IF WARM UNDERTONES:
+    - Light Spring: Warm + low contrast + light delicate coloring
+    - True Spring: Warm + medium contrast + clear bright colors
+    - Bright Spring: Warm + high contrast + vibrant electric colors
+    - Soft Autumn: Warm + low contrast + muted gentle coloring  
+    - True Autumn: Warm + medium contrast + rich earthy colors
+    - Dark Autumn: Warm + high contrast + deep rich coloring
 
-    Respond with ONLY the season name from this list:
-    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
+    EXAMPLES:
+    - Emma Stone/Jane Levy/Mila Jovovich = Cool undertones + soft features = True Summer
+    - Blake Lively = Warm undertones + high contrast + bright = Bright Spring
+    - Angelina Jolie = Cool undertones + high contrast = Dark Winter
+
+    CRITICAL RULE: If you detect ANY cool undertones (pink/blue cast), you CANNOT choose Spring or Autumn. If you detect ANY warm undertones (golden/yellow cast), you CANNOT choose Summer or Winter.
+
+    Respond with ONLY the season name.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
