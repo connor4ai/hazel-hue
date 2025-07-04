@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 interface AdvancedSEOProps {
-  page: 'home' | 'upload' | 'faqs' | 'results' | 'checkout';
+  page: 'home' | 'upload' | 'faqs' | 'results' | 'checkout' | 'reddit-landing';
   additionalKeywords?: string[];
   businessInfo?: {
     rating?: number;
@@ -113,10 +113,23 @@ export function AdvancedSEO({ page, additionalKeywords = [], businessInfo }: Adv
       "@type": "PaymentChargeSpecification",
       "appliesToPaymentMethod": ["CreditCard", "PayPal"],
       "paymentMethodId": "stripe"
+    },
+    "reddit-landing": {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Hazel & Hue AI Color Analysis",
+      "serviceType": "Personal Color Analysis",
+      "description": "AI-powered seasonal color analysis service",
+      "priceRange": "$29.00",
+      "offers": {
+        "@type": "Offer",
+        "price": "29.00",
+        "priceCurrency": "USD"
+      }
     }
   };
 
-  const currentPageData = pageStructuredData[page];
+  const currentPageData = pageStructuredData[page as keyof typeof pageStructuredData];
 
   return (
     <>
