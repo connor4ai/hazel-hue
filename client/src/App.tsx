@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect, Component, ReactNode, lazy, Suspense } from "react";
 
-// Error Boundary Component for production stability
+// Error Boundary Component for production stability - updated
 class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}> {
   constructor(props: {children: ReactNode}) {
     super(props);
@@ -66,7 +66,7 @@ const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
-import RedditLanding from "@/pages/reddit-landing";
+import Homepage from "@/pages/reddit-landing";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsOfService from "@/pages/terms-of-service";
 import RefundPolicy from "@/pages/refund-policy";
@@ -126,7 +126,7 @@ function Router() {
 
       <Route path="/upload" component={UploadNew} />
       <Route path="/old-upload" component={Upload} />
-      <Route path="/reddit-landing" component={RedditLanding} />
+      <Route path="/homepage" component={Homepage} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />
       <Route path="/refund-policy" component={RefundPolicy} />
