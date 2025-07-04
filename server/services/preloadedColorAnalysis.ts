@@ -70,8 +70,15 @@ export class PreloadedColorAnalysisService {
       
       return this.getPreloadedResult(detectedSeason);
     } catch (error) {
-      console.error('Error in color analysis:', error);
-      return this.getPreloadedResult('True Winter');
+      console.error('❌ CRITICAL ERROR in color analysis:', error);
+      console.error('❌ Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        imagePaths: imagePaths
+      });
+      
+      // Don't default to True Winter automatically - throw the error so we can see what's wrong
+      throw new Error(`Color analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
@@ -268,7 +275,21 @@ export class PreloadedColorAnalysisService {
     
     // Validate the detected season against all 12 seasons
     if (!this.allSeasons.includes(cleanSeason)) {
-      console.warn(`⚠️ Invalid season detected: ${cleanSeason}, defaulting to True Winter`);
+      console.warn(`⚠️ Invalid season detected: "${cleanSeason}" from OpenAI. Available seasons:`, this.allSeasons);
+      console.warn(`⚠️ Full OpenAI response was: "${detectedSeason}"`);
+      
+      // Try to find a partial match
+      const partialMatch = this.allSeasons.find(season => 
+        cleanSeason.toLowerCase().includes(season.toLowerCase()) ||
+        season.toLowerCase().includes(cleanSeason.toLowerCase())
+      );
+      
+      if (partialMatch) {
+        console.log(`✅ Found partial match: ${partialMatch}`);
+        return partialMatch;
+      }
+      
+      console.warn(`⚠️ No partial match found, defaulting to True Winter`);
       return 'True Winter';
     }
     
