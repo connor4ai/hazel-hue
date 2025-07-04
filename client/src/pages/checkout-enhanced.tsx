@@ -146,6 +146,21 @@ function CheckoutForm({
 
     setIsProcessing(true);
 
+    // Development testing bypass for STRIPE promo code
+    if (promoCode === 'STRIPE' && import.meta.env.DEV) {
+      toast({
+        title: "Development Test Mode",
+        description: "STRIPE promo code test completed successfully! ($0.29 payment simulated)",
+      });
+      
+      // Simulate successful payment for testing
+      setTimeout(() => {
+        onPaymentSuccess('test_payment_intent_' + Date.now());
+        setIsProcessing(false);
+      }, 2000);
+      return;
+    }
+
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -219,12 +234,15 @@ function CheckoutForm({
         {isProcessing ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin mr-2" />
-            Processing Payment...
+            {promoCode === 'STRIPE' && import.meta.env.DEV ? 'Testing Payment...' : 'Processing Payment...'}
           </>
         ) : (
           <>
             <CreditCard className="w-5 h-5 mr-2" />
-            Complete Payment - ${(finalAmount / 100).toFixed(2)}
+            {promoCode === 'STRIPE' && import.meta.env.DEV 
+              ? `Test Payment - ${(finalAmount / 100).toFixed(2)} (Dev Mode)`
+              : `Complete Payment - ${(finalAmount / 100).toFixed(2)}`
+            }
           </>
         )}
       </Button>
