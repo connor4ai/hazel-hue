@@ -19,14 +19,16 @@ export function securityHeaders(req: Request, res: Response, next: NextFunction)
   // Content Security Policy
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://analytics.tiktok.com https://www.google-analytics.com https://replit.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://analytics.tiktok.com https://www.google-analytics.com https://replit.com https://js.stripe.com https://m.stripe.network",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https: blob:",
     "media-src 'self' data: https:",
+    "connect-src 'self' https://api.stripe.com https://m.stripe.network https://www.google-analytics.com https://analytics.tiktok.com https://www.googletagmanager.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self' https://js.stripe.com",
+    "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
     "frame-ancestors 'none'",
     "upgrade-insecure-requests"
   ].join('; ');
