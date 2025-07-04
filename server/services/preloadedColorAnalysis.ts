@@ -118,51 +118,46 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    Analyze these photos to determine the seasonal color type. Look carefully at skin undertones, natural contrast, and overall coloring intensity.
+    CRITICAL: Analyze skin undertones FIRST before anything else.
 
-    MUST respond with exactly one of these 12 seasons:
+    UNDERTONE TEST (MOST IMPORTANT STEP):
+    Look at these areas and determine if the person has COOL or WARM undertones:
+    - Neck and jawline (ignore face makeup)
+    - Compare skin to pure white - does it look pink/blue (COOL) or yellow/golden (WARM)?
+    - Natural flush color - pink/rose (COOL) or peach/coral (WARM)?
+
+    If you see ANY pink, blue, or purple cast = COOL undertones = SUMMER or WINTER only
+    If you see ANY yellow, golden, or peach cast = WARM undertones = SPRING or AUTUMN only
+
+    COOL UNDERTONE SEASONS:
+    - True Summer: Cool + medium contrast + muted colors
+    - Light Summer: Cool + low contrast + light, delicate
+    - Soft Summer: Cool + low contrast + very muted
+    - True Winter: Cool + high contrast + pure, dramatic
+    - Bright Winter: Cool + high contrast + vibrant, electric  
+    - Dark Winter: Cool + high contrast + deep, dramatic
+
+    WARM UNDERTONE SEASONS:
+    - True Spring: Warm + medium contrast + clear, bright
+    - Bright Spring: Warm + high contrast + vibrant, electric
+    - Light Spring: Warm + low contrast + light, delicate
+    - True Autumn: Warm + medium contrast + rich, earthy
+    - Dark Autumn: Warm + high contrast + deep, rich
+    - Soft Autumn: Warm + low contrast + muted, gentle
+
+    COMMON MISTAKES TO AVOID:
+    - Do NOT confuse hair color with skin undertones
+    - Do NOT let surface redness fool you - look for the base undertone
+    - Cool undertones can NEVER be Spring or Autumn
+    - Warm undertones can NEVER be Summer or Winter
+
+    STEP 1: Determine COOL or WARM undertones
+    STEP 2: Assess contrast level (high/medium/low)  
+    STEP 3: Assess color intensity (bright/muted)
+    STEP 4: Match to exact season
+
+    Respond with ONLY the season name from this list:
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
-
-    Key Analysis Points:
-
-    UNDERTONE (Most Important):
-    - Cool: Pink, blue, or purple undertones (usually blue veins)
-    - Warm: Golden, yellow, or peach undertones (usually green veins)
-
-    CONTRAST LEVEL:
-    - High: Sharp contrast between hair/skin/eyes (dramatic features)
-    - Medium: Moderate contrast
-    - Low: Gentle, similar tones throughout (soft, blended features)
-
-    COLOR INTENSITY:
-    - Bright/Clear: Can handle vibrant, saturated colors
-    - Soft/Muted: Best in gentle, toned-down colors
-
-    SPECIFIC SEASON IDENTIFICATION:
-
-    SPRING (Warm + Bright):
-    - Bright Spring: Warm undertones + HIGH contrast + BRIGHT coloring (vibrant, electric)
-    - True Spring: Warm undertones + medium contrast + clear colors
-    - Light Spring: Warm undertones + LOW contrast + light, delicate coloring
-
-    AUTUMN (Warm + Rich):
-    - Dark Autumn: Warm undertones + HIGH contrast + DEEP coloring (rich, dramatic)
-    - True Autumn: Warm undertones + medium contrast + rich earth tones
-    - Soft Autumn: Warm undertones + LOW contrast + MUTED coloring (gentle, subdued)
-
-    WINTER (Cool + Dramatic):
-    - Dark Winter: Cool undertones + HIGH contrast + DEEP coloring
-    - True Winter: Cool undertones + HIGH contrast + pure, icy colors
-    - Bright Winter: Cool undertones + HIGH contrast + VIBRANT coloring
-
-    SUMMER (Cool + Soft):
-    - Light Summer: Cool undertones + LOW contrast + light, delicate coloring
-    - True Summer: Cool undertones + medium contrast + muted cool colors
-    - Soft Summer: Cool undertones + LOW contrast + very MUTED coloring
-
-    Critical: Bright Spring has WARM undertones with HIGH contrast and BRIGHT coloring. Soft Autumn has WARM undertones with LOW contrast and MUTED coloring. These are opposites in intensity.
-
-    Respond with ONLY the season name.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
