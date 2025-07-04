@@ -61,6 +61,8 @@ const DeepWinterOffice = lazy(() => import("@/pages/blog-deep-winter-office"));
 const SustainableThrifting = lazy(() => import("@/pages/blog-sustainable-thrifting"));
 const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"));
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
+const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
+const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -76,10 +78,7 @@ import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import OrderLookup from "@/pages/order-lookup";
 import PinterestTest from "@/pages/pinterest-test";
-import HazelHueVsDressika from "@/pages/hazel-hue-vs-dressika";
-import HazelHueVsMyColorAnalysis from "@/pages/hazel-hue-vs-mycoloranalysis";
-import ColorAnalysisQuiz from "@/pages/color-analysis-quiz";
-import AIColorAnalysis from "@/pages/ai-color-analysis";
+
 import NotFound from "@/pages/not-found";
 
 // Loading component for lazy routes
@@ -117,6 +116,8 @@ function Router() {
       <Route path="/blog/sustainable-thrifting" component={() => <LazyRoute component={SustainableThrifting} />} />
       <Route path="/blog/warm-spring-holiday" component={() => <LazyRoute component={WarmSpringHoliday} />} />
       <Route path="/blog/color-myths" component={() => <LazyRoute component={ColorMyths} />} />
+      <Route path="/blog/hazel-hue-vs-dressika" component={() => <LazyRoute component={HazelHueVsDressikaBlog} />} />
+      <Route path="/blog/hazel-hue-vs-mycoloranalysis" component={() => <LazyRoute component={HazelHueVsMyColorAnalysisBlog} />} />
       <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
@@ -137,13 +138,7 @@ function Router() {
       <Route path="/lookup" component={OrderLookup} />
       <Route path="/pinterest-test" component={() => <LazyRoute component={PinterestTest} />} />
       
-      {/* Interactive Tools & Landing Pages */}
-      <Route path="/color-analysis-quiz" component={() => <LazyRoute component={ColorAnalysisQuiz} />} />
-      <Route path="/ai-color-analysis" component={() => <LazyRoute component={AIColorAnalysis} />} />
-      
-      {/* Comparison Pages */}
-      <Route path="/hazel-hue-vs-dressika" component={() => <LazyRoute component={HazelHueVsDressika} />} />
-      <Route path="/hazel-hue-vs-mycoloranalysis" component={() => <LazyRoute component={HazelHueVsMyColorAnalysis} />} />
+
       
       <Route component={NotFound} />
     </Switch>

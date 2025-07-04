@@ -165,6 +165,26 @@ const blogPosts: BlogPost[] = [
     author: 'Hazel & Hue Editorial Team',
     readTime: '9 min read',
     slug: 'color-myths'
+  },
+  {
+    id: '16',
+    title: 'Hazel & Hue vs Dressika: Complete AI Color Analysis Comparison',
+    excerpt: 'Detailed comparison of Hazel & Hue and Dressika AI color analysis platforms. Compare features, accuracy, pricing, and results quality to make the best choice.',
+    category: 'Platform Comparison',
+    date: '2025-07-04',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '7 min read',
+    slug: 'hazel-hue-vs-dressika'
+  },
+  {
+    id: '17',
+    title: 'Hazel & Hue vs MyColorAnalysis.ai: Which AI Color Analysis is Better?',
+    excerpt: 'Compare Hazel & Hue vs MyColorAnalysis.ai features, results quality, pricing, and user experience to choose the best AI color analysis platform.',
+    category: 'Platform Comparison',
+    date: '2025-07-04',
+    author: 'Hazel & Hue Editorial Team',
+    readTime: '6 min read',
+    slug: 'hazel-hue-vs-mycoloranalysis'
   }
 ];
 
