@@ -529,7 +529,7 @@ export default function RedditLanding() {
         </nav>
 
         {/* Main Content */}
-        <main className="pt-24 pb-16 px-6">
+        <main className="pt-32 pb-16 px-6">
           <div className="max-w-4xl mx-auto">
             
             {/* Hero Section */}
