@@ -116,11 +116,11 @@ export default function RedditLanding() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async () => {
-    if (files.length === 0) {
+  const handleContinue = async () => {
+    if (files.length < 3) {
       toast({
-        title: "No photos selected",
-        description: "Please upload at least 1 photo to continue",
+        title: "Need 3 photos",
+        description: "Please upload 3 photos to continue",
         variant: "destructive",
       });
       return;
@@ -129,7 +129,7 @@ export default function RedditLanding() {
     setIsUploading(true);
     
     try {
-      // Redirect to checkout with photos stored in session
+      // Process files for submission
       const fileData = await Promise.all(
         files.map(async (file) => {
           const base64 = await new Promise<string>((resolve) => {
@@ -147,13 +147,29 @@ export default function RedditLanding() {
       );
 
       sessionStorage.setItem('uploadedPhotos', JSON.stringify(fileData));
-      setLocation('/checkout');
+      setLocation('/analyzing');
+      
+      // For debugging - also try direct redirect after short delay
+      setTimeout(() => {
+        const currentOrderId = sessionStorage.getItem('currentOrderId');
+        if (currentOrderId) {
+          // Check if analysis completed quickly and redirect directly
+          fetch(`/api/orders/${currentOrderId}/status`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'completed') {
+                setLocation(`/results-preview/${currentOrderId}`);
+              }
+            })
+            .catch(console.error);
+        }
+      }, 2000);
       
     } catch (error) {
-      console.error('Error preparing photos:', error);
+      console.error('Error starting analysis:', error);
       toast({
         title: "Error",
-        description: "Failed to prepare photos. Please try again.",
+        description: "Failed to start analysis. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -402,29 +418,79 @@ export default function RedditLanding() {
             transform: scale(1.1);
         }
 
-        /* Loading Animation */
-        .loading-dots {
-            display: inline-flex;
-            gap: 4px;
-        }
-
-        .loading-dots span {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: loading-bounce 1.4s ease-in-out infinite both;
-        }
-
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes loading-bounce {
-            0%, 80%, 100% {
-                transform: scale(0);
+        /* Smooth Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            40% {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Scale In Animation */
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
                 transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .scale-in {
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Floating Animation */
+        @keyframes float-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float-subtle 4s ease-in-out infinite;
+        }
+
+        /* Loading Spinner */
+        .modern-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--mist);
+            border-top-color: #9333EA;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            .gradient-title { 
+                font-size: 2.5rem; 
+            }
+            
+            /* Ensure content doesn't get cut off on mobile */
+            .mobile-safe-spacing {
+                padding-bottom: env(safe-area-inset-bottom, 2rem);
+                margin-bottom: 2rem;
+            }
+        }
+        
+        /* Safe area support for iOS devices */
+        @supports (padding: max(0px)) {
+            .mobile-safe-spacing {
+                padding-bottom: max(2rem, env(safe-area-inset-bottom));
             }
         }
 
@@ -490,141 +556,128 @@ export default function RedditLanding() {
             </div>
 
             {/* Upload Section */}
-            <div className="elevated-card mb-12">
-              <div className="mb-8">
-                <div
-                  className="modern-upload-zone"
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    const files = Array.from(e.dataTransfer.files);
-                    if (files.length === 1) {
-                      handleFileSelect(files[0]);
-                    } else if (files.length > 1) {
-                      handleMultipleFileSelect(e.dataTransfer.files);
-                    }
-                  }}
-                  onDragOver={(e) => e.preventDefault()}
-                  onClick={() => {
-                    const input = document.getElementById('file-input-multiple') as HTMLInputElement;
-                    input?.click();
-                  }}
-                >
-                  <Upload className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Drop your photos here</h3>
-                  <p className="text-gray-600 mb-4">or click to browse</p>
-                  <p className="text-sm text-gray-500">Upload 1-3 photos • JPEG, PNG, HEIC • Max 10MB each</p>
-                </div>
-
-                <input
-                  id="file-input-multiple"
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png,image/heic,image/heif"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      if (e.target.files.length === 1) {
-                        handleFileSelect(e.target.files[0]);
-                      } else {
-                        handleMultipleFileSelect(e.target.files);
+            <div className="w-full max-w-2xl mobile-safe-spacing">
+              {files.length === 0 ? (
+                <div>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/jpg,image/png,image/heic,image/heif"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        if (e.target.files.length === 1) {
+                          handleFileSelect(e.target.files[0]);
+                        } else {
+                          handleMultipleFileSelect(e.target.files);
+                        }
                       }
-                    }
-                  }}
-                />
-
-                {/* Photo Preview Grid */}
-                {files.length > 0 && (
-                  <div className="photo-grid">
-                    {files.map((file, index) => (
-                      <div key={index} className="photo-item">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`Upload ${index + 1}`}
-                          onLoad={(e) => URL.revokeObjectURL(e.currentTarget.src)}
-                        />
-                        <button
-                          className="photo-remove"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeFile(index);
-                          }}
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                        <div className="p-3">
-                          <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
-                          <p className="text-xs text-gray-500">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Photo Guidelines Toggle */}
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={() => setShowGuidelines(!showGuidelines)}
-                    className="text-purple-600 hover:text-purple-700 font-medium text-sm transition-colors"
+                    }}
+                    className="hidden"
+                    id="photo-upload"
+                  />
+                  <label 
+                    htmlFor="photo-upload" 
+                    className="elevated-card block cursor-pointer touch-manipulation"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowGuidelines(true);
+                    }}
                   >
-                    {showGuidelines ? 'Hide' : 'Show'} photo guidelines
-                  </button>
-                </div>
-
-                {/* Guidelines Section */}
-                {showGuidelines && (
-                  <div className="mt-6 p-6 bg-gray-50 rounded-2xl">
-                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <Camera className="w-5 h-5 text-purple-600" />
-                      Photo Guidelines for Best Results
-                    </h4>
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <Sun className="w-8 h-8 text-purple-600" />
-                        </div>
-                        <h5 className="font-medium text-gray-900 mb-2">Natural Light</h5>
-                        <p className="text-sm text-gray-600">Take photos near a window during daytime for best color accuracy</p>
+                    <div className="text-center py-12 sm:py-20">
+                      <div className="floating mb-6 sm:mb-8">
+                        <svg className="w-16 sm:w-20 lg:w-24 h-16 sm:h-20 lg:h-24 mx-auto" style={{ color: '#9333EA' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
                       </div>
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <User className="w-8 h-8 text-blue-600" />
-                        </div>
-                        <h5 className="font-medium text-gray-900 mb-2">No Makeup</h5>
-                        <p className="text-sm text-gray-600">Remove makeup and jewelry for accurate skin tone analysis</p>
-                      </div>
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                          <Shirt className="w-8 h-8 text-green-600" />
-                        </div>
-                        <h5 className="font-medium text-gray-900 mb-2">Neutral Colors</h5>
-                        <p className="text-sm text-gray-600">Wear white, gray, or black to avoid color influence</p>
-                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 px-4" style={{ color: 'var(--ink)' }}>
+                        Drop your photos here
+                      </h2>
+                      <p className="text-base sm:text-lg text-gray-600 px-4">
+                        or click to browse
+                      </p>
                     </div>
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <div className="mt-8 text-center">
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={files.length === 0 || isUploading}
-                    className="premium-button"
-                  >
-                    {isUploading ? (
-                      <span className="flex items-center gap-2">
-                        <span className="loading-dots">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </span>
-                        Processing...
-                      </span>
-                    ) : (
-                      `Get My Analysis - $29`
-                    )}
-                  </Button>
+                  </label>
                 </div>
-              </div>
+              ) : (
+                <div className="elevated-card">
+                  <div className="text-center py-6 sm:py-8">
+                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 px-4">Selected Photos ({files.length}/3)</h2>
+                    
+                    <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                      {files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-white/70 rounded-2xl border border-gray-200 mx-2 sm:mx-0">
+                          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 flex-shrink-0" />
+                            <div className="text-left min-w-0 flex-1">
+                              <p className="font-medium text-sm sm:text-base truncate">{file.name}</p>
+                              <p className="text-xs sm:text-sm text-gray-500">
+                                {(file.size / 1024 / 1024).toFixed(1)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => removeFile(index)}
+                            className="p-2 text-gray-400 hover:text-red-500 transition-colors touch-manipulation flex-shrink-0"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {files.length < 3 && (
+                      <div className="mb-6">
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/jpeg,image/jpg,image/png,image/heic,image/heif"
+                          onChange={(e) => {
+                            if (e.target.files) {
+                              if (e.target.files.length === 1) {
+                                handleFileSelect(e.target.files[0]);
+                              } else {
+                                handleMultipleFileSelect(e.target.files);
+                              }
+                            }
+                          }}
+                          className="hidden"
+                          id="photo-upload-more"
+                        />
+                        <label htmlFor="photo-upload-more" className="text-purple-600 hover:text-purple-800 cursor-pointer font-medium">
+                          + Add more photos ({3 - files.length} remaining)
+                        </label>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={handleContinue}
+                      disabled={files.length < 3 || isUploading}
+                      className="premium-button flex items-center justify-center w-full sm:w-auto touch-manipulation"
+                      style={{ 
+                        opacity: files.length < 3 || isUploading ? 0.5 : 1,
+                        cursor: files.length < 3 || isUploading ? 'not-allowed' : 'pointer',
+                        minWidth: '200px',
+                        padding: '1rem 2rem'
+                      }}
+                    >
+                      {isUploading ? (
+                        <div className="modern-spinner"></div>
+                      ) : (
+                        <>
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          Get My Analysis - $29
+                        </>
+                      )}
+                    </button>
+
+                    {files.length < 3 && (
+                      <p className="text-sm text-gray-500 mt-4 px-4">
+                        Upload {3 - files.length} more photo{3 - files.length > 1 ? 's' : ''} to continue
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* How It Works Section */}
@@ -718,6 +771,130 @@ export default function RedditLanding() {
           </div>
         </main>
       </div>
+
+      {/* Photo Guidelines Modal */}
+      {showGuidelines && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto scale-in">
+            <div className="p-6 sm:p-8">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: 'var(--ink)' }}>
+                  📸 Photo Guidelines
+                </h2>
+                <p className="text-gray-600">Follow these tips for the most accurate color analysis</p>
+              </div>
+
+              {/* Photo Examples */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--ink)' }}>Perfect vs. Problematic Photos</h3>
+                
+                <div className="space-y-4">
+                  {/* Good Example */}
+                  <div className="border-2 border-green-200 bg-green-50 rounded-xl p-4">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="font-semibold text-green-800">Perfect Example ✓</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <img 
+                        src="/attached_assets/IMG_2843_1751224590512.jpg" 
+                        alt="Good photo example"
+                        className="w-20 h-20 object-cover rounded-lg border-2 border-green-300"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm text-green-700">
+                          <strong>Close-up selfie</strong> with natural lighting, minimal makeup, clear view of eyes and hair
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bad Examples */}
+                  <div className="border-2 border-red-200 bg-red-50 rounded-xl p-4">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <AlertCircle className="w-5 h-5 text-red-600" />
+                      <span className="font-semibold text-red-800">Avoid These ✗</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="flex items-center space-x-3">
+                        <img 
+                          src="/attached_assets/IMG_2845_1751224590513.jpg" 
+                          alt="Bad photo example"
+                          className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                        />
+                        <p className="text-xs text-red-700">
+                          <strong>Multiple people & sunglasses</strong> - Can't identify subject
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <img 
+                          src="/attached_assets/IMG_2846_1751224590513.jpg" 
+                          alt="Bad photo example"
+                          className="w-16 h-16 object-cover rounded-lg border-2 border-red-300"
+                        />
+                        <p className="text-xs text-red-700">
+                          <strong>Too far away</strong> - Face too small to analyze
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Requirements */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--ink)' }}>Key Requirements</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex items-start space-x-3">
+                    <User className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Close-up & Single Subject</p>
+                      <p className="text-sm text-gray-600">Face fills frame, one person only</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Sun className="w-5 h-5 text-yellow-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Natural Lighting</p>
+                      <p className="text-sm text-gray-600">Near window, no flash</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Camera className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Eyes & Hair Visible</p>
+                      <p className="text-sm text-gray-600">Remove sunglasses, hats</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <Sparkles className="w-5 h-5 text-pink-500 mt-1 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Minimal Makeup</p>
+                      <p className="text-sm text-gray-600">Clean face preferred</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="text-center">
+                <button
+                  onClick={() => {
+                    setShowGuidelines(false);
+                    // Trigger file input after closing modal
+                    setTimeout(() => {
+                      document.getElementById('photo-upload')?.click();
+                    }, 100);
+                  }}
+                  className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-2xl transition-colors text-lg"
+                >
+                  Got it! Upload Photos
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
