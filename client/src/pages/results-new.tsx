@@ -1273,15 +1273,21 @@ export default function ResultsNew() {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('Order data received:', data.order);
+        console.log('Status:', data.order.status);
+        console.log('Has analysisResult:', !!data.order.analysisResult);
         setOrder(data.order);
         
         if ((data.order.status !== 'completed' && data.order.status !== 'analyzed') || !data.order.analysisResult) {
+          console.log('Analysis not ready - Status:', data.order.status, 'Has result:', !!data.order.analysisResult);
           toast({
             title: "Analysis Not Ready",
             description: "Your color analysis is still processing",
             variant: "destructive",
           });
           setLocation(`/processing/${orderId}`);
+        } else {
+          console.log('Analysis ready - proceeding with results display');
         }
       } else {
         throw new Error('Order not found');
