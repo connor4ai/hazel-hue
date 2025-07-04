@@ -83,29 +83,43 @@ import ColorAnalysisQuiz from "@/pages/color-analysis-quiz";
 import AIColorAnalysis from "@/pages/ai-color-analysis";
 import NotFound from "@/pages/not-found";
 
+// Loading component for lazy routes
+const LazyLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+  </div>
+);
+
+// Wrapper component for lazy routes
+const LazyRoute = ({ component: Component }: { component: React.ComponentType<any> }) => (
+  <Suspense fallback={<LazyLoader />}>
+    <Component />
+  </Suspense>
+);
+
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={HomeNew} />
+      <Route path="/" component={() => <LazyRoute component={HomeNew} />} />
       <Route path="/old-home" component={Home} />
-      <Route path="/faqs" component={FAQs} />
-      <Route path="/blog" component={Blog} />
-      <Route path="/blog/true-spring-vs-warm-spring" component={TrueSpringVsWarmSpring} />
-      <Route path="/blog/light-spring-vs-light-summer" component={LightSpringVsLightSummer} />
-      <Route path="/blog/soft-autumn-vs-soft-summer" component={SoftAutumnVsSoftSummer} />
-      <Route path="/blog/warm-autumn-vs-warm-spring" component={WarmAutumnVsWarmSpring} />
-      <Route path="/blog/deep-winter-vs-deep-autumn" component={DeepWinterVsDeepAutumn} />
-      <Route path="/blog/2026-color-trends" component={ColorTrends2026} />
-      <Route path="/blog/photography-guide" component={PhotographyGuide} />
-      <Route path="/blog/true-spring-capsule" component={TrueSpringCapsule} />
-      <Route path="/blog/undertones-science" component={UndertonesScience} />
-      <Route path="/blog/soft-makeup-swatches" component={SoftMakeupSwatches} />
-      <Route path="/blog/draping-guide" component={DrapingGuide} />
-      <Route path="/blog/deep-winter-office" component={DeepWinterOffice} />
-      <Route path="/blog/sustainable-thrifting" component={SustainableThrifting} />
-      <Route path="/blog/warm-spring-holiday" component={WarmSpringHoliday} />
-      <Route path="/blog/color-myths" component={ColorMyths} />
-      <Route path="/blog/:postId" component={BlogPost} />
+      <Route path="/faqs" component={() => <LazyRoute component={FAQs} />} />
+      <Route path="/blog" component={() => <LazyRoute component={Blog} />} />
+      <Route path="/blog/true-spring-vs-warm-spring" component={() => <LazyRoute component={TrueSpringVsWarmSpring} />} />
+      <Route path="/blog/light-spring-vs-light-summer" component={() => <LazyRoute component={LightSpringVsLightSummer} />} />
+      <Route path="/blog/soft-autumn-vs-soft-summer" component={() => <LazyRoute component={SoftAutumnVsSoftSummer} />} />
+      <Route path="/blog/warm-autumn-vs-warm-spring" component={() => <LazyRoute component={WarmAutumnVsWarmSpring} />} />
+      <Route path="/blog/deep-winter-vs-deep-autumn" component={() => <LazyRoute component={DeepWinterVsDeepAutumn} />} />
+      <Route path="/blog/2026-color-trends" component={() => <LazyRoute component={ColorTrends2026} />} />
+      <Route path="/blog/photography-guide" component={() => <LazyRoute component={PhotographyGuide} />} />
+      <Route path="/blog/true-spring-capsule" component={() => <LazyRoute component={TrueSpringCapsule} />} />
+      <Route path="/blog/undertones-science" component={() => <LazyRoute component={UndertonesScience} />} />
+      <Route path="/blog/soft-makeup-swatches" component={() => <LazyRoute component={SoftMakeupSwatches} />} />
+      <Route path="/blog/draping-guide" component={() => <LazyRoute component={DrapingGuide} />} />
+      <Route path="/blog/deep-winter-office" component={() => <LazyRoute component={DeepWinterOffice} />} />
+      <Route path="/blog/sustainable-thrifting" component={() => <LazyRoute component={SustainableThrifting} />} />
+      <Route path="/blog/warm-spring-holiday" component={() => <LazyRoute component={WarmSpringHoliday} />} />
+      <Route path="/blog/color-myths" component={() => <LazyRoute component={ColorMyths} />} />
+      <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
       <Route path="/old-upload" component={Upload} />
@@ -123,15 +137,15 @@ function Router() {
       <Route path="/admin" component={Admin} />
 
       <Route path="/lookup" component={OrderLookup} />
-      <Route path="/pinterest-test" component={PinterestTest} />
+      <Route path="/pinterest-test" component={() => <LazyRoute component={PinterestTest} />} />
       
       {/* Interactive Tools & Landing Pages */}
-      <Route path="/color-analysis-quiz" component={ColorAnalysisQuiz} />
-      <Route path="/ai-color-analysis" component={AIColorAnalysis} />
+      <Route path="/color-analysis-quiz" component={() => <LazyRoute component={ColorAnalysisQuiz} />} />
+      <Route path="/ai-color-analysis" component={() => <LazyRoute component={AIColorAnalysis} />} />
       
       {/* Comparison Pages */}
-      <Route path="/hazel-hue-vs-dressika" component={HazelHueVsDressika} />
-      <Route path="/hazel-hue-vs-mycoloranalysis" component={HazelHueVsMyColorAnalysis} />
+      <Route path="/hazel-hue-vs-dressika" component={() => <LazyRoute component={HazelHueVsDressika} />} />
+      <Route path="/hazel-hue-vs-mycoloranalysis" component={() => <LazyRoute component={HazelHueVsMyColorAnalysis} />} />
       
       <Route component={NotFound} />
     </Switch>
