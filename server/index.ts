@@ -12,6 +12,8 @@ import {
 } from "./utils/performance";
 import { securityHeaders, rateLimit } from "./utils/security";
 import { healthCheck, metrics, statusDashboard } from "./utils/monitoring";
+import { memoryOptimizer } from "./utils/memory-optimizer";
+import "./emergency-memory-fix.js";
 
 const app = express();
 

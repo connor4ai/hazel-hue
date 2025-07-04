@@ -3,7 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useEffect, Component, ReactNode } from "react";
+import { useEffect, Component, ReactNode, lazy, Suspense } from "react";
 
 // Error Boundary Component for production stability
 class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}> {
@@ -41,26 +41,27 @@ class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}
   }
 }
 
+// Essential pages only - lazy load heavy ones
 import Home from "@/pages/home";
-import HomeNew from "@/pages/home-new";
-import FAQs from "@/pages/faqs";
-import Blog from "@/pages/blog";
-import BlogPost from "@/pages/blog-post";
-import TrueSpringVsWarmSpring from "@/pages/true-spring-vs-warm-spring";
-import LightSpringVsLightSummer from "@/pages/light-spring-vs-light-summer";
-import SoftAutumnVsSoftSummer from "@/pages/blog-soft-autumn-vs-soft-summer";
-import WarmAutumnVsWarmSpring from "@/pages/blog-warm-autumn-vs-warm-spring";
-import DeepWinterVsDeepAutumn from "@/pages/blog-deep-winter-vs-deep-autumn";
-import ColorTrends2026 from "@/pages/blog-2026-color-trends";
-import PhotographyGuide from "@/pages/blog-photography-guide";
-import TrueSpringCapsule from "@/pages/blog-true-spring-capsule";
-import UndertonesScience from "@/pages/blog-undertones-science";
-import SoftMakeupSwatches from "@/pages/blog-soft-makeup-swatches";
-import DrapingGuide from "@/pages/blog-draping-guide";
-import DeepWinterOffice from "@/pages/blog-deep-winter-office";
-import SustainableThrifting from "@/pages/blog-sustainable-thrifting";
-import WarmSpringHoliday from "@/pages/blog-warm-spring-holiday";
-import ColorMyths from "@/pages/blog-color-myths";
+const HomeNew = lazy(() => import("@/pages/home-new"));
+const FAQs = lazy(() => import("@/pages/faqs"));
+const Blog = lazy(() => import("@/pages/blog"));
+const BlogPost = lazy(() => import("@/pages/blog-post"));
+const TrueSpringVsWarmSpring = lazy(() => import("@/pages/true-spring-vs-warm-spring"));
+const LightSpringVsLightSummer = lazy(() => import("@/pages/light-spring-vs-light-summer"));
+const SoftAutumnVsSoftSummer = lazy(() => import("@/pages/blog-soft-autumn-vs-soft-summer"));
+const WarmAutumnVsWarmSpring = lazy(() => import("@/pages/blog-warm-autumn-vs-warm-spring"));
+const DeepWinterVsDeepAutumn = lazy(() => import("@/pages/blog-deep-winter-vs-deep-autumn"));
+const ColorTrends2026 = lazy(() => import("@/pages/blog-2026-color-trends"));
+const PhotographyGuide = lazy(() => import("@/pages/blog-photography-guide"));
+const TrueSpringCapsule = lazy(() => import("@/pages/blog-true-spring-capsule"));
+const UndertonesScience = lazy(() => import("@/pages/blog-undertones-science"));
+const SoftMakeupSwatches = lazy(() => import("@/pages/blog-soft-makeup-swatches"));
+const DrapingGuide = lazy(() => import("@/pages/blog-draping-guide"));
+const DeepWinterOffice = lazy(() => import("@/pages/blog-deep-winter-office"));
+const SustainableThrifting = lazy(() => import("@/pages/blog-sustainable-thrifting"));
+const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"));
+const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
