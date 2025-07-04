@@ -153,8 +153,8 @@ export default function RedditLanding() {
       // Store order ID
       sessionStorage.setItem('currentOrderId', orderId.toString());
       
-      // Navigate to results preview with order ID
-      setLocation(`/results-preview/${orderId}`);
+      // Navigate to analyzing page first to show loading animation
+      setLocation('/analyzing');
       
     } catch (error) {
       console.error('Error starting analysis:', error);
