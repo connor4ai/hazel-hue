@@ -289,8 +289,8 @@ export default function ResultsPreview() {
       if (data.order) {
         setOrder(data.order);
         
-        // If analysis is ready and status is completed/analyzed, redirect to results
-        if (data.order.analysisResult && (data.order.status === 'completed' || data.order.status === 'analyzed')) {
+        // If analysis is ready AND payment is completed, redirect to results
+        if (data.order.analysisResult && (data.order.status === 'completed' || data.order.status === 'analyzed') && data.order.paymentStatus === 'paid') {
           setLocation(`/results/${id}`);
           return;
         }
