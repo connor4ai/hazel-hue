@@ -1273,21 +1273,15 @@ export default function ResultsNew() {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Order data received:', data.order);
-        console.log('Status:', data.order.status);
-        console.log('Has analysisResult:', !!data.order.analysisResult);
         setOrder(data.order);
         
         if ((data.order.status !== 'completed' && data.order.status !== 'analyzed') || !data.order.analysisResult) {
-          console.log('Analysis not ready - Status:', data.order.status, 'Has result:', !!data.order.analysisResult);
           toast({
             title: "Analysis Not Ready",
             description: "Your color analysis is still processing",
             variant: "destructive",
           });
           setLocation(`/processing/${orderId}`);
-        } else {
-          console.log('Analysis ready - proceeding with results display');
         }
       } else {
         throw new Error('Order not found');
@@ -1331,13 +1325,10 @@ export default function ResultsNew() {
   }
 
   if (!order || !order.analysisResult) {
-    console.log('Results check failed:', { order: !!order, hasAnalysisResult: !!order?.analysisResult });
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50 flex items-center justify-center">
-        <div className="text-center bg-red-500 text-white p-6 rounded-lg">
-          <h2 className="text-xl font-bold mb-2">Analysis not found</h2>
-          <p className="mb-4">This analysis result is not available.</p>
-          <p className="text-sm">Debug: Order={!!order ? 'exists' : 'missing'}, Analysis={!!order?.analysisResult ? 'exists' : 'missing'}</p>
+        <div className="text-center">
+          <p className="text-xl text-gray-700">No results found</p>
         </div>
       </div>
     );
