@@ -119,14 +119,30 @@ app.use((req, res, next) => {
   // SSR middleware for search engines only (exclude monitoring endpoints)
   app.get('*', (req: Request, res: Response, next: NextFunction) => {
     // Skip SSR for monitoring and utility endpoints
-    if (req.path.startsWith('/health') || req.path.startsWith('/metrics') || req.path.startsWith('/status')) {
+    if (req.path.startsWith('/health') || req.path.startsWith('/metrics') || req.path.startsWith('/status') || req.path.startsWith('/debug') || req.path.startsWith('/api')) {
       return next();
     }
     
     const userAgent = req.get('User-Agent') || '';
-    const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet/i.test(userAgent);
+    const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet|gptbot|chatgpt-user|claude-web|perplexity|anthropic|openai|bard|gemini|bing.*ai|copilot|webscraper|scrapy|python-requests|curl|wget|httpclient|crawl|spider|bot\/|scraper|indexer|preview|parser|reader|archive|wayback|lighthouse|pagespeed|applebot|seobilitybot|ahrefsbot|semrushbot|mj12bot|dotbot|ccbot|commoncrawl|archive\.org/i.test(userAgent);
     
-    if (isSearchEngineBot && isSSRRoute(req.path)) {
+    // Log user agents that might be AI tools for debugging
+    if (userAgent.toLowerCase().includes('gpt') || 
+        userAgent.toLowerCase().includes('claude') || 
+        userAgent.toLowerCase().includes('anthropic') ||
+        userAgent.toLowerCase().includes('openai') ||
+        userAgent.toLowerCase().includes('perplexity') ||
+        userAgent.toLowerCase().includes('bot') ||
+        userAgent.toLowerCase().includes('crawler') ||
+        userAgent.toLowerCase().includes('scraper')) {
+      console.log(`AI/Bot User Agent detected: ${userAgent} - SSR: ${isSearchEngineBot}`);
+    }
+    
+    // Check for SSR override parameters (useful for AI tools and testing)
+    const forceSSR = req.query.ssr === 'true' || req.query.static === 'true' || req.query.scrape === 'true';
+    
+    if ((isSearchEngineBot || forceSSR) && isSSRRoute(req.path)) {
+      console.log(`Serving SSR for ${forceSSR ? 'forced SSR' : 'bot'}: ${userAgent.substring(0, 100)}...`);
       renderSSRPage(req, res);
     } else {
       next();

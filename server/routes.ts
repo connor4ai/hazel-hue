@@ -117,6 +117,21 @@ async function processColorAnalysisWorker(jobId: number) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Debug endpoint to test SSR and see user agents
+  app.get('/debug/ssr', (req, res) => {
+    const userAgent = req.get('User-Agent') || '';
+    const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet|gptbot|chatgpt-user|claude-web|perplexity|anthropic|openai|bard|gemini|bing.*ai|copilot|webscraper|scrapy|python-requests|curl|wget|httpclient|crawl|spider|bot\/|scraper|indexer|preview|parser|reader|archive|wayback|lighthouse|pagespeed|applebot|seobilitybot|ahrefsbot|semrushbot|mj12bot|dotbot|ccbot|commoncrawl|archive\.org/i.test(userAgent);
+    
+    res.json({
+      userAgent,
+      isBot,
+      headers: req.headers,
+      query: req.query,
+      method: req.method,
+      path: req.path,
+      ip: req.ip
+    });
+  });
   // Test images page for debugging
   app.get("/test-images", (req, res) => {
     res.sendFile(path.resolve(process.cwd(), "test_images.html"));
