@@ -42,7 +42,6 @@ class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}
 }
 
 // Essential pages only - lazy load heavy ones
-import Home from "@/pages/home";
 const HomeNew = lazy(() => import("@/pages/home-new"));
 const FAQs = lazy(() => import("@/pages/faqs"));
 const Blog = lazy(() => import("@/pages/blog"));
@@ -101,7 +100,6 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={() => <LazyRoute component={HomeNew} />} />
-      <Route path="/old-home" component={Home} />
       <Route path="/faqs" component={() => <LazyRoute component={FAQs} />} />
       <Route path="/blog" component={() => <LazyRoute component={Blog} />} />
       <Route path="/blog/true-spring-vs-warm-spring" component={() => <LazyRoute component={TrueSpringVsWarmSpring} />} />
