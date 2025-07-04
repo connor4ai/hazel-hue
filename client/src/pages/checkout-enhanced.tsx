@@ -30,31 +30,68 @@ function StripeElementsWrapper({
   onPaymentSuccess: (paymentIntentId: string) => void;
 }) {
   const [stripeError, setStripeError] = useState<string | null>(null);
+  const [stripeLoading, setStripeLoading] = useState(true);
+  const [stripeInstance, setStripeInstance] = useState<any>(null);
   
   useEffect(() => {
-    // Check if Stripe loaded successfully
-    stripePromise?.then((stripe) => {
-      if (!stripe) {
-        setStripeError('Payment processing is temporarily unavailable');
+    let mounted = true;
+    
+    const initStripe = async () => {
+      try {
+        console.log('Loading Stripe...');
+        const stripe = await stripePromise;
+        
+        if (!mounted) return;
+        
+        if (!stripe) {
+          setStripeError('Payment system initialization failed. Please refresh the page.');
+          setStripeLoading(false);
+          return;
+        }
+        
+        console.log('Stripe loaded successfully');
+        setStripeInstance(stripe);
+        setStripeLoading(false);
+      } catch (error) {
+        console.error('Stripe initialization error:', error);
+        if (mounted) {
+          setStripeError('Payment system unavailable. Please refresh the page or try again later.');
+          setStripeLoading(false);
+        }
       }
-    }).catch((error) => {
-      console.error('Stripe loading error:', error);
-      setStripeError('Payment processing is temporarily unavailable');
-    });
+    };
+    
+    initStripe();
+    
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  if (stripeError) {
+  if (stripeLoading) {
     return (
       <div className="text-center py-8">
-        <div className="text-red-600 mb-4">{stripeError}</div>
-        <p className="text-gray-600">Please refresh the page or try again later.</p>
+        <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+        <p className="text-gray-600">Loading payment system...</p>
+      </div>
+    );
+  }
+
+  if (stripeError || !stripeInstance) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-red-600 mb-4">{stripeError || 'Payment system failed to load'}</div>
+        <p className="text-gray-600 mb-4">Please refresh the page or try again later.</p>
+        <Button onClick={() => window.location.reload()} variant="outline">
+          Refresh Page
+        </Button>
       </div>
     );
   }
 
   return (
     <Elements 
-      stripe={stripePromise} 
+      stripe={stripeInstance} 
       options={{ 
         clientSecret,
         appearance: {

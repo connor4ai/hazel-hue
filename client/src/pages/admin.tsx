@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Eye, Download, Lock, X } from "lucide-react";
+import { StripeTestButton } from "@/components/StripeTestButton";
 
 interface Order {
   id: number;
