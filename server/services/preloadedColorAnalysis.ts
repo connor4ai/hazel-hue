@@ -251,6 +251,8 @@ export class PreloadedColorAnalysisService {
     If photos are unclear due to lighting or quality issues, choose the most likely season based on any visible features following the scientific method outlined above.
     `;
 
+    console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
+    
     const response = await this.openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
@@ -265,36 +267,54 @@ export class PreloadedColorAnalysisService {
       max_tokens: 50,
       temperature: 0.1,
     });
-
-    const detectedSeason = response.choices[0].message.content?.trim() || 'True Winter';
     
-    console.log(`🤖 OpenAI Response: "${detectedSeason}"`);
+    console.log('📥 OpenAI API call completed successfully');
+
+    const rawResponse = response.choices[0]?.message?.content;
+    
+    console.log(`🤖 OpenAI Raw Response:`, {
+      content: rawResponse,
+      model: response.model,
+      usage: response.usage,
+      finish_reason: response.choices[0]?.finish_reason,
+      response_length: rawResponse?.length || 0
+    });
+    
+    if (!rawResponse || rawResponse.trim() === '') {
+      console.error('❌ OpenAI returned empty response!');
+      throw new Error('OpenAI analysis failed: empty response received');
+    }
+    
+    const detectedSeason = rawResponse.trim();
+    console.log(`🤖 OpenAI Detected Season: "${detectedSeason}"`);
     
     // Clean up the response to extract just the season name
     const cleanSeason = detectedSeason.split('\n')[0].trim();
     
-    // Validate the detected season against all 12 seasons
-    if (!this.allSeasons.includes(cleanSeason)) {
+    // Normalize and validate the detected season
+    const normalizedSeason = this.normalizeSeasonName(cleanSeason);
+    
+    if (!this.allSeasons.includes(normalizedSeason)) {
       console.warn(`⚠️ Invalid season detected: "${cleanSeason}" from OpenAI. Available seasons:`, this.allSeasons);
       console.warn(`⚠️ Full OpenAI response was: "${detectedSeason}"`);
+      console.warn(`⚠️ Normalized to: "${normalizedSeason}"`);
       
-      // Try to find a partial match
-      const partialMatch = this.allSeasons.find(season => 
-        cleanSeason.toLowerCase().includes(season.toLowerCase()) ||
-        season.toLowerCase().includes(cleanSeason.toLowerCase())
-      );
+      // Try to find a fuzzy match
+      const fuzzyMatch = this.findBestSeasonMatch(cleanSeason);
       
-      if (partialMatch) {
-        console.log(`✅ Found partial match: ${partialMatch}`);
-        return partialMatch;
+      if (fuzzyMatch) {
+        console.log(`✅ Found fuzzy match: "${cleanSeason}" → "${fuzzyMatch}"`);
+        return fuzzyMatch;
       }
       
-      console.warn(`⚠️ No partial match found, defaulting to True Winter`);
-      return 'True Winter';
+      console.warn(`⚠️ No match found for "${cleanSeason}", analyzing content to suggest best alternative`);
+      
+      // If no match, don't default to True Winter - return an error
+      throw new Error(`OpenAI returned unrecognized season: "${cleanSeason}". Expected one of: ${this.allSeasons.join(', ')}`);
     }
     
-    console.log(`✅ FINAL RESULT: ${cleanSeason} (analyzed from ${validPaths.length} photos)`);
-    return cleanSeason;
+    console.log(`✅ FINAL RESULT: ${normalizedSeason} (analyzed from ${validPaths.length} photos)`);
+    return normalizedSeason;
   }
 
   private getPreloadedResult(season: string): ColorAnalysisResult {
@@ -392,6 +412,82 @@ export class PreloadedColorAnalysisService {
       default:
         return 'image/jpeg';
     }
+  }
+
+  private normalizeSeasonName(season: string): string {
+    // Remove extra spaces and normalize capitalization
+    const normalized = season.trim().replace(/\s+/g, ' ');
+    
+    // Handle common variations
+    const variations: { [key: string]: string } = {
+      'deep winter': 'Dark Winter',
+      'cool winter': 'True Winter',
+      'clear winter': 'Bright Winter',
+      'deep autumn': 'Dark Autumn',
+      'warm autumn': 'True Autumn',
+      'muted autumn': 'Soft Autumn',
+      'clear spring': 'Bright Spring',
+      'warm spring': 'True Spring',
+      'light clear spring': 'Light Spring',
+      'cool summer': 'True Summer',
+      'light cool summer': 'Light Summer',
+      'muted summer': 'Soft Summer'
+    };
+    
+    const lowerNormalized = normalized.toLowerCase();
+    if (variations[lowerNormalized]) {
+      return variations[lowerNormalized];
+    }
+    
+    return normalized;
+  }
+
+  private findBestSeasonMatch(input: string): string | null {
+    const inputLower = input.toLowerCase();
+    
+    // Direct substring matching
+    for (const season of this.allSeasons) {
+      const seasonLower = season.toLowerCase();
+      if (inputLower.includes(seasonLower) || seasonLower.includes(inputLower)) {
+        return season;
+      }
+    }
+    
+    // Word-by-word matching
+    const inputWords = inputLower.split(/\s+/);
+    for (const season of this.allSeasons) {
+      const seasonWords = season.toLowerCase().split(/\s+/);
+      const matchCount = seasonWords.filter(word => inputWords.includes(word)).length;
+      
+      if (matchCount >= 2) { // At least 2 words match
+        return season;
+      }
+    }
+    
+    // Single word matching for key terms
+    const keyWordMap: { [key: string]: string[] } = {
+      'winter': ['True Winter', 'Bright Winter', 'Dark Winter'],
+      'summer': ['True Summer', 'Light Summer', 'Soft Summer'],
+      'spring': ['True Spring', 'Bright Spring', 'Light Spring'],
+      'autumn': ['True Autumn', 'Dark Autumn', 'Soft Autumn'],
+      'fall': ['True Autumn', 'Dark Autumn', 'Soft Autumn'],
+      'bright': ['Bright Winter', 'Bright Spring'],
+      'light': ['Light Summer', 'Light Spring'],
+      'dark': ['Dark Winter', 'Dark Autumn'],
+      'deep': ['Dark Winter', 'Dark Autumn'],
+      'soft': ['Soft Summer', 'Soft Autumn'],
+      'muted': ['Soft Summer', 'Soft Autumn'],
+      'true': ['True Winter', 'True Summer', 'True Spring', 'True Autumn'],
+      'clear': ['Bright Winter', 'Bright Spring']
+    };
+    
+    for (const word of inputWords) {
+      if (keyWordMap[word]) {
+        return keyWordMap[word][0]; // Return first match
+      }
+    }
+    
+    return null;
   }
 }
 
