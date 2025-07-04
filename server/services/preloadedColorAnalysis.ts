@@ -118,137 +118,31 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    Professional Color Analysis Instructions for GPT-4o Vision
+    You are a professional color analyst. Analyze the provided photos to determine this person's seasonal color type.
 
-    Core Analysis Framework
-    You are performing a professional color analysis service. Users have paid for this analysis, so accuracy and consistency are paramount. Follow these instructions precisely for every analysis.
-
-    Pre-Analysis Requirements
-
-    Image Quality Assessment
-    Lighting Check: Evaluate each photo for:
-    - Natural daylight or daylight-equivalent lighting (5000-6500K color temperature)
-    - Even illumination across the face without harsh shadows
-    - No color casts from artificial lighting (yellow, blue, green tints)
-    - If lighting is inadequate, note this in your analysis
-
-    Photo Requirements Verification:
-    - Face clearly visible and centered
-    - Minimal to no makeup (or note if heavy makeup affects analysis)
-    - Hair pulled back from face when possible
-    - No strong colored clothing near face that could reflect color
-
-    Scientific Color Analysis Method
-
-    Step 1: Undertone Identification
-    Analyze the following areas for undertone determination:
-
-    Vein Test Areas: Inside of wrist and temples
-    - Blue/Purple veins = Cool undertone
-    - Green veins = Warm undertone
-    - Blue-green mix = Neutral undertone
-
-    Natural Flush Points:
-    - Cheeks after light exertion
-    - Lips natural color
-    - Fingertip pads
-    - Pink/Rose flush = Cool
-    - Peach/Coral flush = Warm
-    - Mix of both = Neutral
-
-    Skin's Relationship to White:
-    - Compare skin against pure white background
-    - Yellow/Golden cast = Warm
-    - Pink/Blue cast = Cool
-    - No distinct cast = Neutral
-
-    Step 2: Overtone Analysis
-    Examine the surface color of skin:
-    - Forehead center
-    - Cheek apples
-    - Jawline
-    - Neck (to ensure no foundation interference)
-
-    Document:
-    - Depth (Fair, Light, Medium, Tan, Deep, Rich)
-    - Visible color cast (golden, olive, pink, red, yellow)
-
-    Step 3: Seasonal Color Classification
-    Based on undertone and overtone combination, classify into:
-
-    Cool Undertones:
-    Summer: Cool undertone + muted/soft overtones
-    - Characteristics: Pink/rose undertones, ashy hair tones naturally, low contrast
-    - Best colors: Soft, muted, dusty colors with blue undertones
-    - Subcategories: True Summer, Light Summer, Soft Summer
-
-    Winter: Cool undertone + clear/bright overtones
-    - Characteristics: Blue/pink undertones, high contrast features, bright white sclera
-    - Best colors: Bold, clear, icy colors with blue undertones
-    - Subcategories: True Winter, Bright Winter, Dark Winter
-
-    Warm Undertones:
-    Spring: Warm undertone + clear/bright overtones
-    - Characteristics: Golden/peach undertones, clear bright eyes, golden hair tones
-    - Best colors: Clear, warm, bright colors with yellow undertones
-    - Subcategories: True Spring, Bright Spring, Light Spring
-
-    Autumn: Warm undertone + muted/rich overtones
-    - Characteristics: Golden/bronze undertones, earthy eye colors, golden/red hair tones
-    - Best colors: Rich, muted, earthy colors with golden undertones
-    - Subcategories: True Autumn, Soft Autumn, Dark Autumn
-
-    Neutral Undertones:
-    - Classify based on whether they lean slightly warm or cool
-    - Note their versatility with both warm and cool colors
-
-    Step 4: Contrast Level Assessment
-    Evaluate the contrast between:
-    - Hair and skin
-    - Eyes and skin
-    - Features overall
-
-    Classify as:
-    - High contrast (e.g., pale skin with dark hair)
-    - Medium contrast
-    - Low contrast (similar depths throughout)
-
-    This affects intensity of recommended colors.
-
-    Step 5: Color Clarity Determination
-    Assess whether colors appear:
-    - Clear/Bright: Pure, saturated colors suit best
-    - Muted/Soft: Dusty, grayed colors suit best
-
-    Look for:
-    - Eye clarity and brightness
-    - Skin clarity (clear vs. muted appearance)
-    - Natural hair color intensity
-
-    Consistency Protocols
-    - Always analyze all three photos before making determinations
-    - Look for consensus across images - if photos show different results, note this
-    - Be specific in observations - reference exact areas of face analyzed
-    - Acknowledge limitations - if photo quality affects analysis, state this
-    - Cross-check results - ensure undertone and season align logically
-
-    Error Prevention
-    Common mistakes to avoid:
-    - Don't confuse surface redness with cool undertones
-    - Don't let hair color override skin analysis
-    - Don't ignore neutral undertones - they're valid
-    - Don't assume ethnicity determines undertone
-    - Don't let makeup or tan interfere with base tone analysis
-
-    FINAL ANALYSIS REQUIREMENT: Analyze ALL the photos provided to determine their seasonal color type. IMPORTANT: Look at every photo equally and consider the consistent features across all images to make your determination.
-    
-    Based on your comprehensive professional analysis of all five steps (undertones, overtones, contrast, clarity, and consistency), determine which of these 12 seasons is the best match:
-
+    You must respond with EXACTLY ONE of these 12 seasons:
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
 
-    IMPORTANT: You MUST respond with ONLY the exact season name. Do not include any explanations, analysis details, or other text. Just the season name.
+    Analysis steps:
+    1. Look at skin undertones (cool vs warm)
+    2. Assess overall contrast level (high, medium, low)
+    3. Evaluate color clarity (bright/clear vs soft/muted)
+    4. Consider all photos together for consistency
 
-    If photos are unclear due to lighting or quality issues, choose the most likely season based on any visible features following the scientific method outlined above.
+    Season guidelines:
+    - WINTER: Cool undertones + high contrast (sharp, dramatic coloring)
+    - SUMMER: Cool undertones + soft/muted (gentle, low contrast)
+    - SPRING: Warm undertones + bright/clear (golden, vibrant)
+    - AUTUMN: Warm undertones + rich/deep (earthy, golden-bronze)
+
+    Subcategories:
+    - True = classic example
+    - Light = lighter coloring
+    - Dark = deeper coloring  
+    - Bright = higher contrast/more vibrant
+    - Soft = lower contrast/more muted
+
+    Respond with ONLY the season name.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
