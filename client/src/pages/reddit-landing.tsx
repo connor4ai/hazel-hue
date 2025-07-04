@@ -129,47 +129,32 @@ export default function RedditLanding() {
     setIsUploading(true);
     
     try {
-      // First create a temporary order
-      const orderResponse = await fetch('/api/orders', {
+      // Create FormData for guest order
+      const formData = new FormData();
+      
+      // Add photos to form data
+      files.forEach((file, index) => {
+        formData.append(`photo${index + 1}`, file);
+      });
+
+      // Create guest order with photos
+      const orderResponse = await fetch('/api/orders/guest', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: 2900, // $29.00
-          status: 'pending'
-        }),
+        body: formData,
       });
 
       if (!orderResponse.ok) {
-        throw new Error('Failed to create order');
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.message || 'Failed to create order');
       }
 
-      const { order } = await orderResponse.json();
+      const { id: orderId } = await orderResponse.json();
       
-      // Process files for submission
-      const fileData = await Promise.all(
-        files.map(async (file) => {
-          const base64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.readAsDataURL(file);
-          });
-          return {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            data: base64
-          };
-        })
-      );
-
-      // Store photos and order ID
-      sessionStorage.setItem('uploadedPhotos', JSON.stringify(fileData));
-      sessionStorage.setItem('currentOrderId', order.id.toString());
+      // Store order ID
+      sessionStorage.setItem('currentOrderId', orderId.toString());
       
       // Navigate to results preview with order ID
-      setLocation(`/results-preview/${order.id}`);
+      setLocation(`/results-preview/${orderId}`);
       
     } catch (error) {
       console.error('Error starting analysis:', error);
