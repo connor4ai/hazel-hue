@@ -288,16 +288,8 @@ export default function ResultsPreview() {
       
       if (data.order) {
         setOrder(data.order);
-        console.log('Results-preview loaded order:', {
-          id: data.order.id,
-          status: data.order.status,
-          hasAnalysis: !!data.order.analysisResult,
-          paymentStatus: data.order.paymentStatus
-        });
-        
         // If analysis is ready AND payment is completed, redirect to results
         if (data.order.analysisResult && (data.order.status === 'completed' || data.order.status === 'analyzed') && data.order.paymentStatus === 'paid') {
-          console.log('Results-preview redirecting to final results - payment completed');
           setLocation(`/results/${id}`);
           return;
         }

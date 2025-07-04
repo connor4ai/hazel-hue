@@ -48,9 +48,7 @@ export default function AnalyzingPage() {
               setStatusMessage("Analysis complete! Preparing your results...");
               setShowColors(true);
               // Always redirect to results-preview for payment/unlock step
-              console.log('Analyzing page redirecting to results-preview:', storedOrderId);
               setTimeout(() => {
-                console.log('Executing redirect to results-preview');
                 setLocation(`/results-preview/${storedOrderId}`);
               }, 1500);
               return;
