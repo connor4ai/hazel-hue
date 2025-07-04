@@ -1331,10 +1331,13 @@ export default function ResultsNew() {
   }
 
   if (!order || !order.analysisResult) {
+    console.log('Results check failed:', { order: !!order, hasAnalysisResult: !!order?.analysisResult });
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl text-gray-700">No results found</p>
+        <div className="text-center bg-red-500 text-white p-6 rounded-lg">
+          <h2 className="text-xl font-bold mb-2">Analysis not found</h2>
+          <p className="mb-4">This analysis result is not available.</p>
+          <p className="text-sm">Debug: Order={!!order ? 'exists' : 'missing'}, Analysis={!!order?.analysisResult ? 'exists' : 'missing'}</p>
         </div>
       </div>
     );
