@@ -147,7 +147,7 @@ export default function RedditLanding() {
       );
 
       sessionStorage.setItem('uploadedPhotos', JSON.stringify(fileData));
-      setLocation('/checkout');
+      setLocation('/results-preview');
       
     } catch (error) {
       console.error('Error starting analysis:', error);
