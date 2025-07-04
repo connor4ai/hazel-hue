@@ -147,23 +147,7 @@ export default function RedditLanding() {
       );
 
       sessionStorage.setItem('uploadedPhotos', JSON.stringify(fileData));
-      setLocation('/analyzing');
-      
-      // For debugging - also try direct redirect after short delay
-      setTimeout(() => {
-        const currentOrderId = sessionStorage.getItem('currentOrderId');
-        if (currentOrderId) {
-          // Check if analysis completed quickly and redirect directly
-          fetch(`/api/orders/${currentOrderId}/status`)
-            .then(res => res.json())
-            .then(data => {
-              if (data.status === 'completed') {
-                setLocation(`/results-preview/${currentOrderId}`);
-              }
-            })
-            .catch(console.error);
-        }
-      }, 2000);
+      setLocation('/checkout');
       
     } catch (error) {
       console.error('Error starting analysis:', error);
