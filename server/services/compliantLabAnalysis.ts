@@ -225,11 +225,26 @@ export class CompliantLabAnalysisService {
           },
           {
             role: "user", 
-            content: `Using the 12-season color analysis system, classify this person based on their LAB color data:
+            content: `Using the 12-season color analysis system, classify this person based on their LAB color data.
 
+IMPORTANT: You must choose EXACTLY one of these 12 seasons:
+- True Winter
+- Bright Winter 
+- Dark Winter
+- True Summer
+- Light Summer
+- Soft Summer
+- True Spring
+- Bright Spring
+- Light Spring
+- True Autumn
+- Dark Autumn
+- Soft Autumn
+
+LAB Color Data:
 ${JSON.stringify(avgLabData, null, 2)}
 
-Consider:
+Analysis Guidelines:
 - Skin LAB values for undertone assessment (a* values: negative=green/cool, positive=red/warm)
 - Hair LAB values for natural coloring (L* for lightness, a* and b* for undertone)
 - Eye LAB values for contrast analysis (how they contrast with skin and hair)
@@ -239,9 +254,9 @@ Consider:
 
 Use your reasoning to carefully analyze these numerical values and classify the season.
 
-Return exactly this JSON:
+Return exactly this JSON format:
 {
-  "season": "<Exact season name>",
+  "season": "<One of the 12 exact season names listed above>",
   "confidence": <0-100 integer>,
   "reasoning": "<Detailed explanation based on LAB values analysis>"
 }`
@@ -318,11 +333,26 @@ Return exactly this JSON:
           },
           {
             role: "user",
-            content: `Using the 12-season color analysis system, classify this person based on their LAB color data:
+            content: `Using the 12-season color analysis system, classify this person based on their LAB color data.
 
+IMPORTANT: You must choose EXACTLY one of these 12 seasons:
+- True Winter
+- Bright Winter 
+- Dark Winter
+- True Summer
+- Light Summer
+- Soft Summer
+- True Spring
+- Bright Spring
+- Light Spring
+- True Autumn
+- Dark Autumn
+- Soft Autumn
+
+LAB Color Data:
 ${JSON.stringify(avgLabData, null, 2)}
 
-Return only the season name (e.g., "True Autumn", "Light Spring", etc.).`
+Return only the exact season name from the list above.`
           }
         ]
       });
