@@ -22,7 +22,15 @@ const AnalysisProcessing = () => {
           const response = await fetch(`/api/orders/${currentOrderId}/status`);
           const data = await response.json();
           
+          console.log('Analysis processing status check:', { 
+            orderId: currentOrderId, 
+            status: data.status, 
+            hasResult: !!data.result,
+            data: data 
+          });
+          
           if (data.status === 'completed' && data.result) {
+            console.log('Redirecting to results page:', `/results/${currentOrderId}`);
             clearInterval(pollInterval);
             setLocation(`/results/${currentOrderId}`);
           }
