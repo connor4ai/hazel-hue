@@ -355,7 +355,7 @@ export class PreloadedColorAnalysisService {
     return normalizedSeason;
   }
 
-  private getPreloadedResult(season: string): ColorAnalysisResult {
+  public getPreloadedResult(season: string): ColorAnalysisResult {
     console.log(`Looking for season content for: "${season}"`);
     console.log('Available seasons:', Object.keys(seasonalContentData));
     

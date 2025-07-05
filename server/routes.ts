@@ -136,10 +136,8 @@ async function processColorAnalysisWorker(jobId: number) {
       const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths);
       console.log(`AI detected season: ${detectedSeason}`);
       
-      // Get full analysis result with detected season
-      analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
-      // Override the season with our more accurate detection
-      analysisResult.season = detectedSeason;
+      // Get full analysis result for the detected season
+      analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
       
       console.log(`✅ Compliant GPT-o3 LAB analysis completed`);
       
