@@ -137,9 +137,25 @@ async function processColorAnalysisWorker(jobId: number) {
     const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
-    // Save outputs and mark as analyzed (not completed until payment)
+    // Save outputs and mark as analyzed
     await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
     await storage.updateOrderStatus(jobId, 'analyzed');
+
+    // Check if this is a paid order (free orders with promo codes)
+    if (order.paymentStatus === 'paid') {
+      // For paid orders (including free with promo codes), mark as completed and send email
+      await storage.updateOrderStatus(jobId, 'completed');
+      
+      if (order.email) {
+        try {
+          await emailService.sendAnalysisReport(order.email, analysisResult, order.id.toString());
+          await storage.updateOrderEmailSent(order.id);
+          console.log(`✅ GPT-o3 analysis results emailed to: ${order.email}`);
+        } catch (emailError) {
+          console.error("Error sending analysis email:", emailError);
+        }
+      }
+    }
 
     console.log(`✅ Job ${jobId} completed successfully`);
   } catch (error: any) {
@@ -1524,23 +1540,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Order not found" });
       }
       
-      // Update payment status and set to completed
+      // Update payment status to paid but keep status as processing for analysis
       await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
-      await storage.updateOrderStatus(parseInt(orderId), 'completed');
-
-      // Get the updated order with analysis results
-      const updatedOrder = await storage.getOrder(parseInt(orderId));
       
-      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
-        try {
-          // Send email with results
-          await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
-          await storage.updateOrderEmailSent(updatedOrder.id);
-          console.log(`Free analysis results emailed to: ${updatedOrder.email}`);
-        } catch (emailError) {
-          console.error("Error sending free analysis email:", emailError);
-          // Don't fail the request if email fails
+      // Check if analysis has already been completed
+      if (order.analysisResult && order.status === 'analyzed') {
+        // Analysis already done, mark as completed and send email
+        await storage.updateOrderStatus(parseInt(orderId), 'completed');
+        
+        if (order.email && order.analysisResult) {
+          try {
+            await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
+            await storage.updateOrderEmailSent(order.id);
+            console.log(`Free analysis results emailed to: ${order.email}`);
+          } catch (emailError) {
+            console.error("Error sending free analysis email:", emailError);
+          }
         }
+      } else {
+        // Analysis not done yet, start the GPT-o3 analysis process
+        console.log(`🧠 Starting GPT-o3 analysis for free order ${orderId}`);
+        await storage.updateOrderStatus(parseInt(orderId), 'processing');
+        
+        // Trigger the analysis worker (this will use GPT-o3)
+        setImmediate(() => processColorAnalysisWorker(parseInt(orderId)));
       }
 
       res.json({ success: true, message: "Order marked as paid with promo code" });
