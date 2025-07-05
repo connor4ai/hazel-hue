@@ -210,16 +210,13 @@ export class CompliantLabAnalysisService {
       if (orderId) {
         this.logAnalysisDetails(orderId, 'GPT_O3_REQUEST_START', {
           model: 'o3',
-          parameters: { temperature: 0, top_p: 0, seed: 42 },
+          parameters: { max_completion_tokens: 32768, note: 'Using default temperature and top_p for o3 model' },
           inputData: avgLabData
         });
       }
       
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
-        temperature: 0,
-        top_p: 0,
-        seed: 42,
         max_completion_tokens: 32768,
         messages: [
           {
