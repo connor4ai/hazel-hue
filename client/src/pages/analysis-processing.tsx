@@ -22,7 +22,7 @@ const AnalysisProcessing = () => {
           const response = await fetch(`/api/orders/${currentOrderId}/status`);
           const data = await response.json();
           
-          if (data.status === 'completed' && data.hasAnalysis) {
+          if (data.status === 'completed' && data.result) {
             clearInterval(pollInterval);
             setLocation(`/results/${currentOrderId}`);
           }
