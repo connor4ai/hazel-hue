@@ -31,7 +31,8 @@ def extract_lab_from_image(image_path, debug=False):
         
         return result
     except Exception as e:
-        print(f"Error extracting LAB from {image_path}: {e}")
+        # Send error messages to stderr to avoid JSON contamination
+        print(f"Error extracting LAB from {image_path}: {e}", file=sys.stderr)
         # Return default neutral values
         return {
             "skin_LAB": [60.0, 2.0, 8.0],
@@ -52,14 +53,16 @@ def main():
     
     for image_path in sys.argv[1:]:
         if not os.path.exists(image_path):
-            print(f"Warning: Image not found: {image_path}")
+            # Send warnings to stderr to avoid JSON contamination
+            print(f"Warning: Image not found: {image_path}", file=sys.stderr)
             continue
             
-        print(f"Processing: {image_path}")
+        # Send processing messages to stderr to keep stdout clean for JSON
+        print(f"Processing: {image_path}", file=sys.stderr)
         result = extract_lab_from_image(image_path, debug=False)
         results.append(result)
     
-    # Output results as JSON
+    # Output ONLY clean JSON to stdout
     print(json.dumps(results, indent=2))
 
 if __name__ == "__main__":

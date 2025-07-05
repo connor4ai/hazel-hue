@@ -130,27 +130,15 @@ async function processColorAnalysisWorker(jobId: number) {
     
     let analysisResult;
     
-    try {
-      // Try compliant analysis that extracts LAB data locally
-      const compliantService = new CompliantLabAnalysisService();
-      const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
-      console.log(`AI detected season: ${detectedSeason}`);
-      
-      // Get full analysis result for the detected season
-      analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
-      
-      console.log(`✅ Compliant GPT-o3 LAB analysis completed`);
-      
-    } catch (compliantError: any) {
-      console.error(`❌ COMPLIANT ANALYSIS FAILED for job ${jobId}:`);
-      console.error(`Error message: ${compliantError.message}`);
-      console.error(`Error stack: ${compliantError.stack}`);
-      console.error(`Error type: ${compliantError.constructor.name}`);
-      console.log(`🔄 Falling back to standard visual analysis...`);
-      
-      // Fallback to existing visual analysis
-      analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
-    }
+    // Use only GPT-o3 LAB analysis - no fallbacks
+    const compliantService = new CompliantLabAnalysisService();
+    const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
+    console.log(`AI detected season: ${detectedSeason}`);
+    
+    // Get full analysis result for the detected season
+    analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
+    
+    console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
     console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'

@@ -65,7 +65,7 @@ export class CompliantLabAnalysisService {
     try {
       // First try the full OpenCV/MediaPipe extractor
       const pythonPath = path.join(process.cwd(), 'python', 'lab_extractor.py');
-      const command = `python3 ${pythonPath} ${imagePaths.join(' ')}`;
+      const command = `python3 ${pythonPath} ${imagePaths.join(' ')} 2>/dev/null`;
       
       console.log(`🐍 Running Python command: ${command}`);
       
@@ -315,55 +315,8 @@ Return exactly this JSON format:
       }
 
     } catch (o3Error) {
-      console.log(`⚠️ GPT-o3 failed: ${o3Error.message}`);
-      console.log('🔄 Falling back to GPT-4o...');
-    }
-
-    // Fallback to GPT-4o
-    try {
-      const response = await this.openai.chat.completions.create({
-        model: "gpt-4o",
-        temperature: 0,
-        top_p: 0,
-        seed: 42,
-        messages: [
-          {
-            role: "system",
-            content: "You are a certified color analyst specializing in the 12-season system. Analyze the provided LAB color data to determine the correct seasonal color type."
-          },
-          {
-            role: "user",
-            content: `Using the 12-season color analysis system, classify this person based on their LAB color data.
-
-IMPORTANT: You must choose EXACTLY one of these 12 seasons:
-- True Winter
-- Bright Winter 
-- Dark Winter
-- True Summer
-- Light Summer
-- Soft Summer
-- True Spring
-- Bright Spring
-- Light Spring
-- True Autumn
-- Dark Autumn
-- Soft Autumn
-
-LAB Color Data:
-${JSON.stringify(avgLabData, null, 2)}
-
-Return only the exact season name from the list above.`
-          }
-        ]
-      });
-
-      const season = response.choices[0].message.content.trim();
-      console.log(`🎯 GPT-4o fallback result: ${season}`);
-      return season;
-
-    } catch (fallbackError) {
-      console.error('❌ Both GPT-o3 and GPT-4o failed:', fallbackError);
-      throw new Error('Color analysis failed');
+      console.error(`❌ GPT-o3 analysis failed: ${o3Error.message}`);
+      throw new Error(`GPT-o3 analysis failed: ${o3Error.message}`);
     }
   }
 

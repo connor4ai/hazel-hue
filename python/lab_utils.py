@@ -7,6 +7,7 @@ Based on ChatGPT recommendations for more precise color extraction
 import cv2
 import numpy as np
 import mediapipe as mp
+import sys
 from skimage import color
 
 # Tighter landmark sets (MediaPipe FaceMesh indices)
@@ -102,7 +103,7 @@ def extract_lab(img_path: str, debug: bool = False) -> dict:
         overlay[iris_m] = [0, 0, 255]    # blue
         debug_path = img_path.replace('.', '_debug_masks.')
         cv2.imwrite(debug_path, cv2.cvtColor(overlay, cv2.COLOR_RGB2BGR))
-        print(f"Debug masks saved to: {debug_path}")
+        print(f"Debug masks saved to: {debug_path}", file=sys.stderr)
     
     return out
 
