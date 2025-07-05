@@ -142,7 +142,10 @@ async function processColorAnalysisWorker(jobId: number) {
       console.log(`✅ Compliant GPT-o3 LAB analysis completed`);
       
     } catch (compliantError: any) {
-      console.log(`⚠️ Compliant analysis failed: ${compliantError.message}`);
+      console.error(`❌ COMPLIANT ANALYSIS FAILED for job ${jobId}:`);
+      console.error(`Error message: ${compliantError.message}`);
+      console.error(`Error stack: ${compliantError.stack}`);
+      console.error(`Error type: ${compliantError.constructor.name}`);
       console.log(`🔄 Falling back to standard visual analysis...`);
       
       // Fallback to existing visual analysis
