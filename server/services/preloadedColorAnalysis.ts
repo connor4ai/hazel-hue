@@ -109,6 +109,12 @@ export class PreloadedColorAnalysisService {
       const base64Image = imageBuffer.toString('base64');
       const mimeType = this.getMimeType(imagePath);
       
+      console.log(`📷 Processing image: ${imagePath}`);
+      console.log(`   - File size: ${imageBuffer.length} bytes`);
+      console.log(`   - MIME type: ${mimeType}`);
+      console.log(`   - Base64 length: ${base64Image.length} characters`);
+      console.log(`   - Base64 starts with: ${base64Image.substring(0, 50)}...`);
+      
       return {
         type: "image_url" as const,
         image_url: {

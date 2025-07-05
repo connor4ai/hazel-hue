@@ -38,11 +38,29 @@ function createDemoImageBase64(personType: string): string {
 
 // Configure multer for file uploads
 const upload = multer({
-  dest: 'uploads/',
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      const dir = 'uploads/images';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      cb(null, dir);
+    },
+    filename: function (req, file, cb) {
+      // Generate filename with job ID and timestamp
+      const orderId = req.params.jobId || 'unknown';
+      const timestamp = Date.now();
+      const ext = path.extname(file.originalname);
+      const index = (req as any).fileIndex || 1;
+      cb(null, `${orderId}-${timestamp}-${index}${ext}`);
+    }
+  }),
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
+    console.log(`🔍 File filter check: ${file.originalname}, MIME: ${file.mimetype}`);
+    
     // Allow JPEG, PNG, HEIC, and HEIF files
     const allowedMimeTypes = [
       'image/jpeg',
@@ -59,8 +77,10 @@ const upload = multer({
     );
     
     if (allowedMimeTypes.includes(file.mimetype) || hasValidExtension) {
+      console.log(`✅ File accepted: ${file.originalname}`);
       cb(null, true);
     } else {
+      console.log(`❌ File rejected: ${file.originalname} (MIME: ${file.mimetype})`);
       cb(new Error('Only JPEG, PNG, and HEIC files are allowed'));
     }
   },
@@ -945,6 +965,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (order.status !== 'queued') {
         return res.status(400).json({ message: "Job not ready for photos" });
       }
+
+      // Log file details for debugging
+      files.forEach((file, index) => {
+        console.log(`📁 Uploaded file ${index + 1}:`);
+        console.log(`   - Original name: ${file.originalname}`);
+        console.log(`   - MIME type: ${file.mimetype}`);
+        console.log(`   - Size: ${file.size} bytes`);
+        console.log(`   - Saved path: ${file.path}`);
+        console.log(`   - Filename: ${file.filename}`);
+      });
 
       // Save photo paths and update status
       await storage.updateOrderImages(jobId, files.map(f => f.path));
