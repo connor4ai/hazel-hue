@@ -1,0 +1,111 @@
+[2025-07-05T18:48:59.262Z] ORDER-465 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/465-1751740818043-1.jpg",
+    "uploads/images/465-1751740818044-2.jpg",
+    "uploads/images/465-1751740818044-3.jpg"
+  ]
+}
+
+[2025-07-05T18:48:59.263Z] ORDER-465 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/465-1751740818043-1.jpg",
+    "uploads/images/465-1751740818044-2.jpg",
+    "uploads/images/465-1751740818044-3.jpg"
+  ]
+}
+
+[2025-07-05T18:48:59.263Z] ORDER-465 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/465-1751740818043-1.jpg uploads/images/465-1751740818044-2.jpg uploads/images/465-1751740818044-3.jpg",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T18:49:00.362Z] ORDER-465 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      62.49487253599138,\n      13.027807108246526,\n      17.33827404578172\n    ],\n    \"hair_LAB\": [\n      85.10389247475482,\n      2.699942790555465,\n      3.2669896379392105\n    ],\n    \"eye_LAB\": [\n      33.140381246299555,\n      6.512942152620105,\n      12.799990417410246\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\"\n  },\n  {\n    \"skin_LAB\": [\n      69.32489993368162,\n      11.270355712126424,\n      16.58158508844405\n    ],\n    \"hair_LAB\": [\n      48.382727854098505,\n      7.345782487348018,\n      11.646673849960864\n    ],\n    \"eye_LAB\": [\n      42.76414538580248,\n      5.976396786747495,\n      7.945840966144136\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\"\n  },\n  {\n    \"skin_LAB\": [\n      61.886253055961475,\n      12.22511189597153,\n      18.166885500913388\n    ],\n    \"hair_LAB\": [\n      30.93001131882164,\n      -1.874144639461811,\n      -8.155080240798885\n    ],\n    \"eye_LAB\": [\n      24.880762469387378,\n      4.8906386081949975,\n      8.238602190401856\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\"\n  }\n]\n"
+}
+
+[2025-07-05T18:49:00.365Z] ORDER-465 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      64.5686751752115,
+      12.174424905448161,
+      17.362248211713055
+    ],
+    "hair_LAB": [
+      54.80554388255832,
+      2.7238602128138907,
+      2.252861082367063
+    ],
+    "eye_LAB": [
+      33.59509636716314,
+      5.793325849187532,
+      9.661477857985412
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "vibrant"
+  }
+}
+
+[2025-07-05T18:49:00.365Z] ORDER-465 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      64.5686751752115,
+      12.174424905448161,
+      17.362248211713055
+    ],
+    "hair_LAB": [
+      54.80554388255832,
+      2.7238602128138907,
+      2.252861082367063
+    ],
+    "eye_LAB": [
+      33.59509636716314,
+      5.793325849187532,
+      9.661477857985412
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "vibrant"
+  }
+}
+
+[2025-07-05T18:49:14.445Z] ORDER-465 | GPT_O3_RESPONSE | {
+  "model": "o3",
+  "usage": {
+    "prompt_tokens": 367,
+    "completion_tokens": 1320,
+    "total_tokens": 1687,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 960,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "rawResponse": "{\n  \"season\": \"True Spring\",\n  \"confidence\": 75,\n  \"reasoning\": \"1. Undertone: All a* values are positive (skin a*=12.17, hair a*=2.72, eye a*=5.79), and the b* values are also clearly positive. This confirms a warm undertone.\\n2. Chroma: Skin chroma √(12.17²+17.36²) ≈ 21.2 and eye chroma ≈ 11.3 are well above the muted range, supporting the descriptor “vibrant.” Typical Autumn readings are noticeably lower (≈10-15), so the overall colour energy is more Spring-like.\\n3. Lightness & contrast: Skin L*=64.6 (light-medium), hair L*=54.8 (medium), eye L*=33.6 (medium-dark). The step differences (≈10 between skin and hair, ≈30 between skin and eyes) create a definite but not extreme contrast—squarely “medium.” That rules out Bright Spring (high contrast) and Light Spring (low contrast, lighter hair).\\n4. Season fit:\\n   • Spring family matches the warm undertone and higher chroma.\\n   • Within Spring, True (Warm) Spring best matches medium contrast and medium depth. Light Spring would require lighter hair/eyes; Bright Spring would need higher contrast and a touch of coolness from Winter.\\n5. Eliminated alternatives: Autumn seasons are too muted; Summer/Winter are cool.\\n\\nTaken together, the data align most closely with True Spring in the 12-season system.\"\n}"
+}
+
+[2025-07-05T18:49:14.446Z] ORDER-465 | GPT_O3_SUCCESS | {
+  "season": "True Spring",
+  "confidence": 75,
+  "reasoning": "1. Undertone: All a* values are positive (skin a*=12.17, hair a*=2.72, eye a*=5.79), and the b* values are also clearly positive. This confirms a warm undertone.\n2. Chroma: Skin chroma √(12.17²+17.36²) ≈ 21.2 and eye chroma ≈ 11.3 are well above the muted range, supporting the descriptor “vibrant.” Typical Autumn readings are noticeably lower (≈10-15), so the overall colour energy is more Spring-like.\n3. Lightness & contrast: Skin L*=64.6 (light-medium), hair L*=54.8 (medium), eye L*=33.6 (medium-dark). The step differences (≈10 between skin and hair, ≈30 between skin and eyes) create a definite but not extreme contrast—squarely “medium.” That rules out Bright Spring (high contrast) and Light Spring (low contrast, lighter hair).\n4. Season fit:\n   • Spring family matches the warm undertone and higher chroma.\n   • Within Spring, True (Warm) Spring best matches medium contrast and medium depth. Light Spring would require lighter hair/eyes; Bright Spring would need higher contrast and a touch of coolness from Winter.\n5. Eliminated alternatives: Autumn seasons are too muted; Summer/Winter are cool.\n\nTaken together, the data align most closely with True Spring in the 12-season system."
+}
+
+[2025-07-05T18:49:14.446Z] ORDER-465 | COMPLIANT_ANALYSIS_COMPLETE | {
+  "finalSeason": "True Spring",
+  "success": true
+}
+
