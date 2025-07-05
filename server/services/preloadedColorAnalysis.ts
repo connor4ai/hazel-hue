@@ -111,6 +111,9 @@ export class PreloadedColorAnalysisService {
         
         const o3Promise = this.openai.chat.completions.create({
           model: "o3",
+          temperature: 0,
+          top_p: 0,
+          seed: 42,
           messages: [
             {
               role: "user",
@@ -153,7 +156,7 @@ export class PreloadedColorAnalysisService {
           max_tokens: 2000,
           temperature: 0,
           top_p: 0,
-          seed: 12345,
+          seed: 42,
           response_format: { type: "json_object" }
         });
       }

@@ -158,6 +158,9 @@ export class CompliantLabAnalysisService {
       
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
+        temperature: 0,
+        top_p: 0,
+        seed: 42,
         max_completion_tokens: 32768,
         messages: [
           {
@@ -232,7 +235,7 @@ Return exactly this JSON:
         model: "gpt-4o",
         temperature: 0,
         top_p: 0,
-        seed: 12345,
+        seed: 42,
         messages: [
           {
             role: "system",

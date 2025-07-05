@@ -43,7 +43,7 @@ export class LabColorAnalysisService {
           model: "gpt-4o",
           temperature: 0,
           top_p: 0,
-          seed: 12345,
+          seed: 42,
           messages: [
             {
               role: "system",
@@ -131,6 +131,9 @@ LAB values should be:
       // Set a 60-second timeout for GPT-o3
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
+        temperature: 0,
+        top_p: 0,
+        seed: 42,
         max_completion_tokens: 32768,
         messages: [
         {
@@ -181,7 +184,7 @@ Valid seasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summe
         model: "gpt-4o",
         temperature: 0,
         top_p: 0,
-        seed: 12345,
+        seed: 42,
         messages: [
         {
           role: "system",
