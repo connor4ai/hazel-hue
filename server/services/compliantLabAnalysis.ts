@@ -55,35 +55,8 @@ export class CompliantLabAnalysisService {
       return labDataArray;
       
     } catch (error: any) {
-      console.log(`⚠️ OpenCV extractor failed: ${error.message}, trying mock extractor...`);
-      
-      try {
-        // Fallback to mock LAB extractor for environments without graphics libraries
-        const mockPath = path.join(process.cwd(), 'python', 'mock_lab_extractor.py');
-        const mockCommand = `python3 ${mockPath} ${imagePaths.join(' ')}`;
-        
-        console.log(`🎭 Running mock Python command: ${mockCommand}`);
-        
-        const mockResult = execSync(mockCommand, { 
-          encoding: 'utf8',
-          timeout: 10000 // 10 second timeout for mock
-        });
-        
-        console.log(`📊 Mock LAB extraction result:`, mockResult);
-        
-        const mockLabDataArray = JSON.parse(mockResult);
-        
-        if (!Array.isArray(mockLabDataArray) || mockLabDataArray.length === 0) {
-          throw new Error('No mock LAB data generated');
-        }
-        
-        console.log(`✅ Successfully generated mock LAB data from ${mockLabDataArray.length} images`);
-        return mockLabDataArray;
-        
-      } catch (mockError: any) {
-        console.error('❌ Both real and mock LAB extraction failed:', mockError);
-        throw new Error(`LAB extraction failed: ${error.message}`);
-      }
+      console.error('❌ Real LAB extraction failed:', error.message);
+      throw new Error(`LAB extraction failed: ${error.message}`);
     }
   }
 
