@@ -47,7 +47,7 @@ export class LabColorAnalysisService {
           messages: [
             {
               role: "system",
-              content: "You are a professional colorimetrist. Analyze this portrait photo and extract precise LAB color values for skin, hair, and eyes. Also assess overall contrast, undertone, and chroma intensity. Return only valid JSON."
+              content: "You are a professional colorimetrist with access to spectrophotometer data. Extract precise CIE L*a*b* color values for skin, hair, and eyes from this portrait photo. Provide numerical LAB coordinates only. Return only valid JSON with exact numbers."
             },
             {
               role: "user",
