@@ -123,12 +123,53 @@ LAB values should be:
     
     console.log(`📊 Average LAB data:`, JSON.stringify(avgLabData, null, 2));
     
-    const response = await this.openai.chat.completions.create({
-      model: "gpt-4o",
-      temperature: 0,
-      top_p: 0,
-      seed: 12345,
-      messages: [
+    // Try GPT-o3 first, fall back to GPT-4o if needed
+    let response;
+    try {
+      console.log('🧠 Attempting analysis with GPT-o3...');
+      response = await this.openai.chat.completions.create({
+        model: "o3-mini",
+        messages: [
+        {
+          role: "system",
+          content: "You are a certified color analyst specializing in the 12-season system. Use your reasoning capabilities to analyze the provided LAB color data to determine the correct seasonal color type."
+        },
+        {
+          role: "user", 
+          content: `Using the 12-season color analysis system, classify this person based on their LAB color data:
+
+${JSON.stringify(avgLabData, null, 2)}
+
+Consider:
+- Skin LAB values for undertone assessment (a* values: negative=green/cool, positive=red/warm)
+- Hair LAB values for natural coloring (L* for lightness, a* and b* for undertone)
+- Eye LAB values for contrast analysis (how they contrast with skin and hair)
+- Overall contrast level (high/medium/low)
+- Undertone (warm/cool/neutral)
+- Chroma intensity (muted/moderate/vibrant)
+
+Use your reasoning to carefully analyze these numerical values and classify the season.
+
+Return exactly this JSON:
+{
+  "season": "<Exact season name>",
+  "confidence": <0-100 integer>,
+  "reasoning": "<Detailed explanation based on LAB values analysis>"
+}
+
+Valid seasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn`
+        }
+      ]
+      });
+      console.log('✅ GPT-o3 analysis successful');
+    } catch (o3Error) {
+      console.log('⚠️ GPT-o3 unavailable, falling back to GPT-4o:', o3Error.message);
+      response = await this.openai.chat.completions.create({
+        model: "gpt-4o",
+        temperature: 0,
+        top_p: 0,
+        seed: 12345,
+        messages: [
         {
           role: "system",
           content: "You are a certified color analyst specializing in the 12-season system. Analyze the provided LAB color data to determine the correct seasonal color type."
@@ -140,9 +181,9 @@ LAB values should be:
 ${JSON.stringify(avgLabData, null, 2)}
 
 Consider:
-- Skin LAB values for undertone assessment
-- Hair LAB values for natural coloring
-- Eye LAB values for contrast analysis
+- Skin LAB values for undertone assessment (a* values: negative=green/cool, positive=red/warm)
+- Hair LAB values for natural coloring (L* for lightness, a* and b* for undertone)
+- Eye LAB values for contrast analysis (how they contrast with skin and hair)
 - Overall contrast level (high/medium/low)
 - Undertone (warm/cool/neutral)
 - Chroma intensity (muted/moderate/vibrant)
@@ -151,13 +192,14 @@ Return exactly this JSON:
 {
   "season": "<Exact season name>",
   "confidence": <0-100 integer>,
-  "reasoning": "<Brief explanation based on LAB values>"
+  "reasoning": "<Detailed explanation based on LAB values analysis>"
 }
 
 Valid seasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn`
         }
       ]
-    });
+      });
+    }
 
     const content = response.choices[0]?.message?.content;
     if (!content) {
