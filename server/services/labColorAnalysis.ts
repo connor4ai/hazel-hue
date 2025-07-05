@@ -123,12 +123,14 @@ LAB values should be:
     
     console.log(`📊 Average LAB data:`, JSON.stringify(avgLabData, null, 2));
     
-    // Try GPT-o3 first, fall back to GPT-4o if needed
+    // Try GPT-o3 first, fall back to GPT-4o after 1 minute
     let response;
     try {
-      console.log('🧠 Attempting analysis with GPT-o3...');
-      response = await this.openai.chat.completions.create({
-        model: "o3-mini",
+      console.log('🧠 Attempting analysis with GPT-o3 (full reasoning model)...');
+      
+      // Set a 60-second timeout for GPT-o3
+      const o3Promise = this.openai.chat.completions.create({
+        model: "o3",
         messages: [
         {
           role: "system",
@@ -161,9 +163,19 @@ Valid seasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summe
         }
       ]
       });
-      console.log('✅ GPT-o3 analysis successful');
-    } catch (o3Error) {
-      console.log('⚠️ GPT-o3 unavailable, falling back to GPT-4o:', o3Error.message);
+
+      // Create timeout promise
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('GPT-o3 timeout after 60 seconds')), 60000);
+      });
+
+      // Race between GPT-o3 response and timeout
+      response = await Promise.race([o3Promise, timeoutPromise]);
+      console.log('✅ GPT-o3 analysis completed successfully');
+      
+    } catch (o3Error: any) {
+      const errorMessage = o3Error?.message || 'Unknown error';
+      console.log('⚠️ GPT-o3 failed, falling back to GPT-4o:', errorMessage);
       response = await this.openai.chat.completions.create({
         model: "gpt-4o",
         temperature: 0,
