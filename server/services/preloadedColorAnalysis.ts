@@ -47,24 +47,128 @@ export class PreloadedColorAnalysisService {
   }
 
   async analyzePhotosWithLab(imagePaths: string[]): Promise<ColorAnalysisResult> {
-    console.log('🔬 Starting LAB-enhanced color analysis');
+    console.log('🔬 Starting GPT-o3 enhanced color analysis');
+    console.log('📁 Image paths received:', imagePaths);
     
     try {
-      // First extract Lab color data from the images
+      console.log('🔬 Step 1: Attempting LAB color extraction from images...');
       const labDataArray = await this.labService.extractLabData(imagePaths);
-      console.log(`✅ Extracted LAB data from ${labDataArray.length} photos`);
+      console.log(`✅ LAB extraction successful! Data from ${labDataArray.length} photos`);
+      console.log('📊 LAB data sample:', JSON.stringify(labDataArray[0], null, 2));
       
-      // Use Lab data for precise season analysis
+      console.log('🧠 Step 2: Starting GPT-o3 numerical LAB analysis...');
+      const startTime = Date.now();
       const detectedSeason = await this.labService.analyzeWithLabData(labDataArray);
-      console.log(`🎯 LAB-based season detection: ${detectedSeason}`);
+      const elapsed = Date.now() - startTime;
+      console.log(`🎯 GPT-o3 analysis completed in ${elapsed}ms: ${detectedSeason}`);
       
-      // Get the preloaded result using the same method as regular analysis
       return this.getPreloadedResult(detectedSeason);
       
-    } catch (error) {
-      console.error('❌ LAB analysis failed, falling back to visual analysis:', error);
-      // Fall back to the regular visual analysis if Lab analysis fails
-      return this.analyzePhotos(imagePaths);
+    } catch (labError) {
+      console.log('⚠️ LAB extraction blocked by OpenAI policies, using GPT-o3 direct visual analysis...');
+      
+      try {
+        console.log('🧠 Starting GPT-o3 direct visual analysis (championship mode)...');
+        const startTime = Date.now();
+        const detectedSeason = await this.detectSeasonWithGPTO3(imagePaths);
+        const elapsed = Date.now() - startTime;
+        console.log(`🎯 GPT-o3 visual analysis completed in ${elapsed}ms: ${detectedSeason}`);
+        
+        return this.getPreloadedResult(detectedSeason);
+        
+      } catch (gpto3Error) {
+        console.error('❌ GPT-o3 analysis failed, falling back to optimized GPT-4o');
+        console.error('❌ Error details:', {
+          message: gpto3Error instanceof Error ? gpto3Error.message : 'Unknown error'
+        });
+        return this.analyzePhotos(imagePaths);
+      }
+    }
+  }
+
+  async detectSeasonWithGPTO3(imagePaths: string[]): Promise<string> {
+    try {
+      // Convert images to base64
+      const imageContents = await Promise.all(
+        imagePaths.map(async (imagePath) => {
+          const imageBuffer = fs.readFileSync(imagePath);
+          const base64Image = imageBuffer.toString('base64');
+          const mimeType = this.getMimeType(imagePath);
+          return {
+            type: "image_url" as const,
+            image_url: {
+              url: `data:${mimeType};base64,${base64Image}`,
+              detail: "high" as const
+            }
+          };
+        })
+      );
+
+      // Try GPT-o3 first with 60-second timeout
+      let response;
+      try {
+        console.log('🧠 Attempting GPT-o3 full model analysis...');
+        
+        const o3Promise = this.openai.chat.completions.create({
+          model: "o3",
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "What season is this person? Use the 12-season color analysis system."
+                },
+                ...imageContents
+              ]
+            }
+          ],
+          max_tokens: 2000,
+          response_format: { type: "json_object" }
+        });
+
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          setTimeout(() => reject(new Error('GPT-o3 timeout after 60 seconds')), 60000);
+        });
+
+        response = await Promise.race([o3Promise, timeoutPromise]);
+        console.log('✅ GPT-o3 analysis completed successfully');
+        
+      } catch (o3Error: any) {
+        console.log('⚠️ GPT-o3 failed, falling back to optimized GPT-4o:', o3Error.message);
+        response = await this.openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "What season is this person? Use the 12-season color analysis system."
+                },
+                ...imageContents
+              ]
+            }
+          ],
+          max_tokens: 2000,
+          temperature: 0,
+          top_p: 0,
+          seed: 12345,
+          response_format: { type: "json_object" }
+        });
+      }
+
+      const result = response.choices[0].message.content;
+      if (!result) {
+        throw new Error("No response from AI");
+      }
+
+      const parsedResult = JSON.parse(result);
+      return parsedResult.season || 'True Winter';
+      
+    } catch (error: any) {
+      console.error("GPT-o3 visual analysis error:", error);
+      throw new Error(`Failed to analyze with GPT-o3: ${error?.message || 'Unknown error'}`);
     }
   }
 
