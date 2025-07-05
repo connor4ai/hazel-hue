@@ -1543,8 +1543,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Update payment status to paid but keep status as processing for analysis
       await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
       
+      console.log(`🔍 DEBUG - Order ${orderId} status check:`, {
+        hasAnalysisResult: !!order.analysisResult,
+        currentStatus: order.status,
+        paymentStatus: order.paymentStatus,
+        hasImages: !!order.images,
+        imageCount: Array.isArray(order.images) ? order.images.length : 0
+      });
+
       // Check if analysis has already been completed
       if (order.analysisResult && order.status === 'analyzed') {
+        console.log(`✅ Order ${orderId} already has analysis results, sending email`);
         // Analysis already done, mark as completed and send email
         await storage.updateOrderStatus(parseInt(orderId), 'completed');
         
@@ -1559,7 +1568,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       } else {
         // Analysis not done yet, start the GPT-o3 analysis process
-        console.log(`🧠 Starting GPT-o3 analysis for free order ${orderId}`);
+        console.log(`🧠 NO ANALYSIS FOUND - Starting GPT-o3 analysis for free order ${orderId}`);
+        console.log(`📁 Order images:`, order.images);
         await storage.updateOrderStatus(parseInt(orderId), 'processing');
         
         // Trigger the analysis worker (this will use GPT-o3)
