@@ -723,8 +723,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateOrderImages(order.id, imagePaths);
       await storage.updateOrderStatus(order.id, 'processing');
 
-      // Start analysis process (asynchronous)
-      processColorAnalysis(order.id).catch(console.error);
+      // Start GPT-o3 analysis process (asynchronous)
+      setImmediate(() => processColorAnalysisWorker(order.id));
 
       res.json({ success: true, message: "Images uploaded successfully" });
     } catch (error: any) {
@@ -1632,43 +1632,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
 }
 
 // Color analysis processing function
-async function processColorAnalysis(orderId: number) {
-  try {
-    // Simulate AI processing time
-    await new Promise(resolve => setTimeout(resolve, 5000));
 
-    const order = await storage.getOrder(orderId);
-    if (!order) return;
-
-    // Generate mock analysis result (in production, this would be actual AI analysis)
-    const analysisResult = {
-      season: "Warm Autumn",
-      description: "You have warm undertones with rich, earthy colors that complement your natural coloring beautifully.",
-      coreNeutrals: ["#8B4513", "#A0522D", "#CD853F", "#DEB887"],
-      accentLights: ["#F4A460", "#DAA520", "#B8860B", "#FFD700"],
-      accentBrights: ["#FF8C00", "#FF7F50", "#DC143C", "#B22222"],
-      recommendations: {
-        metals: "Gold, brass, and copper",
-        eyewear: "Warm brown, tortoiseshell, or gold frames",
-        makeup: "Warm coral blush, golden eyeshadows, warm red lipstick"
-      }
-    };
-
-    // Generate PDF report
-    const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
-    
-    // Update order with analysis results
-    await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
-
-    // Send email with report
-    const user = await storage.getUser(order.userId);
-    if (user) {
-      await emailService.sendAnalysisReport(user.email, analysisResult, pdfPath);
-      await storage.updateOrderEmailSent(orderId);
-    }
-
-  } catch (error) {
-    console.error('Error processing color analysis:', error);
-    await storage.updateOrderStatus(orderId, 'failed');
-  }
-}
