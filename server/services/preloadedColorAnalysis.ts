@@ -123,42 +123,10 @@ export class PreloadedColorAnalysisService {
       };
     });
 
-    const seasonDetectionPrompt = `
-    Role: Certified personal-color analyst using the 12-season system with CIE L*a*b* colorimetric precision.
-    Task: Examine the three attached face-and-hair photos, perform objective color measurements, and determine the single best-fit season.
-    
-    COLORIMETRIC ANALYSIS PROTOCOL:
-    1. White-balance each photo using eye whites/teeth as neutral reference points
-    2. Extract average color values from consistent facial regions:
-       - SKIN: Sample from cheek, forehead, and jawline areas (avoid shadows/highlights)
-       - HAIR: Sample from multiple hair sections (ignore lighting variations)  
-       - EYES: Sample from iris color (not sclera or pupil)
-    
-    3. Assess these objective measurements:
-       - UNDERTONE: Cool (blue/pink shift) vs Warm (yellow/golden shift) in skin
-       - VALUE: Light vs Deep overall coloring intensity
-       - CHROMA: Bright/Clear vs Soft/Muted saturation levels
-       - CONTRAST: High (dramatic differences) vs Low (harmonious blending)
-    
-    4. Apply 12-season classification matrix:
-       COOL UNDERTONE + HIGH CONTRAST + BRIGHT = True Winter or Bright Winter
-       COOL UNDERTONE + HIGH CONTRAST + DEEP = Dark Winter  
-       COOL UNDERTONE + MEDIUM CONTRAST = True Summer
-       COOL UNDERTONE + LOW CONTRAST + LIGHT = Light Summer
-       COOL UNDERTONE + LOW CONTRAST + MUTED = Soft Summer
-       
-       WARM UNDERTONE + HIGH CONTRAST + BRIGHT = Bright Spring
-       WARM UNDERTONE + HIGH CONTRAST + DEEP = Dark Autumn
-       WARM UNDERTONE + MEDIUM CONTRAST + BRIGHT = True Spring  
-       WARM UNDERTONE + MEDIUM CONTRAST + RICH = True Autumn
-       WARM UNDERTONE + LOW CONTRAST + LIGHT = Light Spring
-       WARM UNDERTONE + LOW CONTRAST + MUTED = Soft Autumn
-    
-    5. If measurements conflict, weight majority indicators and select the closest mathematical match.
-    
-    Respond with exactly one season:
-    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
-    `;
+    const seasonDetectionPrompt = `What season is this person? Use the 12-season color analysis system.
+
+    Respond with exactly one of these seasons:
+    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn`;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
     
