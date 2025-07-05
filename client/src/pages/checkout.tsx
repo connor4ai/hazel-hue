@@ -232,8 +232,8 @@ export default function Checkout() {
           description: "Your color analysis is starting now...",
         });
 
-        // Navigate to processing page
-        setLocation(`/processing/${data.orderId}`);
+        // Navigate to analysis processing page
+        setLocation(`/analysis-processing?orderId=${data.orderId}`);
       } else {
         throw new Error('Failed to create order');
       }

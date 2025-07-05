@@ -329,8 +329,8 @@ export default function CheckoutEnhanced() {
         // Store the payment intent ID for the results page
         sessionStorage.setItem('paymentIntentId', paymentIntentId);
         
-        // Navigate to processing/loading page
-        setLocation(`/processing/${paymentIntentId}`);
+        // Navigate to analysis processing page
+        setLocation(`/analysis-processing?orderId=${paymentIntentId}`);
       } else {
         throw new Error('Failed to start analysis');
       }
@@ -425,8 +425,8 @@ export default function CheckoutEnhanced() {
       // Store payment info for processing page
       sessionStorage.setItem('paymentIntentId', paymentIntentId);
       
-      // Navigate to processing page
-      setLocation(`/processing/${paymentIntentId}`);
+      // Navigate to analysis processing page
+      setLocation(`/analysis-processing?orderId=${paymentIntentId}`);
     } catch (error: any) {
       toast({
         title: "Error",
