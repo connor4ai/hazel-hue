@@ -1,0 +1,75 @@
+apply_patch <<'PATCH'
+*** Begin Patch
+*** Update File: lab_utils.py
+@@
+-_SKIN = [33,133,362,263,1,199,  97,326]            # cheeks + forehead
+-_HAIR = [10,338,297,332,284,251,9,8]               # hairline polygon
+-_IRIS = [468,469,470,471,472,473,474,475,476,477]  # both irises
++# Tighter landmark sets  (MediaPipe FaceMesh indices)
++# -- skin = inner cheeks (no blush) + centre forehead
++_SKIN = [  98, 205,  50, 187,   # left inner cheek
++          329, 424, 280, 411,   # right inner cheek
++            9,  107,  336       # centre-forehead triangle
++        ]
++# -- hair = polygon across hairline; we’ll sample *above* this
++_HAIRLINE = [10,338,297,332,284,251,  9,8]
++# -- irises
++_IRIS = list(range(468,478))
+ 
+ def _mask(lms, idxs, h, w):
+@@
+-def _mean_lab(region_rgb):
+-    lab = color.rgb2lab(region_rgb.reshape(-1,3) / 255.0)
+-    return [round(float(x), 2) for x in lab.mean(axis=0)]
++def _median_lab(region_rgb):
++    """Return median L*, a*, b* (robust against outliers)."""
++    lab = color.rgb2lab(region_rgb.reshape(-1,3) / 255.0)
++    return [round(float(x), 2) for x in np.median(lab, axis=0)]
+ 
+ def extract_lab(img_path:str, debug:bool=False) -> dict:
+@@
+-    return {
+-        "skin_LAB": _mean_lab(rgb[_mask(lms,_SKIN,h,w)]),
+-        "hair_LAB": _mean_lab(rgb[_mask(lms,_HAIR,h,w)]),
+-        "eye_LAB" : _mean_lab(rgb[_mask(lms,_IRIS,h,w)]),
+-    }
++    # ---------- build masks ----------
++    skin_m  = _mask(lms, _SKIN, h, w)
++    hairline_m = _mask(lms, _HAIRLINE, h, w)
++
++    # shift hairline mask upward by 25 px to grab true hair pixels
++    hair_m = np.zeros_like(hairline_m)
++    shift  = min(25, h//10)
++    hair_m[:h-shift, :] = np.roll(hairline_m, -shift, axis=0)[:h-shift, :]
++
++    iris_m = _mask(lms, _IRIS, h, w)
++
++    out = {
++        "skin_LAB": _median_lab(rgb[skin_m]),
++        "hair_LAB": _median_lab(rgb[hair_m]),
++        "eye_LAB" : _median_lab(rgb[iris_m]),
++    }
++
++    # optional debug overlay
++    if debug:
++        overlay = rgb.copy()
++        overlay[skin_m]  = [255,0,0]     # red
++        overlay[hair_m]  = [0,255,0]     # green
++        overlay[iris_m]  = [0,0,255]     # blue
++        cv2.imwrite("_debug_masks.png", cv2.cvtColor(overlay, cv2.COLOR_RGB2BGR))
++
++    return out
+*** End Patch
+PATCH
+
+echo "✅  lab_utils.py patched.  Use extract_lab(path, debug=True) to visual-check masks."
+#######################################################################
+How to use
+
+python
+Copy
+Edit
+from lab_utils import extract_lab
+labs = extract_lab("your_photo.jpg", debug=True)
+# opens _debug_masks.png so you can confirm the regions
+Now every run pulls pixels only from the true inner-skin, pure-hair, and iris zones and summarises with the median, giving you consistent LAB numbers that won’t flip between Soft Autumn and True Autumn just because of stray blush or background pixels.

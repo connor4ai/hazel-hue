@@ -1490,3 +1490,135 @@
   "success": true
 }
 
+[2025-07-05T19:36:59.987Z] ORDER-470 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/470-1751744219799-1.jpg",
+    "uploads/images/470-1751744219800-2.jpg",
+    "uploads/images/470-1751744219800-3.jpg"
+  ]
+}
+
+[2025-07-05T19:36:59.992Z] ORDER-470 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/470-1751744219799-1.jpg",
+    "uploads/images/470-1751744219800-2.jpg",
+    "uploads/images/470-1751744219800-3.jpg"
+  ]
+}
+
+[2025-07-05T19:36:59.993Z] ORDER-470 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/470-1751744219799-1.jpg uploads/images/470-1751744219800-2.jpg uploads/images/470-1751744219800-3.jpg",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T19:37:02.034Z] ORDER-470 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "Processing: uploads/images/470-1751744219799-1.jpg\nProcessing: uploads/images/470-1751744219800-2.jpg\nProcessing: uploads/images/470-1751744219800-3.jpg\n[\n  {\n    \"skin_LAB\": [\n      73.26,\n      13.33,\n      17.22\n    ],\n    \"hair_LAB\": [\n      40.51,\n      13.99,\n      26.41\n    ],\n    \"eye_LAB\": [\n      45.9,\n      9.25,\n      15.53\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.75000000000001,\n      \"skin_eye\": 27.360000000000007,\n      \"overall\": 32.75000000000001\n    },\n    \"chroma_values\": {\n      \"skin\": 21.77653094503346,\n      \"hair\": 29.886588965621353,\n      \"eye\": 18.076044921386977,\n      \"average\": 23.246388277347265\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.54,\n      13.45,\n      17.35\n    ],\n    \"hair_LAB\": [\n      40.53,\n      13.96,\n      26.49\n    ],\n    \"eye_LAB\": [\n      45.96,\n      8.98,\n      15.14\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.010000000000005,\n      \"skin_eye\": 26.580000000000005,\n      \"overall\": 32.010000000000005\n    },\n    \"chroma_values\": {\n      \"skin\": 21.952790255455,\n      \"hair\": 29.94330810047547,\n      \"eye\": 17.60284067984483,\n      \"average\": 23.166313011925098\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.64,\n      13.42,\n      17.33\n    ],\n    \"hair_LAB\": [\n      40.25,\n      13.95,\n      26.45\n    ],\n    \"eye_LAB\": [\n      44.64,\n      8.8,\n      14.93\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.39,\n      \"skin_eye\": 28.0,\n      \"overall\": 32.39\n    },\n    \"chroma_values\": {\n      \"skin\": 21.918606251310777,\n      \"hair\": 29.903260691770722,\n      \"eye\": 17.33046162108788,\n      \"average\": 23.05077618805646\n    }\n  }\n]\n"
+}
+
+[2025-07-05T19:37:02.049Z] ORDER-470 | COMPLIANT_ANALYSIS_ERROR | {
+  "error": "LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON",
+  "stack": "Error: LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON\n    at CompliantLabAnalysisService.extractLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:103:13)\n    at CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:386:39)\n    at processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:136:53)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
+[2025-07-05T19:37:16.129Z] ORDER-470 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/470-1751744219799-1.jpg",
+    "uploads/images/470-1751744219800-2.jpg",
+    "uploads/images/470-1751744219800-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:16.130Z] ORDER-470 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/470-1751744219799-1.jpg",
+    "uploads/images/470-1751744219800-2.jpg",
+    "uploads/images/470-1751744219800-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:16.130Z] ORDER-470 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/470-1751744219799-1.jpg uploads/images/470-1751744219800-2.jpg uploads/images/470-1751744219800-3.jpg",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T19:37:17.662Z] ORDER-470 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "Processing: uploads/images/470-1751744219799-1.jpg\nProcessing: uploads/images/470-1751744219800-2.jpg\nProcessing: uploads/images/470-1751744219800-3.jpg\n[\n  {\n    \"skin_LAB\": [\n      73.26,\n      13.33,\n      17.22\n    ],\n    \"hair_LAB\": [\n      40.51,\n      13.99,\n      26.41\n    ],\n    \"eye_LAB\": [\n      45.9,\n      9.25,\n      15.53\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.75000000000001,\n      \"skin_eye\": 27.360000000000007,\n      \"overall\": 32.75000000000001\n    },\n    \"chroma_values\": {\n      \"skin\": 21.77653094503346,\n      \"hair\": 29.886588965621353,\n      \"eye\": 18.076044921386977,\n      \"average\": 23.246388277347265\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.54,\n      13.45,\n      17.35\n    ],\n    \"hair_LAB\": [\n      40.53,\n      13.96,\n      26.49\n    ],\n    \"eye_LAB\": [\n      45.96,\n      8.98,\n      15.14\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.010000000000005,\n      \"skin_eye\": 26.580000000000005,\n      \"overall\": 32.010000000000005\n    },\n    \"chroma_values\": {\n      \"skin\": 21.952790255455,\n      \"hair\": 29.94330810047547,\n      \"eye\": 17.60284067984483,\n      \"average\": 23.166313011925098\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.64,\n      13.42,\n      17.33\n    ],\n    \"hair_LAB\": [\n      40.25,\n      13.95,\n      26.45\n    ],\n    \"eye_LAB\": [\n      44.64,\n      8.8,\n      14.93\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.39,\n      \"skin_eye\": 28.0,\n      \"overall\": 32.39\n    },\n    \"chroma_values\": {\n      \"skin\": 21.918606251310777,\n      \"hair\": 29.903260691770722,\n      \"eye\": 17.33046162108788,\n      \"average\": 23.05077618805646\n    }\n  }\n]\n"
+}
+
+[2025-07-05T19:37:17.664Z] ORDER-470 | COMPLIANT_ANALYSIS_ERROR | {
+  "error": "LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON",
+  "stack": "Error: LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON\n    at CompliantLabAnalysisService.extractLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:103:13)\n    at CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:386:39)\n    at processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:136:53)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
+[2025-07-05T19:37:31.001Z] ORDER-471 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/471-1751744250838-1.jpg",
+    "uploads/images/471-1751744250838-2.jpg",
+    "uploads/images/471-1751744250838-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:31.002Z] ORDER-471 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/471-1751744250838-1.jpg",
+    "uploads/images/471-1751744250838-2.jpg",
+    "uploads/images/471-1751744250838-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:31.002Z] ORDER-471 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/471-1751744250838-1.jpg uploads/images/471-1751744250838-2.jpg uploads/images/471-1751744250838-3.jpg",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T19:37:32.085Z] ORDER-471 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "Processing: uploads/images/471-1751744250838-1.jpg\nProcessing: uploads/images/471-1751744250838-2.jpg\nProcessing: uploads/images/471-1751744250838-3.jpg\n[\n  {\n    \"skin_LAB\": [\n      73.26,\n      13.33,\n      17.22\n    ],\n    \"hair_LAB\": [\n      40.51,\n      13.99,\n      26.41\n    ],\n    \"eye_LAB\": [\n      45.9,\n      9.25,\n      15.53\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.75000000000001,\n      \"skin_eye\": 27.360000000000007,\n      \"overall\": 32.75000000000001\n    },\n    \"chroma_values\": {\n      \"skin\": 21.77653094503346,\n      \"hair\": 29.886588965621353,\n      \"eye\": 18.076044921386977,\n      \"average\": 23.246388277347265\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.54,\n      13.45,\n      17.35\n    ],\n    \"hair_LAB\": [\n      40.53,\n      13.96,\n      26.49\n    ],\n    \"eye_LAB\": [\n      45.96,\n      8.98,\n      15.14\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.010000000000005,\n      \"skin_eye\": 26.580000000000005,\n      \"overall\": 32.010000000000005\n    },\n    \"chroma_values\": {\n      \"skin\": 21.952790255455,\n      \"hair\": 29.94330810047547,\n      \"eye\": 17.60284067984483,\n      \"average\": 23.166313011925098\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.64,\n      13.42,\n      17.33\n    ],\n    \"hair_LAB\": [\n      40.25,\n      13.95,\n      26.45\n    ],\n    \"eye_LAB\": [\n      44.64,\n      8.8,\n      14.93\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.39,\n      \"skin_eye\": 28.0,\n      \"overall\": 32.39\n    },\n    \"chroma_values\": {\n      \"skin\": 21.918606251310777,\n      \"hair\": 29.903260691770722,\n      \"eye\": 17.33046162108788,\n      \"average\": 23.05077618805646\n    }\n  }\n]\n"
+}
+
+[2025-07-05T19:37:32.086Z] ORDER-471 | COMPLIANT_ANALYSIS_ERROR | {
+  "error": "LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON",
+  "stack": "Error: LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON\n    at CompliantLabAnalysisService.extractLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:103:13)\n    at CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:386:39)\n    at processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:136:53)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
+[2025-07-05T19:37:49.534Z] ORDER-471 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/471-1751744250838-1.jpg",
+    "uploads/images/471-1751744250838-2.jpg",
+    "uploads/images/471-1751744250838-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:49.535Z] ORDER-471 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/471-1751744250838-1.jpg",
+    "uploads/images/471-1751744250838-2.jpg",
+    "uploads/images/471-1751744250838-3.jpg"
+  ]
+}
+
+[2025-07-05T19:37:49.535Z] ORDER-471 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/471-1751744250838-1.jpg uploads/images/471-1751744250838-2.jpg uploads/images/471-1751744250838-3.jpg",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T19:37:50.622Z] ORDER-471 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "Processing: uploads/images/471-1751744250838-1.jpg\nProcessing: uploads/images/471-1751744250838-2.jpg\nProcessing: uploads/images/471-1751744250838-3.jpg\n[\n  {\n    \"skin_LAB\": [\n      73.26,\n      13.33,\n      17.22\n    ],\n    \"hair_LAB\": [\n      40.51,\n      13.99,\n      26.41\n    ],\n    \"eye_LAB\": [\n      45.9,\n      9.25,\n      15.53\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.75000000000001,\n      \"skin_eye\": 27.360000000000007,\n      \"overall\": 32.75000000000001\n    },\n    \"chroma_values\": {\n      \"skin\": 21.77653094503346,\n      \"hair\": 29.886588965621353,\n      \"eye\": 18.076044921386977,\n      \"average\": 23.246388277347265\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.54,\n      13.45,\n      17.35\n    ],\n    \"hair_LAB\": [\n      40.53,\n      13.96,\n      26.49\n    ],\n    \"eye_LAB\": [\n      45.96,\n      8.98,\n      15.14\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.010000000000005,\n      \"skin_eye\": 26.580000000000005,\n      \"overall\": 32.010000000000005\n    },\n    \"chroma_values\": {\n      \"skin\": 21.952790255455,\n      \"hair\": 29.94330810047547,\n      \"eye\": 17.60284067984483,\n      \"average\": 23.166313011925098\n    }\n  },\n  {\n    \"skin_LAB\": [\n      72.64,\n      13.42,\n      17.33\n    ],\n    \"hair_LAB\": [\n      40.25,\n      13.95,\n      26.45\n    ],\n    \"eye_LAB\": [\n      44.64,\n      8.8,\n      14.93\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 32.39,\n      \"skin_eye\": 28.0,\n      \"overall\": 32.39\n    },\n    \"chroma_values\": {\n      \"skin\": 21.918606251310777,\n      \"hair\": 29.903260691770722,\n      \"eye\": 17.33046162108788,\n      \"average\": 23.05077618805646\n    }\n  }\n]\n"
+}
+
+[2025-07-05T19:37:50.622Z] ORDER-471 | COMPLIANT_ANALYSIS_ERROR | {
+  "error": "LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON",
+  "stack": "Error: LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON\n    at CompliantLabAnalysisService.extractLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:103:13)\n    at CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:386:39)\n    at processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:136:53)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
