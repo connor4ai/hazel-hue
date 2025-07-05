@@ -123,12 +123,12 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call OpenAI with the images
+    // Call GPT-o3 LAB analysis with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🤖 About to call analyzePhotos with paths:`, imagePaths);
+    console.log(`🧠 About to call analyzePhotosWithLab (GPT-o3) with paths:`, imagePaths);
     
-    const analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
-    console.log(`✅ OpenAI analysis completed for job ${jobId}. Result:`, {
+    const analysisResult = await preloadedColorAnalysisService.analyzePhotosWithLab(imagePaths);
+    console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
