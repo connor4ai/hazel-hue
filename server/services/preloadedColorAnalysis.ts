@@ -124,28 +124,24 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    Analyze these photos for seasonal color typing. 
+    You are a professional color analyst. Analyze the person in these photos to determine their seasonal color type using the 12-season system.
 
-    STEP 1 - UNDERTONES (CRITICAL):
-    Look at the person's skin and determine if they have:
-    - COOL undertones: Pink, blue, or rosy cast to the skin
-    - WARM undertones: Yellow, golden, or peachy cast to the skin
+    You must respond with EXACTLY ONE of these season names:
+    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
 
-    STEP 2 - IF COOL UNDERTONES, choose from these 6 seasons only:
-    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer
+    Analysis guidelines:
+    1. Examine skin undertones carefully - look for cool (pink/blue) vs warm (yellow/golden) undertones
+    2. Assess the natural contrast between hair, skin, and eye color
+    3. Evaluate whether the person's coloring is clear/bright or soft/muted
+    4. Consider the depth of coloring (light vs dark)
 
-    STEP 3 - IF WARM UNDERTONES, choose from these 6 seasons only:  
-    True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
+    Season categories:
+    - WINTER: Cool undertones with high contrast
+    - SUMMER: Cool undertones with soft/low contrast  
+    - SPRING: Warm undertones with bright/clear coloring
+    - AUTUMN: Warm undertones with rich/deep coloring
 
-    CRITICAL EXAMPLES:
-    - Emma Stone = True Summer (cool undertones, light, soft)
-    - Jane Levy = True Summer (cool undertones, light, soft)  
-    - Mila Jovovich = True Summer (cool undertones, light, soft)
-
-    Do NOT classify people with cool undertones as any Autumn or Spring season.
-    Do NOT classify people with warm undertones as any Winter or Summer season.
-
-    Respond with ONLY the season name.
+    Respond with only the season name.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
