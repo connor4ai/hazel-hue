@@ -133,7 +133,7 @@ async function processColorAnalysisWorker(jobId: number) {
     try {
       // Try compliant analysis that extracts LAB data locally
       const compliantService = new CompliantLabAnalysisService();
-      const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths);
+      const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
       console.log(`AI detected season: ${detectedSeason}`);
       
       // Get full analysis result for the detected season

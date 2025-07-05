@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import { execSync } from 'child_process';
 import path from 'path';
 import { logger } from '../utils/logger';
+import fs from 'fs';
 
 interface LabData {
   skin_LAB: [number, number, number];
@@ -25,11 +26,41 @@ export class CompliantLabAnalysisService {
   }
 
   /**
+   * Log detailed analysis information to persistent file
+   */
+  private logAnalysisDetails(orderId: string, step: string, data: any) {
+    const timestamp = new Date().toISOString();
+    const logEntry = {
+      timestamp,
+      orderId,
+      step,
+      data
+    };
+    
+    const logPath = path.join(process.cwd(), 'analysis-logs.txt');
+    const logLine = `[${timestamp}] ORDER-${orderId} | ${step} | ${JSON.stringify(data, null, 2)}\n\n`;
+    
+    try {
+      fs.appendFileSync(logPath, logLine);
+      console.log(`📝 Logged analysis step: ${step} for order ${orderId}`);
+    } catch (error) {
+      console.error('Failed to write analysis log:', error);
+    }
+  }
+
+  /**
    * Extract LAB values using local Python processing
    * This is compliant with OpenAI policies as no image data goes to OpenAI
    */
-  async extractLabData(imagePaths: string[]): Promise<LabData[]> {
+  async extractLabData(imagePaths: string[], orderId?: string): Promise<LabData[]> {
     console.log(`🔬 Extracting LAB data locally from ${imagePaths.length} images`);
+    
+    if (orderId) {
+      this.logAnalysisDetails(orderId, 'LAB_EXTRACTION_START', {
+        imageCount: imagePaths.length,
+        imagePaths: imagePaths
+      });
+    }
     
     try {
       // First try the full OpenCV/MediaPipe extractor
@@ -38,12 +69,25 @@ export class CompliantLabAnalysisService {
       
       console.log(`🐍 Running Python command: ${command}`);
       
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'PYTHON_COMMAND', {
+          command: command,
+          pythonPath: pythonPath
+        });
+      }
+      
       const result = execSync(command, { 
         encoding: 'utf8',
         timeout: 30000 // 30 second timeout
       });
       
       console.log(`📊 Python LAB extraction result:`, result);
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'LAB_EXTRACTION_RESULT', {
+          rawResult: result
+        });
+      }
       
       const labDataArray = JSON.parse(result);
       
@@ -144,7 +188,7 @@ export class CompliantLabAnalysisService {
    * Analyze season using GPT-o3 with LAB data only
    * Compliant with OpenAI policies - only numeric data sent
    */
-  async analyzeSeasonWithLabData(labDataArray: LabData[]): Promise<string> {
+  async analyzeSeasonWithLabData(labDataArray: LabData[], orderId?: string): Promise<string> {
     console.log(`🧪 Analyzing season using LAB data from ${labDataArray.length} photos`);
     
     // Average the LAB values across multiple photos for more accuracy
@@ -152,9 +196,24 @@ export class CompliantLabAnalysisService {
     
     console.log(`📊 Average LAB data:`, JSON.stringify(avgLabData, null, 2));
     
+    if (orderId) {
+      this.logAnalysisDetails(orderId, 'LAB_DATA_AVERAGED', {
+        originalCount: labDataArray.length,
+        averagedData: avgLabData
+      });
+    }
+    
     // Try GPT-o3 first, fall back to GPT-4o after 1 minute
     try {
       console.log('🧠 Attempting analysis with GPT-o3 (full reasoning model)...');
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'GPT_O3_REQUEST_START', {
+          model: 'o3',
+          parameters: { temperature: 0, top_p: 0, seed: 42 },
+          inputData: avgLabData
+        });
+      }
       
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
@@ -202,6 +261,14 @@ Return exactly this JSON:
       
       console.log('✅ GPT-o3 analysis completed');
       
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'GPT_O3_RESPONSE', {
+          model: 'o3',
+          usage: response.usage,
+          rawResponse: response.choices[0].message.content
+        });
+      }
+      
       try {
         const content = response.choices[0].message.content.trim();
         const jsonMatch = content.match(/\{[\s\S]*\}/);
@@ -209,6 +276,15 @@ Return exactly this JSON:
           const parsed = JSON.parse(jsonMatch[0]);
           console.log(`🎯 GPT-o3 Result: ${parsed.season} (${parsed.confidence}% confidence)`);
           console.log(`💭 Reasoning: ${parsed.reasoning}`);
+          
+          if (orderId) {
+            this.logAnalysisDetails(orderId, 'GPT_O3_SUCCESS', {
+              season: parsed.season,
+              confidence: parsed.confidence,
+              reasoning: parsed.reasoning
+            });
+          }
+          
           return parsed.season;
         }
       } catch (parseError) {
@@ -265,21 +341,45 @@ Return only the season name (e.g., "True Autumn", "Light Spring", etc.).`
   /**
    * Complete analysis pipeline: Extract LAB data locally, then analyze with AI
    */
-  async analyzePhotosCompliant(imagePaths: string[]): Promise<string> {
+  async analyzePhotosCompliant(imagePaths: string[], orderId?: string): Promise<string> {
     console.log(`🎨 Starting compliant color analysis for ${imagePaths.length} photos`);
+    
+    if (orderId) {
+      this.logAnalysisDetails(orderId, 'COMPLIANT_ANALYSIS_START', {
+        method: 'compliant_lab_analysis',
+        imageCount: imagePaths.length,
+        imagePaths: imagePaths
+      });
+    }
     
     try {
       // Step 1: Extract LAB data locally (no OpenAI API calls)
-      const labDataArray = await this.extractLabData(imagePaths);
+      const labDataArray = await this.extractLabData(imagePaths, orderId);
       
       // Step 2: Analyze with OpenAI using only numeric data
-      const season = await this.analyzeSeasonWithLabData(labDataArray);
+      const season = await this.analyzeSeasonWithLabData(labDataArray, orderId);
       
       console.log(`✅ Compliant analysis completed: ${season}`);
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'COMPLIANT_ANALYSIS_COMPLETE', {
+          finalSeason: season,
+          success: true
+        });
+      }
+      
       return season;
       
     } catch (error) {
       console.error('❌ Compliant analysis failed:', error);
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'COMPLIANT_ANALYSIS_ERROR', {
+          error: error.message || String(error),
+          stack: error.stack
+        });
+      }
+      
       throw error;
     }
   }
