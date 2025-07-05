@@ -124,22 +124,23 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call compliant GPT-o3 LAB analysis with the images
+    // Call Flask analysis service with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call compliant analyzePhotosCompliant (GPT-o3) with paths:`, imagePaths);
+    console.log(`🧠 About to call Flask analysis service with paths:`, imagePaths);
     
     let analysisResult;
     
-    // Use only GPT-o3 LAB analysis - no fallbacks
-    const compliantService = new CompliantLabAnalysisService();
-    const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
+    // Use Flask-based OpenAI analysis
+    const { FlaskAnalysisService } = await import('./services/flaskAnalysis.js');
+    const flaskService = new FlaskAnalysisService();
+    const detectedSeason = await flaskService.analyzePhotosWithFlask(imagePaths);
     console.log(`AI detected season: ${detectedSeason}`);
     
-    // Get full analysis result for the detected season
-    analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
+    // Generate complete analysis result for the detected season
+    analysisResult = await flaskService.generateCompleteAnalysis(detectedSeason, jobId.toString());
     
-    console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
-    console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
+    console.log(`✅ Flask analysis completed successfully`);
+    console.log(`✅ Flask analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
