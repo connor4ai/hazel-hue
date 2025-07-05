@@ -1281,7 +1281,7 @@ export default function ResultsNew() {
             description: "Your color analysis is still processing",
             variant: "destructive",
           });
-          setLocation(`/processing/${orderId}`);
+          setLocation(`/analysis-processing?orderId=${orderId}`);
         }
       } else {
         throw new Error('Order not found');

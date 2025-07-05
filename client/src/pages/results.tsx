@@ -76,7 +76,7 @@ export default function Results() {
             description: "Your color analysis is still processing",
             variant: "destructive",
           });
-          setLocation(`/processing/${orderId}`);
+          setLocation(`/analysis-processing?orderId=${orderId}`);
         } else {
           // Automatically send email when user first accesses completed results
           sendEmailAutomatically(data.order);
