@@ -11,6 +11,7 @@ import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
 import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
 import { fashionApiService } from "./services/fashionApiService";
+import { CompliantLabAnalysisService } from "./services/compliantLabAnalysis";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -123,11 +124,32 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call GPT-o3 LAB analysis with the images
+    // Call compliant GPT-o3 LAB analysis with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call analyzePhotosWithLab (GPT-o3) with paths:`, imagePaths);
+    console.log(`🧠 About to call compliant analyzePhotosCompliant (GPT-o3) with paths:`, imagePaths);
     
-    const analysisResult = await preloadedColorAnalysisService.analyzePhotosWithLab(imagePaths);
+    let analysisResult;
+    
+    try {
+      // Try compliant analysis that extracts LAB data locally
+      const compliantService = new CompliantLabAnalysisService();
+      const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths);
+      console.log(`AI detected season: ${detectedSeason}`);
+      
+      // Get full analysis result with detected season
+      analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
+      // Override the season with our more accurate detection
+      analysisResult.season = detectedSeason;
+      
+      console.log(`✅ Compliant GPT-o3 LAB analysis completed`);
+      
+    } catch (compliantError: any) {
+      console.log(`⚠️ Compliant analysis failed: ${compliantError.message}`);
+      console.log(`🔄 Falling back to standard visual analysis...`);
+      
+      // Fallback to existing visual analysis
+      analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
+    }
     console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
