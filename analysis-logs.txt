@@ -1622,3 +1622,225 @@
   "stack": "Error: LAB extraction failed: Unexpected token 'P', \"Processing\"... is not valid JSON\n    at CompliantLabAnalysisService.extractLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:103:13)\n    at CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:386:39)\n    at processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:136:53)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
 }
 
+[2025-07-05T20:07:45.068Z] ORDER-472 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/472-1751746064865-1.jpg",
+    "uploads/images/472-1751746064865-2.jpg",
+    "uploads/images/472-1751746064866-3.jpg"
+  ]
+}
+
+[2025-07-05T20:07:45.069Z] ORDER-472 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/472-1751746064865-1.jpg",
+    "uploads/images/472-1751746064865-2.jpg",
+    "uploads/images/472-1751746064866-3.jpg"
+  ]
+}
+
+[2025-07-05T20:07:45.069Z] ORDER-472 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/472-1751746064865-1.jpg uploads/images/472-1751746064865-2.jpg uploads/images/472-1751746064866-3.jpg 2>/dev/null",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T20:07:46.252Z] ORDER-472 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      62.42,\n      10.61,\n      14.94\n    ],\n    \"hair_LAB\": [\n      49.79,\n      8.27,\n      13.02\n    ],\n    \"eye_LAB\": [\n      50.66,\n      6.09,\n      6.25\n    ],\n    \"overall_contrast\": \"low\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\",\n    \"contrast_values\": {\n      \"skin_hair\": 12.630000000000003,\n      \"skin_eye\": 11.760000000000005,\n      \"overall\": 12.630000000000003\n    },\n    \"chroma_values\": {\n      \"skin\": 18.324183474305205,\n      \"hair\": 15.424438401445935,\n      \"eye\": 8.726431114722674,\n      \"average\": 14.158350996824604\n    }\n  },\n  {\n    \"skin_LAB\": [\n      75.41,\n      8.88,\n      15.62\n    ],\n    \"hair_LAB\": [\n      64.34,\n      10.52,\n      17.11\n    ],\n    \"eye_LAB\": [\n      48.64,\n      3.34,\n      4.4\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\",\n    \"contrast_values\": {\n      \"skin_hair\": 11.069999999999993,\n      \"skin_eye\": 26.769999999999996,\n      \"overall\": 26.769999999999996\n    },\n    \"chroma_values\": {\n      \"skin\": 17.96771549195946,\n      \"hair\": 20.08538025530012,\n      \"eye\": 5.524092685681514,\n      \"average\": 14.525729477647031\n    }\n  },\n  {\n    \"skin_LAB\": [\n      76.14,\n      9.78,\n      17.18\n    ],\n    \"hair_LAB\": [\n      71.17,\n      8.93,\n      18.23\n    ],\n    \"eye_LAB\": [\n      55.46,\n      3.54,\n      8.59\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 4.969999999999999,\n      \"skin_eye\": 20.68,\n      \"overall\": 20.68\n    },\n    \"chroma_values\": {\n      \"skin\": 19.76868230307726,\n      \"hair\": 20.299699505165094,\n      \"eye\": 9.290839574548686,\n      \"average\": 16.453073794263677\n    }\n  }\n]\n"
+}
+
+[2025-07-05T20:07:46.253Z] ORDER-472 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      71.32333333333332,
+      9.756666666666668,
+      15.913333333333332
+    ],
+    "hair_LAB": [
+      61.76666666666667,
+      9.24,
+      16.12
+    ],
+    "eye_LAB": [
+      51.586666666666666,
+      4.323333333333333,
+      6.413333333333334
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "moderate"
+  }
+}
+
+[2025-07-05T20:07:46.253Z] ORDER-472 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      71.32333333333332,
+      9.756666666666668,
+      15.913333333333332
+    ],
+    "hair_LAB": [
+      61.76666666666667,
+      9.24,
+      16.12
+    ],
+    "eye_LAB": [
+      51.586666666666666,
+      4.323333333333333,
+      6.413333333333334
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "moderate"
+  }
+}
+
+[2025-07-05T20:08:04.237Z] ORDER-472 | GPT_O3_RESPONSE | {
+  "model": "o3",
+  "usage": {
+    "prompt_tokens": 432,
+    "completion_tokens": 1238,
+    "total_tokens": 1670,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 896,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "rawResponse": "{\n  \"season\": \"Soft Autumn\",\n  \"confidence\": 68,\n  \"reasoning\": \"1. Undertone: All a* and b* values are positive, confirming a warm bias (skin a* 9.8 / b* 15.9, hair a* 9.2 / b* 16.1, eye a* 4.3 / b* 6.4).  \\n2. Chroma: Calculated chroma (C*ab) shows skin ≈ 18.7, hair ≈ 18.6 (moderate), eyes only ≈ 7.7 (muted). The overall ‘moderate’ label supplied supports a softly-saturated palette rather than a bright one.  \\n3. Value/Depth: L* values—skin 71 (fair-medium), hair 62 (medium), eyes 52 (medium-dark)—produce a medium depth range, not the very light range of Light Spring nor the deep range of Dark Autumn.  \\n4. Contrast: Given medium contrast, the person does not fit the high-contrast Bright Spring nor the low-contrast Light Spring group.  \\n5. Season match: Warm + medium depth + muted/moderate chroma + medium contrast are the hallmarks of Soft Autumn. True/Deep Autumns are darker, True/Bright Springs are clearer & higher chroma, and Light Spring is lighter/softer than the hair & eye values shown.\\n\\nTherefore, Soft Autumn best fits the numerical LAB profile.\"\n}"
+}
+
+[2025-07-05T20:08:04.237Z] ORDER-472 | GPT_O3_SUCCESS | {
+  "season": "Soft Autumn",
+  "confidence": 68,
+  "reasoning": "1. Undertone: All a* and b* values are positive, confirming a warm bias (skin a* 9.8 / b* 15.9, hair a* 9.2 / b* 16.1, eye a* 4.3 / b* 6.4).  \n2. Chroma: Calculated chroma (C*ab) shows skin ≈ 18.7, hair ≈ 18.6 (moderate), eyes only ≈ 7.7 (muted). The overall ‘moderate’ label supplied supports a softly-saturated palette rather than a bright one.  \n3. Value/Depth: L* values—skin 71 (fair-medium), hair 62 (medium), eyes 52 (medium-dark)—produce a medium depth range, not the very light range of Light Spring nor the deep range of Dark Autumn.  \n4. Contrast: Given medium contrast, the person does not fit the high-contrast Bright Spring nor the low-contrast Light Spring group.  \n5. Season match: Warm + medium depth + muted/moderate chroma + medium contrast are the hallmarks of Soft Autumn. True/Deep Autumns are darker, True/Bright Springs are clearer & higher chroma, and Light Spring is lighter/softer than the hair & eye values shown.\n\nTherefore, Soft Autumn best fits the numerical LAB profile."
+}
+
+[2025-07-05T20:08:04.238Z] ORDER-472 | COMPLIANT_ANALYSIS_COMPLETE | {
+  "finalSeason": "Soft Autumn",
+  "success": true
+}
+
+[2025-07-05T20:08:20.159Z] ORDER-472 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/472-1751746064865-1.jpg",
+    "uploads/images/472-1751746064865-2.jpg",
+    "uploads/images/472-1751746064866-3.jpg"
+  ]
+}
+
+[2025-07-05T20:08:20.160Z] ORDER-472 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/472-1751746064865-1.jpg",
+    "uploads/images/472-1751746064865-2.jpg",
+    "uploads/images/472-1751746064866-3.jpg"
+  ]
+}
+
+[2025-07-05T20:08:20.160Z] ORDER-472 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/lab_extractor.py uploads/images/472-1751746064865-1.jpg uploads/images/472-1751746064865-2.jpg uploads/images/472-1751746064866-3.jpg 2>/dev/null",
+  "pythonPath": "/home/runner/workspace/python/lab_extractor.py"
+}
+
+[2025-07-05T20:08:21.235Z] ORDER-472 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      62.42,\n      10.61,\n      14.94\n    ],\n    \"hair_LAB\": [\n      49.79,\n      8.27,\n      13.02\n    ],\n    \"eye_LAB\": [\n      50.66,\n      6.09,\n      6.25\n    ],\n    \"overall_contrast\": \"low\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\",\n    \"contrast_values\": {\n      \"skin_hair\": 12.630000000000003,\n      \"skin_eye\": 11.760000000000005,\n      \"overall\": 12.630000000000003\n    },\n    \"chroma_values\": {\n      \"skin\": 18.324183474305205,\n      \"hair\": 15.424438401445935,\n      \"eye\": 8.726431114722674,\n      \"average\": 14.158350996824604\n    }\n  },\n  {\n    \"skin_LAB\": [\n      75.41,\n      8.88,\n      15.62\n    ],\n    \"hair_LAB\": [\n      64.34,\n      10.52,\n      17.11\n    ],\n    \"eye_LAB\": [\n      48.64,\n      3.34,\n      4.4\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\",\n    \"contrast_values\": {\n      \"skin_hair\": 11.069999999999993,\n      \"skin_eye\": 26.769999999999996,\n      \"overall\": 26.769999999999996\n    },\n    \"chroma_values\": {\n      \"skin\": 17.96771549195946,\n      \"hair\": 20.08538025530012,\n      \"eye\": 5.524092685681514,\n      \"average\": 14.525729477647031\n    }\n  },\n  {\n    \"skin_LAB\": [\n      76.14,\n      9.78,\n      17.18\n    ],\n    \"hair_LAB\": [\n      71.17,\n      8.93,\n      18.23\n    ],\n    \"eye_LAB\": [\n      55.46,\n      3.54,\n      8.59\n    ],\n    \"overall_contrast\": \"medium\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"vibrant\",\n    \"contrast_values\": {\n      \"skin_hair\": 4.969999999999999,\n      \"skin_eye\": 20.68,\n      \"overall\": 20.68\n    },\n    \"chroma_values\": {\n      \"skin\": 19.76868230307726,\n      \"hair\": 20.299699505165094,\n      \"eye\": 9.290839574548686,\n      \"average\": 16.453073794263677\n    }\n  }\n]\n"
+}
+
+[2025-07-05T20:08:21.236Z] ORDER-472 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      71.32333333333332,
+      9.756666666666668,
+      15.913333333333332
+    ],
+    "hair_LAB": [
+      61.76666666666667,
+      9.24,
+      16.12
+    ],
+    "eye_LAB": [
+      51.586666666666666,
+      4.323333333333333,
+      6.413333333333334
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "moderate"
+  }
+}
+
+[2025-07-05T20:08:21.236Z] ORDER-472 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      71.32333333333332,
+      9.756666666666668,
+      15.913333333333332
+    ],
+    "hair_LAB": [
+      61.76666666666667,
+      9.24,
+      16.12
+    ],
+    "eye_LAB": [
+      51.586666666666666,
+      4.323333333333333,
+      6.413333333333334
+    ],
+    "overall_contrast": "medium",
+    "undertone": "warm",
+    "chroma_intensity": "moderate"
+  }
+}
+
+[2025-07-05T20:08:40.632Z] ORDER-472 | GPT_O3_RESPONSE | {
+  "model": "o3",
+  "usage": {
+    "prompt_tokens": 432,
+    "completion_tokens": 1277,
+    "total_tokens": 1709,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 832,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "rawResponse": "{\n  \"season\": \"True Autumn\",\n  \"confidence\": 72,\n  \"reasoning\": \"1. Undertone: All a* values are positive (skin a* ≈ +9.8, hair a* ≈ +9.2, eye a* ≈ +4.3), confirming a clearly warm undertone. True Autumn and True Spring are the two unequivocally warm neutral-chroma seasons.\\n\\n2. Depth / Value: L* shows a descending pattern—skin ≈ 71 (light), hair ≈ 62 (medium-light), eyes ≈ 52 (medium). This produces a MEDIUM overall contrast, not the very high contrast of Bright seasons or the very low contrast of Soft seasons. True Autumn is defined by exactly this moderate, natural depth progression.\\n\\n3. Chroma: b* values (yellow axis) are moderate (skin ≈ +15.9, hair ≈ +16.1, eyes ≈ +6.4). Combined with the stated “chroma_intensity: moderate,” colouring is neither highly saturated (Bright Spring/Winter) nor noticeably muted (Soft Summer/Autumn). True Autumn has a medium chroma that sits between those extremes.\\n\\n4. Elimination of other warm seasons:\\n   • Bright Spring – requires high chroma & high contrast; both are absent.\\n   • Light Spring – requires very light overall value; hair/eyes are too deep.\\n   • Dark Autumn – needs distinctly dark hair/eyes and higher contrast; here values stop at the low-50s, giving only medium depth.\\n   • Soft Autumn – needs lowered chroma (muted, greyed a* & b*); the a* and b* here are too strong for a Soft palette.\\n\\n5. Match to palette: Warm, golden undertone + medium depth + moderate chroma aligns squarely with the True Autumn (aka Warm Autumn) palette.\\n\\nTherefore, the LAB data most closely match the True Autumn season.\"\n}"
+}
+
+[2025-07-05T20:08:40.632Z] ORDER-472 | GPT_O3_SUCCESS | {
+  "season": "True Autumn",
+  "confidence": 72,
+  "reasoning": "1. Undertone: All a* values are positive (skin a* ≈ +9.8, hair a* ≈ +9.2, eye a* ≈ +4.3), confirming a clearly warm undertone. True Autumn and True Spring are the two unequivocally warm neutral-chroma seasons.\n\n2. Depth / Value: L* shows a descending pattern—skin ≈ 71 (light), hair ≈ 62 (medium-light), eyes ≈ 52 (medium). This produces a MEDIUM overall contrast, not the very high contrast of Bright seasons or the very low contrast of Soft seasons. True Autumn is defined by exactly this moderate, natural depth progression.\n\n3. Chroma: b* values (yellow axis) are moderate (skin ≈ +15.9, hair ≈ +16.1, eyes ≈ +6.4). Combined with the stated “chroma_intensity: moderate,” colouring is neither highly saturated (Bright Spring/Winter) nor noticeably muted (Soft Summer/Autumn). True Autumn has a medium chroma that sits between those extremes.\n\n4. Elimination of other warm seasons:\n   • Bright Spring – requires high chroma & high contrast; both are absent.\n   • Light Spring – requires very light overall value; hair/eyes are too deep.\n   • Dark Autumn – needs distinctly dark hair/eyes and higher contrast; here values stop at the low-50s, giving only medium depth.\n   • Soft Autumn – needs lowered chroma (muted, greyed a* & b*); the a* and b* here are too strong for a Soft palette.\n\n5. Match to palette: Warm, golden undertone + medium depth + moderate chroma aligns squarely with the True Autumn (aka Warm Autumn) palette.\n\nTherefore, the LAB data most closely match the True Autumn season."
+}
+
+[2025-07-05T20:08:40.633Z] ORDER-472 | COMPLIANT_ANALYSIS_COMPLETE | {
+  "finalSeason": "True Autumn",
+  "success": true
+}
+
