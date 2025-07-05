@@ -106,20 +106,32 @@ const authenticateUser = async (req: any, res: any, next: any) => {
 // Worker function that processes the job after photos are uploaded
 async function processColorAnalysisWorker(jobId: number) {
   try {
-    console.log(`Starting worker for job ${jobId}`);
+    console.log(`🚀 Starting worker for job ${jobId}`);
     
     const order = await storage.getOrder(jobId);
     if (!order || !order.images) {
       throw new Error('Job or images not found');
     }
 
+    console.log(`📋 Order found for job ${jobId}:`, {
+      orderId: order.id,
+      status: order.status,
+      images: order.images,
+      imageCount: Array.isArray(order.images) ? order.images.length : 0
+    });
+
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
     // Call OpenAI with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
+    console.log(`🤖 About to call analyzePhotos with paths:`, imagePaths);
+    
     const analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
-    console.log(`OpenAI analysis completed for job ${jobId}`);
+    console.log(`✅ OpenAI analysis completed for job ${jobId}. Result:`, {
+      season: analysisResult.season,
+      description: analysisResult.description?.substring(0, 100) + '...'
+    });
 
     // Generate PDF report
     const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
@@ -129,10 +141,21 @@ async function processColorAnalysisWorker(jobId: number) {
     await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
     await storage.updateOrderStatus(jobId, 'analyzed');
 
-    console.log(`Job ${jobId} completed successfully`);
+    console.log(`✅ Job ${jobId} completed successfully`);
   } catch (error: any) {
-    console.error(`Error processing job ${jobId}:`, error);
-    await storage.updateOrderStatus(jobId, 'failed');
+    console.error(`❌ Error processing job ${jobId}:`, error);
+    console.error(`❌ Error stack:`, error.stack);
+    console.error(`❌ Error details:`, {
+      message: error.message,
+      name: error.name,
+      code: error.code
+    });
+    
+    try {
+      await storage.updateOrderStatus(jobId, 'failed');
+    } catch (updateError) {
+      console.error(`❌ Failed to update job status to failed:`, updateError);
+    }
   }
 }
 
@@ -466,45 +489,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { orderId } = req.params;
       const { images, email } = req.body; // Base64 image data or email
       
-      // For CONNOR promo code, create a free order
+      // This endpoint should only be used with actual images, not for creating demo orders
       if (email && !images) {
-        // Check if user exists, create if not
-        let user = await storage.getUserByEmail(email);
-        if (!user) {
-          user = await storage.createUser({
-            email: email,
-            firstName: 'Demo',
-            lastName: 'User'
-          });
-        }
-        
-        const freeOrder = await storage.createOrder({
-          userId: user.id,
-          paymentIntentId: orderId,
-          amount: 0
-        });
-        
-        // Create demo images with actual content for testing
-        const demoImagePaths: string[] = [];
-        const demoImages = [
-          { name: 'demo1.jpg', content: createDemoImageBase64('person1') },
-          { name: 'demo2.jpg', content: createDemoImageBase64('person2') },
-          { name: 'demo3.jpg', content: createDemoImageBase64('person3') }
-        ];
-        
-        for (const demo of demoImages) {
-          const filePath = path.join(uploadsDir, `${orderId}_${demo.name}`);
-          fs.writeFileSync(filePath, demo.content, 'base64');
-          demoImagePaths.push(filePath);
-        }
-        
-        await storage.updateOrderImages(freeOrder.id, demoImagePaths);
-        await storage.updateOrderStatus(freeOrder.id, 'processing');
-        
-        // Start analysis immediately
-        setImmediate(() => processColorAnalysisWorker(freeOrder.id));
-        
-        return res.json({ message: "Free analysis started", status: "processing", orderId: freeOrder.id });
+        return res.status(400).json({ message: "Images are required for analysis" });
       }
       
       if (!images || images.length < 3) {
