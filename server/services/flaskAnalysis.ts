@@ -3,8 +3,8 @@ import path from 'path';
 import FormData from 'form-data';
 // @ts-ignore
 import fetch from 'node-fetch';
-import { getSeasonalContent } from './seasonalContent';
-import { logger } from '../logger';
+import { seasonalContentData } from '../data/seasonalContent.js';
+import { logger } from '../utils/logger.js';
 
 export class FlaskAnalysisService {
   private flaskUrl: string;
@@ -76,8 +76,8 @@ export class FlaskAnalysisService {
       return normalizedSeason;
 
     } catch (error) {
-      logger.error(`❌ Flask analysis failed for order ${orderId}:`, error);
-      throw new Error(`Flask analysis failed: ${error.message}`);
+      logger.error(`❌ Flask analysis failed for order ${orderId}:`, error as Error);
+      throw new Error(`Flask analysis failed: ${String(error)}`);
     }
   }
 
@@ -119,7 +119,7 @@ export class FlaskAnalysisService {
       logger.info(`📝 Generating complete analysis for order ${orderId}: ${season}`);
 
       // Get seasonal content
-      const seasonalContent = getSeasonalContent(season);
+      const seasonalContent = seasonalContentData[season];
       if (!seasonalContent) {
         throw new Error(`No seasonal content found for: ${season}`);
       }
@@ -127,11 +127,11 @@ export class FlaskAnalysisService {
       // Create comprehensive analysis result
       const result = {
         season,
-        description: seasonalContent.description,
+        description: seasonalContent.overview.description,
         overview: {
-          description: seasonalContent.description,
-          signatueColors: seasonalContent.signatureColors || [],
-          colorsToAvoid: seasonalContent.colorsToAvoid || []
+          description: seasonalContent.overview.description,
+          signatureColors: seasonalContent.overview.signatureColors || [],
+          colorsToAvoid: seasonalContent.overview.colorsToAvoid || []
         },
         makeup: {
           guidelines: seasonalContent.makeup?.guidelines || [],
@@ -147,11 +147,12 @@ export class FlaskAnalysisService {
           guidelines: seasonalContent.clothing?.guidelines || [],
           pinterestUrl: seasonalContent.clothing?.pinterestUrl || ''
         },
-        jewelry: seasonalContent.jewelry || {},
-        coreNeutrals: seasonalContent.coreNeutrals || [],
-        accentLights: seasonalContent.accentLights || [],
-        accentDeeps: seasonalContent.accentDeeps || [],
-        celebMatches: seasonalContent.celebMatches || [],
+        accessories: seasonalContent.accessories || {},
+        hairColor: seasonalContent.hairColor || {},
+        coreNeutrals: seasonalContent.colorPalette?.coreNeutrals || [],
+        accentLights: seasonalContent.colorPalette?.accentLights || [],
+        accentBrights: seasonalContent.colorPalette?.accentBrights || [],
+        celebrities: seasonalContent.celebrities || [],
         confidenceScore: 95 // High confidence from Flask analysis
       };
 
@@ -159,7 +160,7 @@ export class FlaskAnalysisService {
       return result;
 
     } catch (error) {
-      logger.error(`❌ Failed to generate complete analysis for order ${orderId}:`, error);
+      logger.error(`❌ Failed to generate complete analysis for order ${orderId}:`, error as Error);
       throw error;
     }
   }

@@ -130,17 +130,31 @@ async function processColorAnalysisWorker(jobId: number) {
     
     let analysisResult;
     
-    // Use Flask-based OpenAI analysis
-    const { FlaskAnalysisService } = await import('./services/flaskAnalysis.js');
-    const flaskService = new FlaskAnalysisService();
-    const detectedSeason = await flaskService.analyzePhotosWithFlask(imagePaths);
-    console.log(`AI detected season: ${detectedSeason}`);
+    // Try Flask-based OpenAI analysis with fallback to preloaded service
+    try {
+      const { FlaskAnalysisService } = await import('./services/flaskAnalysis.js');
+      const flaskService = new FlaskAnalysisService();
+      const detectedSeason = await flaskService.analyzePhotosWithFlask(imagePaths);
+      console.log(`🎯 Flask AI detected season: ${detectedSeason}`);
+      
+      // Generate complete analysis result for the detected season
+      analysisResult = await flaskService.generateCompleteAnalysis(detectedSeason, jobId.toString());
+      console.log(`✅ Flask analysis completed successfully`);
+    } catch (flaskError) {
+      console.warn(`⚠️ Flask analysis failed, falling back to preloaded service:`, flaskError);
+      
+      // Fallback to preloaded analysis
+      const { PreloadedColorAnalysisService } = await import('./services/preloadedColorAnalysis.js');
+      const preloadedService = new PreloadedColorAnalysisService();
+      const detectedSeason = await preloadedService.analyzePhotos(imagePaths);
+      console.log(`🎯 Preloaded AI detected season: ${detectedSeason}`);
+      
+      // Generate complete analysis result for the detected season
+      analysisResult = preloadedService.getPreloadedResult(detectedSeason);
+      console.log(`✅ Preloaded analysis completed successfully`);
+    }
     
-    // Generate complete analysis result for the detected season
-    analysisResult = await flaskService.generateCompleteAnalysis(detectedSeason, jobId.toString());
-    
-    console.log(`✅ Flask analysis completed successfully`);
-    console.log(`✅ Flask analysis completed for job ${jobId}. Result:`, {
+    console.log(`✅ Analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
