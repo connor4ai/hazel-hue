@@ -13,11 +13,18 @@ const AnalysisProcessing = () => {
     const orderIdFromStorage = localStorage.getItem('orderId');
     const currentOrderId = orderIdFromUrl || orderIdFromStorage;
     
+    console.log('Analysis Processing - Order ID detection:', {
+      urlParams: window.location.search,
+      orderIdFromUrl,
+      orderIdFromStorage,
+      currentOrderId
+    });
+    
     if (currentOrderId) {
       setOrderId(currentOrderId);
       
-      // Poll for completion every 2 seconds
-      const pollInterval = setInterval(async () => {
+      // Immediate check first
+      const checkStatus = async () => {
         try {
           const response = await fetch(`/api/orders/${currentOrderId}/status`);
           const data = await response.json();
@@ -31,15 +38,33 @@ const AnalysisProcessing = () => {
           
           if (data.status === 'completed' && data.result) {
             console.log('Redirecting to results page:', `/results/${currentOrderId}`);
-            clearInterval(pollInterval);
             setLocation(`/results/${currentOrderId}`);
+            return true; // Indicate successful redirect
           }
+          return false;
         } catch (error) {
           console.error('Error checking analysis status:', error);
+          return false;
         }
-      }, 2000);
+      };
+      
+      // Check immediately
+      checkStatus().then(redirected => {
+        if (!redirected) {
+          // Only start polling if immediate check didn't redirect
+          const pollInterval = setInterval(async () => {
+            const success = await checkStatus();
+            if (success) {
+              clearInterval(pollInterval);
+            }
+          }, 2000);
 
-      return () => clearInterval(pollInterval);
+          return () => clearInterval(pollInterval);
+        }
+      });
+    } else {
+      console.error('No order ID found - redirecting to home');
+      setLocation('/');
     }
   }, [setLocation]);
 
