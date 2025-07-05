@@ -1,6 +1,7 @@
 import { seasonalContentData, type SeasonalContent } from '../data/seasonalContent';
 import OpenAI from 'openai';
 import fs from 'fs';
+import { LabColorAnalysisService } from './labColorAnalysis';
 
 interface ColorAnalysisResult {
   season: string;
@@ -25,6 +26,7 @@ interface ColorAnalysisResult {
 
 export class PreloadedColorAnalysisService {
   private readonly openai: OpenAI;
+  private readonly labService: LabColorAnalysisService;
   
   // All 12 seasons for season determination
   private readonly allSeasons = [
@@ -41,6 +43,29 @@ export class PreloadedColorAnalysisService {
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
+    this.labService = new LabColorAnalysisService();
+  }
+
+  async analyzePhotosWithLab(imagePaths: string[]): Promise<ColorAnalysisResult> {
+    console.log('🔬 Starting LAB-enhanced color analysis');
+    
+    try {
+      // First extract Lab color data from the images
+      const labDataArray = await this.labService.extractLabData(imagePaths);
+      console.log(`✅ Extracted LAB data from ${labDataArray.length} photos`);
+      
+      // Use Lab data for precise season analysis
+      const detectedSeason = await this.labService.analyzeWithLabData(labDataArray);
+      console.log(`🎯 LAB-based season detection: ${detectedSeason}`);
+      
+      // Get the preloaded result using the same method as regular analysis
+      return this.getPreloadedResult(detectedSeason);
+      
+    } catch (error) {
+      console.error('❌ LAB analysis failed, falling back to visual analysis:', error);
+      // Fall back to the regular visual analysis if Lab analysis fails
+      return this.analyzePhotos(imagePaths);
+    }
   }
 
   async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
