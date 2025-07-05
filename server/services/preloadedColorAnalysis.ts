@@ -124,101 +124,17 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    CHAMPIONSHIP PRECISION COLOR ANALYSIS PROTOCOL
+    Role: Certified personal-color analyst using the 12-season system.
+    Task: Examine the three attached face-and-hair photos (labeled A, B, C), determine the single best-fit season within the 12-season matrix, and output it.
+    
+    Internal process (silent):
+    – Visually white-balance each photo (use eye whites/teeth as reference).
+    – Sample hue, value, and chroma of skin, eyes, and natural hair; assess overall contrast.
+    – Cross-reference findings against the 12-season grid (warm-cool, light-deep, soft-bright) and choose the closest match.
+    – If data conflict, weigh the majority of indicators; always select one season.
 
-    You are the world's most elite color analyst competing in the ultimate accuracy challenge. Lives depend on your precision. Analyze these photos using advanced colorimetric principles.
-
-    CRITICAL MISSION: Determine the EXACT seasonal color type from these 12 options:
+    Respond with exactly one of these 12 seasons:
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
-
-    PHASE 1: UNDERTONE DETECTION (FOUNDATION OF ANALYSIS)
-    Examine multiple facial areas for undertone consistency:
-    - Jawline and neck (most reliable - minimal makeup influence)
-    - Inner wrist/forearm if visible
-    - Eyelid skin tone
-    - Behind ear area if visible
-    
-    COOL UNDERTONES (Pink, Blue, Purple cast):
-    - Skin appears slightly pink or blue when compared to pure white
-    - Veins appear blue or purple
-    - Natural flush is pink or rose-colored
-    - Skin has an ashy quality rather than golden
-    → ONLY Summer or Winter seasons possible
-    
-    WARM UNDERTONES (Yellow, Golden, Peach cast):
-    - Skin appears slightly yellow or golden when compared to pure white  
-    - Veins appear green or olive
-    - Natural flush is peach or coral-colored
-    - Skin has a golden or honey quality
-    → ONLY Spring or Autumn seasons possible
-
-    PHASE 2: CONTRAST ANALYSIS (CRITICAL DIFFERENTIATOR)
-    Measure the dramatic difference between features:
-    
-    HIGH CONTRAST (Striking, Dramatic):
-    - Sharp distinction between hair and skin
-    - Eyes create significant contrast with other features
-    - Features appear "crisp" and defined
-    → Winter (cool) or Dark Autumn/Bright Spring (warm)
-    
-    MEDIUM CONTRAST (Balanced):
-    - Moderate distinction between features
-    - Harmonious but not subdued appearance
-    → True seasons (True Winter, True Summer, True Spring, True Autumn)
-    
-    LOW CONTRAST (Gentle, Harmonious):
-    - Soft blending between hair, skin, and eyes
-    - Features appear to "melt" together harmoniously
-    - Gentle, understated appearance
-    → Light or Soft seasons
-
-    PHASE 3: CHROMA INTENSITY (SATURATION LEVEL)
-    Assess the clarity and vibrancy of natural coloring:
-    
-    BRIGHT/CLEAR (High Saturation):
-    - Colors appear vibrant and saturated
-    - Can handle pure, intense colors
-    → Bright Winter, True Winter, Bright Spring, True Spring
-    
-    MUTED/SOFT (Low Saturation):
-    - Colors appear gentle and toned-down
-    - Best in dusty, grayed colors
-    → Soft Summer, Soft Autumn, Light Summer, Light Spring
-
-    PHASE 4: VALUE DEPTH (LIGHTNESS/DARKNESS)
-    Evaluate overall depth of coloring:
-    
-    DEEP/DARK:
-    - Rich, intense overall coloring
-    → Dark Winter, Dark Autumn
-    
-    LIGHT/DELICATE:
-    - Pale, ethereal overall coloring
-    → Light Summer, Light Spring
-
-    CHAMPIONSHIP DECISION MATRIX:
-
-    COOL + HIGH CONTRAST + BRIGHT = True Winter or Bright Winter
-    COOL + HIGH CONTRAST + DEEP = Dark Winter
-    COOL + MEDIUM CONTRAST + MUTED = True Summer
-    COOL + LOW CONTRAST + LIGHT = Light Summer
-    COOL + LOW CONTRAST + MUTED = Soft Summer
-
-    WARM + HIGH CONTRAST + BRIGHT = Bright Spring
-    WARM + HIGH CONTRAST + DEEP = Dark Autumn
-    WARM + MEDIUM CONTRAST + BRIGHT = True Spring
-    WARM + MEDIUM CONTRAST + RICH = True Autumn
-    WARM + LOW CONTRAST + LIGHT = Light Spring
-    WARM + LOW CONTRAST + MUTED = Soft Autumn
-
-    FINAL VERIFICATION CHECKLIST:
-    ✓ Undertone determination is absolute (never mixed signals)
-    ✓ Contrast level matches seasonal requirements
-    ✓ Chroma intensity aligns with brightness expectations
-    ✓ Overall depth corresponds to light/dark designations
-    ✓ Final choice makes logical sense within the 12-season framework
-
-    RESPOND WITH EXACTLY ONE SEASON NAME - NO EXPLANATIONS, NO QUALIFIERS.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
