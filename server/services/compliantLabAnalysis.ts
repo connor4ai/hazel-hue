@@ -282,7 +282,9 @@ Return exactly this JSON:
             });
           }
           
-          return parsed.season;
+          // Normalize season name to match expected format
+          const normalizedSeason = this.normalizeSeasonName(parsed.season);
+          return normalizedSeason;
         }
       } catch (parseError) {
         console.error('❌ Failed to parse GPT-o3 JSON response');
@@ -379,5 +381,54 @@ Return only the season name (e.g., "True Autumn", "Light Spring", etc.).`
       
       throw error;
     }
+  }
+
+  /**
+   * Normalize season names to match expected format
+   * Handles variations like "True/Warm Spring" -> "True Spring"
+   */
+  private normalizeSeasonName(season: string): string {
+    // Remove common variations and normalize
+    const normalized = season
+      .replace(/True\/Warm\s+/i, 'True ')
+      .replace(/Warm\/True\s+/i, 'True ')
+      .replace(/Warm\s+(Spring|Autumn)/i, 'True $1')
+      .replace(/Cool\s+(Summer|Winter)/i, 'True $1')
+      .replace(/Bright\/Cool\s+/i, 'Bright ')
+      .replace(/Deep\/Dark\s+/i, 'Dark ')
+      .replace(/Soft\/Muted\s+/i, 'Soft ')
+      .replace(/Light\/Delicate\s+/i, 'Light ')
+      .replace(/Cool\/True\s+/i, 'True ')
+      .trim();
+
+    // Validate against known seasons
+    const validSeasons = [
+      'True Winter', 'Bright Winter', 'Dark Winter',
+      'True Summer', 'Light Summer', 'Soft Summer',
+      'True Spring', 'Bright Spring', 'Light Spring',
+      'True Autumn', 'Dark Autumn', 'Soft Autumn'
+    ];
+
+    const exactMatch = validSeasons.find(validSeason => 
+      validSeason.toLowerCase() === normalized.toLowerCase()
+    );
+
+    if (exactMatch) {
+      return exactMatch;
+    }
+
+    // Try partial matching for edge cases
+    const partialMatch = validSeasons.find(validSeason => 
+      normalized.toLowerCase().includes(validSeason.toLowerCase()) ||
+      validSeason.toLowerCase().includes(normalized.toLowerCase())
+    );
+
+    if (partialMatch) {
+      console.log(`🔧 Normalized "${season}" to "${partialMatch}"`);
+      return partialMatch;
+    }
+
+    console.log(`⚠️ Could not normalize season: "${season}"`);
+    return season; // Return original if no match found
   }
 }
