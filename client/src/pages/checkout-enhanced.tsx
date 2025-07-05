@@ -164,7 +164,7 @@ function CheckoutForm({
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/processing`,
+        return_url: `${window.location.origin}/analysis-processing`,
       },
       redirect: 'if_required',
     });
