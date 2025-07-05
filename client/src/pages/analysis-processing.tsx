@@ -45,6 +45,8 @@ const AnalysisProcessing = () => {
           // Handle failed orders - redirect to upload page
           if (data.status === 'failed') {
             console.log('Analysis failed - redirecting to upload page');
+            // Clear localStorage to prevent endless polling
+            localStorage.removeItem('orderId');
             setLocation('/upload');
             return true; // Indicate successful redirect
           }
