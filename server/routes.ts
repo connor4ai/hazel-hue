@@ -644,12 +644,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Create unpaid order
+      console.log(`🆕 Creating fresh guest order for user ${guestUserId}`);
       const order = await storage.createOrder({
         userId: guestUserId,
         status: 'queued',
         paymentStatus: 'unpaid',
         amount: 2900, // $29.00 in cents
       });
+      console.log(`📦 Fresh order created:`, { orderId: order.id, status: order.status });
 
       // Save images to disk for processing
       const imagePaths: string[] = [];
@@ -675,6 +677,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateOrderStatus(order.id, 'files_uploaded');
 
       // Start analysis immediately
+      console.log(`🚀 TRIGGERING GPT-o3 ANALYSIS for guest order ${order.id}`);
       setImmediate(() => processColorAnalysisWorker(order.id));
 
       res.json({ 
@@ -1551,30 +1554,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         imageCount: Array.isArray(order.images) ? order.images.length : 0
       });
 
-      // Check if analysis has already been completed
-      if (order.analysisResult && order.status === 'analyzed') {
-        console.log(`✅ Order ${orderId} already has analysis results, sending email`);
-        // Analysis already done, mark as completed and send email
-        await storage.updateOrderStatus(parseInt(orderId), 'completed');
-        
-        if (order.email && order.analysisResult) {
-          try {
-            await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
-            await storage.updateOrderEmailSent(order.id);
-            console.log(`Free analysis results emailed to: ${order.email}`);
-          } catch (emailError) {
-            console.error("Error sending free analysis email:", emailError);
-          }
-        }
-      } else {
-        // Analysis not done yet, start the GPT-o3 analysis process
-        console.log(`🧠 NO ANALYSIS FOUND - Starting GPT-o3 analysis for free order ${orderId}`);
-        console.log(`📁 Order images:`, order.images);
-        await storage.updateOrderStatus(parseInt(orderId), 'processing');
-        
-        // Trigger the analysis worker (this will use GPT-o3)
-        setImmediate(() => processColorAnalysisWorker(parseInt(orderId)));
-      }
+      // FORCE RE-ANALYSIS - Clear existing results and start fresh GPT-o3 analysis
+      console.log(`🔄 FORCING FRESH GPT-o3 ANALYSIS for order ${orderId} (ignoring cached results)`);
+      
+      // Clear any existing analysis data to force fresh analysis
+      await storage.updateOrderAnalysis(parseInt(orderId), null, null);
+      await storage.updateOrderStatus(parseInt(orderId), 'processing');
+      
+      console.log(`📁 Order images:`, order.images);
+      console.log(`🧠 STARTING FRESH GPT-o3 ANALYSIS for order ${orderId}`);
+      
+      // Trigger the analysis worker (this will use GPT-o3)
+      setImmediate(() => processColorAnalysisWorker(parseInt(orderId)));
 
       res.json({ success: true, message: "Order marked as paid with promo code" });
       
