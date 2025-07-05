@@ -4,7 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["glib", "gtk3", "jq", "mesa", "xorg.libX11", "xorg.libXext"]
+packages = ["jq", "mesa", "xorg.libX11", "xorg.libXext", "glib", "gtk3"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -35,7 +35,3 @@ waitForPort = 5000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 5001
-externalPort = 3000
