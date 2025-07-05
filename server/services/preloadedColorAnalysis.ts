@@ -123,28 +123,32 @@ export class PreloadedColorAnalysisService {
       };
     });
 
-    const seasonDetectionPrompt = `What season is this person? Use the 12-season color analysis system.
-
-    Respond with exactly one of these seasons:
-    True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn`;
-
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
     console.log('🖼️ Number of images:', images.length);
-    console.log('📝 Prompt:', seasonDetectionPrompt);
+    console.log('📝 Using optimized prompt for maximum accuracy');
     
     const response = await this.openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
         {
+          role: "system",
+          content: "You are a certified color analyst. Analyze the undertones, contrast, and coloring in these images to determine the seasonal color palette. Always provide analysis."
+        },
+        {
           role: "user",
           content: [
-            { type: "text", text: seasonDetectionPrompt },
+            { 
+              type: "text", 
+              text: "Analyze the coloring, undertones, and contrast in these photos to determine the seasonal color type from the 12-season system.\n\nReturn exactly this JSON:\n{\n  \"season\": \"<Exact season name>\",\n  \"confidence\": <0-100 integer>\n}\n\nSeasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn"
+            },
             ...images
           ]
         }
       ],
-      max_tokens: 50,
-      temperature: 0.1,
+      max_tokens: 100,
+      temperature: 0,
+      top_p: 0,
+      seed: 12345,
     });
     
     console.log('📥 OpenAI API call completed successfully');
@@ -165,32 +169,57 @@ export class PreloadedColorAnalysisService {
       throw new Error('OpenAI analysis failed: empty response received');
     }
     
-    const detectedSeason = rawResponse.trim();
-    console.log(`🤖 OpenAI Detected Season: "${detectedSeason}"`);
+    // Parse JSON response
+    let detectedSeason: string;
+    let confidence: number;
     
-    // Clean up the response to extract just the season name
-    const cleanSeason = detectedSeason.split('\n')[0].trim();
+    try {
+      // Remove markdown code block formatting if present
+      let cleanedResponse = rawResponse.trim();
+      if (cleanedResponse.startsWith('```json')) {
+        cleanedResponse = cleanedResponse.replace(/```json\n/, '').replace(/\n```$/, '');
+      } else if (cleanedResponse.startsWith('```')) {
+        cleanedResponse = cleanedResponse.replace(/```\n/, '').replace(/\n```$/, '');
+      }
+      
+      const jsonResponse = JSON.parse(cleanedResponse);
+      detectedSeason = jsonResponse.season;
+      confidence = jsonResponse.confidence || 95;
+      
+      console.log(`🤖 OpenAI JSON Response:`, {
+        season: detectedSeason,
+        confidence: confidence
+      });
+    } catch (error) {
+      console.warn('⚠️ Failed to parse JSON response, falling back to text parsing');
+      console.warn('⚠️ Raw response:', rawResponse);
+      // Fallback to original text parsing if JSON fails
+      detectedSeason = rawResponse.trim().split('\n')[0].trim();
+      confidence = 90;
+    }
+    
+    console.log(`🤖 OpenAI Detected Season: "${detectedSeason}" (confidence: ${confidence}%)`);
     
     // Normalize and validate the detected season
-    const normalizedSeason = this.normalizeSeasonName(cleanSeason);
+    const normalizedSeason = this.normalizeSeasonName(detectedSeason);
     
     if (!this.allSeasons.includes(normalizedSeason)) {
-      console.warn(`⚠️ Invalid season detected: "${cleanSeason}" from OpenAI. Available seasons:`, this.allSeasons);
+      console.warn(`⚠️ Invalid season detected: "${detectedSeason}" from OpenAI. Available seasons:`, this.allSeasons);
       console.warn(`⚠️ Full OpenAI response was: "${detectedSeason}"`);
       console.warn(`⚠️ Normalized to: "${normalizedSeason}"`);
       
       // Try to find a fuzzy match
-      const fuzzyMatch = this.findBestSeasonMatch(cleanSeason);
+      const fuzzyMatch = this.findBestSeasonMatch(detectedSeason);
       
       if (fuzzyMatch) {
-        console.log(`✅ Found fuzzy match: "${cleanSeason}" → "${fuzzyMatch}"`);
+        console.log(`✅ Found fuzzy match: "${detectedSeason}" → "${fuzzyMatch}"`);
         return fuzzyMatch;
       }
       
-      console.warn(`⚠️ No match found for "${cleanSeason}", analyzing content to suggest best alternative`);
+      console.warn(`⚠️ No match found for "${detectedSeason}", analyzing content to suggest best alternative`);
       
       // If no match, don't default to True Winter - return an error
-      throw new Error(`OpenAI returned unrecognized season: "${cleanSeason}". Expected one of: ${this.allSeasons.join(', ')}`);
+      throw new Error(`OpenAI returned unrecognized season: "${detectedSeason}". Expected one of: ${this.allSeasons.join(', ')}`);
     }
     
     console.log(`✅ FINAL RESULT: ${normalizedSeason} (analyzed from ${validPaths.length} photos)`);
