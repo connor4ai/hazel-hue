@@ -118,46 +118,24 @@ export class PreloadedColorAnalysisService {
     });
 
     const seasonDetectionPrompt = `
-    CRITICAL: Analyze skin undertones FIRST before anything else.
+    You are a professional color analyst. Analyze the person in these photos to determine their seasonal color type using the 12-season system.
 
-    UNDERTONE TEST (MOST IMPORTANT STEP):
-    Look at these areas and determine if the person has COOL or WARM undertones:
-    - Neck and jawline (ignore face makeup)
-    - Compare skin to pure white - does it look pink/blue (COOL) or yellow/golden (WARM)?
-    - Natural flush color - pink/rose (COOL) or peach/coral (WARM)?
-
-    If you see ANY pink, blue, or purple cast = COOL undertones = SUMMER or WINTER only
-    If you see ANY yellow, golden, or peach cast = WARM undertones = SPRING or AUTUMN only
-
-    COOL UNDERTONE SEASONS:
-    - True Summer: Cool + medium contrast + muted colors
-    - Light Summer: Cool + low contrast + light, delicate
-    - Soft Summer: Cool + low contrast + very muted
-    - True Winter: Cool + high contrast + pure, dramatic
-    - Bright Winter: Cool + high contrast + vibrant, electric  
-    - Dark Winter: Cool + high contrast + deep, dramatic
-
-    WARM UNDERTONE SEASONS:
-    - True Spring: Warm + medium contrast + clear, bright
-    - Bright Spring: Warm + high contrast + vibrant, electric
-    - Light Spring: Warm + low contrast + light, delicate
-    - True Autumn: Warm + medium contrast + rich, earthy
-    - Dark Autumn: Warm + high contrast + deep, rich
-    - Soft Autumn: Warm + low contrast + muted, gentle
-
-    COMMON MISTAKES TO AVOID:
-    - Do NOT confuse hair color with skin undertones
-    - Do NOT let surface redness fool you - look for the base undertone
-    - Cool undertones can NEVER be Spring or Autumn
-    - Warm undertones can NEVER be Summer or Winter
-
-    STEP 1: Determine COOL or WARM undertones
-    STEP 2: Assess contrast level (high/medium/low)  
-    STEP 3: Assess color intensity (bright/muted)
-    STEP 4: Match to exact season
-
-    Respond with ONLY the season name from this list:
+    You must respond with EXACTLY ONE of these season names:
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn
+
+    Analysis guidelines:
+    1. Examine skin undertones carefully - look for cool (pink/blue) vs warm (yellow/golden) undertones
+    2. Assess the natural contrast between hair, skin, and eye color
+    3. Evaluate whether the person's coloring is clear/bright or soft/muted
+    4. Consider the depth of coloring (light vs dark)
+
+    Season categories:
+    - WINTER: Cool undertones with high contrast
+    - SUMMER: Cool undertones with soft/low contrast  
+    - SPRING: Warm undertones with bright/clear coloring
+    - AUTUMN: Warm undertones with rich/deep coloring
+
+    Respond with only the season name.
     `;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
