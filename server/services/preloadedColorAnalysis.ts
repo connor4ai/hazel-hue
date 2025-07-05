@@ -129,6 +129,8 @@ export class PreloadedColorAnalysisService {
     True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Soft Autumn, Dark Autumn`;
 
     console.log('📤 Sending request to OpenAI GPT-4o for season analysis...');
+    console.log('🖼️ Number of images:', images.length);
+    console.log('📝 Prompt:', seasonDetectionPrompt);
     
     const response = await this.openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
@@ -146,6 +148,7 @@ export class PreloadedColorAnalysisService {
     });
     
     console.log('📥 OpenAI API call completed successfully');
+    console.log('🤖 Raw OpenAI response:', response.choices[0]?.message?.content);
 
     const rawResponse = response.choices[0]?.message?.content;
     
