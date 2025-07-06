@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, CheckCircle } from 'lucide-react';
+import { Upload, CheckCircle, Sparkles, X } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 
 export default function Homepage() {
@@ -9,6 +9,7 @@ export default function Homepage() {
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (file: File) => {
@@ -138,8 +139,77 @@ export default function Homepage() {
     fileInputRef.current?.click();
   };
 
-  const handleAnalyze = () => {
-    setLocation('/checkout');
+  const handleContinue = async () => {
+    if (files.length < 3) {
+      toast({
+        title: "Not enough photos",
+        description: "Please upload at least 3 photos for accurate analysis",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      files.forEach((file, index) => {
+        formData.append(`photo${index + 1}`, file);
+      });
+
+      // Store file metadata for potential reuse
+      const fileMetadata = files.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified
+      }));
+      sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
+
+      // Start the analysis in the background (guest order)
+      const response = await fetch('/api/orders/guest', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start analysis');
+      }
+
+      const order = await response.json();
+      
+      // Store order ID for the loading page to track
+      sessionStorage.setItem('currentOrderId', order.id.toString());
+
+      // Navigate to analyzing page after getting order ID
+      setLocation('/analyzing');
+      
+      // For debugging - also try direct redirect after short delay
+      setTimeout(() => {
+        const currentOrderId = sessionStorage.getItem('currentOrderId');
+        if (currentOrderId) {
+          // Check if analysis completed quickly and redirect directly
+          fetch(`/api/orders/${currentOrderId}/status`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'completed') {
+                setLocation(`/results-preview/${currentOrderId}`);
+              }
+            })
+            .catch(console.error);
+        }
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error starting analysis:', error);
+      toast({
+        title: "Error",
+        description: "Failed to start analysis. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -257,6 +327,42 @@ export default function Homepage() {
 
         .floating {
             animation: float-subtle 4s ease-in-out infinite;
+        }
+
+        /* Premium Button */
+        .premium-button {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .premium-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .premium-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .modern-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Floating Navigation */
@@ -405,21 +511,62 @@ export default function Homepage() {
                             onClick={() => removeFile(index)}
                             className="p-2 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
                           >
-                            ×
+                            <X className="w-4 h-4" />
                           </button>
                         </div>
                       ))}
                     </div>
 
-                    <button 
-                      onClick={handleAnalyze}
-                      className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-12 rounded-2xl text-base sm:text-lg transition-all duration-200 hover:transform hover:-translate-y-1 hover:shadow-lg"
+                    {files.length < 3 && (
+                      <div className="mb-6">
+                        <input
+                          type="file"
+                          multiple
+                          accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
+                          onChange={(e) => {
+                            if (e.target.files) {
+                              if (e.target.files.length === 1) {
+                                handleFileSelect(e.target.files[0]);
+                              } else {
+                                handleMultipleFileSelect(e.target.files);
+                              }
+                            }
+                          }}
+                          className="hidden"
+                          id="photo-upload-more"
+                        />
+                        <label htmlFor="photo-upload-more" className="text-purple-600 hover:text-purple-800 cursor-pointer font-medium">
+                          + Add more photos ({3 - files.length} remaining)
+                        </label>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={handleContinue}
+                      disabled={files.length < 3 || isUploading}
+                      className="premium-button flex items-center justify-center w-full sm:w-auto"
+                      style={{ 
+                        opacity: files.length < 3 || isUploading ? 0.5 : 1,
+                        cursor: files.length < 3 || isUploading ? 'not-allowed' : 'pointer',
+                        minWidth: '200px',
+                        padding: '1rem 2rem'
+                      }}
                     >
-                      Continue for $29
+                      {isUploading ? (
+                        <div className="modern-spinner"></div>
+                      ) : (
+                        <>
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          Get My Analysis
+                        </>
+                      )}
                     </button>
-                    <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4">
-                      All sales final
-                    </p>
+
+                    {files.length < 3 && (
+                      <p className="text-sm text-gray-500 mt-4 px-4">
+                        Upload {3 - files.length} more photo{3 - files.length > 1 ? 's' : ''} to continue
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
