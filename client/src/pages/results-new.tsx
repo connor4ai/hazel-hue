@@ -2238,23 +2238,23 @@ export default function ResultsNew() {
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            className={`absolute left-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
+            className={`absolute left-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
               currentStep === 0 
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
                 : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
             }`}
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
           {/* Center Header Bar - Compact Size */}
           <div className="flex-1 flex justify-center mx-16">
-            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-6 py-2 shadow-lg border border-white/50 floating max-w-sm">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-7 h-7 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
+            <div className="bg-white/90 backdrop-blur-lg rounded-xl px-4 py-1.5 shadow-lg border border-white/50 floating max-w-sm">
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
                   {steps[currentStep].icon}
                 </div>
-                <h2 className="text-base font-bold text-gray-800 whitespace-nowrap">{steps[currentStep].title}</h2>
+                <h2 className="text-sm font-bold text-gray-800 whitespace-nowrap">{steps[currentStep].title}</h2>
               </div>
             </div>
           </div>
@@ -2263,13 +2263,13 @@ export default function ResultsNew() {
           <button
             onClick={nextStep}
             disabled={currentStep === steps.length - 1}
-            className={`absolute right-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
+            className={`absolute right-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
               currentStep === steps.length - 1 
                 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
                 : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
             }`}
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
