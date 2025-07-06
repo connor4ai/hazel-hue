@@ -9,7 +9,7 @@ import { storage } from "./storage";
 import { emailService } from "./services/emailService";
 import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
-import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
+
 import { fashionApiService } from "./services/fashionApiService";
 import { CompliantLabAnalysisService } from "./services/compliantLabAnalysis";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
@@ -136,7 +136,7 @@ async function processColorAnalysisWorker(jobId: number) {
     console.log(`AI detected season: ${detectedSeason}`);
     
     // Get full analysis result for the detected season
-    analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
+    analysisResult = compliantService.getPreloadedResult(detectedSeason);
     
     console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
     console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {

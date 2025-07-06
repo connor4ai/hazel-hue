@@ -2164,3 +2164,337 @@
   "stack": "Error: GPT-o3 analysis failed: 400 Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.\n    at CompliantLabAnalysisService.analyzeSeasonWithLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:325:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:351:22)\n    at async processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:135:28)"
 }
 
+[2025-07-06T00:51:31.004Z] ORDER-476 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/476-1751763090811-1.jpg",
+    "uploads/images/476-1751763090812-2.jpg",
+    "uploads/images/476-1751763090812-3.jpg"
+  ]
+}
+
+[2025-07-06T00:51:31.005Z] ORDER-476 | IMAGE_QUALITY_CHECK | {
+  "command": "python3 /home/runner/workspace/python/image_quality_checker.py uploads/images/476-1751763090811-1.jpg uploads/images/476-1751763090812-2.jpg uploads/images/476-1751763090812-3.jpg",
+  "imageCount": 3
+}
+
+[2025-07-06T00:51:31.287Z] ORDER-476 | IMAGE_QUALITY_ISSUES | {
+  "invalidImages": [
+    {
+      "path": "uploads/images/476-1751763090812-3.jpg",
+      "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+      "fileSize": 8303,
+      "resolution": "178x282"
+    }
+  ]
+}
+
+[2025-07-06T00:51:31.290Z] ORDER-476 | IMAGE_QUALITY_RESULTS | {
+  "totalImages": 3,
+  "validImages": 2,
+  "qualityDetails": [
+    {
+      "image": "uploads/images/476-1751763090811-1.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 66135,
+        "resolution": "720x543",
+        "blur_score": 779.6,
+        "brightness": 75
+      }
+    },
+    {
+      "image": "uploads/images/476-1751763090812-2.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 75279,
+        "resolution": "550x677",
+        "blur_score": 864.2,
+        "brightness": 114.1
+      }
+    },
+    {
+      "image": "uploads/images/476-1751763090812-3.jpg",
+      "quality": {
+        "valid": false,
+        "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+        "file_size": 8303,
+        "resolution": "178x282",
+        "blur_score": 266,
+        "brightness": 75.7
+      }
+    }
+  ]
+}
+
+[2025-07-06T00:51:31.291Z] ORDER-476 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/476-1751763090811-1.jpg",
+    "uploads/images/476-1751763090812-2.jpg",
+    "uploads/images/476-1751763090812-3.jpg"
+  ]
+}
+
+[2025-07-06T00:51:31.291Z] ORDER-476 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/enhanced_lab_extractor.py uploads/images/476-1751763090811-1.jpg uploads/images/476-1751763090812-2.jpg uploads/images/476-1751763090812-3.jpg 2>/dev/null",
+  "pythonPath": "/home/runner/workspace/python/enhanced_lab_extractor.py"
+}
+
+[2025-07-06T00:51:32.669Z] ORDER-476 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      76.47,\n      10.0,\n      13.0\n    ],\n    \"hair_LAB\": [\n      15.69,\n      0.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      53.14,\n      0.0,\n      0.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"neutral\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      81.57,\n      15.0,\n      14.0\n    ],\n    \"hair_LAB\": [\n      24.71,\n      -1.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      58.82,\n      3.0,\n      -2.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      80.78,\n      14.0,\n      18.0\n    ],\n    \"hair_LAB\": [\n      17.65,\n      6.0,\n      11.0\n    ],\n    \"eye_LAB\": [\n      56.86,\n      11.5,\n      11.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\"\n  }\n]\n"
+}
+
+[2025-07-06T00:51:32.670Z] ORDER-476 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:51:32.670Z] ORDER-476 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:51:50.509Z] ORDER-476 | GPT_O3_RESPONSE | {
+  "model": "o3",
+  "usage": {
+    "prompt_tokens": 423,
+    "completion_tokens": 1280,
+    "total_tokens": 1703,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 960,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "rawResponse": "{\n  \"season\": \"Dark Autumn\",\n  \"confidence\": 67,\n  \"reasoning\": \"1. Undertone: All a* and b* values are positive (Skin a*=13, b*=15; Hair a*=1.7, b*=6.3; Eye a*=4.8, b*=3), confirming a clearly warm colouring. This rules out all Summer and Winter categories (which are cool-leaning).  \\n2. Chroma: The absolute a* / b* magnitudes are modest (hair chroma ≈6.5, eye chroma ≈5.7), and the data label says “muted”. Warm-but-muted points to the Autumn family rather than the bright Spring family.  \\n3. Value / Contrast: Skin is very light (L*=79.6) while hair is very dark (L*=19.3), yielding a ΔL* of ~60—clearly “high contrast”. Within the Autumn family, only Dark Autumn is defined by a pronounced light-vs-dark contrast. True Autumn and Soft Autumn have medium-to-low contrast.  \\n4. Depth: The presence of very dark hair and mid-dark eyes aligns with the ‘deep’/‘dark’ descriptor of Dark Autumn.  \\nPutting the warm undertone, muted chroma, and distinctly high contrast together, the profile matches Dark Autumn most closely.\"\n}"
+}
+
+[2025-07-06T00:51:50.510Z] ORDER-476 | GPT_O3_SUCCESS | {
+  "season": "Dark Autumn",
+  "confidence": 67,
+  "reasoning": "1. Undertone: All a* and b* values are positive (Skin a*=13, b*=15; Hair a*=1.7, b*=6.3; Eye a*=4.8, b*=3), confirming a clearly warm colouring. This rules out all Summer and Winter categories (which are cool-leaning).  \n2. Chroma: The absolute a* / b* magnitudes are modest (hair chroma ≈6.5, eye chroma ≈5.7), and the data label says “muted”. Warm-but-muted points to the Autumn family rather than the bright Spring family.  \n3. Value / Contrast: Skin is very light (L*=79.6) while hair is very dark (L*=19.3), yielding a ΔL* of ~60—clearly “high contrast”. Within the Autumn family, only Dark Autumn is defined by a pronounced light-vs-dark contrast. True Autumn and Soft Autumn have medium-to-low contrast.  \n4. Depth: The presence of very dark hair and mid-dark eyes aligns with the ‘deep’/‘dark’ descriptor of Dark Autumn.  \nPutting the warm undertone, muted chroma, and distinctly high contrast together, the profile matches Dark Autumn most closely."
+}
+
+[2025-07-06T00:51:50.511Z] ORDER-476 | COMPLIANT_ANALYSIS_COMPLETE | {
+  "finalSeason": "Dark Autumn",
+  "success": true
+}
+
+[2025-07-06T00:52:02.283Z] ORDER-476 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/476-1751763090811-1.jpg",
+    "uploads/images/476-1751763090812-2.jpg",
+    "uploads/images/476-1751763090812-3.jpg"
+  ]
+}
+
+[2025-07-06T00:52:02.283Z] ORDER-476 | IMAGE_QUALITY_CHECK | {
+  "command": "python3 /home/runner/workspace/python/image_quality_checker.py uploads/images/476-1751763090811-1.jpg uploads/images/476-1751763090812-2.jpg uploads/images/476-1751763090812-3.jpg",
+  "imageCount": 3
+}
+
+[2025-07-06T00:52:02.584Z] ORDER-476 | IMAGE_QUALITY_ISSUES | {
+  "invalidImages": [
+    {
+      "path": "uploads/images/476-1751763090812-3.jpg",
+      "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+      "fileSize": 8303,
+      "resolution": "178x282"
+    }
+  ]
+}
+
+[2025-07-06T00:52:02.584Z] ORDER-476 | IMAGE_QUALITY_RESULTS | {
+  "totalImages": 3,
+  "validImages": 2,
+  "qualityDetails": [
+    {
+      "image": "uploads/images/476-1751763090811-1.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 66135,
+        "resolution": "720x543",
+        "blur_score": 779.6,
+        "brightness": 75
+      }
+    },
+    {
+      "image": "uploads/images/476-1751763090812-2.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 75279,
+        "resolution": "550x677",
+        "blur_score": 864.2,
+        "brightness": 114.1
+      }
+    },
+    {
+      "image": "uploads/images/476-1751763090812-3.jpg",
+      "quality": {
+        "valid": false,
+        "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+        "file_size": 8303,
+        "resolution": "178x282",
+        "blur_score": 266,
+        "brightness": 75.7
+      }
+    }
+  ]
+}
+
+[2025-07-06T00:52:02.584Z] ORDER-476 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/476-1751763090811-1.jpg",
+    "uploads/images/476-1751763090812-2.jpg",
+    "uploads/images/476-1751763090812-3.jpg"
+  ]
+}
+
+[2025-07-06T00:52:02.585Z] ORDER-476 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/enhanced_lab_extractor.py uploads/images/476-1751763090811-1.jpg uploads/images/476-1751763090812-2.jpg uploads/images/476-1751763090812-3.jpg 2>/dev/null",
+  "pythonPath": "/home/runner/workspace/python/enhanced_lab_extractor.py"
+}
+
+[2025-07-06T00:52:03.862Z] ORDER-476 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      76.47,\n      10.0,\n      13.0\n    ],\n    \"hair_LAB\": [\n      15.69,\n      0.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      53.14,\n      0.0,\n      0.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"neutral\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      81.57,\n      15.0,\n      14.0\n    ],\n    \"hair_LAB\": [\n      24.71,\n      -1.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      58.82,\n      3.0,\n      -2.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      80.78,\n      14.0,\n      18.0\n    ],\n    \"hair_LAB\": [\n      17.65,\n      6.0,\n      11.0\n    ],\n    \"eye_LAB\": [\n      56.86,\n      11.5,\n      11.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\"\n  }\n]\n"
+}
+
+[2025-07-06T00:52:03.863Z] ORDER-476 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:52:03.863Z] ORDER-476 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:52:14.696Z] ORDER-476 | GPT_O3_RESPONSE | {
+  "model": "o3",
+  "usage": {
+    "prompt_tokens": 423,
+    "completion_tokens": 884,
+    "total_tokens": 1307,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 512,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "rawResponse": "{\n  \"season\": \"Dark Autumn\",\n  \"confidence\": 72,\n  \"reasoning\": \"1. Undertone: The skin a* is +13 and b* is +15, clearly on the warm yellow-red side. Hair and eye a* / b* are also positive. Winters (cool-neutral) are ruled out; the palette must sit in the warm family (Springs or Autumns).\\n2. Depth & Contrast: Skin L* ≈ 80 (very light) versus hair L* ≈ 19 (very dark) gives a 60-point spread – unmistakably high contrast. High contrast eliminates the softer, lower-contrast Soft Autumn/Summer and the very light Light Spring/Summer families.\\n3. Chroma: The overall chroma flag is “muted,” and the individual a* / b* values are moderate (skin 13/15, hair 1.7/6.3, eyes 4.8/3). Bright seasons (Bright Spring/Bright Winter) require distinctly higher chroma; True / Light Spring require clearer, brighter tones as well. The muted descriptor aligns with Autumn, not Spring.\\n4. Seasonal match within warm, muted, high-contrast options: Among the warm seasons, only Dark (Deep) Autumn combines\\n   • warm undertone,\\n   • substantial depth (very dark hair),\\n   • the ability to carry higher contrast, and\\n   • a muted-rich rather than vivid-clear chroma.\\nTrue Autumn is typically medium depth and lower contrast; Soft Autumn is muted but low contrast; Light Spring/Summer are light in value. Therefore, the LAB data most closely correspond to Dark Autumn.\"\n}"
+}
+
+[2025-07-06T00:52:14.697Z] ORDER-476 | GPT_O3_SUCCESS | {
+  "season": "Dark Autumn",
+  "confidence": 72,
+  "reasoning": "1. Undertone: The skin a* is +13 and b* is +15, clearly on the warm yellow-red side. Hair and eye a* / b* are also positive. Winters (cool-neutral) are ruled out; the palette must sit in the warm family (Springs or Autumns).\n2. Depth & Contrast: Skin L* ≈ 80 (very light) versus hair L* ≈ 19 (very dark) gives a 60-point spread – unmistakably high contrast. High contrast eliminates the softer, lower-contrast Soft Autumn/Summer and the very light Light Spring/Summer families.\n3. Chroma: The overall chroma flag is “muted,” and the individual a* / b* values are moderate (skin 13/15, hair 1.7/6.3, eyes 4.8/3). Bright seasons (Bright Spring/Bright Winter) require distinctly higher chroma; True / Light Spring require clearer, brighter tones as well. The muted descriptor aligns with Autumn, not Spring.\n4. Seasonal match within warm, muted, high-contrast options: Among the warm seasons, only Dark (Deep) Autumn combines\n   • warm undertone,\n   • substantial depth (very dark hair),\n   • the ability to carry higher contrast, and\n   • a muted-rich rather than vivid-clear chroma.\nTrue Autumn is typically medium depth and lower contrast; Soft Autumn is muted but low contrast; Light Spring/Summer are light in value. Therefore, the LAB data most closely correspond to Dark Autumn."
+}
+
+[2025-07-06T00:52:14.697Z] ORDER-476 | COMPLIANT_ANALYSIS_COMPLETE | {
+  "finalSeason": "Dark Autumn",
+  "success": true
+}
+

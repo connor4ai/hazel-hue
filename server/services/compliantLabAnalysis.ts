@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import path from 'path';
 import { logger } from '../utils/logger';
 import fs from 'fs';
+import { seasonalContentData, type SeasonalContent } from '../data/seasonalContent';
 
 const execAsync = promisify(exec);
 
@@ -14,6 +15,26 @@ interface LabData {
   overall_contrast: 'high' | 'medium' | 'low';
   undertone: 'warm' | 'cool' | 'neutral';
   chroma_intensity: 'muted' | 'moderate' | 'vibrant';
+}
+
+interface ColorAnalysisResult {
+  season: string;
+  description: string;
+  coreNeutrals: string[];
+  accentLights: string[];
+  accentBrights: string[];
+  recommendations: {
+    metals: string;
+    eyewear: string;
+    makeup: string;
+  };
+  overview: SeasonalContent['overview'];
+  colorPalette: SeasonalContent['colorPalette'];
+  clothing: SeasonalContent['clothing'];
+  accessories: SeasonalContent['accessories'];
+  hairColor: SeasonalContent['hairColor'];
+  makeup: SeasonalContent['makeup'];
+  celebrities: string[];
 }
 
 export class CompliantLabAnalysisService {
@@ -469,5 +490,45 @@ Return exactly this JSON format:
 
     console.log(`⚠️ Could not normalize season: "${season}"`);
     return season; // Return original if no match found
+  }
+
+  /**
+   * Get preloaded result for a detected season
+   */
+  getPreloadedResult(detectedSeason: string): ColorAnalysisResult {
+    console.log(`Looking for season content for: "${detectedSeason}"`);
+    console.log(`Available seasons:`, Object.keys(seasonalContentData));
+    
+    const seasonContent = seasonalContentData[detectedSeason];
+    if (!seasonContent) {
+      console.log(`Season "${detectedSeason}" not found, defaulting to True Winter`);
+      // Fall back to True Winter if season not found
+      const fallbackContent = seasonalContentData['True Winter'];
+      return this.buildColorAnalysisResult(fallbackContent);
+    }
+
+    return this.buildColorAnalysisResult(seasonContent);
+  }
+
+  private buildColorAnalysisResult(content: SeasonalContent): ColorAnalysisResult {
+    return {
+      season: content.season,
+      description: content.overview.description,
+      coreNeutrals: content.colorPalette.coreNeutrals,
+      accentLights: content.colorPalette.accentLights,
+      accentBrights: content.colorPalette.accentBrights,
+      recommendations: {
+        metals: content.accessories.metals || 'Silver and platinum metals',
+        eyewear: content.accessories.glasses?.toString() || 'Cool-toned frames',
+        makeup: content.makeup.tips || 'Cool-toned makeup with high contrast'
+      },
+      overview: content.overview,
+      colorPalette: content.colorPalette,
+      clothing: content.clothing,
+      accessories: content.accessories,
+      hairColor: content.hairColor,
+      makeup: content.makeup,
+      celebrities: content.celebrities
+    };
   }
 }
