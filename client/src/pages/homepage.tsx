@@ -248,43 +248,14 @@ export default function Homepage() {
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
         }
 
-        /* Upload Zone Style */
-        .modern-upload-zone {
-            background: var(--mist);
-            border-radius: 24px;
-            padding: 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            border: 2px dashed #9333EA;
-            display: block;
-            width: 100%;
+        /* Floating Animation */
+        @keyframes float-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .modern-upload-zone::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(147, 51, 234, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .modern-upload-zone:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .modern-upload-zone:hover::before {
-            opacity: 1;
-        }
-
-        .modern-upload-zone.dragover {
-            border-color: #7c3aed;
-            background: rgba(147, 51, 234, 0.1);
-            transform: translateY(-4px) scale(1.02);
+        .floating {
+            animation: float-subtle 4s ease-in-out infinite;
         }
 
         /* Floating Navigation */
@@ -355,22 +326,23 @@ export default function Homepage() {
             </button>
           </div>
 
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col justify-center px-4 sm:px-6">
-            <div className="max-w-2xl mx-auto w-full text-center">
-              
-              {/* Hero Title */}
-              <h1 className="gradient-title mb-6 sm:mb-8">
+          {/* Centered Content */}
+          <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-12">
+            
+            {/* Header */}
+            <div className="text-center mb-8 sm:mb-12">
+              <h1 className="gradient-title mb-4 sm:mb-6">
                 AI Color Analysis
               </h1>
-              
-              <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-lg mx-auto">
+              <p className="text-lg sm:text-xl text-gray-600 px-2">
                 Upload your photos and let AI discover your perfect palette
               </p>
+            </div>
 
-              {/* Upload Section */}
+            {/* Main Upload Area */}
+            <div className="w-full max-w-2xl">
               {files.length === 0 ? (
-                <div className="elevated-card">
+                <div>
                   <input
                     ref={fileInputRef}
                     type="file"
@@ -385,24 +357,19 @@ export default function Homepage() {
                         }
                       }
                     }}
-                    style={{ display: 'none' }}
+                    className="hidden"
                     id="photo-upload"
                   />
                   <label 
                     htmlFor="photo-upload" 
-                    className={`modern-upload-zone ${isDragOver ? 'dragover' : ''}`}
+                    className="elevated-card block cursor-pointer"
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                   >
-                    <div className="flex flex-col items-center justify-center">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 relative">
-                        <svg 
-                          className="w-full h-full text-purple-600" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
+                    <div className="text-center py-12 sm:py-20">
+                      <div className="floating mb-6 sm:mb-8">
+                        <svg className="w-16 sm:w-20 lg:w-24 h-16 sm:h-20 lg:h-24 mx-auto" style={{ color: '#9333EA' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                       </div>
@@ -426,20 +393,17 @@ export default function Homepage() {
                           <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
                             <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 flex-shrink-0" />
                             <div className="text-left min-w-0 flex-1">
-                              <p className="text-sm sm:text-base font-medium truncate pr-2">{file.name}</p>
+                              <p className="font-medium text-sm sm:text-base truncate">{file.name}</p>
                               <p className="text-xs sm:text-sm text-gray-500">
-                                {(file.size / (1024 * 1024)).toFixed(1)} MB
+                                {(file.size / 1024 / 1024).toFixed(1)} MB
                               </p>
                             </div>
                           </div>
                           <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              removeFile(index);
-                            }}
-                            className="text-red-500 hover:text-red-700 text-sm sm:text-base font-medium transition-colors flex-shrink-0 ml-2"
+                            onClick={() => removeFile(index)}
+                            className="p-2 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
                           >
-                            Remove
+                            ×
                           </button>
                         </div>
                       ))}
