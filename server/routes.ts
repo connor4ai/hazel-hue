@@ -124,37 +124,22 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call Flask analysis service with the images
+    // Call compliant GPT-o3 LAB analysis with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call Flask analysis service with paths:`, imagePaths);
+    console.log(`🧠 About to call compliant analyzePhotosCompliant (GPT-o3) with paths:`, imagePaths);
     
     let analysisResult;
     
-    // Try Flask-based OpenAI analysis with fallback to preloaded service
-    try {
-      const { FlaskAnalysisService } = await import('./services/flaskAnalysis.js');
-      const flaskService = new FlaskAnalysisService();
-      const detectedSeason = await flaskService.analyzePhotosWithFlask(imagePaths);
-      console.log(`🎯 Flask AI detected season: ${detectedSeason}`);
-      
-      // Generate complete analysis result for the detected season
-      analysisResult = await flaskService.generateCompleteAnalysis(detectedSeason, jobId.toString());
-      console.log(`✅ Flask analysis completed successfully`);
-    } catch (flaskError) {
-      console.warn(`⚠️ Flask analysis failed, falling back to preloaded service:`, flaskError);
-      
-      // Fallback to preloaded analysis
-      const { PreloadedColorAnalysisService } = await import('./services/preloadedColorAnalysis.js');
-      const preloadedService = new PreloadedColorAnalysisService();
-      const detectedSeason = await preloadedService.analyzePhotos(imagePaths);
-      console.log(`🎯 Preloaded AI detected season: ${detectedSeason}`);
-      
-      // Generate complete analysis result for the detected season
-      analysisResult = preloadedService.getPreloadedResult(detectedSeason);
-      console.log(`✅ Preloaded analysis completed successfully`);
-    }
+    // Use only GPT-o3 LAB analysis - no fallbacks
+    const compliantService = new CompliantLabAnalysisService();
+    const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
+    console.log(`AI detected season: ${detectedSeason}`);
     
-    console.log(`✅ Analysis completed for job ${jobId}. Result:`, {
+    // Get full analysis result for the detected season
+    analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
+    
+    console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
+    console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
