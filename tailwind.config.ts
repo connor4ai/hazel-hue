@@ -71,6 +71,14 @@ export default {
         "sage-light": "#c8e6e8",
         "dusty-rose": "#E76F51",
         "dusty-rose-light": "#f0a396",
+        // Upload page specific colors
+        "warm-gray": {
+          DEFAULT: "#8B7347",
+          dark: "#6B5B37",
+        },
+        terracotta: "#C4A678",
+        marigold: "#D4C4A0",
+        lagoon: "#457B9D",
       },
       keyframes: {
         "accordion-down": {

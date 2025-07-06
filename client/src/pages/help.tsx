@@ -1,216 +1,184 @@
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Camera, Clock, Smartphone, Upload } from 'lucide-react';
+import { ArrowLeft, HelpCircle, Camera, Sun, User, Mail, CheckCircle } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 
 export default function Help() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F1FAEE' }}>
+    <div className="min-h-screen bg-cream paper-texture">
       <SEOHead 
-        title="Help & FAQ - Hazel & Hue"
-        description="Get help with Hazel & Hue AI color analysis service. Learn how to upload photos and use our platform."
+        title="Help & FAQ - Hazel & Hue AI Color Analysis"
+        description="Get help with photo requirements, frequently asked questions, and support for Hazel & Hue's AI color analysis service."
         path="/help"
       />
 
-      {/* Background Elements - Same as upload page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-32 h-32 rounded-full opacity-20"
-          style={{ backgroundColor: '#E85A4F', top: '10%', left: '10%' }}
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute w-24 h-24 rounded-full opacity-20"
-          style={{ backgroundColor: '#F4A261', top: '20%', right: '15%' }}
-          animate={{
-            y: [0, 15, 0],
-            x: [0, -10, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
-
-      {/* Header */}
-      <header className="relative z-10 py-4 px-4" style={{ backgroundColor: '#2D5A3D' }}>
-        <div className="max-w-4xl mx-auto">
+      {/* Navigation Bar */}
+      <nav className="bg-white/80 backdrop-blur-sm border-b border-warm-gray/20">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <Button
             variant="ghost"
             onClick={() => setLocation('/homepage')}
-            className="text-white hover:bg-white/10 mb-2"
+            className="font-serif text-2xl font-bold text-warm-gray-dark hover:text-terracotta transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            Hazel & Hue
+          </Button>
+          <div className="flex space-x-6">
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/homepage')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              Home
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/about')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              About
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/terms')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              Terms
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <Button
+            variant="ghost"
+            onClick={() => setLocation('/homepage')}
+            className="text-warm-gray hover:text-warm-gray-dark mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
-          <h1 className="text-2xl md:text-3xl font-bold text-white" style={{ 
-            fontFamily: 'Playfair Display, Georgia, serif' 
-          }}>
-            Help & FAQ
-          </h1>
+          
+          <div className="text-center">
+            <h1 className="font-serif text-4xl font-bold text-warm-gray-dark mb-4">
+              Help & Support
+            </h1>
+            <p className="text-lg text-warm-gray max-w-2xl mx-auto">
+              Photo tips and frequently asked questions
+            </p>
+          </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* How to Use */}
-            <Card className="mb-8" style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>How to Use Our Service</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E85A4F' }}>
-                      <Upload className="h-8 w-8 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>1. Upload Photos</h3>
-                    <p className="text-sm text-gray-600">Upload 1-3 clear photos of yourself in natural lighting</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4A261' }}>
-                      <Clock className="h-8 w-8 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>2. Pay & Process</h3>
-                    <p className="text-sm text-gray-600">Complete payment and wait 30 seconds for AI analysis</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#A8DADC' }}>
-                      <Camera className="h-8 w-8 text-white" />
-                    </div>
-                    <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>3. Get Results</h3>
-                    <p className="text-sm text-gray-600">Receive your personalized color palette and styling guide</p>
+        <div className="space-y-6">
+          {/* Photo Tips */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Camera className="w-5 h-5 mr-2 text-terracotta" />
+                Photo Requirements
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <Sun className="w-5 h-5 text-marigold mt-1" />
+                  <div>
+                    <p className="font-semibold text-warm-gray-dark">Natural Lighting</p>
+                    <p className="text-sm text-warm-gray">Take photos in bright, natural daylight near a window. Avoid flash, artificial lighting, or harsh shadows.</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
 
-            {/* Photo Tips */}
-            <Card className="mb-8" style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>Photo Tips for Best Results</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-start space-x-3">
+                  <User className="w-5 h-5 text-lagoon mt-1" />
                   <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#E85A4F' }}>✅ Do This</h4>
-                    <ul className="space-y-1 text-sm text-gray-600">
-                      <li>• Use natural daylight (near a window)</li>
-                      <li>• Include face, neck, and some hair</li>
-                      <li>• Take photos without heavy makeup</li>
-                      <li>• Use a plain background if possible</li>
-                      <li>• Upload JPEG, PNG, or HEIC files</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#E85A4F' }}>❌ Avoid This</h4>
-                    <ul className="space-y-1 text-sm text-gray-600">
-                      <li>• Indoor artificial lighting</li>
-                      <li>• Heavy filters or editing</li>
-                      <li>• Blurry or dark photos</li>
-                      <li>• Photos with strong color casts</li>
-                      <li>• Files larger than 10MB</li>
-                    </ul>
+                    <p className="font-semibold text-warm-gray-dark">Clear Face Shot</p>
+                    <p className="text-sm text-warm-gray">Face should fill most of the frame. Remove sunglasses, hats, or anything covering your eyes and hair.</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
 
-            {/* FAQ */}
-            <div className="space-y-4">
-              <Card style={{ border: '2px solid #A8DADC' }}>
-                <CardHeader>
-                  <CardTitle style={{ color: '#2D5A3D' }}>What do I receive?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">
-                    You receive a personalized color analysis with 64 recommended colors, 
-                    makeup suggestions, and styling guidance based on the 12-season color system.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card style={{ border: '2px solid #A8DADC' }}>
-                <CardHeader>
-                  <CardTitle style={{ color: '#2D5A3D' }}>How long does analysis take?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">
-                    The AI analysis typically completes within 30 seconds after payment.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card style={{ border: '2px solid #A8DADC' }}>
-                <CardHeader>
-                  <CardTitle style={{ color: '#2D5A3D' }}>Can I use phone photos?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">
-                    Yes, phone photos work well. We support JPEG, PNG, and HEIC formats from all devices.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card style={{ border: '2px solid #A8DADC' }}>
-                <CardHeader>
-                  <CardTitle style={{ color: '#2D5A3D' }}>What about refunds?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">
-                    All sales are final. Please review our terms of service before purchasing.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Technical Support */}
-            <Card className="mt-8" style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>Technical Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <CheckCircle className="w-5 h-5 text-sage mt-1" />
                   <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Upload Issues</h4>
-                    <p className="text-gray-600 text-sm">
-                      If photos won't upload, check file size (max 10MB) and format (JPEG/PNG/HEIC). 
-                      Try using a different browser or device.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Payment Problems</h4>
-                    <p className="text-gray-600 text-sm">
-                      Payment processing is handled securely by Stripe. If you encounter issues, 
-                      try refreshing the page or using a different payment method.
-                    </p>
+                    <p className="font-semibold text-warm-gray-dark">Minimal Makeup</p>
+                    <p className="text-sm text-warm-gray">Clean face with no makeup or very minimal makeup. This helps us see your natural skin tone.</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* FAQ */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <HelpCircle className="w-5 h-5 mr-2 text-terracotta" />
+                Frequently Asked Questions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">How accurate is the AI analysis?</h4>
+                <p className="text-sm text-warm-gray">
+                  Our AI is trained on thousands of professional color analyses and achieves high accuracy when provided with quality photos that meet our guidelines.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">How long does it take to get results?</h4>
+                <p className="text-sm text-warm-gray">
+                  Results are typically delivered to your email within 30 seconds to 2 minutes after payment completion.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">What file formats are supported?</h4>
+                <p className="text-sm text-warm-gray">
+                  We accept JPEG, PNG, and HEIC (iPhone) image formats. Maximum file size is 10MB per photo.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Can I upload photos of multiple people?</h4>
+                <p className="text-sm text-warm-gray">
+                  No, each analysis is for one person only. Photos should contain only the person being analyzed.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">What if I don't receive my results?</h4>
+                <p className="text-sm text-warm-gray">
+                  Check your spam folder first. If you still don't receive results within 10 minutes, contact our support team.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Are refunds available?</h4>
+                <p className="text-sm text-warm-gray">
+                  No, all sales are final due to the instant digital nature of our service. Please review our terms of service for details.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contact Support */}
+          <div className="p-4 bg-gradient-to-r from-sage/20 to-lagoon/20 border border-sage/30 rounded-lg">
+            <h4 className="font-semibold text-warm-gray-dark mb-3 flex items-center">
+              <Mail className="w-4 h-4 mr-2" />
+              Need More Help?
+            </h4>
+            <p className="text-sm text-warm-gray mb-2">
+              Contact our support team for additional assistance:
+            </p>
+            <p className="text-sm text-terracotta font-medium">support@hazelandhue.com</p>
+            <p className="text-xs text-warm-gray mt-2">
+              Response time: Usually within 24 hours
+            </p>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

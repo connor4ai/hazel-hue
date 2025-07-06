@@ -63,7 +63,7 @@ const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"))
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
 const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
-const Homepage = lazy(() => import("@/pages/reddit-landing"));
+const Homepage = lazy(() => import("@/pages/homepage"));
 const About = lazy(() => import("@/pages/about"));
 const Terms = lazy(() => import("@/pages/terms"));
 const Help = lazy(() => import("@/pages/help"));

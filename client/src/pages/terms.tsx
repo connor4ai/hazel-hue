@@ -1,163 +1,176 @@
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { motion } from 'framer-motion';
-import { ArrowLeft, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, FileText, AlertTriangle, DollarSign } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 
 export default function Terms() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F1FAEE' }}>
+    <div className="min-h-screen bg-cream paper-texture">
       <SEOHead 
-        title="Terms of Service - Hazel & Hue"
-        description="Terms of service for Hazel & Hue AI color analysis platform."
+        title="Terms of Service - Hazel & Hue AI Color Analysis"
+        description="Review our terms of service, payment policy, and service agreement for Hazel & Hue's AI color analysis platform."
         path="/terms"
       />
 
-      {/* Background Elements - Same as upload page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-32 h-32 rounded-full opacity-20"
-          style={{ backgroundColor: '#E85A4F', top: '10%', left: '10%' }}
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute w-24 h-24 rounded-full opacity-20"
-          style={{ backgroundColor: '#F4A261', top: '20%', right: '15%' }}
-          animate={{
-            y: [0, 15, 0],
-            x: [0, -10, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
-
-      {/* Header */}
-      <header className="relative z-10 py-4 px-4" style={{ backgroundColor: '#2D5A3D' }}>
-        <div className="max-w-4xl mx-auto">
+      {/* Navigation Bar */}
+      <nav className="bg-white/80 backdrop-blur-sm border-b border-warm-gray/20">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <Button
             variant="ghost"
             onClick={() => setLocation('/homepage')}
-            className="text-white hover:bg-white/10 mb-2"
+            className="font-serif text-2xl font-bold text-warm-gray-dark hover:text-terracotta transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            Hazel & Hue
+          </Button>
+          <div className="flex space-x-6">
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/homepage')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              Home
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/about')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              About
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/help')}
+              className="text-warm-gray hover:text-terracotta transition-colors"
+            >
+              Help
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <Button
+            variant="ghost"
+            onClick={() => setLocation('/homepage')}
+            className="text-warm-gray hover:text-warm-gray-dark mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
-          <h1 className="text-2xl md:text-3xl font-bold text-white" style={{ 
-            fontFamily: 'Playfair Display, Georgia, serif' 
-          }}>
-            Terms of Service
-          </h1>
+          
+          <div className="text-center">
+            <h1 className="font-serif text-4xl font-bold text-warm-gray-dark mb-4">
+              Terms of Service
+            </h1>
+            <p className="text-lg text-warm-gray max-w-2xl mx-auto">
+              Please review our service terms and payment policy
+            </p>
+          </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Important Notice */}
-            <Card className="mb-8" style={{ border: '2px solid #E85A4F', backgroundColor: '#FEF2F2' }}>
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <AlertTriangle className="h-6 w-6 text-red-600 mr-3" />
-                  <h3 className="font-semibold text-red-800">Important Policy</h3>
-                </div>
-                <p className="text-red-700 font-medium">
-                  All sales are final. No returns or refunds are accepted for our AI color analysis service.
+        <div className="space-y-6">
+          {/* No Refund Policy */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-red-700">
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                No Refund Policy
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <p className="font-semibold text-red-800 mb-2">ALL SALES FINAL</p>
+                <p className="text-red-700">
+                  Due to the instant digital nature of our AI color analysis service, all payments are final and non-refundable. 
+                  By purchasing our service, you acknowledge and agree to this no-refund policy.
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-            {/* Service Terms */}
-            <Card className="mb-6" style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>Service Agreement</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Service Description</h4>
-                    <p className="text-gray-600 text-sm">
-                      Hazel & Hue provides AI-powered color analysis services. You upload photos and receive 
-                      personalized color recommendations based on automated analysis.
-                    </p>
-                  </div>
+          {/* Service Terms */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="w-5 h-5 mr-2 text-terracotta" />
+                Service Agreement
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Service Description</h4>
+                <p className="text-sm text-warm-gray">
+                  Hazel & Hue provides AI-powered color analysis services that determine your seasonal color palette 
+                  based on uploaded photos. Results are delivered digitally via email.
+                </p>
+              </div>
 
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Payment</h4>
-                    <p className="text-gray-600 text-sm">
-                      Payment is required before analysis. The service fee is $29 per analysis.
-                      All sales are final and no refunds will be provided.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Photo Usage</h4>
-                    <p className="text-gray-600 text-sm">
-                      Photos you upload are processed for analysis purposes only and are automatically 
-                      deleted after processing. We do not store or use your photos for any other purpose.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Results Disclaimer</h4>
-                    <p className="text-gray-600 text-sm">
-                      Color analysis results are provided for informational purposes. Results may vary 
-                      and are not guaranteed to be accurate for all individuals.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* User Responsibilities */}
-            <Card className="mb-6" style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>User Responsibilities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>• Provide clear, well-lit photos for accurate analysis</li>
-                  <li>• Only upload photos you have rights to use</li>
-                  <li>• Use the service for personal purposes only</li>
-                  <li>• Understand that all sales are final</li>
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Photo Requirements</h4>
+                <ul className="text-sm text-warm-gray space-y-1">
+                  <li>• Clear, well-lit photos without filters</li>
+                  <li>• Natural lighting preferred</li>
+                  <li>• Face visible without sunglasses or heavy makeup</li>
+                  <li>• 1-3 photos maximum per analysis</li>
                 </ul>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Contact */}
-            <Card style={{ border: '2px solid #A8DADC' }}>
-              <CardHeader>
-                <CardTitle style={{ color: '#2D5A3D' }}>Questions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 text-sm">
-                  If you have questions about these terms, please contact us through our help section 
-                  before purchasing the service.
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Delivery</h4>
+                <p className="text-sm text-warm-gray">
+                  Analysis results are delivered to your email address within minutes of payment completion. 
+                  Please ensure your email address is correct during checkout.
                 </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Payment Policy */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <DollarSign className="w-5 h-5 mr-2 text-terracotta" />
+                Payment Policy
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Pricing</h4>
+                <p className="text-sm text-warm-gray">
+                  Our AI color analysis service costs $29.00 USD. This is a one-time fee for a complete analysis.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Payment Processing</h4>
+                <p className="text-sm text-warm-gray">
+                  Payments are processed securely through Stripe. We accept major credit cards, debit cards, 
+                  and digital payment methods including Apple Pay and Google Pay.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-warm-gray-dark mb-2">Security</h4>
+                <p className="text-sm text-warm-gray">
+                  Your payment information is encrypted and secure. We do not store credit card information on our servers.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contact */}
+          <div className="p-4 bg-gradient-to-r from-sage/20 to-lagoon/20 border border-sage/30 rounded-lg">
+            <h4 className="font-semibold text-warm-gray-dark mb-3">Questions?</h4>
+            <p className="text-sm text-warm-gray">
+              If you have questions about our terms of service, please contact us at support@hazelandhue.com
+            </p>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
