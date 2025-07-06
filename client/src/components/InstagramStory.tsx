@@ -280,13 +280,13 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-2xl p-3 sm:p-4 max-w-sm w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto flex flex-col">
-        <div className="text-center mb-3 sm:mb-4 flex-shrink-0">
-          <h2 className="text-lg sm:text-xl font-bold mb-1">Share Your Results!</h2>
+      <div className="bg-white rounded-2xl p-3 sm:p-4 max-w-xs sm:max-w-sm w-full max-h-[95vh] overflow-y-auto flex flex-col">
+        <div className="text-center mb-2 sm:mb-3 flex-shrink-0">
+          <h2 className="text-base sm:text-lg font-bold mb-1">Share Your Results!</h2>
         </div>
         
-        {/* Preview */}
-        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-xl overflow-hidden mb-3 flex-shrink-0"
+        {/* Preview - Smaller for mobile */}
+        <div className="relative w-full aspect-[9/16] bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 rounded-lg overflow-hidden mb-2 sm:mb-3 flex-shrink-0 max-h-[45vh] sm:max-h-[50vh]"
              style={{
                background: season === 'Light Spring' ? 'linear-gradient(135deg, #FFE5E5, #FFE5B4, #E5FFE5, #E5F3FF)' :
                           season === 'True Spring' ? 'linear-gradient(135deg, #FFCC99, #FFB380, #FFD700, #FF8C69)' :
@@ -302,41 +302,41 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
                           season === 'Dark Winter' ? 'linear-gradient(135deg, #000000, #8B0000, #191970, #2F4F4F)' :
                           'linear-gradient(135deg, #FF69B4, #00CED1, #FFD700, #32CD32)'
              }}>
-          <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-white text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-between p-2 sm:p-3 text-white text-center">
             <div>
-              <div className="text-xs mb-2 bg-white bg-opacity-20 rounded-full px-3 py-1">
+              <div className="text-[10px] sm:text-xs mb-1 bg-white bg-opacity-20 rounded-full px-2 py-0.5">
                 ✨ AI Color Analysis
               </div>
-              <div className="text-lg font-black">I'M A</div>
+              <div className="text-sm sm:text-lg font-black">I'M A</div>
             </div>
             
             <div>
-              <div className="text-2xl mb-2">{data.icon}</div>
-              <div className="text-lg font-bold leading-tight">
+              <div className="text-lg sm:text-2xl mb-1">{data.icon}</div>
+              <div className="text-sm sm:text-lg font-bold leading-tight">
                 {season.toUpperCase().split(' ').map((word, index) => (
                   <div key={index}>{word}</div>
                 ))}
               </div>
-              <div className="text-xs mt-1 opacity-90">{data.subtitle}</div>
+              <div className="text-[10px] sm:text-xs mt-1 opacity-90">{data.subtitle}</div>
             </div>
             
-            <div className="text-xs">@hazelandhue</div>
+            <div className="text-[10px] sm:text-xs">@hazelandhue</div>
           </div>
         </div>
 
 
 
         {/* Action buttons */}
-        <div className="flex gap-2 sm:gap-3 mt-auto pt-2">
+        <div className="flex gap-2 mt-auto pt-1">
           <button
             onClick={shareImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-sm sm:text-base"
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2 sm:py-2.5 px-3 rounded-lg font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-xs sm:text-sm"
           >
             Save & Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
-            className="px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-xl font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base flex-shrink-0"
+            className="px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-xs sm:text-sm flex-shrink-0"
           >
             Next
           </button>
