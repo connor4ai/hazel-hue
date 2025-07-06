@@ -37,27 +37,35 @@ export class SimpleColorAnalysisService {
         })
       );
 
-      // Call OpenAI GPT-4o Vision with simple, direct prompts
+      // Call OpenAI GPT-4o Vision with ChatGPT's exact approach
       const response = await this.openai.chat.completions.create({
         model: "gpt-4o",
         messages: [
           {
             role: "system",
-            content: "You are a certified personal-color analyst who always classifies a person into **exactly one** of the 12 extended seasons: True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Dark Autumn, Soft Autumn. Never refuse. The output should be simply the season name. Nothing else."
+            content: "You are a color analysis expert. Analyze the colors, tones, and harmonies visible in these images. " +
+                     "Determine which of these 12 seasonal color palettes best matches the color characteristics shown:\n" +
+                     "True Winter, Bright Winter, Dark Winter, " +
+                     "True Summer, Light Summer, Soft Summer, " +
+                     "True Spring, Bright Spring, Light Spring, " +
+                     "True Autumn, Dark Autumn, Soft Autumn.\n" +
+                     "Return ONLY this JSON:\n" +
+                     '{"season":"<name>"}'
           },
           {
             role: "user",
             content: [
               {
                 type: "text",
-                text: "Here are three photos of the same person. Study them together and pick the **single best-fit season**. Respond with ONLY the season name, no explanation."
+                text: "Analyze the color harmony, temperature, and contrast in these images to determine the best matching seasonal color palette."
               },
               ...imageContents
             ]
           }
         ],
-        max_tokens: 10,
-        temperature: 0
+        temperature: 0,
+        top_p: 0,
+        seed: 42
       });
 
       const result = response.choices[0].message.content?.trim();
@@ -65,10 +73,23 @@ export class SimpleColorAnalysisService {
         throw new Error("No response from OpenAI");
       }
 
-      // Normalize the season name by extracting it from any extra text
-      const seasonName = this.normalizeSeason(result);
-      console.log(`✅ GPT-4o Vision analysis completed: ${seasonName}`);
-      return seasonName;
+      try {
+        // Parse JSON response
+        const jsonResult = JSON.parse(result);
+        const seasonName = jsonResult.season;
+        
+        if (!seasonName) {
+          throw new Error("No season found in JSON response");
+        }
+        
+        console.log(`✅ GPT-4o Vision analysis completed: ${seasonName}`);
+        return seasonName;
+      } catch (parseError) {
+        // Fallback to text normalization if JSON parsing fails
+        const seasonName = this.normalizeSeason(result);
+        console.log(`⚠️ JSON parsing failed, normalized to: ${seasonName}`);
+        return seasonName;
+      }
 
     } catch (error) {
       console.error('❌ Error in simple color analysis:', error);
