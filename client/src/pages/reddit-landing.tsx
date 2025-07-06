@@ -5,14 +5,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { motion } from 'framer-motion';
-import { Upload, Camera, Star, Shield, Clock, Users, CheckCircle2, AlertCircle, X } from 'lucide-react';
+import { Upload, Camera, Star, Shield, Clock, Users, CheckCircle2, AlertCircle, X, Info, FileText, HelpCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { SEOHead } from '@/components/SEOHead';
 import { Analytics } from '@/components/Analytics';
 import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
 
-export default function RedditLanding() {
+export default function Homepage() {
   const [files, setFiles] = useState<File[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -136,7 +136,7 @@ export default function RedditLanding() {
       <SEOHead 
         title="AI Color Analysis - Discover Your Perfect Colors | Hazel & Hue"
         description="Upload your photos for professional AI color analysis. Get your personalized 12-season color palette, makeup recommendations, and styling guide in 30 seconds."
-        path="/reddit-landing"
+        path="/homepage"
       />
       <Analytics />
       <PerformanceOptimizer />
@@ -185,52 +185,50 @@ export default function RedditLanding() {
         />
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 py-6 px-4" style={{ backgroundColor: '#2D5A3D' }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ 
-            fontFamily: 'Playfair Display, Georgia, serif' 
-          }}>
-            Hazel & Hue
-          </h1>
-          <p className="text-white/80 text-lg">AI-Powered Personal Color Analysis</p>
+      {/* Header with Navigation */}
+      <header className="relative z-10 py-4 px-4" style={{ backgroundColor: '#2D5A3D' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-white" style={{ 
+              fontFamily: 'Playfair Display, Georgia, serif' 
+            }}>
+              Hazel & Hue
+            </h1>
+            
+            {/* Navigation */}
+            <nav className="flex space-x-4">
+              <Button
+                variant="ghost"
+                onClick={() => setLocation('/about')}
+                className="text-white hover:bg-white/10 text-sm"
+              >
+                <Info className="h-4 w-4 mr-1" />
+                About
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setLocation('/terms')}
+                className="text-white hover:bg-white/10 text-sm"
+              >
+                <FileText className="h-4 w-4 mr-1" />
+                Terms
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setLocation('/help')}
+                className="text-white hover:bg-white/10 text-sm"
+              >
+                <HelpCircle className="h-4 w-4 mr-1" />
+                Help
+              </Button>
+            </nav>
+          </div>
         </div>
       </header>
 
-      {/* Reddit Policy Compliance Section */}
-      <section className="py-8 px-4 border-b-2" style={{ borderColor: '#A8DADC' }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E85A4F' }}>
-                <Shield className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Privacy Protected</h3>
-              <p className="text-sm text-gray-600">Your photos are processed securely and never stored permanently</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F4A261' }}>
-                <CheckCircle2 className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Guaranteed Results</h3>
-              <p className="text-sm text-gray-600">Professional color analysis or full refund - no questions asked</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#A8DADC' }}>
-                <Users className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2" style={{ color: '#2D5A3D' }}>Trusted by Thousands</h3>
-              <p className="text-sm text-gray-600">Over 10,000 satisfied customers have discovered their perfect colors</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <main className="py-12 px-4">
-        <div className="max-w-4xl mx-auto">
+      {/* Main Content - Minimalist */}
+      <main className="py-16 px-4">
+        <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -241,32 +239,11 @@ export default function RedditLanding() {
               fontFamily: 'Playfair Display, Georgia, serif',
               color: '#2D5A3D'
             }}>
-              Discover Your Perfect Colors
+              AI Color Analysis
             </h2>
-            <p className="text-xl mb-8 leading-relaxed max-w-3xl mx-auto" style={{ color: '#457B9D' }}>
-              Upload your photos and get professional AI color analysis in 30 seconds. 
-              Receive your personalized 12-season color palette with makeup recommendations and styling guide.
+            <p className="text-xl mb-8 leading-relaxed" style={{ color: '#457B9D' }}>
+              Upload your photos for professional color analysis. $29
             </p>
-
-            {/* Value Proposition */}
-            <div className="grid md:grid-cols-4 gap-4 mb-8">
-              <div className="flex items-center justify-center space-x-2 bg-white rounded-lg p-3 shadow-sm">
-                <Clock className="h-5 w-5" style={{ color: '#E85A4F' }} />
-                <span className="text-sm font-medium">30 Second Results</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white rounded-lg p-3 shadow-sm">
-                <Star className="h-5 w-5" style={{ color: '#F4A261' }} />
-                <span className="text-sm font-medium">64 Personal Colors</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white rounded-lg p-3 shadow-sm">
-                <Camera className="h-5 w-5" style={{ color: '#A8DADC' }} />
-                <span className="text-sm font-medium">AI Powered</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 bg-white rounded-lg p-3 shadow-sm">
-                <CheckCircle2 className="h-5 w-5" style={{ color: '#2D5A3D' }} />
-                <span className="text-sm font-medium">$29 Only</span>
-              </div>
-            </div>
           </motion.div>
 
           {/* Upload Section - Identical to upload page */}
@@ -418,69 +395,16 @@ export default function RedditLanding() {
             </Card>
           </motion.div>
 
-          {/* Additional Reddit Compliance Information */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 text-center"
-          >
-            <Card style={{ border: '2px solid #A8DADC' }}>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4" style={{ color: '#2D5A3D' }}>
-                  What You'll Receive
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium mb-2" style={{ color: '#E85A4F' }}>
-                      🎨 Your Personal Color Palette
-                    </h4>
-                    <ul className="text-sm text-gray-600 text-left space-y-1">
-                      <li>• 64 curated colors for your season</li>
-                      <li>• Click-to-copy hex codes</li>
-                      <li>• Signature colors highlighted</li>
-                      <li>• Colors to avoid guidance</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-2" style={{ color: '#F4A261' }}>
-                      💄 Makeup & Style Guide
-                    </h4>
-                    <ul className="text-sm text-gray-600 text-left space-y-1">
-                      <li>• Interactive makeup swatches</li>
-                      <li>• Foundation shade recommendations</li>
-                      <li>• Hair color guidance</li>
-                      <li>• Jewelry and metal suggestions</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div className="mt-6 p-4" style={{ backgroundColor: '#F8F9FA' }} className="rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    <strong>Satisfaction Guarantee:</strong> Not happy with your results? 
-                    Contact us within 30 days for a full refund. Your privacy is protected - 
-                    photos are processed securely and deleted after analysis.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+
         </div>
       </main>
 
-      {/* Footer for Compliance */}
-      <footer className="py-8 px-4 border-t" style={{ borderColor: '#A8DADC', backgroundColor: '#F8F9FA' }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-sm text-gray-600 mb-4">
-            Hazel & Hue - Professional AI Color Analysis Platform
+      {/* Footer - Simple */}
+      <footer className="py-6 px-4 border-t" style={{ borderColor: '#A8DADC', backgroundColor: '#F8F9FA' }}>
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-sm text-gray-600">
+            © 2025 Hazel & Hue. All sales final.
           </p>
-          <div className="flex justify-center space-x-6 text-xs text-gray-500">
-            <span>Privacy Protected</span>
-            <span>•</span>
-            <span>Secure Processing</span>
-            <span>•</span>
-            <span>Money-Back Guarantee</span>
-          </div>
         </div>
       </footer>
     </div>

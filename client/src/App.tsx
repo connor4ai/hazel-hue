@@ -63,7 +63,10 @@ const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"))
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
 const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
-const RedditLanding = lazy(() => import("@/pages/reddit-landing"));
+const Homepage = lazy(() => import("@/pages/reddit-landing"));
+const About = lazy(() => import("@/pages/about"));
+const Terms = lazy(() => import("@/pages/terms"));
+const Help = lazy(() => import("@/pages/help"));
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -122,7 +125,10 @@ function Router() {
       <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
-      <Route path="/reddit-landing" component={() => <LazyRoute component={RedditLanding} />} />
+      <Route path="/homepage" component={() => <LazyRoute component={Homepage} />} />
+      <Route path="/about" component={() => <LazyRoute component={About} />} />
+      <Route path="/terms" component={() => <LazyRoute component={Terms} />} />
+      <Route path="/help" component={() => <LazyRoute component={Help} />} />
       <Route path="/old-upload" component={Upload} />
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
