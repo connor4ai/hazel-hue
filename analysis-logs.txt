@@ -2023,3 +2023,144 @@
   "stack": "Error: GPT-o3 analysis failed: 400 Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.\n    at CompliantLabAnalysisService.analyzeSeasonWithLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:325:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:351:22)\n    at async processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:135:28)"
 }
 
+[2025-07-06T00:50:21.823Z] ORDER-475 | COMPLIANT_ANALYSIS_START | {
+  "method": "compliant_lab_analysis",
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/475-1751763021626-1.jpg",
+    "uploads/images/475-1751763021626-2.jpg",
+    "uploads/images/475-1751763021626-3.jpg"
+  ]
+}
+
+[2025-07-06T00:50:21.823Z] ORDER-475 | IMAGE_QUALITY_CHECK | {
+  "command": "python3 /home/runner/workspace/python/image_quality_checker.py uploads/images/475-1751763021626-1.jpg uploads/images/475-1751763021626-2.jpg uploads/images/475-1751763021626-3.jpg",
+  "imageCount": 3
+}
+
+[2025-07-06T00:50:22.106Z] ORDER-475 | IMAGE_QUALITY_ISSUES | {
+  "invalidImages": [
+    {
+      "path": "uploads/images/475-1751763021626-3.jpg",
+      "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+      "fileSize": 8303,
+      "resolution": "178x282"
+    }
+  ]
+}
+
+[2025-07-06T00:50:22.107Z] ORDER-475 | IMAGE_QUALITY_RESULTS | {
+  "totalImages": 3,
+  "validImages": 2,
+  "qualityDetails": [
+    {
+      "image": "uploads/images/475-1751763021626-1.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 66135,
+        "resolution": "720x543",
+        "blur_score": 779.6,
+        "brightness": 75
+      }
+    },
+    {
+      "image": "uploads/images/475-1751763021626-2.jpg",
+      "quality": {
+        "valid": true,
+        "reason": "Good quality",
+        "file_size": 75279,
+        "resolution": "550x677",
+        "blur_score": 864.2,
+        "brightness": 114.1
+      }
+    },
+    {
+      "image": "uploads/images/475-1751763021626-3.jpg",
+      "quality": {
+        "valid": false,
+        "reason": "Low resolution 178x282 (need 300x300+); Small file size 8KB (need 50KB+)",
+        "file_size": 8303,
+        "resolution": "178x282",
+        "blur_score": 266,
+        "brightness": 75.7
+      }
+    }
+  ]
+}
+
+[2025-07-06T00:50:22.107Z] ORDER-475 | LAB_EXTRACTION_START | {
+  "imageCount": 3,
+  "imagePaths": [
+    "uploads/images/475-1751763021626-1.jpg",
+    "uploads/images/475-1751763021626-2.jpg",
+    "uploads/images/475-1751763021626-3.jpg"
+  ]
+}
+
+[2025-07-06T00:50:22.107Z] ORDER-475 | PYTHON_COMMAND | {
+  "command": "python3 /home/runner/workspace/python/enhanced_lab_extractor.py uploads/images/475-1751763021626-1.jpg uploads/images/475-1751763021626-2.jpg uploads/images/475-1751763021626-3.jpg 2>/dev/null",
+  "pythonPath": "/home/runner/workspace/python/enhanced_lab_extractor.py"
+}
+
+[2025-07-06T00:50:23.562Z] ORDER-475 | LAB_EXTRACTION_RESULT | {
+  "rawResult": "[\n  {\n    \"skin_LAB\": [\n      76.47,\n      10.0,\n      13.0\n    ],\n    \"hair_LAB\": [\n      15.69,\n      0.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      53.14,\n      0.0,\n      0.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"neutral\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      81.57,\n      15.0,\n      14.0\n    ],\n    \"hair_LAB\": [\n      24.71,\n      -1.0,\n      4.0\n    ],\n    \"eye_LAB\": [\n      58.82,\n      3.0,\n      -2.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"muted\"\n  },\n  {\n    \"skin_LAB\": [\n      80.78,\n      14.0,\n      18.0\n    ],\n    \"hair_LAB\": [\n      17.65,\n      6.0,\n      11.0\n    ],\n    \"eye_LAB\": [\n      56.86,\n      11.5,\n      11.0\n    ],\n    \"overall_contrast\": \"high\",\n    \"undertone\": \"warm\",\n    \"chroma_intensity\": \"moderate\"\n  }\n]\n"
+}
+
+[2025-07-06T00:50:23.563Z] ORDER-475 | LAB_DATA_AVERAGED | {
+  "originalCount": 3,
+  "averagedData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:50:23.563Z] ORDER-475 | GPT_O3_REQUEST_START | {
+  "model": "o3",
+  "parameters": {
+    "max_completion_tokens": 32768,
+    "note": "Using default temperature and top_p for o3 model"
+  },
+  "inputData": {
+    "skin_LAB": [
+      79.60666666666667,
+      13,
+      15
+    ],
+    "hair_LAB": [
+      19.349999999999998,
+      1.6666666666666667,
+      6.333333333333333
+    ],
+    "eye_LAB": [
+      56.27333333333333,
+      4.833333333333333,
+      3
+    ],
+    "overall_contrast": "high",
+    "undertone": "warm",
+    "chroma_intensity": "muted"
+  }
+}
+
+[2025-07-06T00:50:23.681Z] ORDER-475 | COMPLIANT_ANALYSIS_ERROR | {
+  "error": "GPT-o3 analysis failed: 400 Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.",
+  "stack": "Error: GPT-o3 analysis failed: 400 Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.\n    at CompliantLabAnalysisService.analyzeSeasonWithLabData (/home/runner/workspace/server/services/compliantLabAnalysis.ts:325:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async CompliantLabAnalysisService.analyzePhotosCompliant (/home/runner/workspace/server/services/compliantLabAnalysis.ts:351:22)\n    at async processColorAnalysisWorker (/home/runner/workspace/server/routes.ts:135:28)"
+}
+

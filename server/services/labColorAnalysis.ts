@@ -131,9 +131,6 @@ LAB values should be:
       // Set a 60-second timeout for GPT-o3
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
-        temperature: 0,
-        top_p: 0,
-        seed: 42,
         max_completion_tokens: 32768,
         messages: [
         {
