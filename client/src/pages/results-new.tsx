@@ -1778,7 +1778,7 @@ export default function ResultsNew() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-green-50 rounded-3xl p-6 border border-green-100"
+              className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating"
             >
               <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
@@ -1822,7 +1822,7 @@ export default function ResultsNew() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-red-50 rounded-3xl p-6 border border-red-100"
+              className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating"
             >
               <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <div className="w-3 h-3 bg-red-500 rounded-full mr-3"></div>
