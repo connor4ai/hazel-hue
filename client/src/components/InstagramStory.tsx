@@ -327,16 +327,16 @@ export default function InstagramStory({ season, onDownload }: InstagramStoryPro
 
 
         {/* Action buttons */}
-        <div className="flex gap-2 mt-auto pt-1">
+        <div className="flex gap-2 mt-auto pt-2">
           <button
             onClick={shareImage}
-            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2 sm:py-2.5 px-3 rounded-lg font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-xs sm:text-sm"
+            className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white py-2.5 sm:py-3 px-4 rounded-lg font-semibold hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 transition-all duration-200 shadow-lg text-sm sm:text-base"
           >
             Save & Share
           </button>
           <button
             onClick={() => onDownload && onDownload()}
-            className="px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-xs sm:text-sm flex-shrink-0"
+            className="px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-sm sm:text-base flex-shrink-0"
           >
             Next
           </button>
