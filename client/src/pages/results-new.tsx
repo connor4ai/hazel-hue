@@ -1275,13 +1275,13 @@ export default function ResultsNew() {
         const data = await response.json();
         setOrder(data.order);
         
-        if ((data.order.status !== 'completed' && data.order.status !== 'analyzed') || !data.order.analysisResult) {
+        if (data.order.status !== 'completed' || !data.order.analysisResult) {
           toast({
             title: "Analysis Not Ready",
             description: "Your color analysis is still processing",
             variant: "destructive",
           });
-          setLocation(`/analysis-processing?orderId=${orderId}`);
+          setLocation(`/processing/${orderId}`);
         }
       } else {
         throw new Error('Order not found');

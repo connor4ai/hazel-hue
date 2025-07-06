@@ -43,13 +43,21 @@ export default function AnalyzingPage() {
               setShowColors(true);
               break;
             case 'analyzed':
-            case 'completed':
               setProgress(100);
               setStatusMessage("Analysis complete! Preparing your results...");
               setShowColors(true);
-              // Always redirect to results-preview for payment/unlock step
+              // Redirect to blurred results page
               setTimeout(() => {
                 setLocation(`/results-preview/${storedOrderId}`);
+              }, 1500);
+              return;
+            case 'completed':
+              setProgress(100);
+              setStatusMessage("Analysis complete! Redirecting to results...");
+              setShowColors(true);
+              // Redirect directly to full results page
+              setTimeout(() => {
+                setLocation(`/results/${storedOrderId}`);
               }, 1500);
               return;
             case 'failed':

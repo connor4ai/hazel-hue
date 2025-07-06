@@ -164,7 +164,7 @@ function CheckoutForm({
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/analysis-processing`,
+        return_url: `${window.location.origin}/processing`,
       },
       redirect: 'if_required',
     });
@@ -329,8 +329,8 @@ export default function CheckoutEnhanced() {
         // Store the payment intent ID for the results page
         sessionStorage.setItem('paymentIntentId', paymentIntentId);
         
-        // Navigate to analysis processing page
-        setLocation(`/analysis-processing?orderId=${paymentIntentId}`);
+        // Navigate to processing/loading page
+        setLocation(`/processing/${paymentIntentId}`);
       } else {
         throw new Error('Failed to start analysis');
       }
@@ -425,8 +425,8 @@ export default function CheckoutEnhanced() {
       // Store payment info for processing page
       sessionStorage.setItem('paymentIntentId', paymentIntentId);
       
-      // Navigate to analysis processing page
-      setLocation(`/analysis-processing?orderId=${paymentIntentId}`);
+      // Navigate to processing page
+      setLocation(`/processing/${paymentIntentId}`);
     } catch (error: any) {
       toast({
         title: "Error",

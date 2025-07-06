@@ -57,7 +57,7 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/analysis-processing`,
+          return_url: `${window.location.origin}/processing`,
         },
         redirect: 'if_required'
       });
@@ -232,8 +232,8 @@ export default function Checkout() {
           description: "Your color analysis is starting now...",
         });
 
-        // Navigate to analysis processing page
-        setLocation(`/analysis-processing?orderId=${data.orderId}`);
+        // Navigate to processing page
+        setLocation(`/processing/${data.orderId}`);
       } else {
         throw new Error('Failed to create order');
       }

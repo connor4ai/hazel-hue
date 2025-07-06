@@ -341,16 +341,16 @@ export default function ResultsPreviewPage() {
     );
   }
 
-  if (!order) {
+  if (!order || !order.analysisResult) {
     return (
       <div className="min-h-screen bg-cream paper-texture flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="p-8 text-center">
             <h2 className="font-serif text-2xl font-bold text-warm-gray-dark mb-4">
-              Order Not Found
+              Results Not Ready
             </h2>
             <p className="text-warm-gray mb-6">
-              Could not find your analysis order. Please try uploading your photos again.
+              Your analysis results are not yet available. Please wait for the analysis to complete.
             </p>
             <Button onClick={() => setLocation('/upload')}>
               Start New Analysis
@@ -361,14 +361,7 @@ export default function ResultsPreviewPage() {
     );
   }
 
-  const { analysisResult } = order || {};
-
-  // Mock preview data for orders without analysis results yet
-  const previewData = analysisResult || {
-    coreNeutrals: ["#8B4513", "#A0522D", "#CD853F"],
-    accentLights: ["#F4A460", "#DAA520", "#B8860B"],
-    accentBrights: ["#FF8C00", "#FF7F50", "#DC143C"]
-  };
+  const { analysisResult } = order;
 
   return (
     <div>
@@ -715,7 +708,7 @@ export default function ResultsPreviewPage() {
                 <h3 className="text-2xl font-semibold text-white">Your Color Palette</h3>
               </div>
               <div className="flex justify-center gap-4 mb-8">
-                {[...previewData.coreNeutrals, ...previewData.accentLights, ...previewData.accentBrights].slice(0, 5).map((color, index) => (
+                {[...analysisResult.coreNeutrals, ...analysisResult.accentLights, ...analysisResult.accentBrights].slice(0, 5).map((color, index) => (
                   <div
                     key={index}
                     className="w-16 h-16 rounded-full"

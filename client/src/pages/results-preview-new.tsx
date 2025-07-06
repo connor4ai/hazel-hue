@@ -286,28 +286,16 @@ export default function ResultsPreview() {
       const response = await apiRequest('GET', `/api/orders/${id}`);
       const data = await response.json();
       
-      if (data.order) {
+      if (data.order && data.order.analysisResult) {
         setOrder(data.order);
-        // If analysis is ready AND payment is completed, redirect to results
-        if (data.order.analysisResult && (data.order.status === 'completed' || data.order.status === 'analyzed') && data.order.paymentStatus === 'paid') {
+        
+        if (data.order.status === 'completed') {
           setLocation(`/results/${id}`);
-          return;
-        }
-        
-        // If analysis is still processing, redirect to analyzing page
-        if (!data.order.analysisResult && (data.order.status === 'processing' || data.order.status === 'files_uploaded')) {
-          setLocation('/analyzing');
-          return;
-        }
-        
-        // If analysis is complete but payment not processed, show payment form
-        if (data.order.analysisResult && data.order.paymentStatus !== 'paid') {
-          // Analysis ready, show payment form
         }
       } else {
         toast({
-          title: "Order not found",
-          description: "This order could not be found.",
+          title: "Analysis not found",
+          description: "This analysis result is not available.",
           variant: "destructive",
         });
         setLocation('/');

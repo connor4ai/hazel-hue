@@ -149,6 +149,22 @@ export default function UploadNew() {
       // Navigate to analyzing page after getting order ID
       setLocation('/analyzing');
       
+      // For debugging - also try direct redirect after short delay
+      setTimeout(() => {
+        const currentOrderId = sessionStorage.getItem('currentOrderId');
+        if (currentOrderId) {
+          // Check if analysis completed quickly and redirect directly
+          fetch(`/api/orders/${currentOrderId}/status`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'completed') {
+                setLocation(`/results-preview/${currentOrderId}`);
+              }
+            })
+            .catch(console.error);
+        }
+      }, 2000);
+      
     } catch (error) {
       console.error('Error starting analysis:', error);
       toast({

@@ -9,9 +9,8 @@ import { storage } from "./storage";
 import { emailService } from "./services/emailService";
 import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
-
+import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
 import { fashionApiService } from "./services/fashionApiService";
-import { CompliantLabAnalysisService } from "./services/compliantLabAnalysis";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -39,29 +38,11 @@ function createDemoImageBase64(personType: string): string {
 
 // Configure multer for file uploads
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      const dir = 'uploads/images';
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      cb(null, dir);
-    },
-    filename: function (req, file, cb) {
-      // Generate filename with job ID and timestamp
-      const orderId = req.params.jobId || 'unknown';
-      const timestamp = Date.now();
-      const ext = path.extname(file.originalname);
-      const index = (req as any).fileIndex || 1;
-      cb(null, `${orderId}-${timestamp}-${index}${ext}`);
-    }
-  }),
+  dest: 'uploads/',
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB
   },
   fileFilter: (req, file, cb) => {
-    console.log(`🔍 File filter check: ${file.originalname}, MIME: ${file.mimetype}`);
-    
     // Allow JPEG, PNG, HEIC, and HEIF files
     const allowedMimeTypes = [
       'image/jpeg',
@@ -78,10 +59,8 @@ const upload = multer({
     );
     
     if (allowedMimeTypes.includes(file.mimetype) || hasValidExtension) {
-      console.log(`✅ File accepted: ${file.originalname}`);
       cb(null, true);
     } else {
-      console.log(`❌ File rejected: ${file.originalname} (MIME: ${file.mimetype})`);
       cb(new Error('Only JPEG, PNG, and HEIC files are allowed'));
     }
   },
@@ -107,82 +86,33 @@ const authenticateUser = async (req: any, res: any, next: any) => {
 // Worker function that processes the job after photos are uploaded
 async function processColorAnalysisWorker(jobId: number) {
   try {
-    console.log(`🚀 Starting worker for job ${jobId}`);
+    console.log(`Starting worker for job ${jobId}`);
     
     const order = await storage.getOrder(jobId);
     if (!order || !order.images) {
       throw new Error('Job or images not found');
     }
 
-    console.log(`📋 Order found for job ${jobId}:`, {
-      orderId: order.id,
-      status: order.status,
-      images: order.images,
-      imageCount: Array.isArray(order.images) ? order.images.length : 0
-    });
-
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call compliant GPT-o3 LAB analysis with the images
+    // Call OpenAI with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call compliant analyzePhotosCompliant (GPT-o3) with paths:`, imagePaths);
-    
-    let analysisResult;
-    
-    // Use only GPT-o3 LAB analysis - no fallbacks
-    const compliantService = new CompliantLabAnalysisService();
-    const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
-    console.log(`AI detected season: ${detectedSeason}`);
-    
-    // Get full analysis result for the detected season
-    analysisResult = compliantService.getPreloadedResult(detectedSeason);
-    
-    console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
-    console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
-      season: analysisResult.season,
-      description: analysisResult.description?.substring(0, 100) + '...'
-    });
+    const analysisResult = await preloadedColorAnalysisService.analyzePhotos(imagePaths);
+    console.log(`OpenAI analysis completed for job ${jobId}`);
 
     // Generate PDF report
     const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
     console.log(`PDF generated for job ${jobId}`);
 
-    // Save outputs and mark as analyzed
+    // Save outputs and mark as analyzed (not completed until payment)
     await storage.updateOrderAnalysis(jobId, analysisResult, pdfPath);
     await storage.updateOrderStatus(jobId, 'analyzed');
 
-    // Check if this is a paid order (free orders with promo codes)
-    if (order.paymentStatus === 'paid') {
-      // For paid orders (including free with promo codes), mark as completed and send email
-      await storage.updateOrderStatus(jobId, 'completed');
-      
-      if (order.email) {
-        try {
-          await emailService.sendAnalysisReport(order.email, analysisResult, order.id.toString());
-          await storage.updateOrderEmailSent(order.id);
-          console.log(`✅ GPT-o3 analysis results emailed to: ${order.email}`);
-        } catch (emailError) {
-          console.error("Error sending analysis email:", emailError);
-        }
-      }
-    }
-
-    console.log(`✅ Job ${jobId} completed successfully`);
+    console.log(`Job ${jobId} completed successfully`);
   } catch (error: any) {
-    console.error(`❌ Error processing job ${jobId}:`, error);
-    console.error(`❌ Error stack:`, error.stack);
-    console.error(`❌ Error details:`, {
-      message: error.message,
-      name: error.name,
-      code: error.code
-    });
-    
-    try {
-      await storage.updateOrderStatus(jobId, 'failed');
-    } catch (updateError) {
-      console.error(`❌ Failed to update job status to failed:`, updateError);
-    }
+    console.error(`Error processing job ${jobId}:`, error);
+    await storage.updateOrderStatus(jobId, 'failed');
   }
 }
 
@@ -516,9 +446,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { orderId } = req.params;
       const { images, email } = req.body; // Base64 image data or email
       
-      // This endpoint should only be used with actual images, not for creating demo orders
+      // For CONNOR promo code, create a free order
       if (email && !images) {
-        return res.status(400).json({ message: "Images are required for analysis" });
+        // Check if user exists, create if not
+        let user = await storage.getUserByEmail(email);
+        if (!user) {
+          user = await storage.createUser({
+            email: email,
+            firstName: 'Demo',
+            lastName: 'User'
+          });
+        }
+        
+        const freeOrder = await storage.createOrder({
+          userId: user.id,
+          paymentIntentId: orderId,
+          amount: 0
+        });
+        
+        // Create demo images with actual content for testing
+        const demoImagePaths: string[] = [];
+        const demoImages = [
+          { name: 'demo1.jpg', content: createDemoImageBase64('person1') },
+          { name: 'demo2.jpg', content: createDemoImageBase64('person2') },
+          { name: 'demo3.jpg', content: createDemoImageBase64('person3') }
+        ];
+        
+        for (const demo of demoImages) {
+          const filePath = path.join(uploadsDir, `${orderId}_${demo.name}`);
+          fs.writeFileSync(filePath, demo.content, 'base64');
+          demoImagePaths.push(filePath);
+        }
+        
+        await storage.updateOrderImages(freeOrder.id, demoImagePaths);
+        await storage.updateOrderStatus(freeOrder.id, 'processing');
+        
+        // Start analysis immediately
+        setImmediate(() => processColorAnalysisWorker(freeOrder.id));
+        
+        return res.json({ message: "Free analysis started", status: "processing", orderId: freeOrder.id });
       }
       
       if (!images || images.length < 3) {
@@ -655,14 +621,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Create unpaid order
-      console.log(`🆕 Creating fresh guest order for user ${guestUserId}`);
       const order = await storage.createOrder({
         userId: guestUserId,
         status: 'queued',
         paymentStatus: 'unpaid',
         amount: 2900, // $29.00 in cents
       });
-      console.log(`📦 Fresh order created:`, { orderId: order.id, status: order.status });
 
       // Save images to disk for processing
       const imagePaths: string[] = [];
@@ -688,7 +652,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateOrderStatus(order.id, 'files_uploaded');
 
       // Start analysis immediately
-      console.log(`🚀 TRIGGERING GPT-o3 ANALYSIS for guest order ${order.id}`);
       setImmediate(() => processColorAnalysisWorker(order.id));
 
       res.json({ 
@@ -737,8 +700,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateOrderImages(order.id, imagePaths);
       await storage.updateOrderStatus(order.id, 'processing');
 
-      // Start GPT-o3 analysis process (asynchronous)
-      setImmediate(() => processColorAnalysisWorker(order.id));
+      // Start analysis process (asynchronous)
+      processColorAnalysis(order.id).catch(console.error);
 
       res.json({ success: true, message: "Images uploaded successfully" });
     } catch (error: any) {
@@ -982,16 +945,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (order.status !== 'queued') {
         return res.status(400).json({ message: "Job not ready for photos" });
       }
-
-      // Log file details for debugging
-      files.forEach((file, index) => {
-        console.log(`📁 Uploaded file ${index + 1}:`);
-        console.log(`   - Original name: ${file.originalname}`);
-        console.log(`   - MIME type: ${file.mimetype}`);
-        console.log(`   - Size: ${file.size} bytes`);
-        console.log(`   - Saved path: ${file.path}`);
-        console.log(`   - Filename: ${file.filename}`);
-      });
 
       // Save photo paths and update status
       await storage.updateOrderImages(jobId, files.map(f => f.path));
@@ -1554,29 +1507,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Order not found" });
       }
       
-      // Update payment status to paid but keep status as processing for analysis
+      // Update payment status and set to completed
       await storage.updateOrderPaymentStatus(parseInt(orderId), 'paid');
-      
-      console.log(`🔍 DEBUG - Order ${orderId} status check:`, {
-        hasAnalysisResult: !!order.analysisResult,
-        currentStatus: order.status,
-        paymentStatus: order.paymentStatus,
-        hasImages: !!order.images,
-        imageCount: Array.isArray(order.images) ? order.images.length : 0
-      });
+      await storage.updateOrderStatus(parseInt(orderId), 'completed');
 
-      // FORCE RE-ANALYSIS - Clear existing results and start fresh GPT-o3 analysis
-      console.log(`🔄 FORCING FRESH GPT-o3 ANALYSIS for order ${orderId} (ignoring cached results)`);
+      // Get the updated order with analysis results
+      const updatedOrder = await storage.getOrder(parseInt(orderId));
       
-      // Clear any existing analysis data to force fresh analysis
-      await storage.updateOrderAnalysis(parseInt(orderId), null, null);
-      await storage.updateOrderStatus(parseInt(orderId), 'processing');
-      
-      console.log(`📁 Order images:`, order.images);
-      console.log(`🧠 STARTING FRESH GPT-o3 ANALYSIS for order ${orderId}`);
-      
-      // Trigger the analysis worker (this will use GPT-o3)
-      setImmediate(() => processColorAnalysisWorker(parseInt(orderId)));
+      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
+        try {
+          // Send email with results
+          await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
+          await storage.updateOrderEmailSent(updatedOrder.id);
+          console.log(`Free analysis results emailed to: ${updatedOrder.email}`);
+        } catch (emailError) {
+          console.error("Error sending free analysis email:", emailError);
+          // Don't fail the request if email fails
+        }
+      }
 
       res.json({ success: true, message: "Order marked as paid with promo code" });
       
@@ -1634,4 +1582,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
 }
 
 // Color analysis processing function
+async function processColorAnalysis(orderId: number) {
+  try {
+    // Simulate AI processing time
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
+    const order = await storage.getOrder(orderId);
+    if (!order) return;
+
+    // Generate mock analysis result (in production, this would be actual AI analysis)
+    const analysisResult = {
+      season: "Warm Autumn",
+      description: "You have warm undertones with rich, earthy colors that complement your natural coloring beautifully.",
+      coreNeutrals: ["#8B4513", "#A0522D", "#CD853F", "#DEB887"],
+      accentLights: ["#F4A460", "#DAA520", "#B8860B", "#FFD700"],
+      accentBrights: ["#FF8C00", "#FF7F50", "#DC143C", "#B22222"],
+      recommendations: {
+        metals: "Gold, brass, and copper",
+        eyewear: "Warm brown, tortoiseshell, or gold frames",
+        makeup: "Warm coral blush, golden eyeshadows, warm red lipstick"
+      }
+    };
+
+    // Generate PDF report
+    const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
+    
+    // Update order with analysis results
+    await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
+
+    // Send email with report
+    const user = await storage.getUser(order.userId);
+    if (user) {
+      await emailService.sendAnalysisReport(user.email, analysisResult, pdfPath);
+      await storage.updateOrderEmailSent(orderId);
+    }
+
+  } catch (error) {
+    console.error('Error processing color analysis:', error);
+    await storage.updateOrderStatus(orderId, 'failed');
+  }
+}
