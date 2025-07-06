@@ -233,7 +233,7 @@ export default function Homepage() {
             50% { background-position: 100% 50%; }
         }
 
-        /* Card with Subtle Elevation */
+        /* Card with Subtle Elevation - NO BORDERS */
         .elevated-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
@@ -241,6 +241,7 @@ export default function Homepage() {
             padding: 3rem;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none !important;
         }
 
         .elevated-card:hover {
@@ -363,6 +364,7 @@ export default function Homepage() {
                   <label 
                     htmlFor="photo-upload" 
                     className="elevated-card block cursor-pointer"
+                    style={{ border: 'none' }}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
