@@ -26,6 +26,7 @@ import {
   mobilePerformance, 
   responsiveImages 
 } from "./utils/mobile-optimization";
+import { trackAnalytics } from "./utils/analytics";
 import "./emergency-memory-fix.js";
 
 const app = express();
@@ -59,6 +60,9 @@ app.use(criticalResourcesMiddleware);
 app.use(seoEnhancement);
 app.use(performanceHeaders);
 app.use(pageSpeedOptimization);
+
+// Analytics tracking (after device detection)
+app.use(trackAnalytics);
 
 // Rate limiting for API routes
 app.use('/api', rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes

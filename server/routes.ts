@@ -1581,6 +1581,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
   return httpServer;
 }
 
+function generateTrafficRecommendations(summary: any): string[] {
+  const recommendations = [];
+  
+  // Mobile optimization
+  if (summary.mobileTraffic > summary.desktopTraffic) {
+    recommendations.push("📱 Most traffic is mobile - ensure upload process is touch-friendly");
+  }
+  
+  // Conversion analysis
+  const conversionRate = parseFloat(summary.conversionFunnel.conversionRate);
+  if (conversionRate < 2) {
+    recommendations.push("🔍 Low conversion rate - consider A/B testing the upload page design");
+  }
+  
+  // Drop-off analysis
+  const uploadToCheckout = parseFloat(summary.dropOffPoints.uploadToCheckout);
+  if (uploadToCheckout < 30) {
+    recommendations.push("⚠️ High drop-off after upload - review photo upload UX and processing time");
+  }
+  
+  // Page performance
+  if (summary.averageResponseTime > 1000) {
+    recommendations.push("🚀 Slow page loads detected - consider optimizing images and scripts");
+  }
+  
+  // Traffic sources
+  if (summary.referrers.length === 0) {
+    recommendations.push("🎯 No external referrers detected - verify ad tracking parameters");
+  }
+  
+  return recommendations;
+}
+
 // Color analysis processing function
 async function processColorAnalysis(orderId: number) {
   try {
