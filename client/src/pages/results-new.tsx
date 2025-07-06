@@ -2248,11 +2248,8 @@ export default function ResultsNew() {
           {/* Center Header Bar - Compact Size */}
           <div className="flex-1 flex justify-center mx-16">
             <div className="bg-white/90 backdrop-blur-lg rounded-xl px-4 py-1.5 shadow-lg border border-white/50 floating max-w-sm">
-              <div className="flex items-center justify-center space-x-2 text-center w-full">
-                <div className="w-6 h-6 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
-                  {steps[currentStep].icon}
-                </div>
-                <h2 className="text-sm font-bold text-gray-800 whitespace-nowrap text-center flex-1">{steps[currentStep].title}</h2>
+              <div className="flex items-center justify-center w-full">
+                <h2 className="text-sm font-bold text-gray-800 whitespace-nowrap text-center">{steps[currentStep].title}</h2>
               </div>
             </div>
           </div>
