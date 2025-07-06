@@ -24,6 +24,17 @@ const SoftAutumnPalette = lazy(() => import('@/components/SoftAutumnPalette'));
 import { PinterestBoardWidget } from '@/components/PinterestPreview';
 import InstagramStory from '@/components/InstagramStory';
 
+const floatingStyles = `
+  @keyframes float-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  
+  .floating {
+    animation: float-subtle 4s ease-in-out infinite;
+  }
+`;
+
 // Metal color helper function
 const getMetalColorSwatch = (metalName: string) => {
   const metalLower = metalName.toLowerCase();
@@ -1381,7 +1392,7 @@ export default function ResultsNew() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
+              className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating"
             >
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Palette className="w-5 h-5 mr-2 text-rose-600" />
@@ -1407,7 +1418,7 @@ export default function ResultsNew() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-rose-100"
+              className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating"
             >
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center">Signature Colors</h3>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 justify-items-center">
@@ -1432,7 +1443,7 @@ export default function ResultsNew() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-6 border border-red-100"
+            className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating"
           >
             <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Colors to Avoid</h3>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4">
@@ -1490,7 +1501,7 @@ export default function ResultsNew() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-100"
+            className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 border border-white/50 shadow-lg floating"
           >
             <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">Color Dimensions</h4>
             <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -1867,7 +1878,7 @@ export default function ResultsNew() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+              className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating"
             >
               <h4 className="text-xl font-bold text-gray-800 mb-6">Your {analysisResult.season} Makeup Palette</h4>
               
@@ -2170,14 +2181,33 @@ export default function ResultsNew() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-pink-50">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 25%, #dee2e6 50%, #ced4da 75%, #adb5bd 100%)' }}>
+      <style dangerouslySetInnerHTML={{ __html: floatingStyles }} />
+      {/* Floating Navigation */}
+      <div className="fixed top-6 right-6 z-40">
+        <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-4 py-2 shadow-lg border border-white/50">
+          <div className="flex items-center space-x-6 text-sm">
+            <a href="/" className="text-gray-700 hover:text-warm-coral transition-colors">Home</a>
+            <a href="/blog" className="text-gray-700 hover:text-warm-coral transition-colors">Blog</a>
+            <a href="/faqs" className="text-gray-700 hover:text-warm-coral transition-colors">FAQs</a>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-rose-100">
+      <div className="relative pt-20 pb-8">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-          {/* Mobile and Desktop: Centered title */}
           <div className="text-center">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">Your Color Analysis Results</h1>
-            <p className="text-sm sm:text-base text-gray-600">Step {currentStep + 1} of {steps.length}</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4" 
+                style={{ 
+                  background: 'linear-gradient(135deg, #2D5A3D, #E85A4F, #F4A261, #A8DADC)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
+              Your Color Analysis Results
+            </h1>
+            <p className="text-lg text-gray-700">Step {currentStep + 1} of {steps.length}</p>
           </div>
         </div>
       </div>
@@ -2191,10 +2221,10 @@ export default function ResultsNew() {
               onClick={() => setCurrentStep(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentStep 
-                  ? 'bg-rose-500 scale-125' 
+                  ? 'bg-warm-coral scale-125' 
                   : index < currentStep 
-                    ? 'bg-rose-300' 
-                    : 'bg-gray-200'
+                    ? 'bg-golden-yellow' 
+                    : 'bg-gray-300'
               }`}
             />
           ))}
@@ -2203,37 +2233,39 @@ export default function ResultsNew() {
 
       {/* Step Navigation */}
       <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="flex items-center justify-between bg-white rounded-2xl p-4 shadow-sm border border-rose-100">
-          <button
-            onClick={prevStep}
-            disabled={currentStep === 0}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
-              currentStep === 0 
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                : 'bg-rose-500 text-white hover:bg-rose-600 hover:scale-105'
-            }`}
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+        <div className="bg-white/90 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-white/50 floating">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={prevStep}
+              disabled={currentStep === 0}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                currentStep === 0 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-warm-coral text-white hover:bg-opacity-90 hover:scale-105'
+              }`}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
 
-          <div className="flex items-center space-x-3 text-center">
-            <div className="w-10 h-10 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white">
-              {steps[currentStep].icon}
+            <div className="flex items-center space-x-3 text-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-forest-green to-warm-coral rounded-full flex items-center justify-center text-white">
+                {steps[currentStep].icon}
+              </div>
+              <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
             </div>
-            <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
-          </div>
 
-          <button
-            onClick={nextStep}
-            disabled={currentStep === steps.length - 1}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
-              currentStep === steps.length - 1 
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                : 'bg-rose-500 text-white hover:bg-rose-600 hover:scale-105'
-            }`}
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+            <button
+              onClick={nextStep}
+              disabled={currentStep === steps.length - 1}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                currentStep === steps.length - 1 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-warm-coral text-white hover:bg-opacity-90 hover:scale-105'
+              }`}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
 
