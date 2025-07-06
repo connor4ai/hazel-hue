@@ -63,6 +63,7 @@ const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"))
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
 const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
+const RedditLanding = lazy(() => import("@/pages/reddit-landing"));
 import Checkout from "@/pages/checkout-enhanced";
 import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
@@ -121,6 +122,7 @@ function Router() {
       <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
+      <Route path="/reddit-landing" component={() => <LazyRoute component={RedditLanding} />} />
       <Route path="/old-upload" component={Upload} />
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
