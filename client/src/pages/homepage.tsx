@@ -180,183 +180,260 @@ export default function Homepage() {
   };
 
   return (
-    <div className="min-h-screen bg-cream paper-texture">
+    <>
       <SEOHead 
         title="AI Color Analysis - Hazel & Hue"
         description="Upload your photos and let AI discover your perfect color palette with professional seasonal color analysis."
         path="/homepage"
       />
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <div className="flex space-x-6 mb-4">
-            <Button
-              variant="ghost"
-              onClick={() => setLocation('/about')}
-              className="text-warm-gray hover:text-warm-gray-dark"
-            >
-              About
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setLocation('/terms')}
-              className="text-warm-gray hover:text-warm-gray-dark"
-            >
-              Terms
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setLocation('/help')}
-              className="text-warm-gray hover:text-warm-gray-dark"
-            >
-              Help
-            </Button>
-          </div>
-          
-          <div className="text-center">
-            <h1 className="font-serif text-4xl font-bold text-warm-gray-dark mb-4">
-              AI Color Analysis
-            </h1>
-            <p className="text-lg text-warm-gray max-w-2xl mx-auto">
-              Upload your photos and let AI discover your perfect palette
-            </p>
-          </div>
+      
+      <style>{`
+        body {
+          margin: 0;
+          padding: 0;
+          background: #f8f9fa;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        .upload-container {
+          min-height: 100vh;
+          background: #f8f9fa;
+          padding: 2rem;
+        }
+
+        .floating-nav {
+          position: absolute;
+          top: 2rem;
+          right: 2rem;
+          display: flex;
+          gap: 2rem;
+        }
+
+        .nav-link {
+          color: #6c757d;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+          color: #495057;
+        }
+
+        .main-title {
+          font-size: 4rem;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #b4a5c7, #d4a574, #c7a5b4);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          line-height: 1.1;
+        }
+
+        .subtitle {
+          font-size: 1.25rem;
+          color: #6c757d;
+          text-align: center;
+          margin-bottom: 3rem;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .upload-box {
+          max-width: 500px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 20px;
+          padding: 3rem;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+
+        .upload-icon {
+          width: 80px;
+          height: 80px;
+          margin: 0 auto 2rem;
+          background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .upload-text {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+          color: #6b7280;
+          margin-bottom: 2rem;
+        }
+
+        .continue-btn {
+          background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+          color: white;
+          border: none;
+          padding: 1rem 2rem;
+          border-radius: 50px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+
+        .continue-btn:hover {
+          transform: translateY(-2px);
+        }
+
+        .continue-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .file-list {
+          margin: 2rem 0;
+          text-align: left;
+        }
+
+        .file-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem;
+          background: #f8f9fa;
+          border-radius: 8px;
+          margin-bottom: 0.5rem;
+        }
+
+        .remove-btn {
+          color: #dc3545;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 0.875rem;
+        }
+
+        .upload-input {
+          position: absolute;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .upload-area {
+          border: 2px dashed #d1d5db;
+          border-radius: 12px;
+          padding: 2rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+          border-color: #8b5cf6;
+          background: #f9fafb;
+        }
+      `}</style>
+
+      <div className="upload-container">
+        {/* Floating Navigation */}
+        <div className="floating-nav">
+          <button 
+            onClick={() => setLocation('/about')}
+            className="nav-link"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            About
+          </button>
+          <button 
+            onClick={() => setLocation('/terms')}
+            className="nav-link"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            Terms
+          </button>
+          <button 
+            onClick={() => setLocation('/help')}
+            className="nav-link"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            Help
+          </button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Upload Section */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Camera className="w-5 h-5 mr-2 text-terracotta" />
-                  Upload Photos ({files.length}/3)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {files.length < 3 && (
-                  <div className="text-center">
-                    <input
-                      type="file"
-                      multiple
-                      accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
-                      onChange={(e) => {
-                        if (e.target.files) {
-                          if (e.target.files.length === 1) {
-                            handleFileSelect(e.target.files[0]);
-                          } else {
-                            handleMultipleFileSelect(e.target.files);
-                          }
-                        }
-                      }}
-                      className="hidden"
-                      id="photo-upload"
-                    />
-                    <label
-                      htmlFor="photo-upload"
-                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-terracotta/30 rounded-lg hover:border-terracotta/50 transition-colors cursor-pointer bg-gradient-to-br from-terracotta/5 to-marigold/5 hover:from-terracotta/10 hover:to-marigold/10"
+        {/* Main Content */}
+        <div style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '4rem' }}>
+          <h1 className="main-title">
+            AI Color Analysis
+          </h1>
+          
+          <p className="subtitle">
+            Upload your photos and let AI discover your perfect palette
+          </p>
+
+          <div className="upload-box">
+            <input
+              type="file"
+              multiple
+              accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
+              onChange={(e) => {
+                if (e.target.files) {
+                  if (e.target.files.length === 1) {
+                    handleFileSelect(e.target.files[0]);
+                  } else {
+                    handleMultipleFileSelect(e.target.files);
+                  }
+                }
+              }}
+              className="upload-input"
+              id="photo-upload"
+            />
+            
+            <label htmlFor="photo-upload" className="upload-area">
+              <div className="upload-icon">
+                <Upload size={32} color="white" />
+              </div>
+              <div className="upload-text">Drop your photos here</div>
+              <div className="upload-subtext">or click to browse</div>
+            </label>
+
+            {files.length > 0 && (
+              <div className="file-list">
+                {files.map((file, index) => (
+                  <div key={index} className="file-item">
+                    <span style={{ fontSize: '0.875rem' }}>{file.name}</span>
+                    <button
+                      onClick={() => removeFile(index)}
+                      className="remove-btn"
                     >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <Upload className="w-12 h-12 text-terracotta mb-4" />
-                        <p className="mb-2 text-lg font-semibold text-warm-gray-dark">
-                          Upload Your Photos
-                        </p>
-                        <p className="text-sm text-warm-gray text-center">
-                          Select up to 3 photos (JPEG or PNG, up to 10MB each)
-                        </p>
-                        <p className="text-xs text-warm-gray mt-2">
-                          You can select multiple files at once
-                        </p>
-                      </div>
-                    </label>
+                      Remove
+                    </button>
                   </div>
-                )}
+                ))}
+              </div>
+            )}
 
-                {files.length > 0 && (
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-warm-gray-dark">Selected Photos:</h4>
-                    {files.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border">
-                        <div className="flex items-center space-x-3">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          <div>
-                            <p className="text-sm font-medium">{file.name}</p>
-                            <p className="text-xs text-warm-gray">
-                              {(file.size / 1024 / 1024).toFixed(1)} MB
-                            </p>
-                          </div>
-                        </div>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => removeFile(index)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <Button
+            {files.length > 0 && (
+              <div style={{ textAlign: 'center' }}>
+                <button 
                   onClick={handleAnalyze}
-                  disabled={files.length === 0}
-                  className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
+                  className="continue-btn"
                 >
-                  <Sparkles className="w-5 h-5 mr-2" />
                   Continue for $29
-                </Button>
-                <p className="text-xs text-warm-gray text-center">All sales final</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Instructions */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Photo Guidelines</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-warm-gray">
-                  For the most accurate color analysis results, please follow these guidelines:
+                </button>
+                <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '1rem' }}>
+                  All sales final
                 </p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-terracotta text-xs font-bold">1</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-warm-gray-dark">Natural Lighting</h4>
-                      <p className="text-sm text-warm-gray">Take photos near a window with bright, natural daylight</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-terracotta text-xs font-bold">2</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-warm-gray-dark">No Makeup</h4>
-                      <p className="text-sm text-warm-gray">Minimal or no makeup for accurate skin tone analysis</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-terracotta text-xs font-bold">3</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-warm-gray-dark">Clear Face Shot</h4>
-                      <p className="text-sm text-warm-gray">Face should be clearly visible, hair uncovered if possible</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
