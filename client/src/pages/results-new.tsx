@@ -2231,37 +2231,42 @@ export default function ResultsNew() {
         </div>
       </div>
 
-      {/* Step Navigation with Simple Colorful Arrows */}
+      {/* Fixed Header Bar with Colorful Navigation Arrows */}
       <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="flex items-center justify-center space-x-6">
+        <div className="relative flex items-center justify-between">
+          {/* Left Arrow - Fixed Position */}
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            className={`p-2 rounded-full transition-all duration-200 ${
+            className={`absolute left-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
               currentStep === 0 
-                ? 'text-gray-300 cursor-not-allowed' 
-                : 'text-warm-coral hover:bg-warm-coral hover:text-white transform hover:scale-110'
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
             }`}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-6 py-4 shadow-lg border border-white/50 floating">
-            <div className="flex items-center space-x-3 text-center">
-              <div className="w-8 h-8 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white">
-                {steps[currentStep].icon}
+          {/* Center Header Bar - Fixed Size */}
+          <div className="flex-1 mx-16">
+            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-8 py-6 shadow-lg border border-white/50 floating">
+              <div className="flex items-center justify-center space-x-4 text-center min-h-[60px]">
+                <div className="w-10 h-10 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
+                  {steps[currentStep].icon}
+                </div>
+                <h2 className="text-xl font-bold text-gray-800 min-w-0">{steps[currentStep].title}</h2>
               </div>
-              <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
             </div>
           </div>
 
+          {/* Right Arrow - Fixed Position */}
           <button
             onClick={nextStep}
             disabled={currentStep === steps.length - 1}
-            className={`p-2 rounded-full transition-all duration-200 ${
+            className={`absolute right-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 z-10 ${
               currentStep === steps.length - 1 
-                ? 'text-gray-300 cursor-not-allowed' 
-                : 'text-golden-yellow hover:bg-golden-yellow hover:text-white transform hover:scale-110'
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
             }`}
           >
             <ChevronRight className="w-6 h-6" />
