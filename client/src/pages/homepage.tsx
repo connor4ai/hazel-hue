@@ -1,10 +1,8 @@
 import { useState, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import { Upload, Camera, CheckCircle } from 'lucide-react';
+import { Upload, CheckCircle } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
-import { cn } from '@/lib/utils';
 
 export default function Homepage() {
   const [, setLocation] = useLocation();
@@ -33,7 +31,7 @@ export default function Homepage() {
       return;
     }
 
-    // Validate file type - improved HEIC support
+    // Validate file type
     const fileName = file.name.toLowerCase();
     const isHeicFile = fileName.endsWith('.heic') || fileName.endsWith('.heif');
     const isStandardImage = file.type === 'image/jpeg' || 
@@ -140,418 +138,326 @@ export default function Homepage() {
     fileInputRef.current?.click();
   };
 
-  const getImagePreview = (file: File) => {
-    return URL.createObjectURL(file);
-  };
-
-  const handleAnalyze = async () => {
-    if (files.length === 0) {
-      toast({
-        title: "No photos uploaded",
-        description: "Please upload at least 1 photo to continue",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      // Create form data with files
-      const formData = new FormData();
-      files.forEach((file, index) => {
-        formData.append(`photo${index + 1}`, file);
-      });
-
-      // Store file metadata for potential reuse
-      const fileMetadata = files.map(file => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified
-      }));
-      sessionStorage.setItem('uploadedFiles', JSON.stringify(fileMetadata));
-
-      // Start the analysis in the background (guest order)
-      const response = await fetch('/api/orders/guest', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to start analysis');
-      }
-
-      const order = await response.json();
-      
-      // Store order ID for the loading page to track
-      sessionStorage.setItem('currentOrderId', order.id.toString());
-
-      // Navigate to analyzing page after getting order ID
-      setLocation('/analyzing');
-      
-      // For debugging - also try direct redirect after short delay
-      setTimeout(() => {
-        const currentOrderId = sessionStorage.getItem('currentOrderId');
-        if (currentOrderId) {
-          // Check if analysis completed quickly and redirect directly
-          fetch(`/api/orders/${currentOrderId}/status`)
-            .then(res => res.json())
-            .then(data => {
-              if (data.status === 'completed') {
-                setLocation(`/results-preview/${currentOrderId}`);
-              }
-            })
-            .catch(console.error);
-        }
-      }, 2000);
-      
-    } catch (error) {
-      console.error('Error starting analysis:', error);
-      toast({
-        title: "Error",
-        description: "Failed to start analysis. Please try again.",
-        variant: "destructive",
-      });
-    }
+  const handleAnalyze = () => {
+    setLocation('/checkout');
   };
 
   return (
     <>
       <SEOHead 
-        title="AI Color Analysis - Hazel & Hue"
-        description="Upload your photos and let AI discover your perfect color palette with professional seasonal color analysis."
+        title="Reddit Homepage - AI Color Analysis | Hazel & Hue"
+        description="Discover your perfect seasonal color palette with AI color analysis. Upload your photos and get personalized makeup recommendations in 30 seconds."
         path="/homepage"
       />
       
+      {/* Modern Design System Styles */}
       <style>{`
-        body {
-          margin: 0;
-          padding: 0;
-          background: #f8f9fa;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Design System Variables */
+        :root {
+            --ink: #0A0A0A;
+            --pearl: #FAFAFA;
+            --mist: #F5F5F5;
         }
 
-        .upload-container {
-          min-height: 100vh;
-          background: #f8f9fa;
-          padding: 2rem;
+        /* Animated Gradient Mesh Background */
+        .mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
         }
 
+        .mesh::before,
+        .mesh::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            animation: morphing 25s ease-in-out infinite;
+        }
+
+        .mesh::before {
+            background: radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            animation-delay: 0s;
+        }
+
+        .mesh::after {
+            background: radial-gradient(circle at 60% 20%, rgba(251, 146, 60, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 60%, rgba(34, 197, 94, 0.15) 0%, transparent 50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes morphing {
+            0%, 100% {
+                transform: rotate(0deg) scale(1) translateX(0);
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+            25% {
+                transform: rotate(90deg) scale(1.1) translateX(20px);
+                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+            }
+            50% {
+                transform: rotate(180deg) scale(0.9) translateX(-20px);
+                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+            }
+            75% {
+                transform: rotate(270deg) scale(1.05) translateX(10px);
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+        }
+
+        /* Animated Gradient Text */
+        .gradient-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 2rem 0 1rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 25%, #ef4444 50%, #8b5cf6 75%, #06b6d4 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 6s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Card with Subtle Elevation */
+        .elevated-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .elevated-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Upload Zone Style */
+        .modern-upload-zone {
+            background: var(--mist);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed #9333EA;
+            display: block;
+            width: 100%;
+        }
+
+        .modern-upload-zone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(147, 51, 234, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modern-upload-zone:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .modern-upload-zone:hover::before {
+            opacity: 1;
+        }
+
+        .modern-upload-zone.dragover {
+            border-color: #7c3aed;
+            background: rgba(147, 51, 234, 0.1);
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        /* Floating Navigation */
         .floating-nav {
           position: absolute;
-          top: 2rem;
-          right: 2rem;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
           display: flex;
           gap: 2rem;
         }
 
         .nav-link {
-          color: #6c757d;
+          color: #6b7280;
           text-decoration: none;
           font-weight: 500;
+          font-size: 1rem;
+          padding: 0.5rem;
           transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-          color: #495057;
-        }
-
-        .main-title {
-          font-size: 4rem;
-          font-weight: 700;
-          text-align: center;
-          margin-bottom: 1rem;
-          background: linear-gradient(135deg, #b4a5c7, #d4a574, #c7a5b4);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          line-height: 1.1;
-        }
-
-        .subtitle {
-          font-size: 1.25rem;
-          color: #6c757d;
-          text-align: center;
-          margin-bottom: 3rem;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .upload-box {
-          max-width: 500px;
-          margin: 0 auto;
-          background: white;
-          border-radius: 20px;
-          padding: 3rem;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-          text-align: center;
-        }
-
-        .upload-icon {
-          width: 80px;
-          height: 80px;
-          margin: 0 auto 2rem;
-          background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .upload-text {
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: #1f2937;
-          margin-bottom: 0.5rem;
-        }
-
-        .upload-subtext {
-          color: #6b7280;
-          margin-bottom: 2rem;
-        }
-
-        .continue-btn {
-          background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-          color: white;
-          border: none;
-          padding: 1rem 2rem;
-          border-radius: 50px;
-          font-size: 1.1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: transform 0.2s;
-        }
-
-        .continue-btn:hover {
-          transform: translateY(-2px);
-        }
-
-        .continue-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .file-list {
-          margin: 2rem 0;
-          text-align: left;
-        }
-
-        .file-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.75rem;
-          background: #f8f9fa;
-          border-radius: 8px;
-          margin-bottom: 0.5rem;
-        }
-
-        .remove-btn {
-          color: #dc3545;
           background: none;
           border: none;
           cursor: pointer;
-          font-size: 0.875rem;
         }
 
-        .upload-input {
-          position: absolute;
-          opacity: 0;
-          pointer-events: none;
+        .nav-link:hover {
+          color: #374151;
         }
 
-        .upload-zone {
-          border: 2px dashed #d1d5db;
-          border-radius: 16px;
-          padding: 2rem;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          margin-bottom: 2rem;
-          background: white;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .upload-zone:hover {
-          border-color: #8b5cf6;
-          background: #f9fafb;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
-        }
-
-        .upload-zone.dragover {
-          border-color: #8b5cf6;
-          background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
-          transform: scale(1.02);
-          box-shadow: 0 12px 30px rgba(139, 92, 246, 0.2);
-        }
-
-        .upload-zone::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, transparent, rgba(139, 92, 246, 0.05), transparent);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .upload-zone:hover::before {
-          opacity: 1;
-        }
-
-        .upload-icon-container {
-          width: 80px;
-          height: 80px;
-          margin: 0 auto 1.5rem;
-          background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        }
-
-        .upload-zone:hover .upload-icon-container {
-          transform: scale(1.1) rotate(5deg);
-        }
-
-        .file-preview {
-          background: #f8f9fa;
-          border-radius: 12px;
-          padding: 1rem;
-          margin: 0.5rem 0;
-          border: 1px solid #e5e7eb;
-          transition: all 0.2s ease;
-        }
-
-        .file-preview:hover {
-          background: #f3f4f6;
-          border-color: #d1d5db;
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            .gradient-title { 
+                font-size: 2.5rem; 
+            }
+            .elevated-card {
+                padding: 2rem;
+            }
+            .modern-upload-zone {
+                padding: 2rem;
+            }
         }
       `}</style>
 
-      <div className="upload-container">
-        {/* Floating Navigation */}
-        <div className="floating-nav">
-          <button 
-            onClick={() => setLocation('/about')}
-            className="nav-link"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            About
-          </button>
-          <button 
-            onClick={() => setLocation('/terms')}
-            className="nav-link"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            Terms
-          </button>
-          <button 
-            onClick={() => setLocation('/help')}
-            className="nav-link"
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            Help
-          </button>
-        </div>
+      {/* Background Mesh */}
+      <div className="mesh"></div>
 
-        {/* Main Content */}
-        <div style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '4rem' }}>
-          <h1 className="main-title">
-            AI Color Analysis
-          </h1>
+      <div className="min-h-screen" style={{ fontFamily: 'Inter, sans-serif', background: 'var(--pearl)', color: 'var(--ink)' }}>
+        <div className="min-h-screen flex flex-col py-4 sm:py-6">
           
-          <p className="subtitle">
-            Upload your photos and let AI discover your perfect palette
-          </p>
-
-          <div className="upload-box">
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
-              onChange={(e) => {
-                if (e.target.files) {
-                  if (e.target.files.length === 1) {
-                    handleFileSelect(e.target.files[0]);
-                  } else {
-                    handleMultipleFileSelect(e.target.files);
-                  }
-                }
-              }}
-              className="upload-input"
-              id="photo-upload"
-            />
-            
-            <div 
-              className={cn("upload-zone", isDragOver ? "dragover" : "")}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              onClick={handleClick}
+          {/* Floating Navigation */}
+          <div className="floating-nav">
+            <button 
+              onClick={() => setLocation('/about')}
+              className="nav-link"
             >
-              {files.length > 0 ? (
-                <div className="text-center">
-                  <h3 className="upload-text mb-4">Selected Photos ({files.length}/3)</h3>
-                  <div className="space-y-2 mb-4">
-                    {files.map((file, index) => (
-                      <div key={index} className="file-preview">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <CheckCircle size={20} color="#10b981" />
-                            <span style={{ fontSize: '0.875rem', fontWeight: '500' }}>{file.name}</span>
+              About
+            </button>
+            <button 
+              onClick={() => setLocation('/terms')}
+              className="nav-link"
+            >
+              Terms
+            </button>
+            <button 
+              onClick={() => setLocation('/help')}
+              className="nav-link"
+            >
+              Help
+            </button>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col justify-center px-4 sm:px-6">
+            <div className="max-w-2xl mx-auto w-full text-center">
+              
+              {/* Hero Title */}
+              <h1 className="gradient-title mb-6 sm:mb-8">
+                AI Color Analysis
+              </h1>
+              
+              <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-lg mx-auto">
+                Upload your photos and let AI discover your perfect palette
+              </p>
+
+              {/* Upload Section */}
+              {files.length === 0 ? (
+                <div className="elevated-card">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        if (e.target.files.length === 1) {
+                          handleFileSelect(e.target.files[0]);
+                        } else {
+                          handleMultipleFileSelect(e.target.files);
+                        }
+                      }
+                    }}
+                    style={{ display: 'none' }}
+                    id="photo-upload"
+                  />
+                  <label 
+                    htmlFor="photo-upload" 
+                    className={`modern-upload-zone ${isDragOver ? 'dragover' : ''}`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 relative">
+                        <svg 
+                          className="w-full h-full text-purple-600" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                      </div>
+                      <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 px-4" style={{ color: 'var(--ink)' }}>
+                        Drop your photos here
+                      </h2>
+                      <p className="text-base sm:text-lg text-gray-600 px-4">
+                        or click to browse
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              ) : (
+                <div className="elevated-card">
+                  <div className="text-center py-6 sm:py-8">
+                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 px-4">Selected Photos ({files.length}/3)</h2>
+                    
+                    <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                      {files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 sm:p-4 bg-white/70 rounded-2xl border border-gray-200 mx-2 sm:mx-0">
+                          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+                            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500 flex-shrink-0" />
+                            <div className="text-left min-w-0 flex-1">
+                              <p className="text-sm sm:text-base font-medium truncate pr-2">{file.name}</p>
+                              <p className="text-xs sm:text-sm text-gray-500">
+                                {(file.size / (1024 * 1024)).toFixed(1)} MB
+                              </p>
+                            </div>
                           </div>
                           <button
                             onClick={(e) => {
-                              e.stopPropagation();
+                              e.preventDefault();
                               removeFile(index);
                             }}
-                            className="remove-btn"
+                            className="text-red-500 hover:text-red-700 text-sm sm:text-base font-medium transition-colors flex-shrink-0 ml-2"
                           >
                             Remove
                           </button>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="upload-icon-container mb-4">
-                    <CheckCircle size={32} color="white" />
-                  </div>
-                  <div className="upload-text">Photos Ready!</div>
-                  <div className="upload-subtext">Click to add more or continue</div>
-                </div>
-              ) : (
-                <div className="text-center">
-                  <div className="upload-icon-container">
-                    <Upload size={32} color="white" />
-                  </div>
-                  <div className="upload-text">Drop your photos here</div>
-                  <div className="upload-subtext">or click to browse</div>
-                  <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '1rem' }}>
-                    HEIC files? Try drag & drop instead of clicking
+                      ))}
+                    </div>
+
+                    <button 
+                      onClick={handleAnalyze}
+                      className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-12 rounded-2xl text-base sm:text-lg transition-all duration-200 hover:transform hover:-translate-y-1 hover:shadow-lg"
+                    >
+                      Continue for $29
+                    </button>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4">
+                      All sales final
+                    </p>
                   </div>
                 </div>
               )}
             </div>
-
-            {files.length > 0 && (
-              <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-                <button 
-                  onClick={handleAnalyze}
-                  className="continue-btn"
-                >
-                  Continue for $29
-                </button>
-                <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '1rem' }}>
-                  All sales final
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </div>
