@@ -2231,44 +2231,41 @@ export default function ResultsNew() {
         </div>
       </div>
 
-      {/* Step Navigation */}
+      {/* Step Navigation with Simple Colorful Arrows */}
       <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 0}
-              className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 transform ${
-                currentStep === 0 
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-sage-green to-forest-green hover:from-golden-yellow hover:to-sage-green text-white shadow-lg hover:shadow-xl hover:scale-110'
-              }`}
-            >
-              <ChevronLeft className="w-7 h-7" />
-            </button>
+        <div className="flex items-center justify-center space-x-6">
+          <button
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            className={`p-2 rounded-full transition-all duration-200 ${
+              currentStep === 0 
+                ? 'text-gray-300 cursor-not-allowed' 
+                : 'text-warm-coral hover:bg-warm-coral hover:text-white transform hover:scale-110'
+            }`}
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
 
-            <div className="flex items-center space-x-4 text-center">
-              <div className="w-12 h-12 bg-gradient-to-br from-forest-green via-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shadow-lg">
+          <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-6 py-4 shadow-lg border border-white/50 floating">
+            <div className="flex items-center space-x-3 text-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white">
                 {steps[currentStep].icon}
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-800">{steps[currentStep].title}</h2>
-                <p className="text-sm text-gray-600">Step {currentStep + 1} of {steps.length}</p>
-              </div>
+              <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
             </div>
-
-            <button
-              onClick={nextStep}
-              disabled={currentStep === steps.length - 1}
-              className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 transform ${
-                currentStep === steps.length - 1 
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-warm-coral to-golden-yellow hover:from-dusty-rose hover:to-warm-coral text-white shadow-lg hover:shadow-xl hover:scale-110'
-              }`}
-            >
-              <ChevronRight className="w-7 h-7" />
-            </button>
           </div>
+
+          <button
+            onClick={nextStep}
+            disabled={currentStep === steps.length - 1}
+            className={`p-2 rounded-full transition-all duration-200 ${
+              currentStep === steps.length - 1 
+                ? 'text-gray-300 cursor-not-allowed' 
+                : 'text-golden-yellow hover:bg-golden-yellow hover:text-white transform hover:scale-110'
+            }`}
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
         </div>
       </div>
 
