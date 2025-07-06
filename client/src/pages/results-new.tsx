@@ -2247,14 +2247,14 @@ export default function ResultsNew() {
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* Center Header Bar - Reduced Size */}
-          <div className="flex-1 mx-16">
-            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-6 py-3 shadow-lg border border-white/50 floating">
-              <div className="flex flex-col items-center justify-center text-center space-y-1">
-                <div className="w-8 h-8 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white">
+          {/* Center Header Bar - Compact Size */}
+          <div className="flex-1 flex justify-center mx-16">
+            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-8 py-4 shadow-lg border border-white/50 floating max-w-sm">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
                   {steps[currentStep].icon}
                 </div>
-                <h2 className="text-lg font-bold text-gray-800">{steps[currentStep].title}</h2>
+                <h2 className="text-lg font-bold text-gray-800 whitespace-nowrap">{steps[currentStep].title}</h2>
               </div>
             </div>
           </div>
