@@ -1,50 +1,47 @@
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+import { seasonalContentMap } from '../../shared/seasonalContent';
+import type { ColorAnalysisResult } from '../../shared/types';
 
 export class SimpleColorAnalysisService {
   private openai: OpenAI;
 
   constructor() {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error('OpenAI API key not found');
-    }
     this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY
     });
   }
 
-  /**
-   * Simple, direct GPT-4o Vision analysis of uploaded photos
-   */
-  async analyzePhotos(imagePaths: string[]): Promise<string> {
-    console.log(`🎨 Starting simple GPT-4o Vision analysis of ${imagePaths.length} photos`);
-    
+  async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
     try {
-      // Convert images to base64
+      console.log(`🎨 Starting simple GPT-4o analysis with ${imagePaths.length} images...`);
+      
+      // Convert images to base64 for OpenAI Vision API
       const imageContents = await Promise.all(
         imagePaths.map(async (imagePath) => {
-          const imageBuffer = fs.readFileSync(imagePath);
+          const fullPath = path.resolve(imagePath);
+          const imageBuffer = fs.readFileSync(fullPath);
           const base64Image = imageBuffer.toString('base64');
-          const mimeType = this.getMimeType(imagePath);
+          const mimeType = imagePath.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+          
           return {
             type: "image_url" as const,
             image_url: {
-              url: `data:${mimeType};base64,${base64Image}`,
-              detail: "high" as const
+              url: `data:${mimeType};base64,${base64Image}`
             }
           };
         })
       );
 
-      // Call OpenAI GPT-4o Vision with ChatGPT's exact approach
+      // Call OpenAI GPT-4o Vision with exact Python approach
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o",  // Full model
         messages: [
           {
             role: "system",
-            content: "You are a color analysis expert. Analyze the colors, tones, and harmonies visible in these images. " +
-                     "Determine which of these 12 seasonal color palettes best matches the color characteristics shown:\n" +
+            content: "You are a certified personal-color analyst. " +
+                     "Determine which **exactly one** of these 12 seasons fits the person best:\n" +
                      "True Winter, Bright Winter, Dark Winter, " +
                      "True Summer, Light Summer, Soft Summer, " +
                      "True Spring, Bright Spring, Light Spring, " +
@@ -57,15 +54,15 @@ export class SimpleColorAnalysisService {
             content: [
               {
                 type: "text",
-                text: "Analyze the color harmony, temperature, and contrast in these images to determine the best matching seasonal color palette."
+                text: "Determine the single best season using every image."
               },
               ...imageContents
             ]
           }
         ],
-        temperature: 0,
-        top_p: 0,
-        seed: 42
+        temperature: 0,      // Hard-zero randomness
+        top_p: 0,           // Hard-zero randomness  
+        seed: 42            // Guarantees identical result
       });
 
       const result = response.choices[0].message.content?.trim();
@@ -79,57 +76,39 @@ export class SimpleColorAnalysisService {
         const seasonName = jsonResult.season;
         
         if (!seasonName) {
-          throw new Error("No season found in JSON response");
+          throw new Error("No season found in response");
         }
-        
+
+        // Get seasonal content
+        const seasonalContent = seasonalContentMap[seasonName];
+        if (!seasonalContent) {
+          throw new Error(`No content found for season: ${seasonName}`);
+        }
+
         console.log(`✅ GPT-4o Vision analysis completed: ${seasonName}`);
-        return seasonName;
+
+        return {
+          season: seasonName,
+          description: seasonalContent.description,
+          coreNeutrals: seasonalContent.coreNeutrals,
+          accentLights: seasonalContent.accentLights,
+          accentDeeps: seasonalContent.accentDeeps,
+          signatureColors: seasonalContent.signatureColors,
+          characteristics: seasonalContent.characteristics,
+          colorsToAvoid: seasonalContent.colorsToAvoid,
+          makeup: seasonalContent.makeup,
+          jewelry: seasonalContent.jewelry,
+          hairColors: seasonalContent.hairColors
+        };
+
       } catch (parseError) {
-        // Fallback to text normalization if JSON parsing fails
-        const seasonName = this.normalizeSeason(result);
-        console.log(`⚠️ JSON parsing failed, normalized to: ${seasonName}`);
-        return seasonName;
+        console.error("Failed to parse JSON response:", result);
+        throw new Error(`Invalid JSON response from OpenAI: ${result}`);
       }
 
     } catch (error) {
-      console.error('❌ Error in simple color analysis:', error);
+      console.error("❌ GPT-4o analysis failed:", error);
       throw error;
-    }
-  }
-
-  private normalizeSeason(rawResponse: string): string {
-    const seasons = [
-      'True Winter', 'Bright Winter', 'Dark Winter',
-      'True Summer', 'Light Summer', 'Soft Summer', 
-      'True Spring', 'Bright Spring', 'Light Spring',
-      'True Autumn', 'Dark Autumn', 'Soft Autumn'
-    ];
-
-    // Check if any season name is mentioned in the response
-    for (const season of seasons) {
-      if (rawResponse.includes(season)) {
-        return season;
-      }
-    }
-
-    // If no exact match, return the raw response
-    return rawResponse;
-  }
-
-  private getMimeType(imagePath: string): string {
-    const ext = path.extname(imagePath).toLowerCase();
-    switch (ext) {
-      case '.jpg':
-      case '.jpeg':
-        return 'image/jpeg';
-      case '.png':
-        return 'image/png';
-      case '.heic':
-        return 'image/heic';
-      case '.heif':
-        return 'image/heif';
-      default:
-        return 'image/jpeg';
     }
   }
 }
