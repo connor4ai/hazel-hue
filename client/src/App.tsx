@@ -181,10 +181,8 @@ function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <ErrorBoundary>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <Toaster />
+          <Router />
         </ErrorBoundary>
       </QueryClientProvider>
     );

@@ -11,7 +11,7 @@ import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
 import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
 import { fashionApiService } from "./services/fashionApiService";
-import { SimpleColorAnalysisService } from "./services/simpleColorAnalysis";
+import { CompliantLabAnalysisService } from "./services/compliantLabAnalysis";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -124,21 +124,37 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call simple GPT-4o Vision analysis with the uploaded photos
+    // Call Flask analysis service with the images
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call simple GPT-4o Vision analysis with paths:`, imagePaths);
+    console.log(`🧠 About to call Flask analysis service with paths:`, imagePaths);
     
     let analysisResult;
     
-    // Use simple GPT-4o Vision analysis
-    const simpleService = new SimpleColorAnalysisService();
-    const detectedSeason = await simpleService.analyzePhotos(imagePaths);
-    console.log(`AI detected season: ${detectedSeason}`);
+    // Try Flask-based OpenAI analysis with fallback to preloaded service
+    try {
+      const { FlaskAnalysisService } = await import('./services/flaskAnalysis.js');
+      const flaskService = new FlaskAnalysisService();
+      const detectedSeason = await flaskService.analyzePhotosWithFlask(imagePaths);
+      console.log(`🎯 Flask AI detected season: ${detectedSeason}`);
+      
+      // Generate complete analysis result for the detected season
+      analysisResult = await flaskService.generateCompleteAnalysis(detectedSeason, jobId.toString());
+      console.log(`✅ Flask analysis completed successfully`);
+    } catch (flaskError) {
+      console.warn(`⚠️ Flask analysis failed, falling back to preloaded service:`, flaskError);
+      
+      // Fallback to preloaded analysis
+      const { PreloadedColorAnalysisService } = await import('./services/preloadedColorAnalysis.js');
+      const preloadedService = new PreloadedColorAnalysisService();
+      const detectedSeason = await preloadedService.analyzePhotos(imagePaths);
+      console.log(`🎯 Preloaded AI detected season: ${detectedSeason}`);
+      
+      // Generate complete analysis result for the detected season
+      analysisResult = preloadedService.getPreloadedResult(detectedSeason);
+      console.log(`✅ Preloaded analysis completed successfully`);
+    }
     
-    // Get full analysis result for the detected season
-    analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
-    
-    console.log(`✅ Simple GPT-4o analysis completed for job ${jobId}. Result:`, {
+    console.log(`✅ Analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
