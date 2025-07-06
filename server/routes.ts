@@ -11,7 +11,7 @@ import { premiumPdfService } from "./services/premiumPdfService";
 import { walletCardService } from "./services/walletCardService";
 import { preloadedColorAnalysisService } from "./services/preloadedColorAnalysis";
 import { fashionApiService } from "./services/fashionApiService";
-import { CompliantLabAnalysisService } from "./services/compliantLabAnalysis";
+import { SimpleColorAnalysisService } from "./services/simpleColorAnalysis";
 import { insertUserSchema, insertOrderSchema, registerUserSchema, loginSchema } from "@shared/schema";
 
 // Initialize Stripe only if key is available
@@ -124,22 +124,21 @@ async function processColorAnalysisWorker(jobId: number) {
     // Update status to processing
     await storage.updateOrderStatus(jobId, 'processing');
 
-    // Call compliant GPT-o3 LAB analysis with the images
+    // Call simple GPT-4o Vision analysis with the uploaded photos
     const imagePaths = Array.isArray(order.images) ? order.images : [];
-    console.log(`🧠 About to call compliant analyzePhotosCompliant (GPT-o3) with paths:`, imagePaths);
+    console.log(`🧠 About to call simple GPT-4o Vision analysis with paths:`, imagePaths);
     
     let analysisResult;
     
-    // Use only GPT-o3 LAB analysis - no fallbacks
-    const compliantService = new CompliantLabAnalysisService();
-    const detectedSeason = await compliantService.analyzePhotosCompliant(imagePaths, jobId.toString());
+    // Use simple GPT-4o Vision analysis
+    const simpleService = new SimpleColorAnalysisService();
+    const detectedSeason = await simpleService.analyzePhotos(imagePaths);
     console.log(`AI detected season: ${detectedSeason}`);
     
     // Get full analysis result for the detected season
     analysisResult = preloadedColorAnalysisService.getPreloadedResult(detectedSeason);
     
-    console.log(`✅ GPT-o3 LAB analysis completed - no fallbacks used`);
-    console.log(`✅ GPT-o3 LAB analysis completed for job ${jobId}. Result:`, {
+    console.log(`✅ Simple GPT-4o analysis completed for job ${jobId}. Result:`, {
       season: analysisResult.season,
       description: analysisResult.description?.substring(0, 100) + '...'
     });
