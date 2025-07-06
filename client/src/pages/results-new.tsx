@@ -2250,11 +2250,11 @@ export default function ResultsNew() {
           {/* Center Header Bar - Fixed Size */}
           <div className="flex-1 mx-16">
             <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-8 py-6 shadow-lg border border-white/50 floating">
-              <div className="flex items-center justify-center space-x-4 text-center min-h-[60px]">
-                <div className="w-10 h-10 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
+              <div className="flex flex-col items-center justify-center text-center min-h-[60px] space-y-2">
+                <div className="w-10 h-10 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white">
                   {steps[currentStep].icon}
                 </div>
-                <h2 className="text-xl font-bold text-gray-800 min-w-0">{steps[currentStep].title}</h2>
+                <h2 className="text-xl font-bold text-gray-800">{steps[currentStep].title}</h2>
               </div>
             </div>
           </div>
