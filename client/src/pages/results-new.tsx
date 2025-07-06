@@ -1155,7 +1155,7 @@ const VisualPinterestBoard = ({ url, title, season }: { url: string; title: stri
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 border border-pink-100 hover:shadow-lg transition-all duration-300"
+      className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating transition-all duration-300"
     >
       <div className="text-center mb-6">
         <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -1536,7 +1536,7 @@ export default function ResultsNew() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100"
+            className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-lg border border-white/50 floating"
           >
             <h4 className="text-xl font-bold text-gray-800 mb-6 text-center">12-Season Color Analysis Chart</h4>
             <div className="text-center">
@@ -1568,7 +1568,7 @@ export default function ResultsNew() {
               animate={{ opacity: 1, x: 0 }}
               className="space-y-6"
             >
-              <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
+              <div className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating">
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Style Guidelines</h4>
                 <ul className="space-y-3">
                   {analysisResult.clothing.guidelines.map((guideline, index) => (
@@ -1617,7 +1617,7 @@ export default function ResultsNew() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-6 border border-amber-100"
+              className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating"
             >
               <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Gem className="w-5 h-5 mr-2 text-amber-600" />
@@ -1649,7 +1649,7 @@ export default function ResultsNew() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+                className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating"
               >
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Jewelry Guidelines</h4>
                 <div className="space-y-3 mb-4">
@@ -1725,7 +1725,7 @@ export default function ResultsNew() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
+                className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50 floating"
               >
                 <h4 className="text-xl font-bold text-gray-800 mb-4">Eyewear Guide</h4>
                 <div className="space-y-3 mb-4">
@@ -1767,7 +1767,7 @@ export default function ResultsNew() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-6 border border-purple-100 text-center"
+            className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 border border-white/50 shadow-lg floating text-center"
           >
             <h4 className="text-xl font-bold text-gray-800 mb-4">Professional Guidance</h4>
             <p className="text-gray-700 leading-relaxed">{analysisResult.hairColor.guidance}</p>
@@ -2052,7 +2052,7 @@ export default function ResultsNew() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
+                  className="bg-white/90 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-white/50 floating"
                 >
                   <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden">
                     <img
@@ -2079,7 +2079,7 @@ export default function ResultsNew() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-3xl p-4 shadow-lg border border-gray-100"
+                  className="bg-white/90 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-white/50 floating"
                 >
                   <div className="aspect-[3/4] mb-4 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                     <div className="text-center text-gray-600">
@@ -2115,7 +2115,7 @@ export default function ResultsNew() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 text-center border border-blue-100"
+              className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 text-center border border-white/50 shadow-lg floating"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Share2 className="w-8 h-8 text-white" />
@@ -2135,7 +2135,7 @@ export default function ResultsNew() {
                     toast({ title: "Link copied!", description: "Share this link with others" });
                   }
                 }}
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-xl py-3"
+                className="w-full bg-gradient-to-r from-warm-coral to-golden-yellow hover:from-dusty-rose hover:to-warm-coral text-white rounded-xl py-3"
               >
                 Share Results
               </Button>
@@ -2145,7 +2145,7 @@ export default function ResultsNew() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 text-center border border-green-100"
+              className="bg-white/90 backdrop-blur-lg rounded-2xl p-8 text-center border border-white/50 shadow-lg floating"
             >
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Palette className="w-8 h-8 text-white" />
@@ -2157,7 +2157,7 @@ export default function ResultsNew() {
                   navigator.clipboard.writeText(window.location.href);
                   toast({ title: "Link copied!", description: "Share this link with others" });
                 }}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl py-3"
+                className="w-full bg-gradient-to-r from-sage-green to-forest-green hover:from-golden-yellow hover:to-sage-green text-white rounded-xl py-3"
               >
                 Copy Link to Results
               </Button>
