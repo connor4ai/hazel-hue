@@ -1,8 +1,7 @@
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
-import { seasonalContentMap } from '../../shared/seasonalContent';
-import type { ColorAnalysisResult } from '../../shared/types';
+import { seasonalContentData } from '../data/seasonalContent.js';
 
 export class SimpleColorAnalysisService {
   private openai: OpenAI;
@@ -13,7 +12,7 @@ export class SimpleColorAnalysisService {
     });
   }
 
-  async analyzePhotos(imagePaths: string[]): Promise<ColorAnalysisResult> {
+  async analyzePhotos(imagePaths: string[]): Promise<string> {
     try {
       console.log(`🎨 Starting simple GPT-4o analysis with ${imagePaths.length} images...`);
       
@@ -80,26 +79,14 @@ export class SimpleColorAnalysisService {
         }
 
         // Get seasonal content
-        const seasonalContent = seasonalContentMap[seasonName];
+        const seasonalContent = seasonalContentData[seasonName];
         if (!seasonalContent) {
           throw new Error(`No content found for season: ${seasonName}`);
         }
 
         console.log(`✅ GPT-4o Vision analysis completed: ${seasonName}`);
-
-        return {
-          season: seasonName,
-          description: seasonalContent.description,
-          coreNeutrals: seasonalContent.coreNeutrals,
-          accentLights: seasonalContent.accentLights,
-          accentDeeps: seasonalContent.accentDeeps,
-          signatureColors: seasonalContent.signatureColors,
-          characteristics: seasonalContent.characteristics,
-          colorsToAvoid: seasonalContent.colorsToAvoid,
-          makeup: seasonalContent.makeup,
-          jewelry: seasonalContent.jewelry,
-          hairColors: seasonalContent.hairColors
-        };
+        
+        return seasonName;
 
       } catch (parseError) {
         console.error("Failed to parse JSON response:", result);
