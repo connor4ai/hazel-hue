@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2, CreditCard, ArrowLeft, CheckCircle, Tag, Smartphone, Percent } from 'lucide-react';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { trackPaymentInitiated, trackConversion, trackFunnelStep } from "@/lib/utm-analytics";
 
 // Import the properly configured stripePromise with error handling
 import { stripePromise } from '@/lib/stripe';
@@ -155,7 +156,18 @@ function CheckoutForm({
       
       // Simulate successful payment for testing
       setTimeout(() => {
-        onPaymentSuccess('test_payment_intent_' + Date.now());
+        const testPaymentId = 'test_payment_intent_' + Date.now();
+        
+        // Track conversion for test payment
+        trackConversion(testPaymentId, finalAmount / 100);
+        trackFunnelStep('payment_completed', { 
+          payment_intent_id: testPaymentId,
+          amount: finalAmount,
+          promo_code: promoCode,
+          test_mode: true 
+        });
+        
+        onPaymentSuccess(testPaymentId);
         setIsProcessing(false);
       }, 2000);
       return;
@@ -177,6 +189,14 @@ function CheckoutForm({
       });
       setIsProcessing(false);
     } else if (paymentIntent?.status === 'succeeded') {
+      // Track successful payment conversion
+      trackConversion(paymentIntent.id, finalAmount / 100);
+      trackFunnelStep('payment_completed', { 
+        payment_intent_id: paymentIntent.id,
+        amount: finalAmount,
+        promo_code: promoCode 
+      });
+      
       onPaymentSuccess(paymentIntent.id);
     }
   };
@@ -356,6 +376,14 @@ export default function CheckoutEnhanced() {
         setClientSecret(data.clientSecret);
         setFinalAmount(data.amount);
         setDiscount(data.discount);
+        
+        // Track payment initiation for analytics
+        trackPaymentInitiated(data.amount / 100);
+        trackFunnelStep('payment_intent_created', { 
+          amount: data.amount,
+          promo_code: promoCodeToApply,
+          is_free: data.isFree 
+        });
         
         // Store the order ID for free orders
         if (data.isFree) {

@@ -4,6 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect, Component, ReactNode, lazy, Suspense } from "react";
+import { initGAWithUTM } from "./lib/utm-analytics";
+import { useUTMAnalytics } from "./hooks/use-utm-analytics";
 
 // Error Boundary Component for production stability
 class ErrorBoundary extends Component<{children: ReactNode}, {hasError: boolean}> {
@@ -82,6 +84,7 @@ import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import OrderLookup from "@/pages/order-lookup";
 import PinterestTest from "@/pages/pinterest-test";
+import UTMTest from "@/pages/utm-test";
 
 import NotFound from "@/pages/not-found";
 
@@ -100,6 +103,9 @@ const LazyRoute = ({ component: Component }: { component: React.ComponentType<an
 );
 
 function Router() {
+  // Initialize UTM analytics tracking
+  useUTMAnalytics();
+  
   return (
     <Switch>
       <Route path="/" component={() => <LazyRoute component={HomeNew} />} />
@@ -145,6 +151,7 @@ function Router() {
 
       <Route path="/lookup" component={OrderLookup} />
       <Route path="/pinterest-test" component={() => <LazyRoute component={PinterestTest} />} />
+      <Route path="/utm-test" component={UTMTest} />
       
 
       
@@ -155,6 +162,14 @@ function Router() {
 
 function App() {
   useEffect(() => {
+    // Initialize Google Analytics with UTM tracking
+    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
+      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
+    } else {
+      initGAWithUTM();
+      console.log('UTM Analytics initialized for ad tracking');
+    }
+
     // Global error handler for unhandled promise rejections
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
       console.error('Unhandled promise rejection:', event.reason);

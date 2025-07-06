@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 import { AdvancedSEO } from '@/components/AdvancedSEO';
+import { trackPhotoUpload, trackFunnelStep } from '@/lib/utm-analytics';
 
 
 export default function UploadPage() {
@@ -171,6 +172,13 @@ export default function UploadPage() {
       }
 
       const order = await response.json();
+      
+      // Track photo upload success for analytics
+      trackPhotoUpload(files.length);
+      trackFunnelStep('upload_completed', { 
+        order_id: order.id,
+        photo_count: files.length 
+      });
       
       // Store order ID for the loading page to track
       sessionStorage.setItem('currentOrderId', order.id.toString());

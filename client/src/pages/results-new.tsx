@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { lazy, Suspense } from 'react';
+import { trackAnalysisComplete, trackFunnelStep } from '@/lib/utm-analytics';
 
 // Lazy load palette components for better performance
 const TrueWinterPalette = lazy(() => import('@/components/TrueWinterPalette'));
@@ -1293,6 +1294,14 @@ export default function ResultsNew() {
             variant: "destructive",
           });
           setLocation(`/processing/${orderId}`);
+        } else {
+          // Track successful analysis completion when results are loaded
+          trackAnalysisComplete(data.order.analysisResult.season, data.order.id);
+          trackFunnelStep('results_viewed', { 
+            order_id: data.order.id,
+            season: data.order.analysisResult.season,
+            payment_intent_id: data.order.paymentIntentId 
+          });
         }
       } else {
         throw new Error('Order not found');
