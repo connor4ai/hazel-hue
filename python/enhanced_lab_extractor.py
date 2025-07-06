@@ -22,7 +22,12 @@ def extract_enhanced_lab_data(image_path):
         
         height, width = img.shape[:2]
         rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        lab_img = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+        # Convert to LAB with proper scaling (OpenCV uses 0-255 range, needs conversion to standard LAB)
+        lab_img = cv2.cvtColor(img, cv2.COLOR_BGR2LAB).astype(np.float32)
+        # Convert OpenCV LAB to standard CIE LAB ranges
+        lab_img[:,:,0] = lab_img[:,:,0] * 100.0 / 255.0  # L: 0-100
+        lab_img[:,:,1] = lab_img[:,:,1] - 128.0           # a: -128 to +127  
+        lab_img[:,:,2] = lab_img[:,:,2] - 128.0           # b: -128 to +127
         
         # Initialize MediaPipe Face Mesh
         mp_face_mesh = mp.solutions.face_mesh
