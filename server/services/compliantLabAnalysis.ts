@@ -1,8 +1,11 @@
 import OpenAI from 'openai';
-import { execSync } from 'child_process';
+import { execSync, exec } from 'child_process';
+import { promisify } from 'util';
 import path from 'path';
 import { logger } from '../utils/logger';
 import fs from 'fs';
+
+const execAsync = promisify(exec);
 
 interface LabData {
   skin_LAB: [number, number, number];
@@ -63,8 +66,8 @@ export class CompliantLabAnalysisService {
     }
     
     try {
-      // First try the full OpenCV/MediaPipe extractor
-      const pythonPath = path.join(process.cwd(), 'python', 'lab_extractor.py');
+      // Use enhanced LAB extractor for better consistency
+      const pythonPath = path.join(process.cwd(), 'python', 'enhanced_lab_extractor.py');
       const command = `python3 ${pythonPath} ${imagePaths.join(' ')} 2>/dev/null`;
       
       console.log(`🐍 Running Python command: ${command}`);
@@ -218,6 +221,9 @@ export class CompliantLabAnalysisService {
       const o3Promise = this.openai.chat.completions.create({
         model: "o3",
         max_completion_tokens: 32768,
+        temperature: 0,
+        top_p: 0,
+        seed: 42,
         messages: [
           {
             role: "system",
@@ -335,6 +341,9 @@ Return exactly this JSON format:
     }
     
     try {
+      // Step 0: Check image quality first
+      await this.checkImageQuality(imagePaths, orderId);
+      
       // Step 1: Extract LAB data locally (no OpenAI API calls)
       const labDataArray = await this.extractLabData(imagePaths, orderId);
       
@@ -363,6 +372,56 @@ Return exactly this JSON format:
       }
       
       throw error;
+    }
+  }
+
+  /**
+   * Check image quality before processing
+   */
+  private async checkImageQuality(imagePaths: string[], orderId?: string): Promise<boolean> {
+    try {
+      const command = `python3 /home/runner/workspace/python/image_quality_checker.py ${imagePaths.join(' ')}`;
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'IMAGE_QUALITY_CHECK', {
+          command,
+          imageCount: imagePaths.length
+        });
+      }
+      
+      const { stdout } = await execAsync(command);
+      const qualityResults = JSON.parse(stdout);
+      
+      const invalidImages = qualityResults.filter((result: any) => !result.quality.valid);
+      
+      if (invalidImages.length > 0) {
+        if (orderId) {
+          this.logAnalysisDetails(orderId, 'IMAGE_QUALITY_ISSUES', {
+            invalidImages: invalidImages.map((img: any) => ({
+              path: img.image,
+              reason: img.quality.reason,
+              fileSize: img.quality.file_size,
+              resolution: img.quality.resolution
+            }))
+          });
+        }
+        
+        console.warn(`⚠️ Quality issues found in ${invalidImages.length} images`);
+      }
+      
+      if (orderId) {
+        this.logAnalysisDetails(orderId, 'IMAGE_QUALITY_RESULTS', {
+          totalImages: qualityResults.length,
+          validImages: qualityResults.filter((r: any) => r.quality.valid).length,
+          qualityDetails: qualityResults
+        });
+      }
+      
+      return invalidImages.length === 0;
+      
+    } catch (error) {
+      console.error('Image quality check failed:', error);
+      return true; // Continue processing if quality check fails
     }
   }
 
