@@ -2213,7 +2213,7 @@ export default function ResultsNew() {
       </div>
 
       {/* Navigation Dots */}
-      <div className="flex justify-center py-3">
+      <div className="flex justify-center py-2">
         <div className="flex space-x-2">
           {steps.map((step, index) => (
             <button
@@ -2232,7 +2232,7 @@ export default function ResultsNew() {
       </div>
 
       {/* Fixed Header Bar with Colorful Navigation Arrows */}
-      <div className="max-w-6xl mx-auto px-4 mb-4">
+      <div className="max-w-6xl mx-auto px-4 mb-2">
         <div className="relative flex items-center justify-between">
           {/* Left Arrow - Fixed Position */}
           <button
@@ -2249,12 +2249,12 @@ export default function ResultsNew() {
 
           {/* Center Header Bar - Compact Size */}
           <div className="flex-1 flex justify-center mx-16">
-            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-8 py-4 shadow-lg border border-white/50 floating max-w-sm">
+            <div className="bg-white/90 backdrop-blur-lg rounded-2xl px-6 py-2 shadow-lg border border-white/50 floating max-w-sm">
               <div className="flex items-center justify-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
+                <div className="w-7 h-7 bg-gradient-to-r from-warm-coral to-golden-yellow rounded-full flex items-center justify-center text-white shrink-0">
                   {steps[currentStep].icon}
                 </div>
-                <h2 className="text-lg font-bold text-gray-800 whitespace-nowrap">{steps[currentStep].title}</h2>
+                <h2 className="text-base font-bold text-gray-800 whitespace-nowrap">{steps[currentStep].title}</h2>
               </div>
             </div>
           </div>
