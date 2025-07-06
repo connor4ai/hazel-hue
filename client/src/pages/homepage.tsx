@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Upload, Camera } from 'lucide-react';
+import { Upload, Camera, Sparkles, CheckCircle, ArrowLeft } from 'lucide-react';
 import { SEOHead } from '@/components/SEOHead';
 
 export default function Homepage() {
@@ -179,289 +180,183 @@ export default function Homepage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-cream paper-texture">
       <SEOHead 
         title="AI Color Analysis - Hazel & Hue"
         description="Upload your photos and let AI discover your perfect color palette with professional seasonal color analysis."
         path="/homepage"
       />
-      
-      {/* Animated Gradient Mesh Background */}
-      <div className="mesh"></div>
-      
-      {/* Modern Design System Styles */}
-      <style>{`
-        /* Import Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        /* Design System Variables */
-        :root {
-            --ink: #0A0A0A;
-            --pearl: #FAFAFA;
-            --mist: #F5F5F5;
-        }
-
-        /* Animated Gradient Mesh Background */
-        .mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .mesh::before,
-        .mesh::after {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            animation: morphing 25s ease-in-out infinite;
-        }
-
-        .mesh::before {
-            background: radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
-            animation-delay: 0s;
-        }
-
-        .mesh::after {
-            background: radial-gradient(circle at 60% 20%, rgba(251, 146, 60, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 30% 60%, rgba(34, 197, 94, 0.15) 0%, transparent 50%);
-            animation-delay: -10s;
-        }
-
-        @keyframes morphing {
-            0%, 100% {
-                transform: rotate(0deg) scale(1) translateX(0);
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-            25% {
-                transform: rotate(90deg) scale(1.1) translateX(20px);
-                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-            }
-            50% {
-                transform: rotate(180deg) scale(0.9) translateX(-20px);
-                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-            }
-            75% {
-                transform: rotate(270deg) scale(1.05) translateX(10px);
-                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-            }
-        }
-
-        /* Animated Gradient Text */
-        .gradient-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1;
-            background: linear-gradient(
-                135deg,
-                #9333EA 0%,
-                #EC4899 25%,
-                #3B82F6 50%,
-                #FB923C 75%,
-                #9333EA 100%
-            );
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 8s ease infinite;
-        }
-
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Premium Button Style */
-        .premium-button {
-            padding: 1rem 3rem;
-            background: var(--ink);
-            color: white;
-            border: none;
-            border-radius: 100px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .premium-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .premium-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .upload-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            padding: 2rem;
-        }
-
-        .upload-zone {
-            border: 2px dashed #9333EA;
-            border-radius: 16px;
-            background: rgba(147, 51, 234, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        .upload-zone:hover {
-            border-color: #EC4899;
-            background: rgba(236, 72, 153, 0.05);
-        }
-      `}</style>
-
-      <div className="min-h-screen relative">
-        {/* Navigation Bar */}
-        <nav className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200/20">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <div className="flex space-x-6 mb-4">
             <Button
               variant="ghost"
-              className="font-serif text-2xl font-bold text-gray-800 hover:text-purple-700 transition-colors"
+              onClick={() => setLocation('/about')}
+              className="text-warm-gray hover:text-warm-gray-dark"
             >
-              Hazel & Hue
+              About
             </Button>
-            <div className="flex space-x-6">
-              <Button
-                variant="ghost"
-                onClick={() => setLocation('/about')}
-                className="text-gray-600 hover:text-purple-700 transition-colors"
-              >
-                About
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setLocation('/terms')}
-                className="text-gray-600 hover:text-purple-700 transition-colors"
-              >
-                Terms
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setLocation('/help')}
-                className="text-gray-600 hover:text-purple-700 transition-colors"
-              >
-                Help
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/terms')}
+              className="text-warm-gray hover:text-warm-gray-dark"
+            >
+              Terms
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setLocation('/help')}
+              className="text-warm-gray hover:text-warm-gray-dark"
+            >
+              Help
+            </Button>
           </div>
-        </nav>
-
-        {/* Main Content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="gradient-title mb-6">
+          
+          <div className="text-center">
+            <h1 className="font-serif text-4xl font-bold text-warm-gray-dark mb-4">
               AI Color Analysis
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-warm-gray max-w-2xl mx-auto">
               Upload your photos and let AI discover your perfect palette
             </p>
           </div>
+        </div>
 
+        <div className="grid lg:grid-cols-2 gap-8">
           {/* Upload Section */}
-          <div className="max-w-2xl mx-auto">
-            <div className="upload-card">
-              {/* Upload Zone */}
-              <div className="upload-zone">
-                <input
-                  type="file"
-                  multiple
-                  accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      if (e.target.files.length === 1) {
-                        handleFileSelect(e.target.files[0]);
-                      } else {
-                        handleMultipleFileSelect(e.target.files);
-                      }
-                    }
-                  }}
-                  className="hidden"
-                  id="photo-upload"
-                />
-                <label
-                  htmlFor="photo-upload"
-                  className="flex flex-col items-center justify-center w-full h-64 cursor-pointer p-8"
-                >
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center mb-6">
-                      <Upload className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                      Drop your photos here
-                    </h3>
-                    <p className="text-gray-500 text-center">
-                      or click to browse
-                    </p>
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Camera className="w-5 h-5 mr-2 text-terracotta" />
+                  Upload Photos ({files.length}/3)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {files.length < 3 && (
+                  <div className="text-center">
+                    <input
+                      type="file"
+                      multiple
+                      accept=".heic,.heif,.jpg,.jpeg,.png,image/*"
+                      onChange={(e) => {
+                        if (e.target.files) {
+                          if (e.target.files.length === 1) {
+                            handleFileSelect(e.target.files[0]);
+                          } else {
+                            handleMultipleFileSelect(e.target.files);
+                          }
+                        }
+                      }}
+                      className="hidden"
+                      id="photo-upload"
+                    />
+                    <label
+                      htmlFor="photo-upload"
+                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-terracotta/30 rounded-lg hover:border-terracotta/50 transition-colors cursor-pointer bg-gradient-to-br from-terracotta/5 to-marigold/5 hover:from-terracotta/10 hover:to-marigold/10"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-12 h-12 text-terracotta mb-4" />
+                        <p className="mb-2 text-lg font-semibold text-warm-gray-dark">
+                          Upload Your Photos
+                        </p>
+                        <p className="text-sm text-warm-gray text-center">
+                          Select up to 3 photos (JPEG or PNG, up to 10MB each)
+                        </p>
+                        <p className="text-xs text-warm-gray mt-2">
+                          You can select multiple files at once
+                        </p>
+                      </div>
+                    </label>
                   </div>
-                </label>
-              </div>
+                )}
 
-              {/* Selected Files */}
-              {files.length > 0 && (
-                <div className="mt-6">
-                  <h4 className="font-semibold text-gray-800 mb-3">Selected Photos ({files.length}/3)</h4>
-                  <div className="space-y-2">
+                {files.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-warm-gray-dark">Selected Photos:</h4>
                     {files.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border">
                         <div className="flex items-center space-x-3">
-                          <Camera className="w-5 h-5 text-purple-600" />
-                          <span className="text-sm font-medium text-gray-700">{file.name}</span>
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                          <div>
+                            <p className="text-sm font-medium">{file.name}</p>
+                            <p className="text-xs text-warm-gray">
+                              {(file.size / 1024 / 1024).toFixed(1)} MB
+                            </p>
+                          </div>
                         </div>
                         <Button
-                          variant="ghost"
                           size="sm"
+                          variant="outline"
                           onClick={() => removeFile(index)}
-                          className="text-red-500 hover:text-red-700"
                         >
                           Remove
                         </Button>
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Continue Button */}
-              {files.length > 0 && (
-                <div className="mt-8 text-center">
-                  <button 
-                    onClick={handleAnalyze}
-                    className="premium-button"
-                  >
-                    Continue for $29
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">All sales final</p>
+                <Button
+                  onClick={handleAnalyze}
+                  disabled={files.length === 0}
+                  className="w-full bg-gradient-to-r from-terracotta via-marigold to-lagoon hover:from-terracotta/90 hover:via-marigold/90 hover:to-lagoon/90 text-white py-3 text-lg font-semibold"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Continue for $29
+                </Button>
+                <p className="text-xs text-warm-gray text-center">All sales final</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Instructions */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Photo Guidelines</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-warm-gray">
+                  For the most accurate color analysis results, please follow these guidelines:
+                </p>
+                
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-terracotta text-xs font-bold">1</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-warm-gray-dark">Natural Lighting</h4>
+                      <p className="text-sm text-warm-gray">Take photos near a window with bright, natural daylight</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-terracotta text-xs font-bold">2</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-warm-gray-dark">No Makeup</h4>
+                      <p className="text-sm text-warm-gray">Minimal or no makeup for accurate skin tone analysis</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 rounded-full bg-terracotta/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-terracotta text-xs font-bold">3</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-warm-gray-dark">Clear Face Shot</h4>
+                      <p className="text-sm text-warm-gray">Face should be clearly visible, hair uncovered if possible</p>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

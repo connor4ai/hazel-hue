@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { Home as HomeIcon, HelpCircle, BookOpen, FileText, AlertTriangle, DollarSign } from 'lucide-react';
+import { Home as HomeIcon, HelpCircle, BookOpen, FileText, Shield, Clock, Zap, Users, Mail } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SEOHead } from '@/components/SEOHead';
 
-export default function Terms() {
+export default function About() {
   const [, setLocation] = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
       <SEOHead 
-        title="Terms of Service - Hazel & Hue AI Color Analysis"
-        description="Review our terms of service, payment policy, and service agreement for Hazel & Hue's AI color analysis platform."
-        path="/terms"
+        title="About Hazel & Hue - Professional AI Color Analysis Service"
+        description="Learn about Hazel & Hue's professional AI color analysis service. Discover how our advanced technology provides accurate seasonal color analysis and personalized style recommendations."
+        path="/about"
       />
       
       <style>{`
@@ -216,12 +216,12 @@ export default function Terms() {
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setLocation('/about');
+                      setLocation('/terms');
                     }}
                     className="w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors flex items-center"
                   >
-                    <HelpCircle className="w-4 h-4 mr-3" />
-                    About
+                    <FileText className="w-4 h-4 mr-3" />
+                    Terms
                   </button>
                   <button
                     onClick={() => {
@@ -244,101 +244,117 @@ export default function Terms() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h1 className="main-title">
-                Terms of Service
+                About Hazel & Hue
               </h1>
               <p className="subtitle mx-auto">
-                Please review our service terms and payment policy
+                Professional AI-powered color analysis for your perfect seasonal palette
               </p>
             </div>
 
-            <div className="space-y-6">
-              {/* No Refund Policy */}
-              <div className="content-card">
-                <h3 className="flex items-center text-xl font-bold text-red-300 mb-4">
-                  <AlertTriangle className="w-5 h-5 mr-2" />
-                  No Refund Policy
-                </h3>
-                <div className="bg-red-500/20 border border-red-300/30 rounded-lg p-4 mb-4">
-                  <p className="font-semibold text-red-200 mb-2">ALL SALES FINAL</p>
-                  <p className="text-red-200">
-                    Due to the instant digital nature of our AI color analysis service, all payments are final and non-refundable. 
-                    By purchasing our service, you acknowledge and agree to this no-refund policy.
-                  </p>
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Service Features */}
+              <div className="space-y-6">
+                <div className="content-card">
+                  <h3 className="flex items-center text-xl font-bold text-white mb-4">
+                    <Zap className="w-5 h-5 mr-2 text-white" />
+                    Our Service
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <Shield className="w-5 h-5 text-white mt-1" />
+                      <div>
+                        <p className="font-semibold text-white">AI-Powered Analysis</p>
+                        <p className="text-sm text-white/70">Advanced artificial intelligence analyzes your photos to determine your seasonal color palette with professional accuracy.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Clock className="w-5 h-5 text-white mt-1" />
+                      <div>
+                        <p className="font-semibold text-white">Fast Results</p>
+                        <p className="text-sm text-white/70">Get your complete color analysis in 30 seconds. No waiting, no appointments needed.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <Users className="w-5 h-5 text-white mt-1" />
+                      <div>
+                        <p className="font-semibold text-white">12-Season System</p>
+                        <p className="text-sm text-white/70">Comprehensive analysis using the professional 12-season color system for the most accurate results.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="content-card">
+                  <h3 className="flex items-center text-xl font-bold text-white mb-4">
+                    <Mail className="w-5 h-5 mr-2 text-white" />
+                    What You Receive
+                  </h3>
+                  <ul className="text-sm text-white/70 space-y-2">
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">•</span>
+                      <span>Professional 6-page PDF color analysis report</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">•</span>
+                      <span>180+ personalized color palette</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">•</span>
+                      <span>Makeup recommendations and color swatches</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">•</span>
+                      <span>Style and wardrobe guidance</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">•</span>
+                      <span>Email delivery within minutes</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
-              {/* Service Terms */}
-              <div className="content-card">
-                <h3 className="flex items-center text-xl font-bold text-white mb-4">
-                  <FileText className="w-5 h-5 mr-2 text-white" />
-                  Service Agreement
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Service Description</h4>
-                    <p className="text-sm text-white/70">
-                      Hazel & Hue provides AI-powered color analysis services that determine your seasonal color palette 
-                      based on uploaded photos. Results are delivered digitally via email.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Photo Requirements</h4>
-                    <ul className="text-sm text-white/70 space-y-1">
-                      <li>• Clear, well-lit photos without filters</li>
-                      <li>• Natural lighting preferred</li>
-                      <li>• Face visible without sunglasses or heavy makeup</li>
-                      <li>• 1-3 photos maximum per analysis</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Delivery</h4>
-                    <p className="text-sm text-white/70">
-                      Analysis results are delivered to your email address within minutes of payment completion. 
-                      Please ensure your email address is correct during checkout.
-                    </p>
+              {/* Contact Information */}
+              <div className="space-y-6">
+                <div className="content-card">
+                  <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="font-semibold text-white">Customer Support</p>
+                      <p className="text-sm text-white/70">For questions about your analysis or technical support</p>
+                      <p className="text-sm text-white font-medium">support@hazelandhue.com</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white">Business Hours</p>
+                      <p className="text-sm text-white/70">Monday - Friday: 9:00 AM - 6:00 PM EST</p>
+                      <p className="text-sm text-white/70">Weekend: 10:00 AM - 4:00 PM EST</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Payment Policy */}
-              <div className="content-card">
-                <h3 className="flex items-center text-xl font-bold text-white mb-4">
-                  <DollarSign className="w-5 h-5 mr-2 text-white" />
-                  Payment Policy
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Pricing</h4>
-                    <p className="text-sm text-white/70">
-                      Our AI color analysis service costs $29.00 USD. This is a one-time fee for a complete analysis.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Payment Processing</h4>
-                    <p className="text-sm text-white/70">
-                      Payments are processed securely through Stripe. We accept major credit cards, debit cards, 
-                      and digital payment methods including Apple Pay and Google Pay.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-semibold text-white mb-2">Security</h4>
-                    <p className="text-sm text-white/70">
-                      Your payment information is encrypted and secure. We do not store credit card information on our servers.
-                    </p>
-                  </div>
+                <div className="content-card bg-white/5">
+                  <h4 className="font-semibold text-white mb-3">How It Works</h4>
+                  <ol className="text-sm text-white/70 space-y-2">
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">1.</span>
+                      <span>Upload 1-3 clear photos following our guidelines</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">2.</span>
+                      <span>Pay $29 securely through our payment system</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">3.</span>
+                      <span>AI analyzes your photos and determines your season</span>
+                    </li>
+                    <li className="flex items-start space-x-2">
+                      <span className="text-white font-bold">4.</span>
+                      <span>Receive your complete analysis via email</span>
+                    </li>
+                  </ol>
                 </div>
-              </div>
-
-              {/* Contact */}
-              <div className="content-card bg-white/5">
-                <h4 className="font-semibold text-white mb-3">Questions?</h4>
-                <p className="text-sm text-white/70">
-                  If you have questions about our terms of service, please contact us at support@hazelandhue.com
-                </p>
               </div>
             </div>
           </div>
