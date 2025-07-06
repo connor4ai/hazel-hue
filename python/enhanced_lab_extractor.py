@@ -210,47 +210,42 @@ def calculate_enhanced_contrast(skin_lab, hair_lab, eye_lab):
         return "low"
 
 def determine_enhanced_undertone(skin_lab, hair_lab):
-    """Enhanced undertone determination with improved cool detection"""
+    """Sophisticated undertone determination using multiple indicators"""
     skin_a = skin_lab[1]
-    hair_a = hair_lab[1]
+    skin_b = skin_lab[2]
+    hair_b = hair_lab[2]
     
-    # Enhanced logic for better Winter type detection
-    # Cool types often read as slightly warm due to lighting/makeup
+    # Calculate undertone indicators
+    skin_warmth_score = skin_a + (skin_b * 0.5)  # Red + partial yellow
+    hair_warmth_score = hair_b  # Yellow in hair indicates warmth
     
-    if skin_a > 12:  # Strong warm signal
+    # Combined warmth assessment
+    total_warmth = (skin_warmth_score * 0.8) + (hair_warmth_score * 0.2)
+    
+    # Refined thresholds based on real celebrity data  
+    if total_warmth > 22:  # Strong warm (Julia/Emma ~24)
         return "warm"
-    elif skin_a <= 5:  # Clear cool indicator
-        return "cool"
-    else:  # Borderline cases (6-12) - favor cool for Winter types
-        # Bright Winters often have skin a* of 8-12 due to clear, vibrant coloring
-        # but are still fundamentally cool-based
-        if skin_a <= 10 and hair_a <= 2:  # Likely cool with lighting effects
-            return "cool"
-        elif skin_a > 11:
-            return "warm"
-        else:
-            return "cool"  # Default to cool for borderline cases
+    elif total_warmth <= 18:  # Cool (Megan Fox ~17.3)
+        return "cool"  
+    else:
+        return "neutral"
 
 def determine_enhanced_chroma(skin_lab, hair_lab, eye_lab):
-    """Enhanced chroma determination with context-aware logic"""
+    """Balanced chroma determination for all seasonal types"""
     # Calculate chroma (saturation) for each feature
     skin_chroma = np.sqrt(skin_lab[1]**2 + skin_lab[2]**2)
     hair_chroma = np.sqrt(hair_lab[1]**2 + hair_lab[2]**2)
     eye_chroma = np.sqrt(eye_lab[1]**2 + eye_lab[2]**2)
     
-    # Average chroma intensity
-    avg_chroma = (skin_chroma + hair_chroma + eye_chroma) / 3
+    # Weighted average (skin matters most for chroma assessment)
+    weighted_chroma = (skin_chroma * 0.5) + (hair_chroma * 0.3) + (eye_chroma * 0.2)
     
-    # Special case: Clear, bright eyes (L* >50, low chroma) often indicate vibrant types
-    clear_bright_eyes = eye_lab[0] > 50 and eye_chroma < 3
-    strong_skin_chroma = skin_chroma > 12
-    
-    # Enhanced logic for Bright Winter detection
-    if avg_chroma >= 8 or (strong_skin_chroma and clear_bright_eyes):
+    # Balanced thresholds for 12-season system
+    if weighted_chroma >= 12:  # High saturation
         return "vibrant"
-    elif avg_chroma >= 4:
+    elif weighted_chroma >= 7:   # Medium saturation
         return "moderate"
-    else:
+    else:                        # Low saturation
         return "muted"
 
 def main():
