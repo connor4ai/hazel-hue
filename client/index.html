@@ -57,10 +57,26 @@
     <!-- Performance & Loading -->
     <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
     <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="dns-prefetch" href="https://api.hazelandhue.com">
     <link rel="dns-prefetch" href="https://hazelandhue.com">
+    <link rel="dns-prefetch" href="https://js.stripe.com">
+    
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+      /* Critical CSS for immediate rendering */
+      body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; background: #F1FAEE; }
+      .hero { background: linear-gradient(135deg, #F1FAEE 0%, #E5D5C0 100%); min-height: 60vh; }
+      .loading { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+      .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #E85A4F; border-radius: 50%; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      /* Prevent layout shift */
+      .nav-height { height: 72px; }
+      .hero-height { min-height: 500px; }
+    </style>
     
     <!-- Critical Technical SEO - Search Console Verification -->
     <meta name="google-site-verification" content="your-google-verification-code" />
@@ -333,7 +349,44 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
+    <!-- Fallback content for browsers without JavaScript -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; background: #F1FAEE; min-height: 100vh;">
+        <h1 style="color: #2D5A3D; font-size: 2rem; margin-bottom: 1rem;">Hazel & Hue - AI Color Analysis</h1>
+        <p style="color: #2D5A3D; font-size: 1.2rem; margin-bottom: 2rem;">Professional color analysis powered by AI technology</p>
+        <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+          <h2 style="color: #2D5A3D;">Get Your Color Analysis</h2>
+          <p>Upload 3 photos and receive your personalized 12-season color palette with:</p>
+          <ul style="color: #2D5A3D;">
+            <li>64 personalized colors with hex codes</li>
+            <li>Makeup recommendations and palettes</li>
+            <li>Jewelry and accessories guidance</li>
+            <li>Hair color suggestions</li>
+            <li>Complete styling guide</li>
+          </ul>
+          <p><strong>This site requires JavaScript to function. Please enable JavaScript in your browser to continue.</strong></p>
+          <p>Contact us at <a href="mailto:jayda@hazelandhue.com" style="color: #E85A4F;">jayda@hazelandhue.com</a> for assistance.</p>
+        </div>
+      </div>
+    </noscript>
+    
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+    </div>
+    
     <div id="root"></div>
+    
+    <!-- Remove loading indicator once React mounts -->
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          const loading = document.getElementById('loading');
+          if (loading) loading.style.display = 'none';
+        }, 100);
+      });
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>

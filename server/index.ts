@@ -13,6 +13,19 @@ import {
 import { securityHeaders, rateLimit } from "./utils/security";
 import { healthCheck, metrics, statusDashboard } from "./utils/monitoring";
 import { memoryOptimizer } from "./utils/memory-optimizer";
+import { 
+  mobileOptimization, 
+  criticalResourcesMiddleware, 
+  seoEnhancement, 
+  performanceHeaders, 
+  pageSpeedOptimization 
+} from "./utils/technical-seo";
+import { 
+  mobileDetection, 
+  touchOptimization, 
+  mobilePerformance, 
+  responsiveImages 
+} from "./utils/mobile-optimization";
 import "./emergency-memory-fix.js";
 
 const app = express();
@@ -35,6 +48,17 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // Add security headers and performance monitoring
 app.use(securityHeaders);
 app.use(performanceMiddleware);
+
+// Technical SEO and mobile optimization
+app.use(mobileOptimization);
+app.use(mobileDetection);
+app.use(touchOptimization);
+app.use(mobilePerformance);
+app.use(responsiveImages);
+app.use(criticalResourcesMiddleware);
+app.use(seoEnhancement);
+app.use(performanceHeaders);
+app.use(pageSpeedOptimization);
 
 // Rate limiting for API routes
 app.use('/api', rateLimit(100, 15 * 60 * 1000)); // 100 requests per 15 minutes
