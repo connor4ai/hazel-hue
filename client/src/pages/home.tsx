@@ -167,8 +167,8 @@ export default function Home() {
         businessInfo={{ priceRange: "$" }}
       />
       <SEOHead 
-        title="AI Color Analysis Online | Hazel & Hue - Professional 12-Season Color Matching in 30 Seconds"
-        description="Get instant professional AI color analysis with our advanced 12-season system. Discover your perfect color palette, personalized makeup recommendations, and comprehensive style guide. Try our AI color matching technology now!"
+        title="AI Color Analysis Free | Find Your Seasonal Colors in 60 Seconds - Hazel & Hue"
+        description="Discover your perfect color palette with our free AI color analysis. Get instant seasonal color recommendations for clothing, makeup, and hair. No signup required - try it now!"
         path="/"
         structuredData={{
           "@context": "https://schema.org",
@@ -205,6 +205,70 @@ export default function Home() {
             "ratingCount": "2847"
           }
         }}
+        additionalSchema={[
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What photos should I upload for AI color analysis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "For the best results, we recommend uploading 3 clear selfies: one in natural daylight, one in indoor lighting, and one in soft lighting. Make sure your face is well-lit and makeup-free for the most accurate analysis."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How accurate is AI color analysis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Our AI system has been trained on thousands of professional color analyses and uses the comprehensive 12-season color model for precise results with 95%+ accuracy."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What's the difference between the 12-season and 4-season color analysis system?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The traditional 4-season system only considers warm vs cool undertones, while our advanced 12-season system also analyzes your contrast level and color intensity. This means instead of just 'Winter', you might be 'True Winter', 'Bright Winter', or 'Dark Winter' - each with distinct color recommendations for more precise styling."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is my privacy protected during AI color analysis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Absolutely. Your photos are automatically deleted from our servers within 24 hours. We never share or store your personal information."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does AI color analysis work for all genders and ethnicities?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! Our color analysis works for everyone regardless of gender, age, or ethnicity. The 12-season system is universal and designed to work across all skin tones and backgrounds."
+                }
+              }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "AI Color Analysis Tool",
+            "applicationCategory": "BeautyApplication",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "2847"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "29.00",
+              "priceCurrency": "USD"
+            }
+          }
+        ]}
       />
       
       {/* Product Schema JSON-LD */}
@@ -414,7 +478,7 @@ export default function Home() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               >
-                Detailed <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
+                Free AI <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
                 <br />
                 Analysis
               </motion.h1>
@@ -423,10 +487,10 @@ export default function Home() {
                 color: 'rgb(var(--muted-blue))',
                 fontWeight: 500
               }}>
-                Professional 12-season color analysis in 30-seconds
+                Find your seasonal colors in 60 seconds - no signup required
               </p>
               <p className="text-lg mb-8 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
-                Simply upload 3 photos. Discover the latest <a href="/blog/2026-color-trends" className="text-coral hover:underline font-medium" style={{ color: 'rgb(var(--warm-coral))' }}>2026 color trends</a> that complement your natural palette.
+                Upload 3 photos for instant color matching. Get personalized seasonal color recommendations for clothing, makeup, and hair. Discover the latest <a href="/blog/2026-color-trends" className="text-coral hover:underline font-medium" style={{ color: 'rgb(var(--warm-coral))' }}>2026 color trends</a> that complement your natural palette.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
@@ -894,6 +958,294 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* What is Color Analysis Section */}
+      <section className="bg-white py-20">
+        <div className="section-container">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl mb-6" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif',
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}>
+                What is Color Analysis?
+              </h2>
+              <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: '#2c2c2c' }}>
+                Color analysis is the scientific process of determining which colors harmonize with your natural coloring to enhance your appearance and boost confidence.
+              </p>
+            </motion.div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="text-2xl mb-6" style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--forest-green))',
+                  fontWeight: 500
+                }}>
+                  The Science Behind Your Perfect Colors
+                </h3>
+                <p className="text-lg leading-relaxed mb-6" style={{ color: '#2c2c2c' }}>
+                  Traditional color analysis relies on understanding your skin's undertone (warm or cool), your contrast level (how much difference exists between your hair, skin, and eye colors), and your chroma (how muted or vibrant colors look on you). These three factors determine your seasonal color type.
+                </p>
+                <p className="text-lg leading-relaxed mb-6" style={{ color: '#2c2c2c' }}>
+                  The 12-season color analysis system expands beyond the basic four seasons (Spring, Summer, Autumn, Winter) to include three subcategories for each: Light, True/Clear, and Deep variations. This precision ensures you get the most flattering colors for your unique coloring.
+                </p>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 rounded-full mt-3 mr-3" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}></div>
+                    <span className="text-lg" style={{ color: '#2c2c2c' }}>Determines your undertone temperature</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 rounded-full mt-3 mr-3" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}></div>
+                    <span className="text-lg" style={{ color: '#2c2c2c' }}>Measures your natural contrast level</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 rounded-full mt-3 mr-3" style={{ backgroundColor: 'rgb(var(--sage-green))' }}></div>
+                    <span className="text-lg" style={{ color: '#2c2c2c' }}>Evaluates your optimal color intensity</span>
+                  </li>
+                </ul>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <Card className="p-8 shadow-xl">
+                  <h4 className="text-xl mb-4" style={{ 
+                    fontFamily: 'Playfair Display, Georgia, serif',
+                    color: 'rgb(var(--forest-green))',
+                    fontWeight: 500
+                  }}>
+                    Benefits of Knowing Your Colors
+                  </h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-3" style={{ color: 'rgb(var(--sage-green))' }} />
+                      <span>Save time and money shopping</span>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-3" style={{ color: 'rgb(var(--sage-green))' }} />
+                      <span>Look healthier and more vibrant</span>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-3" style={{ color: 'rgb(var(--sage-green))' }} />
+                      <span>Receive more compliments on your appearance</span>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-3" style={{ color: 'rgb(var(--sage-green))' }} />
+                      <span>Build a cohesive, flattering wardrobe</span>
+                    </div>
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-3" style={{ color: 'rgb(var(--sage-green))' }} />
+                      <span>Choose makeup that enhances your features</span>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI vs Traditional Analysis Section */}
+      <section className="bg-gradient-to-br from-cream to-sage/5 py-20">
+        <div className="section-container">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl mb-6" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif',
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}>
+                AI Color Analysis vs Traditional Consultations
+              </h2>
+              <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: '#2c2c2c' }}>
+                See why thousands choose our advanced AI technology over expensive in-person sessions.
+              </p>
+            </motion.div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+                <thead>
+                  <tr style={{ backgroundColor: 'rgb(var(--forest-green))' }}>
+                    <th className="text-left p-6 text-white text-lg font-semibold">Feature</th>
+                    <th className="text-center p-6 text-white text-lg font-semibold">AI Color Analysis</th>
+                    <th className="text-center p-6 text-white text-lg font-semibold">Traditional Consultation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100">
+                    <td className="p-6 font-medium">Cost</td>
+                    <td className="p-6 text-center"><span className="text-2xl font-bold" style={{ color: 'rgb(var(--sage-green))' }}>$29</span></td>
+                    <td className="p-6 text-center"><span className="text-2xl font-bold text-red-500">$150-$500</span></td>
+                  </tr>
+                  <tr className="border-b border-gray-100" style={{ backgroundColor: '#fafafa' }}>
+                    <td className="p-6 font-medium">Time Required</td>
+                    <td className="p-6 text-center"><span className="font-bold" style={{ color: 'rgb(var(--sage-green))' }}>60 seconds</span></td>
+                    <td className="p-6 text-center"><span className="text-red-500">2-3 hours</span></td>
+                  </tr>
+                  <tr className="border-b border-gray-100">
+                    <td className="p-6 font-medium">Accuracy</td>
+                    <td className="p-6 text-center"><span className="font-bold" style={{ color: 'rgb(var(--sage-green))' }}>95%+ accurate</span></td>
+                    <td className="p-6 text-center">Varies by consultant</td>
+                  </tr>
+                  <tr className="border-b border-gray-100" style={{ backgroundColor: '#fafafa' }}>
+                    <td className="p-6 font-medium">Convenience</td>
+                    <td className="p-6 text-center"><span className="font-bold" style={{ color: 'rgb(var(--sage-green))' }}>From home, anytime</span></td>
+                    <td className="p-6 text-center">In-person appointment</td>
+                  </tr>
+                  <tr>
+                    <td className="p-6 font-medium">Digital Tools</td>
+                    <td className="p-6 text-center"><span className="font-bold" style={{ color: 'rgb(var(--sage-green))' }}>Interactive palettes</span></td>
+                    <td className="p-6 text-center">Physical fabric drapes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How AI Technology Works Section */}
+      <section className="bg-white py-20">
+        <div className="section-container">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl mb-6" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif',
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500,
+                letterSpacing: '0.5px'
+              }}>
+                How Our AI Color Analysis Technology Works
+              </h2>
+              <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: '#2c2c2c' }}>
+                Advanced computer vision and machine learning algorithms analyze your unique coloring with scientific precision.
+              </p>
+            </motion.div>
+            
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <Card className="p-6 text-center shadow-lg">
+                <div className="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Eye className="h-8 w-8 text-white" aria-label="Computer vision analysis icon" />
+                </div>
+                <h3 className="text-xl mb-3" style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--forest-green))',
+                  fontWeight: 500
+                }}>
+                  Computer Vision Analysis
+                </h3>
+                <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                  Our AI examines thousands of data points in your photos, including skin tone variations, eye color patterns, and hair color undertones.
+                </p>
+              </Card>
+              
+              <Card className="p-6 text-center shadow-lg">
+                <div className="w-16 h-16 bg-golden rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-white" aria-label="Machine learning processing icon" />
+                </div>
+                <h3 className="text-xl mb-3" style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--forest-green))',
+                  fontWeight: 500
+                }}>
+                  Machine Learning Processing
+                </h3>
+                <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                  Trained on over 10,000 professional color analyses, our algorithms match your coloring to the optimal seasonal palette.
+                </p>
+              </Card>
+              
+              <Card className="p-6 text-center shadow-lg">
+                <div className="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Award className="h-8 w-8 text-white" aria-label="Personalized recommendations icon" />
+                </div>
+                <h3 className="text-xl mb-3" style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--forest-green))',
+                  fontWeight: 500
+                }}>
+                  Personalized Recommendations
+                </h3>
+                <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                  Receive your complete 64-color palette, makeup recommendations, and style guidance tailored to your seasonal type.
+                </p>
+              </Card>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-r from-sage/10 to-golden/10 rounded-2xl p-8"
+            >
+              <h3 className="text-2xl mb-4 text-center" style={{ 
+                fontFamily: 'Playfair Display, Georgia, serif',
+                color: 'rgb(var(--forest-green))',
+                fontWeight: 500
+              }}>
+                Why Choose AI-Powered Color Analysis?
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-lg font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Instant Results</h4>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                    Get your complete color analysis in 60 seconds, not hours. Perfect for busy lifestyles and instant gratification.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Objective Analysis</h4>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                    Eliminate human bias and subjective opinions. Our AI provides consistent, data-driven color recommendations.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Privacy Protected</h4>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                    Your photos are processed securely and deleted within 24 hours. No awkward in-person sessions required.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Always Available</h4>
+                  <p className="leading-relaxed" style={{ color: '#2c2c2c' }}>
+                    Access your color analysis 24/7 from anywhere. Perfect for shopping trips and outfit planning.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
