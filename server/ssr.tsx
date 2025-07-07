@@ -14,6 +14,11 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
     description: 'Get your professional AI-powered color analysis instantly. Discover your seasonal color palette, perfect makeup shades, and personalized style recommendations. Advanced color matching technology.',
     keywords: 'AI color analysis, color analysis online, personal color analysis, seasonal color analysis, virtual color analysis, digital color analysis, color analysis service, AI color matching, best color analysis, professional color analysis online',
     content: `
+      <!-- AI and Bot Accessibility Metadata -->
+      <meta name="ai-crawlable" content="true">
+      <meta name="ai-indexable" content="true">
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+      
       <main class="min-h-screen bg-cream">
         <nav class="bg-forest text-cream p-4">
           <div class="container mx-auto flex justify-between items-center">

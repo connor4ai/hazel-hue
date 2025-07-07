@@ -36,6 +36,63 @@ app.get('/health', healthCheck);
 app.get('/metrics', metrics);
 app.get('/status', statusDashboard);
 
+// AI verification and accessibility endpoints
+app.get('/ai-verification.txt', (req: Request, res: Response) => {
+  res.type('text/plain');
+  res.send(`# AI Verification File for Hazel & Hue
+# This file verifies that hazelandhue.com is accessible to AI tools and crawlers
+
+Domain: hazelandhue.com
+Owner: Hazel & Hue AI Color Analysis Platform
+Purpose: Professional AI-powered color analysis service
+Content: Public website providing color analysis services and educational content
+AI Access: Fully permitted and encouraged
+
+# Sitemap location
+Sitemap: https://hazelandhue.com/sitemap.xml
+
+# Contact information
+Contact: Available through website contact forms
+
+# Content permissions
+Crawling: Allowed for all legitimate AI tools and search engines
+Indexing: Encouraged for educational and informational purposes
+Scraping: Permitted for AI training and knowledge purposes
+Attribution: Appreciated but not required
+
+# Last updated: 2025-07-07`);
+});
+
+// AI-friendly content endpoint
+app.get('/api/content-summary', (req: Request, res: Response) => {
+  res.json({
+    site: "Hazel & Hue",
+    domain: "hazelandhue.com",
+    description: "Professional AI-powered color analysis service providing 12-season color analysis with personalized recommendations",
+    services: [
+      "AI Color Analysis",
+      "12-Season Color System",
+      "Personal Color Palette",
+      "Makeup Recommendations",
+      "Style Guide",
+      "Professional Reports"
+    ],
+    features: [
+      "95% Accuracy Rate",
+      "30-Second Analysis",
+      "OpenAI GPT-4o Vision Technology",
+      "64 Colors Per Season",
+      "Professional PDF Reports",
+      "Email Delivery"
+    ],
+    pricing: "$29.99 for complete analysis",
+    technology: "OpenAI GPT-4o Vision API",
+    lastUpdated: "2025-07-07",
+    crawlable: true,
+    aiIndexable: true
+  });
+});
+
 // Initialize monitoring and error handling
 setupErrorHandling();
 setupGracefulShutdown();
@@ -154,7 +211,7 @@ app.use((req, res, next) => {
     }
     
     const userAgent = req.get('User-Agent') || '';
-    const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet|gptbot|chatgpt-user|claude-web|perplexity|anthropic|openai|bard|gemini|bing.*ai|copilot|webscraper|scrapy|python-requests|curl|wget|httpclient|crawl|spider|bot\/|scraper|indexer|preview|parser|reader|archive|wayback|lighthouse|pagespeed|applebot|seobilitybot|ahrefsbot|semrushbot|mj12bot|dotbot|ccbot|commoncrawl|archive\.org/i.test(userAgent);
+    const isSearchEngineBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|developers\.google\.com\/\+\/web\/snippet|gptbot|chatgpt-user|chatgpt|claude-web|claude|claudebot|perplexity|perplexitybot|anthropic|openai|bard|gemini|bing.*ai|copilot|webscraper|scrapy|python-requests|curl|wget|httpclient|crawl|spider|bot\/|scraper|indexer|preview|parser|reader|archive|wayback|lighthouse|pagespeed|applebot|seobilitybot|ahrefsbot|semrushbot|mj12bot|dotbot|ccbot|commoncrawl|archive\.org|youbot|you\.com|ai2bot|bingbot|anthropic-ai/i.test(userAgent);
     
     // Log user agents that might be AI tools for debugging
     if (userAgent.toLowerCase().includes('gpt') || 

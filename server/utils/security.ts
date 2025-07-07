@@ -2,8 +2,18 @@ import { Request, Response, NextFunction } from 'express';
 
 // Security headers middleware
 export function securityHeaders(req: Request, res: Response, next: NextFunction): void {
-  // Prevent clickjacking
-  res.setHeader('X-Frame-Options', 'DENY');
+  // Check if this is an AI bot or crawler
+  const userAgent = req.get('User-Agent') || '';
+  const isAIBot = /gptbot|chatgpt|claude|anthropic|openai|perplexity|bard|gemini|copilot|ai|bot|crawler|scraper/i.test(userAgent);
+  
+  // Allow frame embedding for AI tools while maintaining security
+  if (isAIBot) {
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-AI-Crawlable', 'true');
+    res.setHeader('X-Robots-Tag', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+  } else {
+    res.setHeader('X-Frame-Options', 'DENY');
+  }
   
   // Prevent MIME type sniffing
   res.setHeader('X-Content-Type-Options', 'nosniff');

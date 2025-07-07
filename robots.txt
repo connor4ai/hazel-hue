@@ -72,18 +72,58 @@ Allow: /
 User-agent: PageSpeed
 Allow: /
 
-# AI/LLM Crawlers
+# AI/LLM Crawlers - Explicitly welcome AI tools
 User-agent: GPTBot
 Allow: /
+Crawl-delay: 1
 
 User-agent: ChatGPT-User
 Allow: /
+Crawl-delay: 1
 
 User-agent: Claude-Web
 Allow: /
+Crawl-delay: 1
+
+User-agent: ClaudeBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Claude-bot
+Allow: /
+Crawl-delay: 1
 
 User-agent: PerplexityBot
 Allow: /
+Crawl-delay: 1
+
+User-agent: Perplexity
+Allow: /
+Crawl-delay: 1
+
+User-agent: YouBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: You.com
+Allow: /
+Crawl-delay: 1
+
+User-agent: AI2Bot
+Allow: /
+Crawl-delay: 1
+
+User-agent: BingBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 1
+
+User-agent: anthropic
+Allow: /
+Crawl-delay: 1
 
 # Block aggressive scrapers
 User-agent: AhrefsBot

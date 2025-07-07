@@ -1,0 +1,22 @@
+# AI Verification File for Hazel & Hue
+# This file verifies that hazelandhue.com is accessible to AI tools and crawlers
+
+Domain: hazelandhue.com
+Owner: Hazel & Hue AI Color Analysis Platform
+Purpose: Professional AI-powered color analysis service
+Content: Public website providing color analysis services and educational content
+AI Access: Fully permitted and encouraged
+
+# Sitemap location
+Sitemap: https://hazelandhue.com/sitemap.xml
+
+# Contact information
+Contact: Available through website contact forms
+
+# Content permissions
+Crawling: Allowed for all legitimate AI tools and search engines
+Indexing: Encouraged for educational and informational purposes
+Scraping: Permitted for AI training and knowledge purposes
+Attribution: Appreciated but not required
+
+# Last updated: 2025-07-07
