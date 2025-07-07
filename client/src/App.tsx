@@ -65,25 +65,21 @@ const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"))
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
 const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
-const Homepage = lazy(() => import("@/pages/homepage"));
 const About = lazy(() => import("@/pages/about"));
 const Terms = lazy(() => import("@/pages/terms"));
 const Help = lazy(() => import("@/pages/help"));
 import Checkout from "@/pages/checkout-enhanced";
-import Upload from "@/pages/upload";
 import UploadNew from "@/pages/upload-new";
 import Payment from "@/pages/payment";
 import Loading from "@/pages/loading";
 import Processing from "@/pages/processing";
 import Analyzing from "@/pages/analyzing";
-import ResultsPreview from "@/pages/results-preview";
 import ResultsPreviewNew from "@/pages/results-preview-new";
 import ResultsNew from "@/pages/results-new";
 import ResultsPremium from "@/pages/results-premium";
 import Analysis from "@/pages/analysis";
 import Admin from "@/pages/admin";
 import OrderLookup from "@/pages/order-lookup";
-import PinterestTest from "@/pages/pinterest-test";
 import UTMTest from "@/pages/utm-test";
 
 import NotFound from "@/pages/not-found";
@@ -131,17 +127,13 @@ function Router() {
       <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
-      <Route path="/homepage" component={() => <LazyRoute component={Homepage} />} />
       <Route path="/about" component={() => <LazyRoute component={About} />} />
       <Route path="/terms" component={() => <LazyRoute component={Terms} />} />
       <Route path="/help" component={() => <LazyRoute component={Help} />} />
-      <Route path="/old-upload" component={Upload} />
       <Route path="/payment" component={Payment} />
       <Route path="/loading" component={Loading} />
       <Route path="/analyzing" component={Analyzing} />
       <Route path="/results-preview/:orderId" component={ResultsPreviewNew} />
-      <Route path="/preview/:orderId" component={ResultsPreviewNew} />
-      <Route path="/results-preview-old/:orderId" component={ResultsPreview} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/processing/:orderId" component={Processing} />
       <Route path="/results/:orderId" component={ResultsNew} />
@@ -150,7 +142,6 @@ function Router() {
       <Route path="/admin" component={Admin} />
 
       <Route path="/lookup" component={OrderLookup} />
-      <Route path="/pinterest-test" component={() => <LazyRoute component={PinterestTest} />} />
       <Route path="/utm-test" component={UTMTest} />
       
 
