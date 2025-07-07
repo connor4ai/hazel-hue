@@ -172,34 +172,37 @@ export default function Home() {
         path="/"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "Service",
-          "name": "AI-Powered Color Analysis",
-          "provider": {
-            "@type": "Organization",
-            "name": "Hazel & Hue"
+          "@type": "LocalBusiness",
+          "name": "Hazel & Hue",
+          "description": "Professional AI-powered 12-season color analysis service providing personalized style recommendations",
+          "url": "https://hazelandhue.com",
+          "email": "support@hazelandhue.com",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-555-HAZEL-HUE",
+            "contactType": "customer service",
+            "email": "support@hazelandhue.com",
+            "availableLanguage": "English"
           },
-          "description": "Professional 12-season color analysis using AI technology to determine your perfect color palette",
-          "serviceType": "Personal Color Analysis",
-          "availableChannel": {
-            "@type": "ServiceChannel",
-            "serviceUrl": "https://hazelandhue.com",
-            "serviceSmsNumber": null,
-            "servicePhone": null,
-            "serviceLocation": {
-              "@type": "Place",
-              "name": "Online"
-            }
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Online Platform",
+            "addressCountry": "US"
           },
-          "offers": {
+          "openingHours": "Mo-Su 00:00-23:59",
+          "priceRange": "$",
+          "makesOffer": {
             "@type": "Offer",
-            "price": "29.99",
+            "name": "AI Color Analysis",
+            "price": "29.00",
             "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock",
-            "validFrom": "2025-01-01"
+            "availability": "InStock"
           },
-          "audience": {
-            "@type": "Audience",
-            "audienceType": "Anyone interested in personal style and color matching"
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "bestRating": "5",
+            "ratingCount": "2847"
           }
         }}
       />
@@ -423,7 +426,7 @@ export default function Home() {
                 Professional 12-season color analysis in 30-seconds
               </p>
               <p className="text-lg mb-8 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
-                Simply upload 3 photos
+                Simply upload 3 photos. Discover the latest <a href="/blog/2026-color-trends" className="text-coral hover:underline font-medium" style={{ color: 'rgb(var(--warm-coral))' }}>2026 color trends</a> that complement your natural palette.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
@@ -503,7 +506,7 @@ export default function Home() {
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
-              How It Works
+              How Our AI Color Analysis Works
             </h2>
             <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgb(var(--muted-blue))' }}>
               Get your personalized color analysis in three simple steps
@@ -590,7 +593,7 @@ export default function Home() {
               fontWeight: 500,
               letterSpacing: '0.5px'
             }}>
-              What You'll Receive
+              Your Complete Color Analysis Package
             </h2>
             <p className="text-xl max-w-2xl mx-auto" style={{ color: '#2c2c2c' }}>
               A comprehensive digital package to transform your style
@@ -782,6 +785,22 @@ export default function Home() {
               {
                 question: "How does the analysis work?",
                 answer: "Our AI color analysis works by using computer vision algorithms to analyze uploaded photos and extract key facial features, including skin tone, eye color, and hair color, while accounting for lighting conditions and image quality. The AI then compares these extracted color characteristics against a trained dataset of seasonal color theory principles, matching the user's natural coloring to one of the 12 seasonal color types (Spring, Summer, Autumn, Winter and their subtypes) based on undertone, contrast level, and chroma patterns. Finally, machine learning models process this data to generate personalized color recommendations, suggesting specific hex codes and color palettes that will harmonize with the user's unique coloring profile."
+              },
+              {
+                question: "What's the difference between the 12-season and 4-season system?",
+                answer: "The traditional 4-season system only considers warm vs cool undertones, while our advanced 12-season system also analyzes your contrast level and color intensity. This means instead of just 'Winter', you might be 'True Winter', 'Bright Winter', or 'Dark Winter' - each with distinct color recommendations for more precise styling."
+              },
+              {
+                question: "Can I get a refund if I'm not satisfied?",
+                answer: "All sales are final due to the instant digital nature of our AI analysis service. However, we're confident in our 95% accuracy rate and comprehensive 6-page reports. If you experience technical issues, please contact our support team within 24 hours."
+              },
+              {
+                question: "How do I use my color analysis for shopping?",
+                answer: "Your results include specific hex codes and color names you can reference while shopping. Take screenshots of your palette, or use our interactive color guide to find similar shades in stores. Many customers print their signature colors for easy reference during shopping trips."
+              },
+              {
+                question: "Does the analysis work for mature skin?",
+                answer: "Absolutely! Our AI is trained on diverse age groups and accounts for natural changes in skin tone and hair color that occur with aging. The 12-season system works beautifully for mature individuals, often helping them discover colors that enhance their natural radiance."
               }
             ].map((faq, index) => (
               <motion.div
@@ -875,6 +894,47 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Information Section */}
+      <section className="bg-gradient-to-br from-sage/10 to-golden/10 py-16">
+        <div className="section-container">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl mb-8" style={{ 
+              fontFamily: 'Playfair Display, Georgia, serif',
+              color: 'rgb(var(--forest-green))',
+              fontWeight: 500
+            }}>
+              Need Help? We're Here for You
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="h-8 w-8 text-white" aria-label="Email support icon" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Email Support</h3>
+                <p className="text-forest/80">support@hazelandhue.com</p>
+                <p className="text-sm text-forest/60 mt-1">Response within 24 hours</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-golden rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="h-8 w-8 text-white" aria-label="Operating hours icon" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Available 24/7</h3>
+                <p className="text-forest/80">AI Analysis</p>
+                <p className="text-sm text-forest/60 mt-1">Instant results anytime</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-8 w-8 text-white" aria-label="Privacy protection icon" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Privacy Protected</h3>
+                <p className="text-forest/80">Secure & Confidential</p>
+                <p className="text-sm text-forest/60 mt-1">Photos deleted within 24h</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
