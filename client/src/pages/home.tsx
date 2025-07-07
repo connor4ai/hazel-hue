@@ -176,12 +176,12 @@ export default function Home() {
           "name": "Hazel & Hue",
           "description": "Professional AI-powered 12-season color analysis service providing personalized style recommendations",
           "url": "https://hazelandhue.com",
-          "email": "support@hazelandhue.com",
+          "email": "jayda@hazelandhue.com",
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+1-555-HAZEL-HUE",
+            "telephone": "+1-405-650-9141",
             "contactType": "customer service",
-            "email": "support@hazelandhue.com",
+            "email": "jayda@hazelandhue.com",
             "availableLanguage": "English"
           },
           "address": {
@@ -914,7 +914,7 @@ export default function Home() {
                   <Mail className="h-8 w-8 text-white" aria-label="Email support icon" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2" style={{ color: 'rgb(var(--forest-green))' }}>Email Support</h3>
-                <p className="text-forest/80">support@hazelandhue.com</p>
+                <p className="text-forest/80">jayda@hazelandhue.com</p>
                 <p className="text-sm text-forest/60 mt-1">Response within 24 hours</p>
               </div>
               <div className="text-center">
