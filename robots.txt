@@ -105,6 +105,17 @@ Disallow: /
 Crawl-delay: 1
 
 # Tell search engines where sitemaps live
+# Block removed/ghost pages that may still be cached
+Disallow: /ai-color-analysis
+Disallow: /color-analysis-quiz
+Disallow: /color-analysis/
+Disallow: /hazel-hue-vs-dressika
+Disallow: /hazel-hue-vs-mycoloranalysis
+Disallow: /preview/
+Disallow: /results-preview-old/
+Disallow: /old-upload
+Disallow: /pinterest-test
+
 Sitemap: https://hazelandhue.com/sitemap.xml
 Sitemap: https://hazelandhue.com/blog-sitemap.xml
 Sitemap: https://hazelandhue.com/images-sitemap.xml
