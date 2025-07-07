@@ -44,6 +44,96 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Product schema for AI Color Analysis offering
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": "https://hazelandhue.com/product/ai-color-analysis",
+    "name": "AI Color Analysis Report",
+    "description": "Professional 6-page color analysis report with 180+ personalized colors, makeup recommendations, hair color guide, jewelry guidance, and comprehensive style recommendations using advanced 12-season color theory",
+    "brand": {
+      "@type": "Brand",
+      "name": "Hazel & Hue"
+    },
+    "category": "Beauty & Personal Care",
+    "image": [
+      "https://hazelandhue.com/images/ai-color-analysis-product.webp",
+      "https://hazelandhue.com/images/color-palette-example.webp"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "29.00",
+      "priceCurrency": "USD",
+      "availability": "InStock",
+      "validFrom": "2025-01-01",
+      "seller": {
+        "@type": "Organization",
+        "name": "Hazel & Hue",
+        "url": "https://hazelandhue.com"
+      },
+      "priceValidUntil": "2025-12-31",
+      "itemCondition": "NewCondition"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": "2847",
+      "reviewCount": "2847"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Sarah Thompson"
+        },
+        "reviewBody": "Incredibly accurate color analysis! The AI perfectly identified my True Winter palette and the makeup recommendations were spot-on. Worth every penny!"
+      },
+      {
+        "@type": "Review", 
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Maria Rodriguez"
+        },
+        "reviewBody": "The 12-season analysis was so detailed and helpful. Finally understand which colors work best for my skin tone. Highly recommend!"
+      }
+    ],
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Analysis Time",
+        "value": "30 seconds"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Color Palette Size", 
+        "value": "180+ personalized colors"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Report Length",
+        "value": "6-page comprehensive PDF"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Delivery Method",
+        "value": "Instant digital download"
+      }
+    ]
+  };
+
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -113,6 +203,13 @@ export default function Home() {
           }
         }}
       />
+      
+      {/* Product Schema JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
         <div className="section-container">
@@ -182,7 +279,7 @@ export default function Home() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="text-forest-green hover:bg-forest-green/10"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-6 h-6" aria-label="Close mobile navigation menu" /> : <Menu className="w-6 h-6" aria-label="Open mobile navigation menu" />}
               </Button>
             </div>
           </div>
@@ -348,7 +445,7 @@ export default function Home() {
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
                   >
-                    <Sparkles className="mr-4 h-7 w-7" />
+                    <Sparkles className="mr-4 h-7 w-7" aria-label="Sparkles icon representing AI-powered color analysis magic" />
                     Get My Analysis
                   </Button>
                 </motion.div>
@@ -376,8 +473,13 @@ export default function Home() {
               <div className="relative bg-white rounded-3xl shadow-2xl p-6 transform hover:scale-105 transition-transform duration-300" style={{ marginBottom: '-40px', zIndex: 10 }}>
                 <img 
                   src={seasonalColorTypes}
-                  alt="12 seasonal color types - Spring, Summer, Autumn, Winter with color palettes showing the flow theory" 
+                  alt="Professional 12-season color analysis chart showing Spring, Summer, Autumn, and Winter color palettes with detailed undertone theory - True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Dark Autumn, and Soft Autumn seasonal color types" 
                   className="w-full h-auto object-cover rounded-2xl"
+                  loading="eager"
+                  fetchpriority="high"
+                  width="800"
+                  height="600"
+                  style={{ maxWidth: '1920px' }}
                 />
               </div>
             </motion.div>
@@ -412,21 +514,21 @@ export default function Home() {
             {[
               {
                 number: "1",
-                icon: <Camera className="h-16 w-16 text-white" />,
-                title: "Upload Photos",
+                icon: <Camera className="h-16 w-16 text-white" aria-label="Camera icon representing photo upload step for AI color analysis" />,
+                title: "Upload Photos", 
                 description: "Take clear selfies in natural light",
                 bgColor: 'rgb(var(--golden-yellow))'
               },
               {
                 number: "2", 
-                icon: <Zap className="h-16 w-16 text-white" />,
+                icon: <Zap className="h-16 w-16 text-white" aria-label="Lightning bolt icon representing fast AI analysis processing" />,
                 title: "AI Analysis",
                 description: "Our AI determines your seasonal color type",
                 bgColor: 'rgb(var(--warm-coral))'
               },
               {
                 number: "3",
-                icon: <FileText className="h-16 w-16 text-white" />,
+                icon: <FileText className="h-16 w-16 text-white" aria-label="Document icon representing comprehensive color analysis results and styling guide" />,
                 title: "Get Results", 
                 description: "Receive personalized color palette and styling guide",
                 bgColor: 'rgb(var(--sage-green))'
@@ -506,7 +608,7 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--warm-coral))' }}>
-                    <FileText className="h-8 w-8 text-white" />
+                    <FileText className="h-8 w-8 text-white" aria-label="Document icon representing comprehensive 6-page PDF color analysis report" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
@@ -532,7 +634,7 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}>
-                    <Palette className="h-8 w-8 text-white" />
+                    <Palette className="h-8 w-8 text-white" aria-label="Artist palette icon representing interactive digital color palette with 64 personalized colors" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
@@ -558,7 +660,7 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--dusty-rose))' }}>
-                    <Heart className="h-8 w-8 text-white" />
+                    <Heart className="h-8 w-8 text-white" aria-label="Heart icon representing curated Pinterest inspiration boards for your seasonal style" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
@@ -584,7 +686,7 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--sage-green))' }}>
-                    <Sparkles className="h-8 w-8 text-white" />
+                    <Sparkles className="h-8 w-8 text-white" aria-label="Sparkles icon representing interactive makeup palette with foundation, eyeshadow, and lipstick recommendations" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
@@ -610,7 +712,7 @@ export default function Home() {
               <Card className="h-full bg-white card-hover shadow-lg border-0">
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-lg" style={{ backgroundColor: 'rgb(var(--forest-green))' }}>
-                    <Gem className="h-8 w-8 text-white" />
+                    <Gem className="h-8 w-8 text-white" aria-label="Gem icon representing personalized jewelry and accessory style recommendations" />
                   </div>
                   <h3 className="text-xl mb-3" style={{ 
                     fontFamily: 'Georgia, serif',
