@@ -10,8 +10,8 @@ interface SSRPageConfig {
 
 const SSR_ROUTES: Record<string, SSRPageConfig> = {
   '/': {
-    title: 'AI Color Analysis | Hazel & Hue - Discover Your Perfect Colors in 30 Seconds',
-    description: 'Get your professional AI-powered color analysis instantly. Discover your seasonal color palette, perfect makeup shades, and personalized style recommendations. Advanced color matching technology.',
+    title: 'AI Color Analysis in 30s | 12-Season Personal Palette | Hazel & Hue',
+    description: 'Upload 3 photos; get a pro 12-season color palette, makeup & wardrobe guide in seconds. Trusted by 10k+ clients worldwide.',
     keywords: 'AI color analysis, color analysis online, personal color analysis, seasonal color analysis, virtual color analysis, digital color analysis, color analysis service, AI color matching, best color analysis, professional color analysis online',
     content: `
       <!-- AI and Bot Accessibility Metadata -->
@@ -54,28 +54,28 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
         <section class="features py-16 bg-sage/20">
           <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              How AI Color Analysis Works
+              How It Works
             </h2>
             <div class="grid md:grid-cols-3 gap-8">
               <div class="text-center">
                 <div class="bg-coral w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span class="text-white text-2xl">📸</span>
                 </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">Upload 3 Photos</h3>
+                <h3 class="text-xl font-semibold text-forest mb-2">1. Upload Photos</h3>
                 <p class="text-forest/70">Take photos in natural lighting without makeup for best results</p>
               </div>
               <div class="text-center">
                 <div class="bg-golden w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span class="text-white text-2xl">🤖</span>
                 </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">AI Analysis</h3>
+                <h3 class="text-xl font-semibold text-forest mb-2">2. AI Analysis</h3>
                 <p class="text-forest/70">Advanced computer vision analyzes your undertones and features</p>
               </div>
               <div class="text-center">
                 <div class="bg-sage w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span class="text-white text-2xl">🎨</span>
                 </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">Get Results</h3>
+                <h3 class="text-xl font-semibold text-forest mb-2">3. Get Results</h3>
                 <p class="text-forest/70">Receive your seasonal palette and styling recommendations</p>
               </div>
             </div>
@@ -85,7 +85,7 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
         <section class="benefits py-16 bg-sage/10">
           <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              Why Choose AI Color Analysis?
+              Features That Set Us Apart
             </h2>
             <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
               <div>
@@ -185,401 +185,12 @@ const SSR_ROUTES: Record<string, SSRPageConfig> = {
             </div>
           </div>
         </footer>
-      </main>
-          <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              How It Works
-            </h2>
-            <div class="grid md:grid-cols-3 gap-8">
-              <div class="text-center">
-                <div class="w-16 h-16 bg-golden rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span class="text-2xl text-white">📷</span>
-                </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">Upload Photos</h3>
-                <p class="text-forest/70">Upload 3 clear photos following our guided instructions</p>
-              </div>
-              <div class="text-center">
-                <div class="w-16 h-16 bg-coral rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span class="text-2xl text-white">🤖</span>
-                </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">AI Analysis</h3>
-                <p class="text-forest/70">Our AI analyzes your features using advanced computer vision</p>
-              </div>
-              <div class="text-center">
-                <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span class="text-2xl text-white">🎨</span>
-                </div>
-                <h3 class="text-xl font-semibold text-forest mb-2">Get Results</h3>
-                <p class="text-forest/70">Receive your personalized color palette and style guide</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="competitive-features py-16 bg-white">
-          <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              Advanced Features That Set Us Apart
-            </h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
-              <div class="bg-gradient-to-br from-coral/10 to-coral/5 p-6 rounded-lg border border-coral/20">
-                <h4 class="font-bold text-forest mb-3">180+ Color Palette</h4>
-                <p class="text-forest/70 text-sm">Complete seasonal palette with exact hex codes and color names for precision matching</p>
-              </div>
-              <div class="bg-gradient-to-br from-golden/10 to-golden/5 p-6 rounded-lg border border-golden/20">
-                <h4 class="font-bold text-forest mb-3">Makeup Color Matching</h4>
-                <p class="text-forest/70 text-sm">Foundation, eyeshadow, lipstick, and blush recommendations with specific shade guidance</p>
-              </div>
-              <div class="bg-gradient-to-br from-sage/10 to-sage/5 p-6 rounded-lg border border-sage/20">
-                <h4 class="font-bold text-forest mb-3">Hair Color Guide</h4>
-                <p class="text-forest/70 text-sm">Professional hair color recommendations with enhancement options and colors to avoid</p>
-              </div>
-              <div class="bg-gradient-to-br from-dusty-rose/10 to-dusty-rose/5 p-6 rounded-lg border border-dusty-rose/20">
-                <h4 class="font-bold text-forest mb-3">Metal & Jewelry Guide</h4>
-                <p class="text-forest/70 text-sm">Best metals for jewelry, watches, and accessories based on your seasonal type</p>
-              </div>
-              <div class="bg-gradient-to-br from-forest/10 to-forest/5 p-6 rounded-lg border border-forest/20">
-                <h4 class="font-bold text-forest mb-3">Wardrobe Planning</h4>
-                <p class="text-forest/70 text-sm">Core neutrals, accent colors, and outfit coordination strategies for your season</p>
-              </div>
-              <div class="bg-gradient-to-br from-coral/10 to-coral/5 p-6 rounded-lg border border-coral/20">
-                <h4 class="font-bold text-forest mb-3">Digital Style Board</h4>
-                <p class="text-forest/70 text-sm">Interactive color swatches, Pinterest boards, and shopping integration</p>
-              </div>
-              <div class="bg-gradient-to-br from-golden/10 to-golden/5 p-6 rounded-lg border border-golden/20">
-                <h4 class="font-bold text-forest mb-3">Professional PDF Report</h4>
-                <p class="text-forest/70 text-sm">6-page comprehensive analysis with color theory explanations and style guidance</p>
-              </div>
-              <div class="bg-gradient-to-br from-sage/10 to-sage/5 p-6 rounded-lg border border-sage/20">
-                <h4 class="font-bold text-forest mb-3">Instant Results</h4>
-                <p class="text-forest/70 text-sm">30-second analysis with immediate access to results via email and web portal</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="benefits py-16 bg-sage/10">
-          <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              Why Choose AI Color Analysis?
-            </h2>
-            <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-              <div>
-                <h3 class="text-2xl font-bold text-forest mb-4">Advanced 12-Season System</h3>
-                <p class="text-forest/80 mb-6">
-                  Our comprehensive 12-season color analysis system goes beyond basic warm/cool categorization. 
-                  Discover whether you're a True Winter, Bright Spring, Soft Autumn, or any of the other 9 seasonal types. 
-                  Each season has a unique 64-color palette carefully curated for your undertones, contrast level, and color clarity.
-                </p>
-                <h3 class="text-2xl font-bold text-forest mb-4">Professional Accuracy</h3>
-                <p class="text-forest/80">
-                  Our AI technology achieves 95% accuracy by analyzing your skin undertones, eye color patterns, 
-                  and hair color characteristics. This matches professional in-person consultations while being 
-                  available instantly from anywhere in the world.
-                </p>
-              </div>
-              <div>
-                <h3 class="text-2xl font-bold text-forest mb-4">Complete Style Guide</h3>
-                <p class="text-forest/80 mb-6">
-                  Beyond just colors, receive comprehensive styling recommendations including makeup palettes, 
-                  jewelry metals, hair color suggestions, and wardrobe coordination tips. Learn which colors 
-                  to avoid and why, backed by color theory science.
-                </p>
-                <h3 class="text-2xl font-bold text-forest mb-4">Instant Digital Delivery</h3>
-                <p class="text-forest/80">
-                  Get your complete 6-page professional color analysis report immediately via email. 
-                  Share your results on social media, save to your phone, or print for reference while shopping. 
-                  Your results are accessible anytime through our secure results portal.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="testimonials py-16 bg-sage/10">
-          <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-forest mb-12">
-              Color Analysis Science
-            </h2>
-            <div class="max-w-4xl mx-auto text-center">
-              <p class="text-lg text-forest/80 mb-8">
-                Our AI color analysis is based on established color theory principles developed by Johannes Itten, 
-                Suzanne Caygill, and modern color scientists. The 12-season system considers three key factors: 
-                undertone (warm/cool), value (light/dark), and chroma (clear/muted).
-              </p>
-              <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                  <h4 class="font-bold text-forest mb-2">Undertone Analysis</h4>
-                  <p class="text-forest/70 text-sm">
-                    Determines if your natural coloring has warm (yellow-based) or cool (blue-based) undertones
-                  </p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                  <h4 class="font-bold text-forest mb-2">Value Assessment</h4>
-                  <p class="text-forest/70 text-sm">
-                    Evaluates the lightness or darkness of your overall coloring and contrast levels
-                  </p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                  <h4 class="font-bold text-forest mb-2">Chroma Measurement</h4>
-                  <p class="text-forest/70 text-sm">
-                    Analyzes how clear and vibrant versus soft and muted your natural colors appear
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer class="bg-forest text-cream py-12">
-          <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
-              <div>
-                <h4 class="font-bold text-xl mb-4">Hazel & Hue</h4>
-                <p class="text-cream/80 text-sm mb-4">
-                  Professional AI-powered color analysis using advanced 12-season color theory for accurate seasonal typing.
-                </p>
-                <div class="space-y-2 text-sm">
-                  <a href="/upload" class="text-golden hover:text-cream block">Get Your Analysis</a>
-                  <a href="/color-analysis-quiz" class="text-golden hover:text-cream block">Free Color Quiz</a>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-4">Color Analysis</h4>
-                <div class="space-y-2 text-sm">
-                  <a href="/blog/true-spring-vs-warm-spring" class="text-cream/80 hover:text-cream block">True Spring vs Warm Spring</a>
-                  <a href="/blog/light-spring-vs-light-summer" class="text-cream/80 hover:text-cream block">Light Spring vs Light Summer</a>
-                  <a href="/blog/soft-autumn-vs-soft-summer" class="text-cream/80 hover:text-cream block">Soft Autumn vs Soft Summer</a>
-                  <a href="/blog/warm-autumn-vs-warm-spring" class="text-cream/80 hover:text-cream block">Warm Autumn vs Warm Spring</a>
-                  <a href="/blog/deep-winter-vs-deep-autumn" class="text-cream/80 hover:text-cream block">Deep Winter vs Deep Autumn</a>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-4">AI Technology</h4>
-                <div class="space-y-2 text-sm">
-                  <a href="/ai-color-analysis" class="text-cream/80 hover:text-cream block">AI Color Analysis Guide</a>
-                  <a href="/hazel-hue-vs-dressika" class="text-cream/80 hover:text-cream block">vs Dressika</a>
-                  <a href="/hazel-hue-vs-mycoloranalysis" class="text-cream/80 hover:text-cream block">vs MyColorAnalysis</a>
-                  <a href="/blog" class="text-cream/80 hover:text-cream block">Color Theory Blog</a>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-4">Support</h4>
-                <div class="space-y-2 text-sm">
-                  <a href="/faqs" class="text-cream/80 hover:text-cream block">Frequently Asked Questions</a>
-                  <a href="/checkout" class="text-cream/80 hover:text-cream block">Pricing</a>
-                  <a href="https://pinterest.com/hazelandhue" class="text-cream/80 hover:text-cream block">Pinterest Boards</a>
-                </div>
-              </div>
-            </div>
-            <div class="border-t border-cream/20 mt-8 pt-8 text-center text-sm text-cream/60">
-              <p>&copy; 2025 Hazel & Hue. AI-powered seasonal color analysis for your perfect palette.</p>
-            </div>
-          </div>
-        </footer>
-      </main>
-    `,
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": ["LocalBusiness", "ProfessionalService"],
-      "name": "Hazel & Hue",
-      "description": "Advanced AI-powered color analysis platform providing personalized seasonal color palettes, makeup recommendations, and comprehensive style guidance using 12-season color theory",
-      "url": "https://hazelandhue.com",
-      "logo": "https://hazelandhue.com/logo.png",
-      "telephone": "+1-555-COLOR-HUE",
-      "email": "jayda@hazelandhue.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "US",
-        "addressRegion": "Online Platform"
-      },
-      "openingHours": "Mo-Su 00:00-23:59",
-      "priceRange": "$",
-      "serviceType": "AI Color Analysis",
-      "areaServed": "Worldwide",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Color Analysis Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "name": "AI Color Analysis Report",
-            "description": "Complete 6-page professional color analysis with 180+ color palette, makeup recommendations, hair color guide, and style recommendations",
-            "category": "Beauty & Personal Care",
-            "availability": "InStock",
-            "deliveryMethod": "Digital Download"
-          }
-        ]
-      },
-      "knowsAbout": [
-        "Color Theory",
-        "Seasonal Color Analysis", 
-        "12-Season Color System",
-        "Personal Styling",
-        "Makeup Color Matching",
-        "Wardrobe Planning",
-        "AI Computer Vision"
-      ],
-      "additionalProperty": [
-        {
-          "@type": "PropertyValue",
-          "name": "Analysis Speed",
-          "value": "30 seconds"
-        },
-        {
-          "@type": "PropertyValue", 
-          "name": "Color Palette Size",
-          "value": "180+ colors"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Seasonal Systems Supported",
-          "value": "12-season color analysis"
-        }
-      ]
-    }
-  },
-  '/blog': {
-    title: 'Color Analysis Blog | Expert Style & Beauty Tips | Hazel & Hue',
-    description: 'Expert color analysis tips, seasonal color guides, and professional styling advice. Learn about 12-season color theory, makeup matching, and wardrobe planning.',
-    keywords: 'color analysis tips, seasonal colors blog, color theory guide, personal styling blog, makeup color matching, wardrobe color coordination, color consultant advice',
-    content: `
-      <main class="min-h-screen bg-cream">
-        <nav class="bg-forest text-cream p-4">
-          <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">Hazel & Hue</a>
-            <div class="space-x-4">
-              <a href="/blog" class="text-golden">Blog</a>
-              <a href="/faqs" class="hover:text-golden">FAQs</a>
-              <a href="/upload" class="bg-coral px-4 py-2 rounded-lg">Get Started</a>
-            </div>
-          </div>
-        </nav>
-        
-        <section class="py-20">
-          <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold text-forest mb-8">Color Analysis Blog</h1>
-            <p class="text-xl text-forest/80 mb-12 max-w-3xl">
-              Expert insights on color analysis, seasonal styling, and beauty recommendations from our professional color consultants.
-            </p>
-            
-            <div class="grid lg:grid-cols-2 gap-8">
-              <article class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div class="p-6">
-                  <h2 class="text-2xl font-semibold text-forest mb-3">
-                    <a href="/blog/true-spring-vs-warm-spring" class="hover:text-coral">
-                      True Spring vs Warm Spring: Understanding the Differences
-                    </a>
-                  </h2>
-                  <p class="text-forest/70 mb-4">
-                    Learn the key differences between True Spring and Warm Spring color palettes, including undertones, contrast levels, and styling approaches.
-                  </p>
-                  <a href="/blog/true-spring-vs-warm-spring" class="text-coral font-semibold hover:text-dusty-rose">
-                    Read More →
-                  </a>
-                </div>
-              </article>
-              
-              <article class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div class="p-6">
-                  <h2 class="text-2xl font-semibold text-forest mb-3">
-                    <a href="/blog/light-spring-vs-light-summer" class="hover:text-coral">
-                      Light Spring vs Light Summer: Color Analysis Guide
-                    </a>
-                  </h2>
-                  <p class="text-forest/70 mb-4">
-                    Discover how to distinguish between Light Spring and Light Summer palettes with expert analysis and practical examples.
-                  </p>
-                  <a href="/blog/light-spring-vs-light-summer" class="text-coral font-semibold hover:text-dusty-rose">
-                    Read More →
-                  </a>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-      </main>
-    `,
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Hazel & Hue Color Analysis Blog",
-      "description": "Expert insights on color analysis, seasonal styling, and beauty recommendations",
-      "url": "https://hazelandhue.com/blog"
-    }
-  },
-  '/faqs': {
-    title: 'Color Analysis FAQs | Common Questions Answered | Hazel & Hue',
-    description: 'Get answers to common questions about AI color analysis, seasonal color theory, and our professional color matching service. Expert insights and guidance.',
-    keywords: 'color analysis FAQ, color analysis questions, seasonal color FAQ, AI color analysis help, color matching questions',
-    content: `
-      <main class="min-h-screen bg-cream">
-        <nav class="bg-forest text-cream p-4">
-          <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">Hazel & Hue</a>
-            <div class="space-x-4">
-              <a href="/blog" class="hover:text-golden">Blog</a>
-              <a href="/faqs" class="text-golden">FAQs</a>
-              <a href="/upload" class="bg-coral px-4 py-2 rounded-lg">Get Started</a>
-            </div>
-          </div>
-        </nav>
-        
-        <section class="py-20">
-          <div class="container mx-auto px-4 max-w-4xl">
-            <h1 class="text-4xl font-bold text-forest mb-8">Frequently Asked Questions</h1>
-            
-            <div class="space-y-6">
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-forest mb-3">How does AI color analysis work?</h2>
-                <p class="text-forest/70">
-                  Our AI analyzes your facial features, skin tone, and eye color using advanced computer vision to determine your optimal seasonal color palette from our 12-season system. The analysis considers undertones, contrast levels, and chromatic properties.
-                </p>
-              </div>
-              
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-forest mb-3">What photos do I need to upload?</h2>
-                <p class="text-forest/70">
-                  Upload 3 clear photos: a front-facing selfie in natural light, a side profile, and a photo showing your hair color. Avoid heavy makeup and filters for the most accurate analysis.
-                </p>
-              </div>
-              
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-forest mb-3">How accurate is the AI analysis?</h2>
-                <p class="text-forest/70">
-                  Our AI has been trained on thousands of professional color analysis examples and achieves high accuracy rates. However, personal preference and individual variation can influence final recommendations.
-                </p>
-              </div>
-              
-              <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-xl font-semibold text-forest mb-3">What's included in my results?</h2>
-                <p class="text-forest/70">
-                  You'll receive a comprehensive 6-page PDF report with your seasonal color palette, makeup recommendations, styling guidelines, wardrobe suggestions, and Pinterest inspiration boards.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    `,
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How does AI color analysis work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our AI analyzes your facial features, skin tone, and eye color using advanced computer vision to determine your optimal seasonal color palette from our 12-season system."
-          }
-        }
-      ]
-    }
+      </body>
+    </html>`
   },
   '/upload': {
-    title: 'Upload Photos for Color Analysis | Hazel & Hue',
-    description: 'Upload your photos to receive professional AI-powered color analysis. Get your personalized seasonal color palette and styling recommendations in 30 seconds.',
+    title: 'Upload Your Photos - Get Color Analysis in 30s | Hazel & Hue',
+    description: 'Upload 3 clear photos for instant professional color analysis. 12-season AI technology delivers your palette & style guide in 30 seconds.',
     keywords: 'upload photos color analysis, AI color analysis upload, color analysis photos, seasonal color test upload',
     content: `
       <main class="min-h-screen bg-cream">

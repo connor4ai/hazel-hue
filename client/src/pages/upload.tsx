@@ -215,8 +215,8 @@ export default function UploadPage() {
   return (
     <div className="min-h-screen bg-cream paper-texture">
       <SEOHead 
-        title="Upload Photos for AI Color Analysis | Hazel & Hue - Start Your Analysis"
-        description="Upload 3 photos to discover your perfect seasonal color palette with our AI color analysis. Get personalized makeup recommendations and style guidance in 30 seconds."
+        title="Upload Your Photos - Get Color Analysis in 30s | Hazel & Hue"
+        description="Upload 3 clear photos for instant professional color analysis. 12-season AI technology delivers your palette & style guide in 30 seconds."
         path="/upload"
         structuredData={{
           "@context": "https://schema.org",
