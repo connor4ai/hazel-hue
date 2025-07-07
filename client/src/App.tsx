@@ -65,6 +65,7 @@ const WarmSpringHoliday = lazy(() => import("@/pages/blog-warm-spring-holiday"))
 const ColorMyths = lazy(() => import("@/pages/blog-color-myths"));
 const HazelHueVsDressikaBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-dressika"));
 const HazelHueVsMyColorAnalysisBlog = lazy(() => import("@/pages/blog-hazel-hue-vs-mycoloranalysis"));
+const Homepage = lazy(() => import("@/pages/homepage"));
 const About = lazy(() => import("@/pages/about"));
 const Terms = lazy(() => import("@/pages/terms"));
 const Help = lazy(() => import("@/pages/help"));
@@ -127,6 +128,7 @@ function Router() {
       <Route path="/blog/:postId" component={() => <LazyRoute component={BlogPost} />} />
 
       <Route path="/upload" component={UploadNew} />
+      <Route path="/homepage" component={() => <LazyRoute component={Homepage} />} />
       <Route path="/about" component={() => <LazyRoute component={About} />} />
       <Route path="/terms" component={() => <LazyRoute component={Terms} />} />
       <Route path="/help" component={() => <LazyRoute component={Help} />} />
