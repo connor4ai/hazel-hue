@@ -19,7 +19,9 @@ export const SocialMediaIntegration = ({
 
   useEffect(() => {
     // Check if Web Share API is supported
-    setIsSupported('share' in navigator);
+    if (typeof navigator !== 'undefined') {
+      setIsSupported('share' in navigator);
+    }
     
     // Add social media meta tags for better sharing
     const addMetaTag = (property: string, content: string) => {
@@ -183,6 +185,8 @@ export const SocialMediaIntegration = ({
 // Social Signals Component for SEO
 export const SocialSignals = () => {
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Track social engagement for SEO
     const trackSocialEngagement = (platform: string) => {
       // Send to Google Analytics
@@ -210,17 +214,17 @@ export const SocialSignals = () => {
   return (
     <div className="social-signals">
       {/* Social proof indicators */}
-      <div className="flex items-center space-x-4 text-sm text-gray-600">
+      <div className="flex items-center justify-center space-x-4 text-sm text-white/80">
         <div className="flex items-center">
-          <Heart className="h-4 w-4 mr-1 text-red-500" />
+          <Heart className="h-4 w-4 mr-1 text-red-400" />
           <span>2.8k+ shares</span>
         </div>
         <div className="flex items-center">
-          <Users className="h-4 w-4 mr-1 text-blue-500" />
+          <Users className="h-4 w-4 mr-1 text-blue-400" />
           <span>15k+ users</span>
         </div>
         <div className="flex items-center">
-          <Star className="h-4 w-4 mr-1 text-yellow-500" />
+          <Star className="h-4 w-4 mr-1 text-yellow-400" />
           <span>4.8/5 rating</span>
         </div>
       </div>

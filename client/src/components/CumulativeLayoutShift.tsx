@@ -1,12 +1,12 @@
-// CLS optimization utility - no React hooks needed
+import { useEffect } from 'react';
+
 export const CumulativeLayoutShift = () => {
-  // This component runs optimization on mount via CSS injection
-  if (typeof window !== 'undefined') {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Initialize CLS monitoring on client side
-    setTimeout(() => {
-      initializeCLSMonitoring();
-    }, 0);
-  }
+    initializeCLSMonitoring();
+  }, []);
   
   return null;
 };
