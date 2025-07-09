@@ -28,8 +28,44 @@ import {
 } from "./utils/mobile-optimization";
 import { trackAnalytics } from "./utils/analytics";
 import "./emergency-memory-fix.js";
+import compression from "compression";
 
 const app = express();
+
+// Enable HTML compression for better performance
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  }
+}));
+
+// URL Canonicalization - redirect to preferred URLs
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const host = req.get('host');
+  const protocol = req.get('x-forwarded-proto') || req.protocol;
+  
+  // Force HTTPS in production
+  if (protocol !== 'https' && process.env.NODE_ENV === 'production') {
+    return res.redirect(301, `https://${host}${req.url}`);
+  }
+  
+  // Force www removal (canonical without www)
+  if (host && host.startsWith('www.')) {
+    return res.redirect(301, `${protocol}://${host.substring(4)}${req.url}`);
+  }
+  
+  // Remove trailing slashes except for root
+  if (req.url.length > 1 && req.url.endsWith('/')) {
+    return res.redirect(301, req.url.slice(0, -1));
+  }
+  
+  next();
+});
 
 // Monitoring and health check endpoints (FIRST - highest priority)
 app.get('/health', healthCheck);
@@ -268,11 +304,21 @@ app.use((req, res, next) => {
     });
   });
 
-  // 404 handler
+  // Custom 404 handler - redirect to 404 page for better UX
   app.use((req: Request, res: Response) => {
     const requestId = (req as any).requestId || 'unknown';
     logger.warn('404 Not Found', { path: req.path, method: req.method }, requestId);
-    res.status(404).json({ message: 'Not found', requestId });
+    
+    // For API routes, return JSON
+    if (req.path.startsWith('/api/')) {
+      res.status(404).json({ 
+        message: "API endpoint not found",
+        requestId 
+      });
+    } else {
+      // For all other routes, redirect to 404 page
+      res.status(404).redirect('/404');
+    }
   });
 
   // ALWAYS serve the app on port 5000

@@ -145,8 +145,7 @@ function Router() {
 
       <Route path="/lookup" component={OrderLookup} />
       <Route path="/utm-test" component={UTMTest} />
-      
-
+      <Route path="/404" component={NotFound} />
       
       <Route component={NotFound} />
     </Switch>

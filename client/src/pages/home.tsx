@@ -37,6 +37,8 @@ import {
 } from "lucide-react";
 import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
+import { CumulativeLayoutShift, stabilizeLayout } from "@/components/CumulativeLayoutShift";
+import { SocialMediaIntegration, SocialSignals } from "@/components/SocialMediaIntegration";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -138,6 +140,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
+    stabilizeLayout(); // Initialize CLS optimization
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -1307,6 +1310,29 @@ export default function Home() {
           <Sparkles className="mr-2 h-5 w-5" />
           Get My Analysis
         </Button>
+      </div>
+      {/* CLS Optimization Component */}
+      <CumulativeLayoutShift />
+      
+      {/* Social Media Integration - Footer */}
+      <div className="bg-forest text-white py-8">
+        <div className="section-container">
+          <div className="text-center">
+            <h3 className="text-xl mb-4" style={{ 
+              fontFamily: 'Playfair Display, Georgia, serif',
+              fontWeight: 500
+            }}>
+              Share Your Color Journey
+            </h3>
+            <div className="mb-4">
+              <SocialMediaIntegration 
+                title="AI Color Analysis Free | Find Your Seasonal Colors in 60 Seconds - Hazel & Hue"
+                description="Discover your perfect color palette with our free AI color analysis. Get instant seasonal color recommendations for clothing, makeup, and hair."
+              />
+            </div>
+            <SocialSignals />
+          </div>
+        </div>
       </div>
     </div>
   );
