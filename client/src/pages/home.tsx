@@ -1339,31 +1339,20 @@ export default function Home() {
             <div className="mb-4">
               <div className="flex flex-wrap justify-center gap-3">
                 <button 
-                  onClick={() => {
-                    const url = 'https://hazelandhue.com';
-                    const text = 'Just discovered my perfect color palette with AI! 🎨 Find your seasonal colors in 60 seconds at hazelandhue.com';
-                    window.open(`https://www.instagram.com/`, '_blank');
-                    navigator.clipboard?.writeText(`${text} ${url}`);
-                  }}
+                  onClick={() => window.open('https://www.instagram.com/YOUR_INSTAGRAM_USERNAME', '_blank')}
                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
                 >
                   <Instagram className="h-4 w-4 mr-2" />
                   Instagram
                 </button>
                 <button 
-                  onClick={() => {
-                    const url = 'https://hazelandhue.com';
-                    const text = 'AI color analysis changed my style game! Find your perfect colors in 60 seconds';
-                    window.open(`https://www.tiktok.com/`, '_blank');
-                    navigator.clipboard?.writeText(`${text} ${url}`);
-                  }}
+                  onClick={() => window.open('https://www.tiktok.com/@YOUR_TIKTOK_USERNAME', '_blank')}
                   className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
                 >
                   <Share2 className="h-4 w-4 mr-2" />
                   TikTok
                 </button>
               </div>
-              <p className="text-xs text-white/60 mt-2">Links copied to clipboard - paste in your post!</p>
             </div>
             <div className="flex items-center justify-center space-x-4 text-sm text-white/80">
               <div className="flex items-center">
