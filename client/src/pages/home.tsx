@@ -1339,14 +1339,14 @@ export default function Home() {
             <div className="mb-4">
               <div className="flex flex-wrap justify-center gap-3">
                 <button 
-                  onClick={() => window.open('https://www.instagram.com/YOUR_INSTAGRAM_USERNAME', '_blank')}
+                  onClick={() => window.open('https://www.instagram.com/hazlandhueai', '_blank')}
                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
                 >
                   <Instagram className="h-4 w-4 mr-2" />
                   Instagram
                 </button>
                 <button 
-                  onClick={() => window.open('https://www.tiktok.com/@YOUR_TIKTOK_USERNAME', '_blank')}
+                  onClick={() => window.open('https://www.tiktok.com/@ai.color.analysis', '_blank')}
                   className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
                 >
                   <Share2 className="h-4 w-4 mr-2" />
