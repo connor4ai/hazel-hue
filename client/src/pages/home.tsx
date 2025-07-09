@@ -34,9 +34,8 @@ import {
   Mail,
   Menu,
   X,
-  Facebook,
-  Twitter,
-  Linkedin,
+  Instagram,
+  Share2,
   Heart,
   Users,
   Star
@@ -1338,42 +1337,46 @@ export default function Home() {
               Share Your Color Journey
             </h3>
             <div className="mb-4">
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="flex flex-wrap justify-center gap-3">
                 <button 
-                  onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  onClick={() => {
+                    const url = 'https://hazelandhue.com';
+                    const text = 'Just discovered my perfect color palette with AI! 🎨 Find your seasonal colors in 60 seconds at hazelandhue.com';
+                    window.open(`https://www.instagram.com/`, '_blank');
+                    navigator.clipboard?.writeText(`${text} ${url}`);
+                  }}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center"
                 >
-                  <Facebook className="h-4 w-4 mr-2 inline" />
-                  Facebook
+                  <Instagram className="h-4 w-4 mr-2" />
+                  Instagram
                 </button>
                 <button 
-                  onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('AI Color Analysis Free | Find Your Seasonal Colors in 60 Seconds')}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
-                  className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  onClick={() => {
+                    const url = 'https://hazelandhue.com';
+                    const text = 'AI color analysis changed my style game! Find your perfect colors in 60 seconds';
+                    window.open(`https://www.tiktok.com/`, '_blank');
+                    navigator.clipboard?.writeText(`${text} ${url}`);
+                  }}
+                  className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors flex items-center"
                 >
-                  <Twitter className="h-4 w-4 mr-2 inline" />
-                  Twitter
-                </button>
-                <button 
-                  onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
-                  className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition-colors"
-                >
-                  <Linkedin className="h-4 w-4 mr-2 inline" />
-                  LinkedIn
+                  <Share2 className="h-4 w-4 mr-2" />
+                  TikTok
                 </button>
               </div>
+              <p className="text-xs text-white/60 mt-2">Links copied to clipboard - paste in your post!</p>
             </div>
             <div className="flex items-center justify-center space-x-4 text-sm text-white/80">
               <div className="flex items-center">
                 <Heart className="h-4 w-4 mr-1 text-red-400" />
-                <span>2.8k+ shares</span>
+                <span>Growing community</span>
               </div>
               <div className="flex items-center">
                 <Users className="h-4 w-4 mr-1 text-blue-400" />
-                <span>15k+ users</span>
+                <span>Real results</span>
               </div>
               <div className="flex items-center">
                 <Star className="h-4 w-4 mr-1 text-yellow-400" />
-                <span>4.8/5 rating</span>
+                <span>Trusted platform</span>
               </div>
             </div>
           </div>
