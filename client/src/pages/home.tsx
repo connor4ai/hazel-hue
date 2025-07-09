@@ -33,12 +33,16 @@ import {
   Zap,
   Mail,
   Menu,
-  X
+  X,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Heart,
+  Users,
+  Star
 } from "lucide-react";
 import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
-import { CumulativeLayoutShift, stabilizeLayout } from "@/components/CumulativeLayoutShift";
-import { SocialMediaIntegration, SocialSignals } from "@/components/SocialMediaIntegration";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -140,7 +144,19 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
-    stabilizeLayout(); // Initialize CLS optimization
+    
+    // Initialize CLS optimization
+    const style = document.createElement('style');
+    style.textContent = `
+      img { max-width: 100%; height: auto; }
+      .hero-section { min-height: 600px; }
+      .card-container { min-height: 200px; }
+    `;
+    if (!document.head.querySelector('style[data-cls-optimizer]')) {
+      style.setAttribute('data-cls-optimizer', 'true');
+      document.head.appendChild(style);
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -1311,9 +1327,6 @@ export default function Home() {
           Get My Analysis
         </Button>
       </div>
-      {/* CLS Optimization Component */}
-      <CumulativeLayoutShift />
-      
       {/* Social Media Integration - Footer */}
       <div className="bg-forest text-white py-8">
         <div className="section-container">
@@ -1325,12 +1338,44 @@ export default function Home() {
               Share Your Color Journey
             </h3>
             <div className="mb-4">
-              <SocialMediaIntegration 
-                title="AI Color Analysis Free | Find Your Seasonal Colors in 60 Seconds - Hazel & Hue"
-                description="Discover your perfect color palette with our free AI color analysis. Get instant seasonal color recommendations for clothing, makeup, and hair."
-              />
+              <div className="flex flex-wrap justify-center gap-2">
+                <button 
+                  onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  <Facebook className="h-4 w-4 mr-2 inline" />
+                  Facebook
+                </button>
+                <button 
+                  onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('AI Color Analysis Free | Find Your Seasonal Colors in 60 Seconds')}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
+                  className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  <Twitter className="h-4 w-4 mr-2 inline" />
+                  Twitter
+                </button>
+                <button 
+                  onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400')}
+                  className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  <Linkedin className="h-4 w-4 mr-2 inline" />
+                  LinkedIn
+                </button>
+              </div>
             </div>
-            <SocialSignals />
+            <div className="flex items-center justify-center space-x-4 text-sm text-white/80">
+              <div className="flex items-center">
+                <Heart className="h-4 w-4 mr-1 text-red-400" />
+                <span>2.8k+ shares</span>
+              </div>
+              <div className="flex items-center">
+                <Users className="h-4 w-4 mr-1 text-blue-400" />
+                <span>15k+ users</span>
+              </div>
+              <div className="flex items-center">
+                <Star className="h-4 w-4 mr-1 text-yellow-400" />
+                <span>4.8/5 rating</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
