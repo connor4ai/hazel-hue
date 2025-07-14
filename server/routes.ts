@@ -1283,6 +1283,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No email address found" });
       }
 
+      // Check if email already sent to prevent duplicates
+      if (order.emailSent) {
+        return res.json({ 
+          success: true, 
+          message: "Email already sent for this order",
+          note: "Results email was previously delivered"
+        });
+      }
+
       try {
         await emailService.sendAnalysisReport(order.email, order.analysisResult, order.id.toString());
         await storage.updateOrderEmailSent(order.id);
@@ -1514,7 +1523,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get the updated order with analysis results
       const updatedOrder = await storage.getOrder(parseInt(orderId));
       
-      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
+      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult && !updatedOrder.emailSent) {
         try {
           // Send email with results
           await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
@@ -1524,6 +1533,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.error("Error sending free analysis email:", emailError);
           // Don't fail the request if email fails
         }
+      } else if (updatedOrder && updatedOrder.emailSent) {
+        console.log(`Email already sent for order ${updatedOrder.id}, skipping duplicate send`);
       }
 
       res.json({ success: true, message: "Order marked as paid with promo code" });
@@ -1557,7 +1568,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get the updated order with analysis results
       const updatedOrder = await storage.getOrder(parseInt(orderId));
       
-      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult) {
+      if (updatedOrder && updatedOrder.email && updatedOrder.analysisResult && !updatedOrder.emailSent) {
         try {
           // Send email with results
           await emailService.sendAnalysisReport(updatedOrder.email, updatedOrder.analysisResult, updatedOrder.id.toString());
@@ -1643,11 +1654,15 @@ async function processColorAnalysis(orderId: number) {
     // Update order with analysis results
     await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);
 
-    // Send email with report
+    // Send email with report (check if email already sent)
+    const updatedOrderForEmail = await storage.getOrder(orderId);
     const user = await storage.getUser(order.userId);
-    if (user) {
+    if (user && updatedOrderForEmail && !updatedOrderForEmail.emailSent) {
       await emailService.sendAnalysisReport(user.email, analysisResult, pdfPath);
       await storage.updateOrderEmailSent(orderId);
+      console.log(`Analysis results emailed to: ${user.email} for order ${orderId}`);
+    } else if (updatedOrderForEmail && updatedOrderForEmail.emailSent) {
+      console.log(`Email already sent for order ${orderId}, skipping duplicate send`);
     }
 
   } catch (error) {
