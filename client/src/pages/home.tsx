@@ -6,7 +6,7 @@ import { useLocation } from "wouter";
 import { SEOHead } from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { AdvancedSEO } from "@/components/AdvancedSEO";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   Palette, 
   CreditCard, 
@@ -48,6 +48,8 @@ export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { scrollY: scrollYMotion } = useScroll();
+  const parallaxY = useTransform(scrollYMotion, [0, 500], [0, -100]);
 
   // Product schema for AI Color Analysis offering
   const productSchema = {
@@ -169,7 +171,42 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen relative">
+    <>
+      <style>{`
+        /* Enhanced styles with parallax and glow */
+        :root {
+          --primary: #F4A261;
+          --secondary: #E85A4F;
+          --accent: #2D5A3D;
+        }
+        .hero-bg {
+          background: linear-gradient(135deg, #FAF4EE 0%, #FFF1EB 100%);
+        }
+        .glow-hover:hover {
+          box-shadow: 0 0 20px rgba(244, 162, 97, 0.3);
+        }
+        @keyframes float-enhanced {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .colorful-blob {
+          background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+          background-size: 400% 400%;
+          animation: float-enhanced 6s ease-in-out infinite, gradient-shift 8s ease-in-out infinite;
+          border-radius: 50%;
+        }
+        .coral-blob {
+          background: linear-gradient(45deg, #ff9a56, #ff6b9d, #c44569, #f8b500);
+          background-size: 400% 400%;
+          animation: float-enhanced 8s ease-in-out infinite, gradient-shift 10s ease-in-out infinite;
+          border-radius: 50%;
+        }
+        @keyframes gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+      `}</style>
+      <div className="min-h-screen relative">
       <PerformanceOptimizer />
       <AdvancedSEO 
         page="home" 
@@ -463,17 +500,82 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="hero" className="relative overflow-hidden pt-32 md:pt-40" style={{ backgroundColor: '#F5F2ED' }}>
-        {/* Parallax background elements */}
-        {/* Floating decorative elements */}
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+        {/* Enhanced Parallax Background Elements */}
+        <motion.div 
+          style={{ y: parallaxY }}
+          className="absolute inset-0 opacity-20 pointer-events-none"
         >
-          <div className="absolute top-20 left-10 w-32 h-32 colorful-blob"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 coral-blob"></div>
-          <div className="absolute top-1/3 right-1/4 w-6 h-6 rounded-full" style={{ backgroundColor: 'rgb(var(--golden-yellow))', animation: 'float-1 6s ease-in-out infinite' }}></div>
-          <div className="absolute bottom-1/3 left-1/4 w-4 h-4 rounded-full" style={{ backgroundColor: 'rgb(var(--warm-coral))', animation: 'float-2 8s ease-in-out infinite' }}></div>
-          <div className="absolute top-1/2 left-1/6 w-3 h-3 rounded-full" style={{ backgroundColor: 'rgb(var(--sage-green))', animation: 'float-1 7s ease-in-out infinite' }}></div>
+          {/* Abstract gradient shapes */}
+          <div className="absolute -top-48 -left-48 w-96 h-96 bg-gradient-to-br from-orange-200 to-pink-200 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-48 -right-48 w-96 h-96 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-gradient-to-br from-yellow-200 to-orange-200 rounded-full blur-2xl opacity-50"></div>
+        </motion.div>
+        
+        {/* Floating decorative elements with enhanced animations */}
+        <div className="absolute inset-0 opacity-30">
+          <motion.div 
+            className="absolute top-20 left-10 w-32 h-32 colorful-blob"
+            animate={{ 
+              y: [0, -20, 0],
+              rotate: [0, 5, 0]
+            }}
+            transition={{ 
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          ></motion.div>
+          <motion.div 
+            className="absolute bottom-20 right-10 w-40 h-40 coral-blob"
+            animate={{ 
+              y: [0, 15, 0],
+              rotate: [0, -3, 0]
+            }}
+            transition={{ 
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          ></motion.div>
+          <motion.div 
+            className="absolute top-1/3 right-1/4 w-6 h-6 rounded-full" 
+            style={{ backgroundColor: 'rgb(var(--golden-yellow))' }}
+            animate={{ 
+              y: [0, -10, 0],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ 
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          ></motion.div>
+          <motion.div 
+            className="absolute bottom-1/3 left-1/4 w-4 h-4 rounded-full" 
+            style={{ backgroundColor: 'rgb(var(--warm-coral))' }}
+            animate={{ 
+              y: [0, 8, 0],
+              x: [0, 5, 0]
+            }}
+            transition={{ 
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          ></motion.div>
+          <motion.div 
+            className="absolute top-1/2 left-1/6 w-3 h-3 rounded-full" 
+            style={{ backgroundColor: 'rgb(var(--sage-green))' }}
+            animate={{ 
+              y: [0, -12, 0],
+              opacity: [0.6, 1, 0.6]
+            }}
+            transition={{ 
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          ></motion.div>
         </div>
 
         <div className="section-container relative">
@@ -492,21 +594,25 @@ export default function Home() {
                   fontWeight: 500,
                   letterSpacing: '0.5px'
                 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
               >
-                Free AI <span style={{ color: 'rgb(var(--warm-coral))' }}>Color</span>
-                <br />
-                Analysis
+                Discover Your Perfect <span style={{ color: 'rgb(var(--warm-coral))' }}>Colors</span>
               </motion.h1>
-              <p className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" style={{ 
-                fontFamily: 'Playfair Display, Georgia, serif',
-                color: 'rgb(var(--muted-blue))',
-                fontWeight: 500
-              }}>
-                Find your seasonal colors in 60 seconds - no signup required
-              </p>
+              <motion.p 
+                className="text-xl md:text-2xl mb-4 leading-relaxed font-medium" 
+                style={{ 
+                  fontFamily: 'Playfair Display, Georgia, serif',
+                  color: 'rgb(var(--muted-blue))',
+                  fontWeight: 500
+                }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                AI-powered personal color analysis. Upload photos and get your seasonal palette in seconds.
+              </motion.p>
               <p className="text-lg mb-8 leading-relaxed" style={{ color: 'rgb(var(--forest-green))' }}>
                 Upload 3 photos for instant color matching. Get personalized seasonal color recommendations for clothing, makeup, and hair. Discover the latest <a href="/blog/2026-color-trends" className="text-coral hover:underline font-medium" style={{ color: 'rgb(var(--warm-coral))' }}>2026 color trends</a> that complement your natural palette.
               </p>
@@ -519,19 +625,23 @@ export default function Home() {
                 >
                   <Button 
                     onClick={() => setLocation('/upload')}
-                    className="text-white px-16 py-8 rounded-full text-2xl h-auto shadow-2xl hover:shadow-3xl transition-all duration-300"
+                    className="bg-primary hover:bg-primary-dark text-white px-8 py-6 rounded-full text-lg shadow-lg glow-hover transition-all duration-300"
                     style={{ 
-                      backgroundColor: 'rgb(var(--muted-blue))',
-                      margin: '0 -4px',
+                      backgroundColor: 'rgb(var(--warm-coral))',
                       fontFamily: 'Georgia, serif',
                       fontWeight: 500,
-                      boxShadow: '0 4px 15px rgba(69, 123, 157, 0.2)'
+                      boxShadow: '0 4px 15px rgba(232, 90, 79, 0.3)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgb(55, 103, 137)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgb(var(--muted-blue))'}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgb(220, 70, 59)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(232, 90, 79, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgb(var(--warm-coral))';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(232, 90, 79, 0.3)';
+                    }}
                   >
-                    <Sparkles className="mr-4 h-7 w-7" aria-label="Sparkles icon representing AI-powered color analysis magic" />
-                    Get My Analysis
+                    Start Analysis - $29
                   </Button>
                 </motion.div>
               </div>
@@ -1372,5 +1482,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </>
   );
 }

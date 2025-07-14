@@ -1,0 +1,201 @@
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Palette, Camera, Sparkles, FileText, Zap, Menu, X, Home as HomeIcon, HelpCircle, BookOpen } from "lucide-react";
+import { useState, useEffect } from "react";
+import { SEOHead } from "@/components/SEOHead";
+import { AdvancedSEO } from "@/components/AdvancedSEO";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+
+// Testimonials data for social proof
+const testimonials = [
+  { name: "Sarah K.", quote: "Transformed my wardrobe! Highly recommend.", rating: 5 },
+  { name: "Mike T.", quote: "Accurate analysis in seconds. Worth every penny.", rating: 5 },
+  { name: "Emma L.", quote: "Finally know my colors. Game-changer!", rating: 5 },
+];
+
+export default function HomeNew() {
+  const [, setLocation] = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const parallaxY = useTransform(scrollY, [0, 500], [0, -100]);
+
+  // Parallax effect for background
+  useEffect(() => {
+    // Custom cursor as before...
+  }, []);
+
+  return (
+    <>
+      <PerformanceOptimizer />
+      <AdvancedSEO 
+        page="home" 
+        additionalKeywords={["AI color analysis online", "personal color test free", "best seasonal color analysis", "color palette finder AI", "virtual color consultant", "professional color matching tool"]}
+        businessInfo={{ priceRange: "$$" }}
+      />
+      <SEOHead 
+        title="AI Color Analysis | Hazel & Hue - Discover Your Best Colors in Seconds"
+        description="Professional AI-powered personal color analysis. Find your seasonal palette, makeup matches, and style guide. Instant results from photos. Trusted by 10k+ users."
+        path="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Hazel & Hue",
+          "url": "https://hazelandhue.com",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hazelandhue.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://hazelandhue.com"
+            }]
+          }
+        }}
+      />
+      <style>{`
+        /* Enhanced styles with parallax and glow */
+        :root {
+          --primary: #F4A261;
+          --secondary: #E85A4F;
+          --accent: #2D5A3D;
+        }
+        .hero-bg {
+          background: linear-gradient(135deg, #FAF4EE 0%, #FFF1EB 100%);
+        }
+        .glow-hover:hover {
+          box-shadow: 0 0 20px rgba(244, 162, 97, 0.3);
+        }
+      `}</style>
+
+      <div className="min-h-screen hero-bg relative overflow-hidden">
+        {/* Parallax Background Elements */}
+        <motion.div 
+          style={{ y: parallaxY }}
+          className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+        >
+          {/* Abstract shapes */}
+          <div className="w-96 h-96 bg-orange-200 rounded-full blur-3xl absolute -top-48 -left-48"></div>
+          <div className="w-96 h-96 bg-pink-200 rounded-full blur-3xl absolute -bottom-48 -right-48"></div>
+        </motion.div>
+
+        {/* Navigation */}
+        <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md rounded-full px-6 py-2 shadow-lg">
+          <div className="flex items-center space-x-6">
+            <Button variant="ghost" onClick={() => setLocation('/blog')}>Blog</Button>
+            <Button variant="ghost" onClick={() => setLocation('/faqs')}>FAQs</Button>
+            <Button variant="ghost" onClick={() => setLocation('/about')}>About</Button>
+          </div>
+        </nav>
+
+        {/* Hero Section */}
+        <div className="min-h-screen flex flex-col justify-center items-center px-4 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+            style={{ color: 'var(--accent)' }}
+          >
+            Discover Your Perfect Colors
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl"
+          >
+            AI-powered personal color analysis. Upload photos and get your seasonal palette in seconds.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Button 
+              onClick={() => setLocation('/upload')}
+              className="bg-primary hover:bg-primary-dark text-white px-8 py-6 rounded-full text-lg shadow-lg glow-hover"
+            >
+              Start Analysis - $29
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Social Proof Section */}
+        <section className="py-20 bg-white/50">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12" style={{ color: 'var(--accent)' }}>Loved by Thousands</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((test, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-2xl p-6 shadow-md"
+                >
+                  <div className="flex mb-4">
+                    {Array(5).fill(0).map((_, j) => (
+                      <Star key={j} className="w-5 h-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 mb-4">"{test.quote}"</p>
+                  <p className="font-semibold">{test.name}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-20">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12" style={{ color: 'var(--accent)' }}>Why Hazel & Hue?</h2>
+            <div className="grid md:grid-cols-4 gap-8">
+              {[
+                { icon: Camera, title: "Easy Upload", desc: "Just 3 photos" },
+                { icon: Zap, title: "Instant Results", desc: "AI-powered analysis" },
+                { icon: Palette, title: "Personal Palette", desc: "Custom color guide" },
+                { icon: FileText, title: "Pro Report", desc: "Detailed PDF" }
+              ].map((feat, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                    <feat.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="font-bold mb-2">{feat.title}</h3>
+                  <p className="text-gray-600">{feat.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Footer */}
+        <section className="py-20 bg-gradient-to-br from-primary to-secondary text-white">
+          <div className="max-w-4xl mx-auto text-center px-4">
+            <h2 className="text-4xl font-bold mb-6">Ready to Find Your Colors?</h2>
+            <p className="text-xl mb-8">Join 10,000+ happy customers and transform your style today.</p>
+            <Button 
+              onClick={() => setLocation('/upload')}
+              className="bg-white text-primary hover:bg-gray-100 px-8 py-6 rounded-full text-lg shadow-lg"
+            >
+              Get Started Now
+            </Button>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+}
