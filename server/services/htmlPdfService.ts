@@ -265,8 +265,7 @@ class HTMLPDFService {
       'Electric blue blazer + white shirt + black trousers = vivid professional',
       'Magenta dress + silver accessories = bold elegance',
       'Bright purple sweater + black pants + chrome jewelry = dynamic sophistication',
-      'Hot pink top + navy skirt + metallic accents = vibrant style'
-    ]
+      'Hot pink top + navy skirt + metallic accents = vibrant style',
       'Black jacket + bright fuchsia top + white pants = bold confidence',
       'Navy coat + electric blue scarf + silver accessories = dynamic energy',
       'White blazer + emerald green blouse + black trousers = striking impact',
@@ -398,7 +397,7 @@ class HTMLPDFService {
                         <h3>Foundation Neutrals</h3>
                         <p>Essential building blocks for every outfit</p>
                         <div class="swatches">
-                            ${palette.coreNeutrals.map(color => `
+                            ${palette.coreNeutrals.map((color: string) => `
                                 <div class="premium-swatch" style="background-color: ${color}">
                                     <span class="swatch-name">${this.getColorName(color)}</span>
                                 </div>
@@ -410,7 +409,7 @@ class HTMLPDFService {
                         <h3>Accent Lights</h3>
                         <p>Soft highlights that enhance your radiance</p>
                         <div class="swatches">
-                            ${palette.accentLights.map(color => `
+                            ${palette.accentLights.map((color: string) => `
                                 <div class="premium-swatch" style="background-color: ${color}">
                                     <span class="swatch-name">${this.getColorName(color)}</span>
                                 </div>
@@ -422,7 +421,7 @@ class HTMLPDFService {
                         <h3>Statement Brights</h3>
                         <p>Your signature power colors</p>
                         <div class="swatches">
-                            ${palette.accentBrights.map(color => `
+                            ${palette.accentBrights.map((color: string) => `
                                 <div class="premium-swatch" style="background-color: ${color}">
                                     <span class="swatch-name">${this.getColorName(color)}</span>
                                 </div>
@@ -490,7 +489,7 @@ class HTMLPDFService {
                 </div>
                 
                 <div class="hair-colors">
-                    ${palette.hairColors.map((color, index) => `
+                    ${palette.hairColors.map((color: string, index: number) => `
                         <div class="hair-color-card">
                             <div class="hair-number">${index + 1}</div>
                             <div class="hair-info">
@@ -527,7 +526,7 @@ class HTMLPDFService {
                             <div class="section-icon"></div>
                         </div>
                         <div class="product-list">
-                            ${palette.makeupBrands.foundation.map(product => `
+                            ${palette.makeupBrands.foundation.map((product: string) => `
                                 <div class="product">• ${product}</div>
                             `).join('')}
                         </div>
@@ -539,7 +538,7 @@ class HTMLPDFService {
                             <div class="section-icon"></div>
                         </div>
                         <div class="product-list">
-                            ${palette.makeupBrands.lipstick.map(product => `
+                            ${palette.makeupBrands.lipstick.map((product: string) => `
                                 <div class="product">• ${product}</div>
                             `).join('')}
                         </div>
@@ -551,7 +550,7 @@ class HTMLPDFService {
                             <div class="section-icon"></div>
                         </div>
                         <div class="product-list">
-                            ${palette.makeupBrands.eyeshadow.map(product => `
+                            ${palette.makeupBrands.eyeshadow.map((product: string) => `
                                 <div class="product">• ${product}</div>
                             `).join('')}
                         </div>

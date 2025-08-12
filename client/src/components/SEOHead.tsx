@@ -6,6 +6,7 @@ interface SEOHeadProps {
   path?: string;
   ogImage?: string;
   structuredData?: object;
+  additionalSchema?: object[];
 }
 
 export function SEOHead({ 
@@ -13,7 +14,8 @@ export function SEOHead({
   description, 
   path = '/', 
   ogImage = 'https://hazelandhue.com/og-cover.jpg',
-  structuredData 
+  structuredData,
+  additionalSchema
 }: SEOHeadProps) {
   useEffect(() => {
     // Update title
@@ -99,18 +101,33 @@ export function SEOHead({
     updateMetaProperty('og:image', ogImage);
     
     // Add structured data
+    const scripts: HTMLScriptElement[] = [];
     if (structuredData) {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.text = JSON.stringify(structuredData);
       document.head.appendChild(script);
-      
-      // Cleanup function to remove script when component unmounts
-      return () => {
-        document.head.removeChild(script);
-      };
+      scripts.push(script);
     }
-  }, [title, description, path, ogImage, structuredData]);
+    if (additionalSchema && additionalSchema.length > 0) {
+      additionalSchema.forEach(schema => {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(schema);
+        document.head.appendChild(script);
+        scripts.push(script);
+      });
+    }
+
+    // Cleanup function to remove scripts when component unmounts
+    return () => {
+      scripts.forEach(script => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      });
+    };
+  }, [title, description, path, ogImage, structuredData, additionalSchema]);
   
   return null;
 }

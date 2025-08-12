@@ -46,8 +46,9 @@ export function PerformanceOptimizer() {
       // Reserve space for dynamically loaded content
       const dynamicContainers = document.querySelectorAll('[data-dynamic-content]');
       dynamicContainers.forEach((container) => {
-        if (!container.style.minHeight) {
-          container.style.minHeight = '200px';
+        const el = container as HTMLElement;
+        if (!el.style.minHeight) {
+          el.style.minHeight = '200px';
         }
       });
     };
@@ -55,10 +56,10 @@ export function PerformanceOptimizer() {
     // Optimize for Interaction to Next Paint (INP)
     const optimizeInteractions = () => {
       // Debounce scroll events
-      let scrollTimeout: NodeJS.Timeout;
+      let scrollTimeout: number | undefined;
       const handleScroll = () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
+        if (scrollTimeout) window.clearTimeout(scrollTimeout);
+        scrollTimeout = window.setTimeout(() => {
           // Throttled scroll handler
         }, 16); // ~60fps
       };
@@ -67,7 +68,7 @@ export function PerformanceOptimizer() {
       
       return () => {
         window.removeEventListener('scroll', handleScroll);
-        clearTimeout(scrollTimeout);
+        if (scrollTimeout) window.clearTimeout(scrollTimeout);
       };
     };
 

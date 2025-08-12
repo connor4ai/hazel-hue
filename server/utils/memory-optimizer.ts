@@ -39,7 +39,7 @@ class MemoryOptimizer {
       this.clearModuleCache();
       
     } catch (error) {
-      logger.error('Memory cleanup error:', error);
+      logger.error('Memory cleanup error:', error as Error);
     }
   }
 

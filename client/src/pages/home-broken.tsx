@@ -36,6 +36,9 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
+  // Temporary placeholders; replace with real auth state when available
+  const isAuthenticated = false;
+  const user: { firstName?: string; email?: string } | null = null as any;
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);

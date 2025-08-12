@@ -185,7 +185,7 @@ class DesignerPdfService {
   }
 
   private generateLuxuryCover(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     
@@ -239,7 +239,7 @@ class DesignerPdfService {
   }
 
   private generateEditorialPalette(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     
     // Magazine-style header
@@ -265,7 +265,7 @@ class DesignerPdfService {
   }
 
   private generateScientificAnalysis(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     
     // Scientific header
@@ -289,7 +289,7 @@ class DesignerPdfService {
   }
 
   private generateCoutureGuide(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     
     // Couture header
@@ -308,7 +308,7 @@ class DesignerPdfService {
   }
 
   private generateLuxuryShopping(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     
     // Luxury shopping header
@@ -337,7 +337,7 @@ class DesignerPdfService {
   }
 
   private generatePersonalBrand(pdf: jsPDF, analysisResult: ColorAnalysisResult) {
-    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Cool Winter'];
+    const theme = this.luxuryThemes[analysisResult.season as keyof typeof this.luxuryThemes] || this.luxuryThemes['Light Spring'];
     const pageWidth = pdf.internal.pageSize.getWidth();
     
     // Personal brand header

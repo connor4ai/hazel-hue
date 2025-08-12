@@ -149,7 +149,7 @@ class CanvasPdfService {
     const canvas = createCanvas(595, 842); // A4 size in points
     const ctx = canvas.getContext('2d');
     
-    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Cool Winter'];
+    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Light Spring'];
     
     // Create sophisticated gradient background
     const gradient = ctx.createLinearGradient(0, 0, 0, 842);
@@ -240,7 +240,7 @@ class CanvasPdfService {
     const canvas = createCanvas(595, 842);
     const ctx = canvas.getContext('2d');
     
-    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Cool Winter'];
+    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Light Spring'];
     
     // Background
     ctx.fillStyle = '#f8f9fa';
@@ -268,7 +268,7 @@ class CanvasPdfService {
     const canvas = createCanvas(595, 842);
     const ctx = canvas.getContext('2d');
     
-    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Cool Winter'];
+    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Light Spring'];
     
     // Background
     const gradient = ctx.createLinearGradient(0, 0, 595, 842);
@@ -302,7 +302,7 @@ class CanvasPdfService {
     const canvas = createCanvas(595, 842);
     const ctx = canvas.getContext('2d');
     
-    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Cool Winter'];
+    const palette = this.seasonPalettes[analysisResult.season as keyof typeof this.seasonPalettes] || this.seasonPalettes['Light Spring'];
     
     // Background
     ctx.fillStyle = '#ffffff';

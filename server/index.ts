@@ -36,11 +36,11 @@ const app = express();
 app.use(compression({
   level: 6,
   threshold: 1024,
-  filter: (req, res) => {
+  filter: (req: Request, res: Response) => {
     if (req.headers['x-no-compression']) {
       return false;
     }
-    return compression.filter(req, res);
+    return compression.filter(req, res as any);
   }
 }));
 

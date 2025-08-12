@@ -1,7 +1,6 @@
 import { useStripe, useElements, PaymentElement, Elements } from '@stripe/react-stripe-js';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { useAuth } from '@/hooks/useAuth';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -150,7 +149,6 @@ function CheckoutForm({ clientSecret, onPaymentSuccess }: {
 
 export default function Checkout() {
   const [, setLocation] = useLocation();
-  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [clientSecret, setClientSecret] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);

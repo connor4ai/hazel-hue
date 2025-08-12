@@ -10,8 +10,7 @@ export default function NotFound() {
       <SEOHead 
         title="Page Not Found - Hazel & Hue | AI Color Analysis"
         description="The page you're looking for doesn't exist. Discover your perfect colors with our AI color analysis tool or explore our comprehensive color guides."
-        keywords="404 error, page not found, AI color analysis, color analysis tool, seasonal colors"
-        canonicalUrl="https://hazelandhue.com/404"
+        path="/404"
       />
       
       <div className="min-h-screen bg-gradient-to-br from-cream to-sage/10 flex items-center justify-center px-4">

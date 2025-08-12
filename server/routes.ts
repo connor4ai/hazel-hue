@@ -545,9 +545,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         userId: user.id,
         status: 'queued',
         paymentStatus: 'unpaid',
-        total: 29.00,
-        email: user.email
+        amount: 2900,
       });
+      await storage.updateOrderEmail(order.id, user.email);
 
       // Save images to disk for processing
       const imagePaths: string[] = [];
@@ -809,7 +809,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       console.log('Generating PDF for order:', order.id, 'with analysis:', order.analysisResult);
-      const pdfPath = await premiumPdfService.generateReport(order, order.analysisResult);
+      const pdfPath = await premiumPdfService.generateReport(order, order.analysisResult as any);
       
       if (!fs.existsSync(pdfPath)) {
         return res.status(500).json({ message: "Failed to generate PDF" });
@@ -1649,7 +1649,7 @@ async function processColorAnalysis(orderId: number) {
     };
 
     // Generate PDF report
-    const pdfPath = await premiumPdfService.generateReport(order, analysisResult);
+    const pdfPath = await premiumPdfService.generateReport(order, analysisResult as any);
     
     // Update order with analysis results
     await storage.updateOrderAnalysis(orderId, analysisResult, pdfPath);

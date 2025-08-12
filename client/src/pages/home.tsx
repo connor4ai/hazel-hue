@@ -35,10 +35,7 @@ import {
   Menu,
   X,
   Instagram,
-  Share2,
-  Heart,
-  Users,
-  Star
+  Share2
 } from "lucide-react";
 import seasonalColorTypes from "@assets/jyhm8uif17b81.jpg_1750535813161.webp";
 import { useState, useEffect } from "react";
@@ -671,7 +668,7 @@ export default function Home() {
                   alt="Professional 12-season color analysis chart showing Spring, Summer, Autumn, and Winter color palettes with detailed undertone theory - True Winter, Bright Winter, Dark Winter, True Summer, Light Summer, Soft Summer, True Spring, Bright Spring, Light Spring, True Autumn, Dark Autumn, and Soft Autumn seasonal color types" 
                   className="w-full h-auto object-cover rounded-2xl"
                   loading="eager"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   width="800"
                   height="600"
                   style={{ maxWidth: '1920px' }}
