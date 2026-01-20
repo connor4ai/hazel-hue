@@ -841,8 +841,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin routes
   app.post("/api/admin/login", async (req, res) => {
     const { password } = req.body;
-    
-    if (password === process.env.ADMIN_PASSWORD || password === 'admin123') {
+
+    if (!process.env.ADMIN_PASSWORD) {
+      res.status(500).json({ message: "Admin password not configured" });
+      return;
+    }
+
+    if (password === process.env.ADMIN_PASSWORD) {
       res.json({ success: true });
     } else {
       res.status(401).json({ message: "Invalid password" });

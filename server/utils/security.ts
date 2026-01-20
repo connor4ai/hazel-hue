@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { cache } from '../redis';
 
 // Security headers middleware
 export function securityHeaders(req: Request, res: Response, next: NextFunction): void {
@@ -26,10 +27,15 @@ export function securityHeaders(req: Request, res: Response, next: NextFunction)
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   }
   
-  // Content Security Policy
+  // Content Security Policy - improved security by minimizing unsafe directives
+  // Note: unsafe-inline for styles kept for compatibility with Tailwind/inline styles
+  // Consider using nonces in production for script-src
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://analytics.tiktok.com https://www.google-analytics.com https://replit.com https://js.stripe.com https://m.stripe.network",
+    // Allow scripts from trusted sources only - removed unsafe-eval
+    // unsafe-inline kept for inline event handlers, consider using nonces
+    "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://analytics.tiktok.com https://www.google-analytics.com https://js.stripe.com https://m.stripe.network",
+    // Styles: unsafe-inline needed for Tailwind CSS and inline styles
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https: blob:",
@@ -42,7 +48,7 @@ export function securityHeaders(req: Request, res: Response, next: NextFunction)
     "frame-ancestors 'none'",
     "upgrade-insecure-requests"
   ].join('; ');
-  
+
   res.setHeader('Content-Security-Policy', csp);
   
   // Referrer policy
@@ -54,46 +60,39 @@ export function securityHeaders(req: Request, res: Response, next: NextFunction)
   next();
 }
 
-// Rate limiting for API endpoints
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-
+// Redis-based distributed rate limiting for API endpoints
+// This works across multiple server instances and survives server restarts
 export function rateLimit(maxRequests: number = 100, windowMs: number = 15 * 60 * 1000) {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const ip = req.ip || req.connection.remoteAddress || 'unknown';
-    const now = Date.now();
-    
-    // Clean expired entries
-    const entries = Array.from(rateLimitMap.entries());
-    for (const [key, value] of entries) {
-      if (now > value.resetTime) {
-        rateLimitMap.delete(key);
+    const key = `ratelimit:${ip}`;
+    const windowSeconds = Math.floor(windowMs / 1000);
+
+    try {
+      // Increment request count
+      const count = await cache.incr(key, windowSeconds);
+
+      // Check if limit exceeded
+      if (count > maxRequests) {
+        const ttl = await cache.ttl(key);
+        res.status(429).json({
+          error: 'Too many requests',
+          retryAfter: ttl > 0 ? ttl : windowSeconds
+        });
+        return;
       }
-    }
-    
-    const current = rateLimitMap.get(ip);
-    
-    if (!current) {
-      rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+
+      // Add rate limit headers
+      res.setHeader('X-RateLimit-Limit', maxRequests.toString());
+      res.setHeader('X-RateLimit-Remaining', Math.max(0, maxRequests - count).toString());
+      res.setHeader('X-RateLimit-Reset', new Date(Date.now() + windowSeconds * 1000).toISOString());
+
       next();
-      return;
-    }
-    
-    if (now > current.resetTime) {
-      rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
+    } catch (error) {
+      // If Redis fails, log error but don't block requests
+      console.error('Rate limiting error:', error);
       next();
-      return;
     }
-    
-    if (current.count >= maxRequests) {
-      res.status(429).json({
-        error: 'Too many requests',
-        retryAfter: Math.ceil((current.resetTime - now) / 1000)
-      });
-      return;
-    }
-    
-    current.count++;
-    next();
   };
 }
 

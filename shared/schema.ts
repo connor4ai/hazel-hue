@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -31,6 +31,14 @@ export const orders = pgTable("orders", {
   emailSent: boolean("email_sent").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => {
+  return {
+    userIdIdx: index("orders_user_id_idx").on(table.userId),
+    statusIdx: index("orders_status_idx").on(table.status),
+    paymentStatusIdx: index("orders_payment_status_idx").on(table.paymentStatus),
+    createdAtIdx: index("orders_created_at_idx").on(table.createdAt),
+    emailIdx: index("orders_email_idx").on(table.email),
+  };
 });
 
 export const userSessions = pgTable("user_sessions", {
@@ -39,6 +47,11 @@ export const userSessions = pgTable("user_sessions", {
   sessionToken: text("session_token").notNull().unique(),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => {
+  return {
+    userIdIdx: index("user_sessions_user_id_idx").on(table.userId),
+    expiresAtIdx: index("user_sessions_expires_at_idx").on(table.expiresAt),
+  };
 });
 
 export const promoCodes = pgTable("promo_codes", {
