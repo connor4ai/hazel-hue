@@ -6,6 +6,7 @@ import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -26,7 +27,9 @@ export class ProcessingStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       architecture: lambda.Architecture.ARM_64,
       memorySize: 1024,
-      timeout: cdk.Duration.minutes(3),
+      timeout: cdk.Duration.minutes(5),
+      reservedConcurrentExecutions: 50,
+      tracing: lambda.Tracing.ACTIVE,
       entry: path.join(__dirname, '../../lambdas/analysis/processAnalysis.ts'),
       environment: {
         TABLE_NAME: table.tableName,
@@ -43,15 +46,18 @@ export class ProcessingStack extends cdk.Stack {
     table.grantReadWriteData(processAnalysisFn);
     photoBucket.grantRead(processAnalysisFn);
 
-    // Bedrock access for Claude Vision
+    // Bedrock access — scoped to specific model
     processAnalysisFn.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ['bedrock:InvokeModel'],
-        resources: ['arn:aws:bedrock:*::foundation-model/anthropic.claude-*'],
+        resources: [
+          `arn:aws:bedrock:${this.region}::foundation-model/anthropic.claude-sonnet-4-20250514-v1:0`,
+        ],
       }),
     );
 
     // Rekognition access for face detection
+    // Note: DetectFaces does not support resource-level permissions (AWS limitation)
     processAnalysisFn.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ['rekognition:DetectFaces'],
@@ -65,5 +71,27 @@ export class ProcessingStack extends cdk.Stack {
         batchSize: 1,
       }),
     );
+
+    // ─── DLQ Monitoring ─────────────────────────────────────────
+    // Find the DLQ by looking at the analysis queue's DLQ config
+    const dlqAlarm = new cloudwatch.Alarm(this, 'DlqMessagesAlarm', {
+      alarmName: 'hazel-hue-analysis-dlq-messages',
+      alarmDescription: 'Analysis DLQ has messages — failed analyses need investigation',
+      metric: new cloudwatch.Metric({
+        namespace: 'AWS/SQS',
+        metricName: 'ApproximateNumberOfMessagesVisible',
+        dimensionsMap: {
+          QueueName: 'hazel-hue-analysis-dlq',
+        },
+        statistic: 'Maximum',
+        period: cdk.Duration.minutes(1),
+      }),
+      threshold: 0,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+      evaluationPeriods: 1,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
+    });
+
+    new cdk.CfnOutput(this, 'DlqAlarmArn', { value: dlqAlarm.alarmArn });
   }
 }

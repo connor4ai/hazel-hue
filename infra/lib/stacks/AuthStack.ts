@@ -23,9 +23,10 @@ export class AuthStack extends cdk.Stack {
         requireLowercase: true,
         requireUppercase: true,
         requireDigits: true,
-        requireSymbols: false,
+        requireSymbols: true,
       },
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+      advancedSecurityMode: cognito.AdvancedSecurityMode.ENFORCED,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
@@ -69,8 +70,9 @@ export class AuthStack extends cdk.Stack {
     }
 
     // Cognito Hosted UI domain (required for federated OAuth flows)
+    const envPrefix = (this.node.tryGetContext('environment') as string) ?? 'prod';
     this.userPool.addDomain('HazelHueDomain', {
-      cognitoDomain: { domainPrefix: 'hazel-hue' },
+      cognitoDomain: { domainPrefix: `hazel-hue-${envPrefix}` },
     });
 
     this.userPoolClient = this.userPool.addClient('HazelHueAppClient', {

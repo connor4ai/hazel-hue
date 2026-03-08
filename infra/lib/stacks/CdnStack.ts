@@ -33,8 +33,46 @@ export class CdnStack extends cdk.Stack {
     const oai = new cloudfront.OriginAccessIdentity(this, 'WebOAI');
     this.webBucket.grantRead(oai);
 
+    // ─── Access Logging ───────────────────────────────────────────
+    const logBucket = new s3.Bucket(this, 'CdnLogBucket', {
+      bucketName: `hazel-hue-cdn-logs-${this.account}`,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      lifecycleRules: [{ expiration: cdk.Duration.days(90), enabled: true }],
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      objectOwnership: s3.ObjectOwnership.OBJECT_WRITER,
+    });
+
+    // ─── Security Headers ─────────────────────────────────────────
+    const securityHeaders = new cloudfront.ResponseHeadersPolicy(this, 'SecurityHeaders', {
+      responseHeadersPolicyName: 'HazelHueSecurityHeaders',
+      securityHeadersBehavior: {
+        strictTransportSecurity: {
+          accessControlMaxAge: cdk.Duration.days(365),
+          includeSubdomains: true,
+          preload: true,
+          override: true,
+        },
+        frameOptions: {
+          frameOption: cloudfront.HeadersFrameOption.DENY,
+          override: true,
+        },
+        contentTypeOptions: {
+          override: true,
+        },
+        referrerPolicy: {
+          referrerPolicy: cloudfront.HeadersReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN,
+          override: true,
+        },
+        contentSecurityPolicy: {
+          contentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com; font-src 'self' data:",
+          override: true,
+        },
+      },
+    });
+
     // ─── Custom Domain (optional) ──────────────────────────────────
-    // Deploy with: cdk deploy -c domainName=hazelandhue.com -c certificateArn=arn:aws:acm:...
     const domainName = this.node.tryGetContext('domainName') as string | undefined;
     const certificateArn = this.node.tryGetContext('certificateArn') as string | undefined;
 
@@ -48,8 +86,12 @@ export class CdnStack extends cdk.Stack {
         origin: new origins.S3Origin(this.webBucket, { originAccessIdentity: oai }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        responseHeadersPolicy: securityHeaders,
       },
       defaultRootObject: 'index.html',
+      enableLogging: true,
+      logBucket,
+      logFilePrefix: 'cdn/',
       errorResponses: [
         {
           httpStatus: 404,
@@ -65,6 +107,7 @@ export class CdnStack extends cdk.Stack {
           cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
           originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
           allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+          responseHeadersPolicy: securityHeaders,
         },
       },
       ...(domainName && certificate
