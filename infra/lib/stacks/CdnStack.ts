@@ -3,6 +3,7 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import { Construct } from 'constructs';
 import * as path from 'path';
@@ -32,6 +33,15 @@ export class CdnStack extends cdk.Stack {
     const oai = new cloudfront.OriginAccessIdentity(this, 'WebOAI');
     this.webBucket.grantRead(oai);
 
+    // ─── Custom Domain (optional) ──────────────────────────────────
+    // Deploy with: cdk deploy -c domainName=hazelandhue.com -c certificateArn=arn:aws:acm:...
+    const domainName = this.node.tryGetContext('domainName') as string | undefined;
+    const certificateArn = this.node.tryGetContext('certificateArn') as string | undefined;
+
+    const certificate = certificateArn
+      ? acm.Certificate.fromCertificateArn(this, 'Certificate', certificateArn)
+      : undefined;
+
     // ─── CloudFront Distribution ──────────────────────────────────
     this.distribution = new cloudfront.Distribution(this, 'HazelHueCdn', {
       defaultBehavior: {
@@ -57,7 +67,12 @@ export class CdnStack extends cdk.Stack {
           allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
         },
       },
-      // TODO: Add custom domain (hazelandhue.com) + ACM certificate
+      ...(domainName && certificate
+        ? {
+            domainNames: [domainName, `www.${domainName}`],
+            certificate,
+          }
+        : {}),
     });
 
     // ─── Deploy web assets to S3 ──────────────────────────────────
@@ -75,5 +90,8 @@ export class CdnStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'WebBucketName', {
       value: this.webBucket.bucketName,
     });
+    if (domainName) {
+      new cdk.CfnOutput(this, 'CustomDomain', { value: domainName });
+    }
   }
 }

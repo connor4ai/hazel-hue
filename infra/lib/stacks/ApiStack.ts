@@ -146,6 +146,12 @@ export class ApiStack extends cdk.Stack {
     table.grantReadData(salonCardFn);
     photoBucket.grantReadWrite(salonCardFn);
 
+    const referralFn = new nodejs.NodejsFunction(this, 'Referral', {
+      ...lambdaDefaults,
+      entry: path.join(__dirname, '../../lambdas/experience/referral.ts'),
+    });
+    table.grantReadWriteData(referralFn);
+
     // ─── Routes ──────────────────────────────────────────────────
     this.httpApi.addRoutes({
       path: '/user/entitlements',
@@ -200,6 +206,13 @@ export class ApiStack extends cdk.Stack {
       path: '/experience/salon-card',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('SalonCard', salonCardFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/experience/referral',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('Referral', referralFn),
       authorizer,
     });
 
