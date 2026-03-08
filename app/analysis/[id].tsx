@@ -1,7 +1,10 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView, ActivityIndicator, Alert, Linking } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { apiClient } from '@infrastructure/api/client';
+import { endpoints } from '@infrastructure/api/endpoints';
+import { Button } from '@presentation/components/ui/Button';
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { BotanicalDivider } from '@presentation/components/brand/BotanicalDivider';
@@ -303,26 +306,12 @@ export default function ResultsScreen() {
           <BotanicalDivider variant="vine" />
 
           {/* SECTION 11: YOUR TOOLKIT */}
-          <View style={styles.section}>
-            <HandLetterHeading title="Your Toolkit" subtitle="Take your colors everywhere" />
-            <OrganicCard variant="subtle">
-              <Typography variant="body" color={colors.gray500} align="center">
-                Downloadable assets coming soon — palette wallpapers, salon card, and more.
-              </Typography>
-            </OrganicCard>
-          </View>
+          <ToolkitSection analysisId={id ?? ''} />
 
           <BotanicalDivider variant="leaves" />
 
           {/* SECTION 12: SHARE + REFER */}
-          <View style={styles.section}>
-            <HandLetterHeading title="Share Your Colors" />
-            <OrganicCard variant="subtle">
-              <Typography variant="body" color={colors.gray500} align="center">
-                Share your results with friends — referral rewards coming soon.
-              </Typography>
-            </OrganicCard>
-          </View>
+          <ShareSection analysisId={id ?? ''} />
 
           <View style={styles.footer}>
             <Typography variant="caption" color={colors.gray400} align="center">
@@ -332,6 +321,98 @@ export default function ResultsScreen() {
         </ScrollView>
       </SafeAreaView>
     </WatercolorBackground>
+  );
+}
+
+function ToolkitSection({ analysisId }: { analysisId: string }) {
+  const [loadingItem, setLoadingItem] = useState<string | null>(null);
+
+  const download = async (type: 'lock-screen' | 'salon-card', body: Record<string, unknown>) => {
+    setLoadingItem(type);
+    try {
+      const endpoint = type === 'lock-screen'
+        ? endpoints.experience.lockScreen
+        : endpoints.experience.salonCard;
+      const result = await apiClient.post<{ downloadUrl: string }>(endpoint, body);
+      await Linking.openURL(result.downloadUrl);
+    } catch {
+      Alert.alert('Error', 'Failed to generate. Please try again.');
+    } finally {
+      setLoadingItem(null);
+    }
+  };
+
+  return (
+    <View style={styles.section}>
+      <HandLetterHeading title="Your Toolkit" subtitle="Take your colors everywhere" />
+      <OrganicCard variant="subtle" style={styles.toolkitCard}>
+        <Button
+          variant="secondary"
+          size="md"
+          loading={loadingItem === 'lock-screen'}
+          onPress={() => download('lock-screen', { analysisId, layout: 'gradient' })}
+        >
+          Gradient Wallpaper
+        </Button>
+        <Button
+          variant="secondary"
+          size="md"
+          loading={loadingItem === 'lock-screen'}
+          onPress={() => download('lock-screen', { analysisId, layout: 'swatches' })}
+        >
+          Swatch Wallpaper
+        </Button>
+        <Button
+          variant="secondary"
+          size="md"
+          loading={loadingItem === 'salon-card'}
+          onPress={() => download('salon-card', { analysisId })}
+        >
+          Salon Instruction Card
+        </Button>
+      </OrganicCard>
+    </View>
+  );
+}
+
+function ShareSection({ analysisId }: { analysisId: string }) {
+  const [loading, setLoading] = useState(false);
+
+  const generateShareImage = async () => {
+    setLoading(true);
+    try {
+      const result = await apiClient.post<{ downloadUrl: string }>(
+        endpoints.experience.shareImage,
+        { analysisId },
+      );
+      await Linking.openURL(result.downloadUrl);
+    } catch {
+      Alert.alert('Error', 'Failed to generate share image.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <View style={styles.section}>
+      <HandLetterHeading title="Share Your Colors" />
+      <OrganicCard variant="subtle" style={styles.toolkitCard}>
+        <Typography variant="body" color={colors.gray500} align="center">
+          Show the world your season
+        </Typography>
+        <Button
+          variant="primary"
+          size="md"
+          loading={loading}
+          onPress={generateShareImage}
+        >
+          Generate Share Image
+        </Button>
+        <Typography variant="caption" color={colors.gray400} align="center">
+          Creates an Instagram-ready story image with your palette
+        </Typography>
+      </OrganicCard>
+    </View>
   );
 }
 
@@ -398,6 +479,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing[3],
+  },
+  toolkitCard: {
+    gap: spacing[3],
+    alignItems: 'center',
   },
   footer: {
     paddingTop: spacing[8],

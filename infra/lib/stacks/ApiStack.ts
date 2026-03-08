@@ -124,6 +124,28 @@ export class ApiStack extends cdk.Stack {
     });
     table.grantReadData(pollStatusFn);
 
+    // ─── Experience Context Lambdas ──────────────────────────────
+    const shareImageFn = new nodejs.NodejsFunction(this, 'ShareImage', {
+      ...lambdaDefaults,
+      entry: path.join(__dirname, '../../lambdas/experience/shareImage.ts'),
+    });
+    table.grantReadData(shareImageFn);
+    photoBucket.grantReadWrite(shareImageFn);
+
+    const lockScreenFn = new nodejs.NodejsFunction(this, 'LockScreen', {
+      ...lambdaDefaults,
+      entry: path.join(__dirname, '../../lambdas/experience/lockScreen.ts'),
+    });
+    table.grantReadData(lockScreenFn);
+    photoBucket.grantReadWrite(lockScreenFn);
+
+    const salonCardFn = new nodejs.NodejsFunction(this, 'SalonCard', {
+      ...lambdaDefaults,
+      entry: path.join(__dirname, '../../lambdas/experience/salonCard.ts'),
+    });
+    table.grantReadData(salonCardFn);
+    photoBucket.grantReadWrite(salonCardFn);
+
     // ─── Routes ──────────────────────────────────────────────────
     this.httpApi.addRoutes({
       path: '/user/entitlements',
@@ -157,6 +179,27 @@ export class ApiStack extends cdk.Stack {
       path: '/analysis/{id}/status',
       methods: [apigatewayv2.HttpMethod.GET],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('PollStatus', pollStatusFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/experience/share-image',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('ShareImage', shareImageFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/experience/lock-screen',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('LockScreen', lockScreenFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/experience/salon-card',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('SalonCard', salonCardFn),
       authorizer,
     });
 
