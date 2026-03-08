@@ -1,14 +1,14 @@
-import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda';
 
 type Handler = (
-  event: APIGatewayProxyEventV2,
+  event: APIGatewayProxyEventV2WithJWTAuthorizer,
 ) => Promise<{ statusCode: number; body?: unknown }>;
 
 /**
  * Wraps a Lambda handler with standard JSON response formatting and error handling.
  */
 export function withMiddleware(handler: Handler) {
-  return async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
+  return async (event: APIGatewayProxyEventV2WithJWTAuthorizer): Promise<APIGatewayProxyResultV2> => {
     try {
       const result = await handler(event);
       return {
@@ -37,7 +37,7 @@ export function withMiddleware(handler: Handler) {
 /**
  * Extracts the authenticated user ID from the Cognito JWT claims.
  */
-export function getUserId(event: APIGatewayProxyEventV2): string {
+export function getUserId(event: APIGatewayProxyEventV2WithJWTAuthorizer): string {
   const claims = event.requestContext?.authorizer?.jwt?.claims;
   const sub = claims?.sub;
   if (!sub || typeof sub !== 'string') {
@@ -46,7 +46,7 @@ export function getUserId(event: APIGatewayProxyEventV2): string {
   return sub;
 }
 
-export function parseBody<T>(event: APIGatewayProxyEventV2): T {
+export function parseBody<T>(event: APIGatewayProxyEventV2WithJWTAuthorizer): T {
   if (!event.body) {
     throw Object.assign(new Error('Request body is required'), { statusCode: 400 });
   }
