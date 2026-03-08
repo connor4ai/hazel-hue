@@ -43,6 +43,27 @@ export async function queryItems(
   return (result.Items as Record<string, unknown>[]) ?? [];
 }
 
+const GSI1_INDEX_NAME = process.env.GSI1_INDEX_NAME ?? 'GSI1';
+
+export async function queryGSI1(
+  gsi1pk: string,
+  gsi1skPrefix?: string,
+): Promise<Record<string, unknown>[]> {
+  const params: Record<string, unknown> = {
+    TableName: TABLE_NAME,
+    IndexName: GSI1_INDEX_NAME,
+    KeyConditionExpression: gsi1skPrefix
+      ? 'GSI1PK = :pk AND begins_with(GSI1SK, :sk)'
+      : 'GSI1PK = :pk',
+    ExpressionAttributeValues: gsi1skPrefix
+      ? { ':pk': gsi1pk, ':sk': gsi1skPrefix }
+      : { ':pk': gsi1pk },
+  };
+
+  const result = await docClient.send(new QueryCommand(params as any));
+  return (result.Items as Record<string, unknown>[]) ?? [];
+}
+
 export async function updateItem(
   pk: string,
   sk: string,

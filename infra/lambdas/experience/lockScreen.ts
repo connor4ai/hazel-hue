@@ -1,16 +1,17 @@
-import { withMiddleware, getUserId, parseBody } from '../shared/middleware';
+import { withMiddleware, getUserId, parseAndValidate } from '../shared/middleware';
 import { getItem } from '../shared/dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID } from 'crypto';
+import { z } from 'zod';
 
 const s3 = new S3Client({});
 const ASSETS_BUCKET = process.env.ASSETS_BUCKET ?? process.env.PHOTO_BUCKET!;
 
-interface LockScreenBody {
-  analysisId: string;
-  layout: 'gradient' | 'swatches' | 'minimal';
-}
+const lockScreenSchema = z.object({
+  analysisId: z.string().uuid(),
+  layout: z.enum(['gradient', 'swatches', 'minimal']),
+});
 
 /**
  * Generates a lock screen wallpaper SVG featuring the user's color palette.
@@ -18,7 +19,7 @@ interface LockScreenBody {
  */
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
-  const { analysisId, layout } = parseBody<LockScreenBody>(event);
+  const { analysisId, layout } = parseAndValidate(event, lockScreenSchema);
 
   const metadata = await getItem(`ANALYSIS#${analysisId}`, 'METADATA');
   if (!metadata || metadata.userId !== userId) {

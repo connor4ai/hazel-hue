@@ -1,21 +1,33 @@
 import type { SQSEvent } from 'aws-lambda';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { updateItem, putItem, getItem, queryItems } from '../shared/dynamodb';
+import { updateItem, putItem, queryItems } from '../shared/dynamodb';
+import { z } from 'zod';
 
 const bedrock = new BedrockRuntimeClient({});
 const s3 = new S3Client({});
 const PHOTO_BUCKET = process.env.PHOTO_BUCKET!;
+const BEDROCK_TIMEOUT_MS = 150_000; // 150 seconds — leaves margin before Lambda 5min timeout
 
-interface AnalysisMessage {
-  analysisId: string;
-  userId: string;
-  photoKey: string;
-}
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+const analysisMessageSchema = z.object({
+  analysisId: z.string().regex(UUID_REGEX),
+  userId: z.string().regex(UUID_REGEX),
+  photoKey: z.string().min(1).max(512),
+});
 
 export const handler = async (event: SQSEvent): Promise<void> => {
   for (const record of event.Records) {
-    const message: AnalysisMessage = JSON.parse(record.body);
+    let message: z.infer<typeof analysisMessageSchema>;
+    try {
+      message = analysisMessageSchema.parse(JSON.parse(record.body));
+    } catch (error) {
+      console.error('Invalid SQS message:', error);
+      // Don't retry malformed messages — they'll never succeed
+      continue;
+    }
+
     const { analysisId, userId, photoKey } = message;
 
     try {
@@ -32,7 +44,7 @@ export const handler = async (event: SQSEvent): Promise<void> => {
 
       // Step 1: Season Classification via Claude Vision
       const classificationResult = await invokeClaudeVision(photoBase64, CLASSIFICATION_PROMPT);
-      const classification = JSON.parse(classificationResult);
+      const classification = safeParseJson(classificationResult, 'classification');
 
       // Step 2: Generate results sections in parallel
       const [palette, colorStory, styleGuide, makeupGuide, hairGuide, jewelryGuide, siblings, avoidColors] =
@@ -47,16 +59,16 @@ export const handler = async (event: SQSEvent): Promise<void> => {
           invokeClaudeText(avoidColorsPrompt(classification)),
         ]);
 
-      // Step 3: Store all results
+      // Step 3: Store all results (safe-parse each one)
       const resultSections = {
-        palette: JSON.parse(palette),
-        colorstory: JSON.parse(colorStory),
-        styleguide: JSON.parse(styleGuide),
-        makeup: JSON.parse(makeupGuide),
-        hair: JSON.parse(hairGuide),
-        jewelry: JSON.parse(jewelryGuide),
-        siblings: JSON.parse(siblings),
-        avoid: JSON.parse(avoidColors),
+        palette: safeParseJson(palette, 'palette'),
+        colorstory: safeParseJson(colorStory, 'colorstory'),
+        styleguide: safeParseJson(styleGuide, 'styleguide'),
+        makeup: safeParseJson(makeupGuide, 'makeup'),
+        hair: safeParseJson(hairGuide, 'hair'),
+        jewelry: safeParseJson(jewelryGuide, 'jewelry'),
+        siblings: safeParseJson(siblings, 'siblings'),
+        avoid: safeParseJson(avoidColors, 'avoid'),
       };
 
       for (const [section, data] of Object.entries(resultSections)) {
@@ -99,9 +111,17 @@ export const handler = async (event: SQSEvent): Promise<void> => {
       console.log(`Analysis ${analysisId} completed: ${classification.season}`);
     } catch (error) {
       console.error(`Analysis ${analysisId} failed:`, error);
+
+      const failureReason =
+        error instanceof Error && error.name === 'AbortError'
+          ? 'Analysis timed out — please try again'
+          : error instanceof Error
+            ? error.message
+            : 'Unknown error';
+
       await updateItem(`ANALYSIS#${analysisId}`, 'METADATA', {
         status: 'FAILED',
-        failureReason: error instanceof Error ? error.message : 'Unknown error',
+        failureReason,
       });
       await updateItem(`USER#${userId}`, `ANALYSIS#${analysisId}`, {
         status: 'FAILED',
@@ -111,52 +131,82 @@ export const handler = async (event: SQSEvent): Promise<void> => {
   }
 };
 
-async function invokeClaudeVision(imageBase64: string, prompt: string): Promise<string> {
-  const response = await bedrock.send(
-    new InvokeModelCommand({
-      modelId: 'anthropic.claude-sonnet-4-20250514-v1:0',
-      contentType: 'application/json',
-      accept: 'application/json',
-      body: JSON.stringify({
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: 4096,
-        messages: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'image',
-                source: { type: 'base64', media_type: 'image/jpeg', data: imageBase64 },
-              },
-              { type: 'text', text: prompt },
-            ],
-          },
-        ],
-      }),
-    }),
-  );
+/**
+ * Safely parse JSON from Bedrock responses. Handles markdown code fences
+ * and malformed output gracefully.
+ */
+function safeParseJson(raw: string, sectionName: string): Record<string, unknown> {
+  // Strip markdown code fences if present
+  const cleaned = raw.replace(/^```(?:json)?\s*\n?/m, '').replace(/\n?```\s*$/m, '').trim();
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    throw new Error(`Failed to parse ${sectionName} response as JSON`);
+  }
+}
 
-  const result = JSON.parse(new TextDecoder().decode(response.body));
-  return result.content[0].text;
+async function invokeClaudeVision(imageBase64: string, prompt: string): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), BEDROCK_TIMEOUT_MS);
+
+  try {
+    const response = await bedrock.send(
+      new InvokeModelCommand({
+        modelId: 'anthropic.claude-sonnet-4-20250514-v1:0',
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          anthropic_version: 'bedrock-2023-05-31',
+          max_tokens: 4096,
+          messages: [
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'image',
+                  source: { type: 'base64', media_type: 'image/jpeg', data: imageBase64 },
+                },
+                { type: 'text', text: prompt },
+              ],
+            },
+          ],
+        }),
+      }),
+      { abortSignal: controller.signal },
+    );
+
+    const result = JSON.parse(new TextDecoder().decode(response.body));
+    return result.content[0].text;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function invokeClaudeText(prompt: string): Promise<string> {
-  const response = await bedrock.send(
-    new InvokeModelCommand({
-      modelId: 'anthropic.claude-sonnet-4-20250514-v1:0',
-      contentType: 'application/json',
-      accept: 'application/json',
-      body: JSON.stringify({
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: 4096,
-        messages: [{ role: 'user', content: prompt }],
-        system: COLORIST_SYSTEM_PROMPT,
-      }),
-    }),
-  );
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), BEDROCK_TIMEOUT_MS);
 
-  const result = JSON.parse(new TextDecoder().decode(response.body));
-  return result.content[0].text;
+  try {
+    const response = await bedrock.send(
+      new InvokeModelCommand({
+        modelId: 'anthropic.claude-sonnet-4-20250514-v1:0',
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          anthropic_version: 'bedrock-2023-05-31',
+          max_tokens: 4096,
+          messages: [{ role: 'user', content: prompt }],
+          system: COLORIST_SYSTEM_PROMPT,
+        }),
+      }),
+      { abortSignal: controller.signal },
+    );
+
+    const result = JSON.parse(new TextDecoder().decode(response.body));
+    return result.content[0].text;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // ─── Prompts ─────────────────────────────────────────────────────

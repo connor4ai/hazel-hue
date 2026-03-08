@@ -1,15 +1,16 @@
-import { withMiddleware, getUserId, parseBody } from '../shared/middleware';
+import { withMiddleware, getUserId, parseAndValidate } from '../shared/middleware';
 import { getItem } from '../shared/dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID } from 'crypto';
+import { z } from 'zod';
 
 const s3 = new S3Client({});
 const ASSETS_BUCKET = process.env.ASSETS_BUCKET ?? process.env.PHOTO_BUCKET!;
 
-interface SalonCardBody {
-  analysisId: string;
-}
+const salonCardSchema = z.object({
+  analysisId: z.string().uuid(),
+});
 
 /**
  * Generates a salon instruction card SVG that users can show their hairstylist.
@@ -17,7 +18,7 @@ interface SalonCardBody {
  */
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
-  const { analysisId } = parseBody<SalonCardBody>(event);
+  const { analysisId } = parseAndValidate(event, salonCardSchema);
 
   const metadata = await getItem(`ANALYSIS#${analysisId}`, 'METADATA');
   if (!metadata || metadata.userId !== userId) {

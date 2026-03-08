@@ -1,17 +1,20 @@
 import { withMiddleware, getUserId, parseBody } from '../shared/middleware';
-import { putItem, getItem, queryItems } from '../shared/dynamodb';
-import { randomUUID } from 'crypto';
+import { putItem, getItem, queryGSI1 } from '../shared/dynamodb';
+import { randomUUID, randomBytes } from 'crypto';
+import { z } from 'zod';
 
 const REFERRAL_DISCOUNT_CENTS = 500; // $5 off
 
-interface CreateReferralBody {
-  type: 'generate';
-}
+const generateSchema = z.object({
+  type: z.literal('generate'),
+});
 
-interface RedeemReferralBody {
-  type: 'redeem';
-  referralCode: string;
-}
+const redeemSchema = z.object({
+  type: z.literal('redeem'),
+  referralCode: z.string().regex(/^[A-F0-9]{8}$/, 'Invalid referral code format'),
+});
+
+const referralSchema = z.discriminatedUnion('type', [generateSchema, redeemSchema]);
 
 /**
  * Referral system — $5 give / $5 get.
@@ -20,7 +23,7 @@ interface RedeemReferralBody {
  */
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
-  const body = parseBody<CreateReferralBody | RedeemReferralBody>(event);
+  const body = referralSchema.parse(parseBody(event));
 
   if (body.type === 'generate') {
     // Check if user already has a referral code
@@ -37,8 +40,8 @@ export const handler = withMiddleware(async (event) => {
       };
     }
 
-    // Generate unique 8-char code
-    const code = randomUUID().slice(0, 8).toUpperCase();
+    // Generate unique 8-char hex code (32-bit entropy)
+    const code = randomBytes(4).toString('hex').toUpperCase();
     const now = new Date().toISOString();
 
     await putItem({
@@ -68,8 +71,8 @@ export const handler = withMiddleware(async (event) => {
   if (body.type === 'redeem') {
     const { referralCode } = body;
 
-    // Look up referral code via GSI1
-    const referralItems = await queryItems(`REFERRAL#${referralCode}`);
+    // Look up referral code via GSI1 (not main table PK)
+    const referralItems = await queryGSI1(`REFERRAL#${referralCode}`);
     if (referralItems.length === 0) {
       throw Object.assign(new Error('Invalid referral code'), { statusCode: 400 });
     }

@@ -1,32 +1,40 @@
-import { withMiddleware, getUserId, parseBody } from '../shared/middleware';
+import { withMiddleware, getUserId, parseAndValidate } from '../shared/middleware';
 import { putItem } from '../shared/dynamodb';
 import { randomUUID } from 'crypto';
+import { z } from 'zod';
 
-interface CreatePurchaseBody {
-  platform: 'APPLE_IAP' | 'GOOGLE_PLAY' | 'STRIPE';
-  receiptId: string;
-  productId: string;
-}
+const createPurchaseSchema = z.object({
+  platform: z.enum(['APPLE_IAP', 'GOOGLE_PLAY', 'STRIPE']),
+  receiptId: z.string().min(1).max(512),
+  productId: z.string().min(1).max(128),
+});
+
+// Product catalog — single source of truth for pricing
+const PRODUCT_PRICES: Record<string, number> = {
+  hazel_hue_analysis: 1900, // $19.00
+};
 
 const REVENUECAT_API_KEY = process.env.REVENUECAT_API_KEY ?? '';
+const SKIP_RECEIPT_VALIDATION = process.env.SKIP_RECEIPT_VALIDATION === 'true';
 
 /**
  * Validates a purchase receipt with RevenueCat's REST API.
- * Returns the validated transaction or throws on invalid receipt.
  */
 async function validateReceipt(
   userId: string,
-  body: CreatePurchaseBody,
-): Promise<{ isValid: boolean; expiresDate: string | null }> {
-  if (!REVENUECAT_API_KEY) {
-    // If no RevenueCat key configured, skip validation (dev mode)
-    console.warn('REVENUECAT_API_KEY not set — skipping receipt validation');
-    return { isValid: true, expiresDate: null };
+  body: z.infer<typeof createPurchaseSchema>,
+): Promise<void> {
+  if (SKIP_RECEIPT_VALIDATION) {
+    console.warn('Receipt validation skipped (SKIP_RECEIPT_VALIDATION=true)');
+    return;
   }
 
-  // Check subscriber status via RevenueCat
+  if (!REVENUECAT_API_KEY) {
+    throw Object.assign(new Error('Payment service unavailable'), { statusCode: 503 });
+  }
+
   const response = await fetch(
-    `https://api.revenuecat.com/v1/subscribers/${userId}`,
+    `https://api.revenuecat.com/v1/subscribers/${encodeURIComponent(userId)}`,
     {
       headers: {
         Authorization: `Bearer ${REVENUECAT_API_KEY}`,
@@ -37,7 +45,7 @@ async function validateReceipt(
 
   if (!response.ok) {
     throw Object.assign(
-      new Error('Failed to validate receipt with RevenueCat'),
+      new Error('Failed to validate receipt with payment provider'),
       { statusCode: 502 },
     );
   }
@@ -45,7 +53,6 @@ async function validateReceipt(
   const data = await response.json();
   const transactions = data.subscriber?.non_subscriptions?.hazel_hue_analysis ?? [];
 
-  // Verify the transaction exists
   const matchingTransaction = transactions.find(
     (t: { id: string }) => t.id === body.receiptId,
   );
@@ -56,15 +63,18 @@ async function validateReceipt(
       { statusCode: 400 },
     );
   }
-
-  return { isValid: true, expiresDate: null };
 }
 
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
-  const body = parseBody<CreatePurchaseBody>(event);
+  const body = parseAndValidate(event, createPurchaseSchema);
 
-  // Validate receipt with RevenueCat
+  // Look up price from product catalog
+  const amount = PRODUCT_PRICES[body.productId];
+  if (amount === undefined) {
+    throw Object.assign(new Error('Unknown product'), { statusCode: 400 });
+  }
+
   await validateReceipt(userId, body);
 
   const purchaseId = randomUUID();
@@ -76,7 +86,7 @@ export const handler = withMiddleware(async (event) => {
     SK: `PURCHASE#${purchaseId}`,
     id: purchaseId,
     userId,
-    amount: 1900,
+    amount,
     currency: 'USD',
     status: 'COMPLETED',
     platform: body.platform,
