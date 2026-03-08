@@ -30,32 +30,48 @@ export class AuthStack extends cdk.Stack {
     });
 
     // Apple Sign-In identity provider
-    // TODO: Configure Apple Services ID and Team ID
-    // new cognito.UserPoolIdentityProviderApple(this, 'Apple', {
-    //   userPool: this.userPool,
-    //   clientId: 'com.hazelhue.app',
-    //   teamId: 'YOUR_TEAM_ID',
-    //   keyId: 'YOUR_KEY_ID',
-    //   privateKey: 'YOUR_PRIVATE_KEY',
-    //   scopes: ['email', 'name'],
-    //   attributeMapping: {
-    //     email: cognito.ProviderAttribute.APPLE_EMAIL,
-    //     fullname: cognito.ProviderAttribute.APPLE_NAME,
-    //   },
-    // });
+    // Deploy with: cdk deploy -c appleTeamId=X -c appleKeyId=Y -c applePrivateKey=Z
+    const appleTeamId = this.node.tryGetContext('appleTeamId');
+    const appleKeyId = this.node.tryGetContext('appleKeyId');
+    const applePrivateKey = this.node.tryGetContext('applePrivateKey');
+
+    if (appleTeamId && appleKeyId && applePrivateKey) {
+      new cognito.UserPoolIdentityProviderApple(this, 'Apple', {
+        userPool: this.userPool,
+        clientId: 'com.hazelhue.app',
+        teamId: appleTeamId,
+        keyId: appleKeyId,
+        privateKey: applePrivateKey,
+        scopes: ['email', 'name'],
+        attributeMapping: {
+          email: cognito.ProviderAttribute.APPLE_EMAIL,
+          fullname: cognito.ProviderAttribute.APPLE_NAME,
+        },
+      });
+    }
 
     // Google Sign-In identity provider
-    // TODO: Configure Google OAuth client
-    // new cognito.UserPoolIdentityProviderGoogle(this, 'Google', {
-    //   userPool: this.userPool,
-    //   clientId: 'YOUR_GOOGLE_CLIENT_ID',
-    //   clientSecretValue: cdk.SecretValue.secretsManager('google-oauth-secret'),
-    //   scopes: ['email', 'profile'],
-    //   attributeMapping: {
-    //     email: cognito.ProviderAttribute.GOOGLE_EMAIL,
-    //     fullname: cognito.ProviderAttribute.GOOGLE_NAME,
-    //   },
-    // });
+    // Deploy with: cdk deploy -c googleClientId=X
+    // Store client secret in Secrets Manager as 'hazel-hue/google-oauth'
+    const googleClientId = this.node.tryGetContext('googleClientId');
+
+    if (googleClientId) {
+      new cognito.UserPoolIdentityProviderGoogle(this, 'Google', {
+        userPool: this.userPool,
+        clientId: googleClientId,
+        clientSecretValue: cdk.SecretValue.secretsManager('hazel-hue/google-oauth'),
+        scopes: ['email', 'profile'],
+        attributeMapping: {
+          email: cognito.ProviderAttribute.GOOGLE_EMAIL,
+          fullname: cognito.ProviderAttribute.GOOGLE_NAME,
+        },
+      });
+    }
+
+    // Cognito Hosted UI domain (required for federated OAuth flows)
+    this.userPool.addDomain('HazelHueDomain', {
+      cognitoDomain: { domainPrefix: 'hazel-hue' },
+    });
 
     this.userPoolClient = this.userPool.addClient('HazelHueAppClient', {
       authFlows: {
@@ -74,5 +90,8 @@ export class AuthStack extends cdk.Stack {
     // Outputs
     new cdk.CfnOutput(this, 'UserPoolId', { value: this.userPool.userPoolId });
     new cdk.CfnOutput(this, 'UserPoolClientId', { value: this.userPoolClient.userPoolClientId });
+    new cdk.CfnOutput(this, 'UserPoolDomain', {
+      value: `hazel-hue.auth.${this.region}.amazoncognito.com`,
+    });
   }
 }
