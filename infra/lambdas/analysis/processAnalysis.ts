@@ -1,7 +1,7 @@
 import type { SQSEvent } from 'aws-lambda';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { updateItem, putItem, getItem } from '../shared/dynamodb';
+import { updateItem, putItem, getItem, queryItems } from '../shared/dynamodb';
 
 const bedrock = new BedrockRuntimeClient({});
 const s3 = new S3Client({});
@@ -86,7 +86,15 @@ export const handler = async (event: SQSEvent): Promise<void> => {
       });
 
       // Consume the entitlement
-      // TODO: Find and mark the specific entitlement as consumed
+      const entitlements = await queryItems(`USER#${userId}`, 'ENTITLEMENT#ANALYSIS');
+      const validEntitlement = entitlements.find((e) => !e.consumed);
+      if (validEntitlement) {
+        await updateItem(`USER#${userId}`, validEntitlement.SK as string, {
+          consumed: true,
+          consumedAt: now,
+          consumedByAnalysisId: analysisId,
+        });
+      }
 
       console.log(`Analysis ${analysisId} completed: ${classification.season}`);
     } catch (error) {

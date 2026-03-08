@@ -6,39 +6,20 @@ import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
 interface ProcessingStackProps extends cdk.StackProps {
   table: dynamodb.Table;
   photoBucket: s3.Bucket;
-  api: apigatewayv2.HttpApi;
+  analysisQueue: sqs.Queue;
 }
 
 export class ProcessingStack extends cdk.Stack {
-  public readonly analysisQueue: sqs.Queue;
-
   constructor(scope: Construct, id: string, props: ProcessingStackProps) {
     super(scope, id, props);
 
-    const { table, photoBucket } = props;
-
-    // ─── Dead Letter Queue ───────────────────────────────────────
-    const dlq = new sqs.Queue(this, 'AnalysisDLQ', {
-      queueName: 'hazel-hue-analysis-dlq',
-      retentionPeriod: cdk.Duration.days(14),
-    });
-
-    // ─── Analysis Queue ──────────────────────────────────────────
-    this.analysisQueue = new sqs.Queue(this, 'AnalysisQueue', {
-      queueName: 'hazel-hue-analysis',
-      visibilityTimeout: cdk.Duration.minutes(5),
-      deadLetterQueue: {
-        queue: dlq,
-        maxReceiveCount: 3,
-      },
-    });
+    const { table, photoBucket, analysisQueue } = props;
 
     // ─── Processing Lambda ───────────────────────────────────────
     const processAnalysisFn = new nodejs.NodejsFunction(this, 'ProcessAnalysis', {
@@ -80,12 +61,9 @@ export class ProcessingStack extends cdk.Stack {
 
     // Wire SQS → Lambda
     processAnalysisFn.addEventSource(
-      new lambdaEventSources.SqsEventSource(this.analysisQueue, {
+      new lambdaEventSources.SqsEventSource(analysisQueue, {
         batchSize: 1,
       }),
     );
-
-    // Outputs
-    new cdk.CfnOutput(this, 'AnalysisQueueUrl', { value: this.analysisQueue.queueUrl });
   }
 }

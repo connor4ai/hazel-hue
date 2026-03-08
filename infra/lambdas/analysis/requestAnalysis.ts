@@ -1,11 +1,14 @@
 import { withMiddleware, getUserId } from '../shared/middleware';
 import { putItem, queryItems } from '../shared/dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { randomUUID } from 'crypto';
 
 const s3 = new S3Client({});
+const sqs = new SQSClient({});
 const PHOTO_BUCKET = process.env.PHOTO_BUCKET!;
+const ANALYSIS_QUEUE_URL = process.env.ANALYSIS_QUEUE_URL!;
 
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
@@ -54,6 +57,14 @@ export const handler = withMiddleware(async (event) => {
       ContentType: 'image/jpeg',
     }),
     { expiresIn: 300 }, // 5 minutes
+  );
+
+  // Queue analysis for async processing
+  await sqs.send(
+    new SendMessageCommand({
+      QueueUrl: ANALYSIS_QUEUE_URL,
+      MessageBody: JSON.stringify({ analysisId, userId, photoKey }),
+    }),
   );
 
   return {

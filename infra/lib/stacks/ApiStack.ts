@@ -7,6 +7,7 @@ import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -18,11 +19,27 @@ interface ApiStackProps extends cdk.StackProps {
 
 export class ApiStack extends cdk.Stack {
   public readonly httpApi: apigatewayv2.HttpApi;
+  public readonly analysisQueue: sqs.Queue;
 
   constructor(scope: Construct, id: string, props: ApiStackProps) {
     super(scope, id, props);
 
     const { userPool, table, photoBucket } = props;
+
+    // ─── Analysis Queue ──────────────────────────────────────────
+    const dlq = new sqs.Queue(this, 'AnalysisDLQ', {
+      queueName: 'hazel-hue-analysis-dlq',
+      retentionPeriod: cdk.Duration.days(14),
+    });
+
+    this.analysisQueue = new sqs.Queue(this, 'AnalysisQueue', {
+      queueName: 'hazel-hue-analysis',
+      visibilityTimeout: cdk.Duration.minutes(5),
+      deadLetterQueue: {
+        queue: dlq,
+        maxReceiveCount: 3,
+      },
+    });
 
     // ─── HTTP API ────────────────────────────────────────────────
     this.httpApi = new apigatewayv2.HttpApi(this, 'HazelHueApi', {
@@ -86,15 +103,26 @@ export class ApiStack extends cdk.Stack {
     const requestAnalysisFn = new nodejs.NodejsFunction(this, 'RequestAnalysis', {
       ...lambdaDefaults,
       entry: path.join(__dirname, '../../lambdas/analysis/requestAnalysis.ts'),
+      environment: {
+        ...lambdaEnv,
+        ANALYSIS_QUEUE_URL: this.analysisQueue.queueUrl,
+      },
     });
     table.grantReadWriteData(requestAnalysisFn);
     photoBucket.grantPut(requestAnalysisFn);
+    this.analysisQueue.grantSendMessages(requestAnalysisFn);
 
     const getResultFn = new nodejs.NodejsFunction(this, 'GetResult', {
       ...lambdaDefaults,
       entry: path.join(__dirname, '../../lambdas/analysis/getResult.ts'),
     });
     table.grantReadData(getResultFn);
+
+    const pollStatusFn = new nodejs.NodejsFunction(this, 'PollStatus', {
+      ...lambdaDefaults,
+      entry: path.join(__dirname, '../../lambdas/analysis/pollStatus.ts'),
+    });
+    table.grantReadData(pollStatusFn);
 
     // ─── Routes ──────────────────────────────────────────────────
     this.httpApi.addRoutes({
@@ -125,7 +153,15 @@ export class ApiStack extends cdk.Stack {
       authorizer,
     });
 
+    this.httpApi.addRoutes({
+      path: '/analysis/{id}/status',
+      methods: [apigatewayv2.HttpMethod.GET],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('PollStatus', pollStatusFn),
+      authorizer,
+    });
+
     // Outputs
     new cdk.CfnOutput(this, 'ApiUrl', { value: this.httpApi.apiEndpoint });
+    new cdk.CfnOutput(this, 'AnalysisQueueUrl', { value: this.analysisQueue.queueUrl });
   }
 }

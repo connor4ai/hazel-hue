@@ -27,7 +27,7 @@ new ProcessingStack(app, 'HazelHue-Processing', {
   env,
   table: dataStack.table,
   photoBucket: dataStack.photoBucket,
-  api: apiStack.httpApi,
+  analysisQueue: apiStack.analysisQueue,
 });
 
 new CdnStack(app, 'HazelHue-Cdn', {
