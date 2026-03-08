@@ -8,21 +8,35 @@ import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { BotanicalDivider } from '@presentation/components/brand/BotanicalDivider';
 import { Button } from '@presentation/components/ui/Button';
 import { Typography } from '@presentation/components/ui/Typography';
+import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
+import { purchaseAnalysis } from '@infrastructure/payments/RevenueCatProvider';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
 export default function CheckoutScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const startAnalysis = useAnalysisStore((s) => s.startAnalysis);
 
   const handlePurchase = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // TODO: Trigger RevenueCat/Stripe purchase flow
-      // On success:
+      // 1. Process payment via RevenueCat
+      await purchaseAnalysis();
+
+      // 2. Upload photo + create analysis record
+      await startAnalysis();
+
+      // 3. Navigate to processing theater
       router.replace('/analysis/processing');
-    } catch (error) {
-      console.error('Purchase failed:', error);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Purchase failed';
+      // RevenueCat throws when user cancels — don't show error for cancellation
+      if (!message.includes('cancelled') && !message.includes('canceled')) {
+        setError(message);
+      }
     } finally {
       setLoading(false);
     }
@@ -39,7 +53,6 @@ export default function CheckoutScreen() {
 
           <BotanicalDivider variant="vine" />
 
-          {/* What you'll get */}
           <OrganicCard variant="elevated">
             <Typography variant="h2" color={colors.hazel}>
               What's included
@@ -62,7 +75,6 @@ export default function CheckoutScreen() {
             </View>
           </OrganicCard>
 
-          {/* Price */}
           <View style={styles.priceBlock}>
             <Typography variant="caption" color={colors.gray400} align="center">
               vs. $300+ for an in-person consultation
@@ -75,7 +87,14 @@ export default function CheckoutScreen() {
             </Typography>
           </View>
 
-          {/* CTA */}
+          {error && (
+            <View style={styles.errorBox}>
+              <Typography variant="bodySmall" color={colors.error}>
+                {error}
+              </Typography>
+            </View>
+          )}
+
           <View style={styles.cta}>
             <Button size="lg" loading={loading} onPress={handlePurchase}>
               Get My Colors — $19
@@ -106,6 +125,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing[4],
     gap: spacing[1],
+  },
+  errorBox: {
+    backgroundColor: '#FEF2F2',
+    borderRadius: 8,
+    padding: spacing[3],
   },
   cta: {
     alignItems: 'center',

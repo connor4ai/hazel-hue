@@ -7,12 +7,14 @@ import { WatercolorBackground } from '@presentation/components/brand/WatercolorB
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { Button } from '@presentation/components/ui/Button';
 import { Typography } from '@presentation/components/ui/Typography';
+import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
 export default function CaptureScreen() {
   const router = useRouter();
   const [photo, setPhoto] = useState<string | null>(null);
+  const setStorePhoto = useAnalysisStore((s) => s.setPhoto);
 
   const takePhoto = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -44,7 +46,8 @@ export default function CaptureScreen() {
   };
 
   const continueToCheckout = () => {
-    // TODO: Store photo URI in Zustand/context, pass to checkout
+    if (!photo) return;
+    setStorePhoto(photo);
     router.push('/analysis/checkout');
   };
 

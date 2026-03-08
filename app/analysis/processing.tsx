@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  withDelay,
-  withSequence,
   Easing,
 } from 'react-native-reanimated';
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { Typography } from '@presentation/components/ui/Typography';
+import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
-/**
- * The "Processing Theater" — 45 seconds of beautiful storytelling
- * while the analysis runs. This is NOT a loading spinner.
- * Each step is revealed sequentially with animated transitions.
- */
 const STAGES = [
   { text: 'Analyzing your undertone...', duration: 8000, color: colors.terracotta },
   { text: 'Mapping your contrast level...', duration: 8000, color: colors.sage },
@@ -28,31 +22,52 @@ const STAGES = [
   { text: 'Preparing your results...', duration: 9000, color: colors.hazel },
 ];
 
+const POLL_INTERVAL_MS = 3000;
+
 export default function ProcessingScreen() {
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState(0);
+  const [email, setEmail] = useState('');
   const stageOpacity = useSharedValue(0);
   const progressWidth = useSharedValue(0);
 
+  const { analysisId, status, error, pollStatus } = useAnalysisStore();
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Start polling for analysis status
   useEffect(() => {
-    // Animate stage transitions
+    if (!analysisId) return;
+
+    pollRef.current = setInterval(() => {
+      pollStatus();
+    }, POLL_INTERVAL_MS);
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, [analysisId, pollStatus]);
+
+  // Navigate when analysis completes or fails
+  useEffect(() => {
+    if (status === 'COMPLETED' && analysisId) {
+      if (pollRef.current) clearInterval(pollRef.current);
+      router.replace(`/analysis/${analysisId}`);
+    }
+  }, [status, analysisId, router]);
+
+  // Animate stage transitions
+  useEffect(() => {
     stageOpacity.value = withTiming(1, { duration: 800, easing: Easing.ease });
 
     const timer = setTimeout(() => {
       if (currentStage < STAGES.length - 1) {
-        stageOpacity.value = withTiming(0, { duration: 400 }, () => {
-          // Trigger next stage
-        });
+        stageOpacity.value = withTiming(0, { duration: 400 });
         setCurrentStage((s) => s + 1);
-      } else {
-        // TODO: Poll analysis status, navigate to results when complete
-        // For now, navigate after the last stage
-        router.replace('/analysis/placeholder-id');
       }
     }, STAGES[currentStage].duration);
 
     return () => clearTimeout(timer);
-  }, [currentStage]);
+  }, [currentStage, stageOpacity]);
 
   // Overall progress bar
   useEffect(() => {
@@ -61,7 +76,7 @@ export default function ProcessingScreen() {
       duration: totalDuration,
       easing: Easing.linear,
     });
-  }, []);
+  }, [progressWidth]);
 
   const stageAnimatedStyle = useAnimatedStyle(() => ({
     opacity: stageOpacity.value,
@@ -78,7 +93,6 @@ export default function ProcessingScreen() {
       <SafeAreaView style={styles.safe}>
         <View style={styles.content}>
           <View style={styles.center}>
-            {/* TODO: Replace with Lottie botanical animation per stage */}
             <Animated.View style={[styles.stageContainer, stageAnimatedStyle]}>
               <Typography
                 variant="displaySmall"
@@ -88,6 +102,17 @@ export default function ProcessingScreen() {
                 {stage.text}
               </Typography>
             </Animated.View>
+
+            {status === 'FAILED' && error && (
+              <View style={styles.errorBox}>
+                <Typography variant="bodySmall" color={colors.error} align="center">
+                  {error}
+                </Typography>
+                <Typography variant="caption" color={colors.gray400} align="center">
+                  Please try again or contact support.
+                </Typography>
+              </View>
+            )}
           </View>
 
           {/* Progress bar */}
@@ -102,12 +127,21 @@ export default function ProcessingScreen() {
             </Typography>
           </View>
 
-          {/* Email collection during wait */}
+          {/* Email collection */}
           <View style={styles.emailSection}>
             <Typography variant="bodySmall" color={colors.gray500} align="center">
               Where should we send your results?
             </Typography>
-            {/* TODO: Email input field */}
+            <TextInput
+              style={styles.emailInput}
+              placeholder="your@email.com"
+              placeholderTextColor={colors.gray400}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+              value={email}
+              onChangeText={setEmail}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -127,9 +161,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: spacing[6],
   },
   stageContainer: {
     paddingHorizontal: spacing[4],
+  },
+  errorBox: {
+    backgroundColor: '#FEF2F2',
+    borderRadius: 12,
+    padding: spacing[4],
+    gap: spacing[2],
   },
   progressContainer: {
     gap: spacing[2],
@@ -148,5 +189,16 @@ const styles = StyleSheet.create({
   emailSection: {
     gap: spacing[2],
     paddingTop: spacing[6],
+  },
+  emailInput: {
+    borderWidth: 1,
+    borderColor: colors.cream200,
+    borderRadius: 12,
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[3],
+    fontSize: 16,
+    color: colors.charcoal,
+    backgroundColor: colors.cream50,
+    textAlign: 'center',
   },
 });

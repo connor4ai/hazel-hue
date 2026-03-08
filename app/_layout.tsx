@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
+import { useAuthStore } from '@presentation/stores/useAuthStore';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,6 +14,12 @@ const queryClient = new QueryClient({
 });
 
 export default function RootLayout() {
+  const initialize = useAuthStore((s) => s.initialize);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <StatusBar style="dark" />
