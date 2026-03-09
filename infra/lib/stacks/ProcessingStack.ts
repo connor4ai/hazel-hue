@@ -28,7 +28,6 @@ export class ProcessingStack extends cdk.Stack {
       architecture: lambda.Architecture.ARM_64,
       memorySize: 1024,
       timeout: cdk.Duration.minutes(5),
-      reservedConcurrentExecutions: 50,
       tracing: lambda.Tracing.ACTIVE,
       entry: path.join(__dirname, '../../lambdas/analysis/processAnalysis.ts'),
       environment: {
