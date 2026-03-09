@@ -9,22 +9,22 @@ import { BotanicalDivider } from '@presentation/components/brand/BotanicalDivide
 import { Button } from '@presentation/components/ui/Button';
 import { Typography } from '@presentation/components/ui/Typography';
 import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
-import { purchaseAnalysis } from '@infrastructure/payments/RevenueCatProvider';
+import { usePurchase } from '@presentation/hooks/usePurchase';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
 export default function CheckoutScreen() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const startAnalysis = useAnalysisStore((s) => s.startAnalysis);
+  const { purchase, isPurchasing, error: purchaseError } = usePurchase();
+  const [error, setError] = useState<string | null>(null);
 
   const handlePurchase = async () => {
-    setLoading(true);
     setError(null);
     try {
-      // 1. Process payment via RevenueCat
-      await purchaseAnalysis();
+      // 1. Process payment via RevenueCat + verify receipt on backend
+      const result = await purchase();
+      if (!result) return; // User cancelled
 
       // 2. Upload photo + create analysis record
       await startAnalysis();
@@ -33,12 +33,7 @@ export default function CheckoutScreen() {
       router.replace('/analysis/processing');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Purchase failed';
-      // RevenueCat throws when user cancels — don't show error for cancellation
-      if (!message.includes('cancelled') && !message.includes('canceled')) {
-        setError(message);
-      }
-    } finally {
-      setLoading(false);
+      setError(message);
     }
   };
 
@@ -87,16 +82,16 @@ export default function CheckoutScreen() {
             </Typography>
           </View>
 
-          {error && (
+          {(error || purchaseError) && (
             <View style={styles.errorBox}>
               <Typography variant="bodySmall" color={colors.error}>
-                {error}
+                {error || purchaseError}
               </Typography>
             </View>
           )}
 
           <View style={styles.cta}>
-            <Button size="lg" loading={loading} onPress={handlePurchase}>
+            <Button size="lg" loading={isPurchasing} onPress={handlePurchase}>
               Get My Colors — $19
             </Button>
             <Typography variant="caption" color={colors.gray400} align="center">

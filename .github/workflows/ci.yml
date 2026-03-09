@@ -25,7 +25,6 @@ jobs:
 
       - name: Lint
         run: npx eslint . --ext .ts,.tsx --max-warnings 0
-        continue-on-error: true # Remove once ESLint is fully configured
 
   test:
     name: Tests
@@ -41,7 +40,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npx jest --passWithNoTests
+        run: npx jest --config jest.config.cjs
 
   infra-test:
     name: Infrastructure Tests
