@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, type ViewProps, ImageBackground } from 'react-native';
 import { colors } from '@presentation/theme/colors';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const watercolorTexture = require('../../../../assets/textures/watercolor-wash.png');
 
 interface WatercolorBackgroundProps extends ViewProps {

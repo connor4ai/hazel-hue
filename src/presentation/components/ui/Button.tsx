@@ -2,9 +2,10 @@ import React from 'react';
 import {
   Pressable,
   type PressableProps,
+  type ViewStyle,
+  type StyleProp,
   StyleSheet,
   ActivityIndicator,
-  View,
 } from 'react-native';
 import { Typography } from './Typography';
 import { colors } from '@presentation/theme/colors';
@@ -26,10 +27,10 @@ const variantStyles: Record<ButtonVariant, { bg: string; text: string; border?: 
   ghost: { bg: 'transparent', text: colors.hazel },
 };
 
-const sizeStyles: Record<ButtonSize, { paddingH: number; paddingV: number; fontSize: keyof typeof import('@presentation/theme/typography').fontSizes }> = {
-  sm: { paddingH: spacing[4], paddingV: spacing[2], fontSize: 'sm' as any },
-  md: { paddingH: spacing[6], paddingV: spacing[3], fontSize: 'base' as any },
-  lg: { paddingH: spacing[8], paddingV: spacing[4], fontSize: 'lg' as any },
+const sizeStyles: Record<ButtonSize, { paddingH: number; paddingV: number; fontSize: string }> = {
+  sm: { paddingH: spacing[4], paddingV: spacing[2], fontSize: 'sm' },
+  md: { paddingH: spacing[6], paddingV: spacing[3], fontSize: 'base' },
+  lg: { paddingH: spacing[8], paddingV: spacing[4], fontSize: 'lg' },
 };
 
 export function Button({
@@ -57,7 +58,7 @@ export function Button({
           paddingVertical: ss.paddingV,
           opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
         },
-        style as any,
+        style as StyleProp<ViewStyle>,
       ]}
       {...props}
     >
