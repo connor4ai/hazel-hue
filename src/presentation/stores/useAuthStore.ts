@@ -5,6 +5,7 @@ import {
   type CognitoAuthProvider,
 } from '@infrastructure/auth/CognitoAuthProvider';
 import { secureStorage } from '@infrastructure/storage/SecureStorage';
+import { identifyUser } from '@infrastructure/payments/RevenueCatProvider';
 
 type AuthProvider = 'apple' | 'google' | 'email';
 
@@ -59,6 +60,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         }
         if (state.userId) {
           await secureStorage.setUserId(state.userId);
+          await identifyUser(state.userId);
         }
         if (!state.isAuthenticated) {
           await secureStorage.clearAll();

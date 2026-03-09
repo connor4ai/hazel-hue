@@ -112,6 +112,11 @@ export class ApiStack extends cdk.Stack {
     const createPurchaseFn = new nodejs.NodejsFunction(this, 'CreatePurchase', {
       ...writeDefaults,
       entry: path.join(__dirname, '../../lambdas/user/createPurchase.ts'),
+      environment: {
+        ...lambdaEnv,
+        REVENUECAT_API_KEY: process.env.REVENUECAT_API_KEY ?? '',
+        SKIP_RECEIPT_VALIDATION: process.env.SKIP_RECEIPT_VALIDATION ?? 'false',
+      },
     });
     table.grantReadWriteData(createPurchaseFn);
 
