@@ -89,6 +89,9 @@ pdf-cache/
 # Drizzle
 drizzle/
 
+# TypeScript build info
+*.tsbuildinfo
+
 # Expo
 .expo/
 ios/
