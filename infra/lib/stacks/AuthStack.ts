@@ -26,7 +26,7 @@ export class AuthStack extends cdk.Stack {
         requireSymbols: true,
       },
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
-      advancedSecurityMode: cognito.AdvancedSecurityMode.ENFORCED,
+      standardThreatProtectionMode: cognito.StandardThreatProtectionMode.FULL_FUNCTION,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
