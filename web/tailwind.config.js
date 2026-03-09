@@ -32,6 +32,20 @@ export default {
       borderRadius: {
         organic: '20px',
       },
+      animation: {
+        float: 'float 6s ease-in-out infinite',
+        glow: 'glow 3s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        glow: {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(139,111,71,0)' },
+          '50%': { boxShadow: '0 0 24px 4px rgba(139,111,71,0.15)' },
+        },
+      },
     },
   },
   plugins: [],

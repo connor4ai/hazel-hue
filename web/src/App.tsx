@@ -1,5 +1,6 @@
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { ResultsPreview } from './components/ResultsPreview';
 import { Testimonials } from './components/Testimonials';
 import { Pricing } from './components/Pricing';
 import { FAQ } from './components/FAQ';
@@ -11,6 +12,7 @@ export function App() {
       <Header />
       <main>
         <Hero />
+        <ResultsPreview />
         <Testimonials />
         <Pricing />
         <FAQ />

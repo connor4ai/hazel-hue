@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const FAQS = [
   {
@@ -35,10 +36,11 @@ const FAQS = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const sectionRef = useScrollReveal();
 
   return (
     <section id="faq" className="px-6 py-20">
-      <div className="mx-auto max-w-3xl">
+      <div ref={sectionRef} className="animate-fade-in-up mx-auto max-w-3xl">
         <h2 className="text-center font-display text-3xl font-bold text-charcoal">
           Frequently Asked Questions
         </h2>
@@ -57,7 +59,7 @@ export function FAQ() {
                   {faq.question}
                 </span>
                 <span
-                  className="flex-shrink-0 text-hazel transition-transform duration-200"
+                  className="flex-shrink-0 text-lg font-light text-hazel transition-transform duration-300"
                   style={{
                     transform: openIndex === i ? 'rotate(45deg)' : 'rotate(0)',
                   }}
@@ -65,13 +67,15 @@ export function FAQ() {
                   +
                 </span>
               </button>
-              {openIndex === i && (
+              <div
+                className={`accordion-content ${openIndex === i ? 'is-open' : ''}`}
+              >
                 <div className="px-6 pb-4">
                   <p className="text-sm leading-relaxed text-gray-500">
                     {faq.answer}
                   </p>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>
