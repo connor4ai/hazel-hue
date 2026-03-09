@@ -37,7 +37,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="px-6 py-20">
+    <section id="faq" className="px-6 py-20">
       <div className="mx-auto max-w-3xl">
         <h2 className="text-center font-display text-3xl font-bold text-charcoal">
           Frequently Asked Questions

@@ -200,6 +200,62 @@ function watercolorSvg(width, height) {
 </svg>`;
 }
 
+/**
+ * OG share image — optimized for social card previews (1200x630).
+ * Shows brand name, tagline, price anchor, and leaf motif.
+ */
+function ogImageSvg() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="${CREAM}"/>
+
+  <!-- Subtle texture blobs -->
+  <ellipse cx="100" cy="100" rx="200" ry="150" fill="${SAGE}" opacity="0.04" transform="rotate(20, 100, 100)"/>
+  <ellipse cx="1100" cy="530" rx="200" ry="150" fill="${TERRACOTTA}" opacity="0.04" transform="rotate(-15, 1100, 530)"/>
+  <ellipse cx="1000" cy="100" rx="180" ry="120" fill="${DUSTY_ROSE}" opacity="0.03"/>
+  <ellipse cx="200" cy="500" rx="160" ry="130" fill="${HAZEL_LIGHT}" opacity="0.03"/>
+
+  <!-- Leaf cluster (left side) -->
+  <g transform="translate(180, 315) scale(1.8)">
+    <path d="M0 -30 Q8 -15 0 0 Q-8 -15 0 -30Z" fill="${SAGE}" opacity="0.6"/>
+    <path d="M21 -21 Q20 -8 7 -7 Q14 -16 21 -21Z" fill="${TERRACOTTA}" opacity="0.5"/>
+    <path d="M30 0 Q15 0 7 -7 Q18 -2 30 0Z" fill="${DUSTY_ROSE}" opacity="0.5"/>
+    <path d="M-21 -21 Q-20 -8 -7 -7 Q-14 -16 -21 -21Z" fill="${DUSTY_ROSE}" opacity="0.5"/>
+    <path d="M-30 0 Q-15 0 -7 -7 Q-18 -2 -30 0Z" fill="${HAZEL_LIGHT}" opacity="0.5"/>
+    <circle cx="0" cy="-5" r="14" fill="${CREAM}"/>
+    <circle cx="0" cy="-5" r="13" fill="none" stroke="${HAZEL}" stroke-width="0.8" opacity="0.3"/>
+    <text x="0" y="0" text-anchor="middle" font-family="Georgia, serif" font-size="10" font-weight="bold" fill="${HAZEL}">H&amp;H</text>
+  </g>
+
+  <!-- Brand name -->
+  <text x="600" y="230" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="${HAZEL}">Hazel &amp; Hue</text>
+
+  <!-- Tagline -->
+  <text x="600" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="${CHARCOAL}" opacity="0.6">Discover the colors that were made for you</text>
+
+  <!-- Divider line -->
+  <line x1="480" y1="320" x2="720" y2="320" stroke="${SAGE}" stroke-width="1" opacity="0.4"/>
+
+  <!-- Features -->
+  <text x="600" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="${CHARCOAL}" opacity="0.5">AI-Powered Seasonal Color Analysis</text>
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" fill="${CHARCOAL}" opacity="0.4">Palette  ·  Style Guide  ·  Makeup  ·  Hair  ·  Jewelry</text>
+
+  <!-- Price -->
+  <rect x="520" y="440" width="160" height="50" rx="12" fill="${HAZEL}" opacity="0.9"/>
+  <text x="600" y="473" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="${CREAM}">Just $19</text>
+
+  <!-- Sub-price -->
+  <text x="600" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="${CHARCOAL}" opacity="0.35" font-style="italic">vs. $300+ for an in-person consultation</text>
+
+  <!-- Bottom botanical vine -->
+  <g opacity="0.2" transform="translate(350, 580)">
+    <path d="M0 10 Q125 0 250 10 Q375 20 500 10" stroke="${SAGE}" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M120 10 Q115 2 125 3 Q130 5 125 10" fill="${SAGE}" opacity="0.5"/>
+    <path d="M250 10 Q245 18 255 19 Q260 17 255 10" fill="${SAGE}" opacity="0.5"/>
+    <path d="M380 10 Q375 2 385 3 Q390 5 385 10" fill="${SAGE}" opacity="0.5"/>
+  </g>
+</svg>`;
+}
+
 async function generate() {
   // Ensure directories exist
   fs.mkdirSync(path.join(ASSETS_DIR, 'textures'), { recursive: true });
@@ -253,6 +309,12 @@ async function generate() {
     const stats = fs.statSync(task.output);
     console.log(`  ✓ ${task.name} (${(stats.size / 1024).toFixed(1)} KB)`);
   }
+
+  // OG share image
+  const ogSvgBuffer = Buffer.from(ogImageSvg());
+  await sharp(ogSvgBuffer).resize(1200, 630).png().toFile(path.join(WEB_PUBLIC, 'og-image.png'));
+  const ogStats = fs.statSync(path.join(WEB_PUBLIC, 'og-image.png'));
+  console.log(`  ✓ og-image.png (${(ogStats.size / 1024).toFixed(1)} KB)`);
 
   // Web favicon SVG
   const webFavPath = path.join(WEB_PUBLIC, 'favicon.svg');
