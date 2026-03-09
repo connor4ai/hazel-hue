@@ -8,6 +8,7 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -173,6 +174,53 @@ export class ApiStack extends cdk.Stack {
     });
     table.grantReadWriteData(referralFn);
 
+    // ─── User Context — Refund ────────────────────────────────────
+    const processRefundFn = new nodejs.NodejsFunction(this, 'ProcessRefund', {
+      ...writeDefaults,
+      entry: path.join(__dirname, '../../lambdas/user/processRefund.ts'),
+    });
+    table.grantReadWriteData(processRefundFn);
+
+    // ─── Analysis Context — Photo Quality ─────────────────────────
+    const checkPhotoQualityFn = new nodejs.NodejsFunction(this, 'CheckPhotoQuality', {
+      ...readDefaults,
+      entry: path.join(__dirname, '../../lambdas/analysis/checkPhotoQuality.ts'),
+    });
+
+    // ─── Recommendation Context Lambdas ───────────────────────────
+    const bedrockPolicy = new iam.PolicyStatement({
+      actions: ['bedrock:InvokeModel'],
+      resources: [
+        `arn:aws:bedrock:${this.region}::foundation-model/anthropic.claude-sonnet-4-20250514-v1:0`,
+      ],
+    });
+
+    const recommendationDefaults: nodejs.NodejsFunctionProps = {
+      ...writeDefaults,
+      timeout: cdk.Duration.minutes(2),
+    };
+
+    const generatePaletteFn = new nodejs.NodejsFunction(this, 'GeneratePalette', {
+      ...recommendationDefaults,
+      entry: path.join(__dirname, '../../lambdas/recommendation/generatePalette.ts'),
+    });
+    table.grantReadWriteData(generatePaletteFn);
+    generatePaletteFn.addToRolePolicy(bedrockPolicy);
+
+    const generateStyleGuideFn = new nodejs.NodejsFunction(this, 'GenerateStyleGuide', {
+      ...recommendationDefaults,
+      entry: path.join(__dirname, '../../lambdas/recommendation/generateStyleGuide.ts'),
+    });
+    table.grantReadWriteData(generateStyleGuideFn);
+    generateStyleGuideFn.addToRolePolicy(bedrockPolicy);
+
+    const generateGuidesFn = new nodejs.NodejsFunction(this, 'GenerateGuides', {
+      ...recommendationDefaults,
+      entry: path.join(__dirname, '../../lambdas/recommendation/generateGuides.ts'),
+    });
+    table.grantReadWriteData(generateGuidesFn);
+    generateGuidesFn.addToRolePolicy(bedrockPolicy);
+
     // ─── Routes ──────────────────────────────────────────────────
     this.httpApi.addRoutes({
       path: '/user/entitlements',
@@ -234,6 +282,41 @@ export class ApiStack extends cdk.Stack {
       path: '/experience/referral',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('Referral', referralFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/user/refund',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('ProcessRefund', processRefundFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/analysis/check-quality',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('CheckPhotoQuality', checkPhotoQualityFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/recommendation/{id}/palette',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('GeneratePalette', generatePaletteFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/recommendation/{id}/style-guide',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('GenerateStyleGuide', generateStyleGuideFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/recommendation/{id}/guides',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('GenerateGuides', generateGuidesFn),
       authorizer,
     });
 
