@@ -6,8 +6,11 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  withRepeat,
+  withSequence,
   Easing,
 } from 'react-native-reanimated';
+import Svg, { Path } from 'react-native-svg';
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { Typography } from '@presentation/components/ui/Typography';
 import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
@@ -23,6 +26,55 @@ const STAGES = [
 ];
 
 const POLL_INTERVAL_MS = 3000;
+
+/** Leaf paths arranged in a radial bloom, matching the brand icon aesthetic. */
+const LEAF_PATHS = [
+  { d: 'M0 -30 Q8 -15 0 0 Q-8 -15 0 -30Z', fill: colors.sage },
+  { d: 'M21 -21 Q20 -8 7 -7 Q14 -16 21 -21Z', fill: colors.terracotta },
+  { d: 'M30 0 Q15 0 7 -7 Q18 -2 30 0Z', fill: colors.dustyRose },
+  { d: 'M21 21 Q14 16 7 7 Q20 8 21 21Z', fill: colors.hazel },
+  { d: 'M-21 -21 Q-20 -8 -7 -7 Q-14 -16 -21 -21Z', fill: colors.dustyRose },
+  { d: 'M-30 0 Q-15 0 -7 -7 Q-18 -2 -30 0Z', fill: colors.hazel },
+  { d: 'M-21 21 Q-14 16 -7 7 Q-20 8 -21 21Z', fill: colors.sage },
+];
+
+function BotanicalSpinner() {
+  const rotation = useSharedValue(0);
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 12000, easing: Easing.linear }),
+      -1,
+      false,
+    );
+    scale.value = withRepeat(
+      withSequence(
+        withTiming(1.08, { duration: 2000, easing: Easing.ease }),
+        withTiming(1, { duration: 2000, easing: Easing.ease }),
+      ),
+      -1,
+      true,
+    );
+  }, [rotation, scale]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { rotate: `${rotation.value}deg` },
+      { scale: scale.value },
+    ],
+  }));
+
+  return (
+    <Animated.View style={[styles.spinner, animatedStyle]}>
+      <Svg width={80} height={80} viewBox="-40 -40 80 80">
+        {LEAF_PATHS.map((leaf, i) => (
+          <Path key={i} d={leaf.d} fill={leaf.fill} opacity={0.6} />
+        ))}
+      </Svg>
+    </Animated.View>
+  );
+}
 
 export default function ProcessingScreen() {
   const router = useRouter();
@@ -93,6 +145,8 @@ export default function ProcessingScreen() {
       <SafeAreaView style={styles.safe}>
         <View style={styles.content}>
           <View style={styles.center}>
+            <BotanicalSpinner />
+
             <Animated.View style={[styles.stageContainer, stageAnimatedStyle]}>
               <Typography
                 variant="displaySmall"
@@ -162,6 +216,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: spacing[6],
+  },
+  spinner: {
+    marginBottom: spacing[4],
   },
   stageContainer: {
     paddingHorizontal: spacing[4],

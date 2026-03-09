@@ -9,9 +9,9 @@ export const fontFamilies = {
   display: 'Fraunces_400Regular',
   displayBold: 'Fraunces_700Bold',
   displayItalic: 'Fraunces_400Regular_Italic',
-  body: 'System', // Falls back to platform default; replace with Satoshi when loaded
-  bodyMedium: 'System',
-  bodyBold: 'System',
+  body: 'Inter_400Regular',
+  bodyMedium: 'Inter_500Medium',
+  bodyBold: 'Inter_600SemiBold',
   mono: 'SpaceMono-Regular',
 } as const;
 

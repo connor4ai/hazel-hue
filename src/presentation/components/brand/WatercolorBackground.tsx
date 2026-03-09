@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, type ViewProps, ImageBackground } from 'react-native';
 import { colors } from '@presentation/theme/colors';
 
+const watercolorTexture = require('../../../../assets/textures/watercolor-wash.png');
+
 interface WatercolorBackgroundProps extends ViewProps {
   tint?: string;
   opacity?: number;
@@ -10,8 +12,7 @@ interface WatercolorBackgroundProps extends ViewProps {
 
 /**
  * A warm, textured background with subtle watercolor wash effect.
- * Uses the cream base with optional color tinting.
- * In production, this would overlay a real watercolor texture PNG.
+ * Uses the cream base with a real watercolor texture overlay.
  */
 export function WatercolorBackground({
   tint,
@@ -25,6 +26,13 @@ export function WatercolorBackground({
       {/* Base cream */}
       <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.cream }]} />
 
+      {/* Watercolor texture overlay */}
+      <ImageBackground
+        source={watercolorTexture}
+        resizeMode="cover"
+        style={[StyleSheet.absoluteFill, { opacity: 0.15 }]}
+      />
+
       {/* Tint overlay */}
       {tint && (
         <View
@@ -34,9 +42,6 @@ export function WatercolorBackground({
           ]}
         />
       )}
-
-      {/* Subtle noise/grain overlay for texture */}
-      {/* TODO: Add real watercolor texture PNG from assets/textures/ */}
 
       {children}
     </View>

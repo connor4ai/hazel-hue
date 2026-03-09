@@ -9,13 +9,13 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-6">
-          <a href="#" className="text-xs text-gray-400 transition hover:text-hazel">
+          <a href="/privacy" className="text-xs text-gray-400 transition hover:text-hazel">
             Privacy Policy
           </a>
-          <a href="#" className="text-xs text-gray-400 transition hover:text-hazel">
+          <a href="/terms" className="text-xs text-gray-400 transition hover:text-hazel">
             Terms of Service
           </a>
-          <a href="#" className="text-xs text-gray-400 transition hover:text-hazel">
+          <a href="mailto:hello@hazelandhue.com" className="text-xs text-gray-400 transition hover:text-hazel">
             Contact
           </a>
         </div>
