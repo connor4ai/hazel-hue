@@ -310,13 +310,13 @@ export function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 font-display text-display-2xl font-bold text-charcoal"
+              className="mt-8 pb-2 font-display text-display-2xl font-bold text-charcoal"
             >
               Discover
               <br />
               the colors
               <br />
-              <span className="text-gradient-animated italic">made for you</span>
+              <span className="text-gradient-animated italic pr-1">made for you</span>
             </motion.h1>
 
             <motion.p

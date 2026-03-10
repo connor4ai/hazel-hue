@@ -70,7 +70,7 @@ export function Footer() {
             <nav className="mt-5 flex flex-col gap-3">
               <a href="/privacy" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Privacy Policy</a>
               <a href="/terms" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Terms of Service</a>
-              <a href="mailto:hello@hazelandhue.com" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Contact</a>
+              <a href="mailto:support@hazelandhue.com" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Contact</a>
             </nav>
           </div>
         </div>
