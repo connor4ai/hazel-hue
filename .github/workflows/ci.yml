@@ -67,6 +67,9 @@ jobs:
       - name: Run infrastructure tests
         run: npx jest --coverage
 
+      - name: Create web dist placeholder for synth
+        run: mkdir -p ../web/dist && echo '<html></html>' > ../web/dist/index.html
+
       - name: CDK Synth
         run: npx cdk synth --quiet
         env:
