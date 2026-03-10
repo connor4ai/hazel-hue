@@ -62,19 +62,6 @@ export default function CaptureScreen() {
     }
   };
 
-  const pickPhoto = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      quality: 0.9,
-      allowsEditing: true,
-      aspect: [3, 4],
-    });
-
-    if (!result.canceled && result.assets[0]) {
-      setPhoto(result.assets[0].uri);
-    }
-  };
-
   const continueToCheckout = () => {
     if (!photo) return;
     setStorePhoto(photo);
@@ -87,7 +74,7 @@ export default function CaptureScreen() {
         <View style={styles.content}>
           <HandLetterHeading
             title={photo ? 'Looking Great' : 'Your Photo'}
-            subtitle={photo ? 'Ready for your color analysis' : 'Take or upload a selfie in natural light'}
+            subtitle={photo ? 'Ready for your color analysis' : 'Take a selfie in natural light'}
           />
 
           <View style={styles.photoArea}>
@@ -119,14 +106,9 @@ export default function CaptureScreen() {
                 </Button>
               </>
             ) : (
-              <>
-                <Button size="lg" onPress={takePhoto}>
-                  Take Selfie
-                </Button>
-                <Button variant="secondary" size="md" onPress={pickPhoto}>
-                  Upload from Library
-                </Button>
-              </>
+              <Button size="lg" onPress={takePhoto}>
+                Take Selfie
+              </Button>
             )}
           </View>
         </View>

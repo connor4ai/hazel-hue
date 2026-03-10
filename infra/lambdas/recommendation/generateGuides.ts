@@ -30,10 +30,12 @@ export const handler = withMiddleware(async (event) => {
   const colorProfile = metadata.colorProfile as Record<string, string>;
 
   // Generate all guides in parallel
-  const [makeup, hair, jewelry, siblings, avoid] = await Promise.all([
+  const [makeup, hair, jewelry, nails, accessories, siblings, avoid] = await Promise.all([
     generateSection(makeupPrompt(season, colorProfile), 'makeup'),
     generateSection(hairPrompt(season), 'hair'),
     generateSection(jewelryPrompt(season), 'jewelry'),
+    generateSection(nailPrompt(season), 'nails'),
+    generateSection(accessoryPrompt(season), 'accessories'),
     generateSection(siblingsPrompt(season), 'siblings'),
     generateSection(avoidPrompt(season), 'avoid'),
   ]);
@@ -43,13 +45,15 @@ export const handler = withMiddleware(async (event) => {
     putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#makeup', ...makeup }),
     putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#hair', ...hair }),
     putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#jewelry', ...jewelry }),
+    putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#nails', ...nails }),
+    putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#accessories', ...accessories }),
     putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#siblings', ...siblings }),
     putItem({ PK: `ANALYSIS#${body.analysisId}`, SK: 'RESULT#avoid', ...avoid }),
   ]);
 
   return {
     statusCode: 200,
-    body: { makeup, hair, jewelry, siblings, avoid },
+    body: { makeup, hair, jewelry, nails, accessories, siblings, avoid },
   };
 });
 
@@ -145,6 +149,35 @@ Respond with ONLY valid JSON:
 }
 
 Choose recognizable, diverse celebrities.`;
+}
+
+function nailPrompt(season: string): string {
+  return `Create a nail polish guide for a ${season}.
+
+Respond with ONLY valid JSON:
+{
+  "everyday": [{"hex": "<hex>", "name": "<shade name>"}],
+  "statement": [{"hex": "<hex>", "name": "<shade name>"}],
+  "frenchTip": {"hex": "<hex>", "name": "<shade name>"},
+  "avoidShades": [{"hex": "<hex>", "name": "<shade name>"}]
+}
+
+Include 4 everyday/neutral shades, 4 bold statement shades, 1 French tip recommendation, and 3 shades to avoid. Use realistic nail polish shade names.`;
+}
+
+function accessoryPrompt(season: string): string {
+  return `Create an accessory color guide for a ${season}.
+
+Respond with ONLY valid JSON:
+{
+  "sunglassesFrames": ["<frame style and color>"],
+  "bagColors": [{"hex": "<hex>", "name": "<color name>"}],
+  "scarfColors": [{"hex": "<hex>", "name": "<color name>"}],
+  "shoeColors": [{"hex": "<hex>", "name": "<color name>"}],
+  "beltColors": ["<belt style and color>"]
+}
+
+Include 3-4 sunglasses frames, 4-5 bag colors, 4 scarf colors, 4 shoe colors, and 3 belt recommendations. Be specific with materials and finishes.`;
 }
 
 function avoidPrompt(season: string): string {

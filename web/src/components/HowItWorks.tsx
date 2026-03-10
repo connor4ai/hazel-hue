@@ -31,7 +31,7 @@ const STEPS = [
   {
     number: '03',
     title: 'Get your complete guide',
-    description: 'Receive your palette, style lookbook, makeup & hair guides — in under 60 seconds.',
+    description: 'Receive 10 personalized guides — palette, style lookbook, makeup, hair, nails, jewelry, accessories & more — in under 60 seconds.',
     gradient: 'from-hazel-100 to-hazel-50/50',
     iconBg: 'bg-hazel-100',
     iconColor: 'text-hazel',

@@ -58,6 +58,29 @@ export interface JewelryGuide {
 }
 
 /**
+ * Nail polish guide with seasonal color recommendations.
+ */
+export interface NailGuide {
+  analysisId: AnalysisId;
+  everyday: PaletteColor[];          // 4 go-to neutral/subtle shades
+  statement: PaletteColor[];         // 4 bold/seasonal picks
+  frenchTip: PaletteColor;           // Recommended French tip color
+  avoidShades: PaletteColor[];       // 3 shades to skip
+}
+
+/**
+ * Accessory guide — sunglasses, bags, scarves, and more.
+ */
+export interface AccessoryGuide {
+  analysisId: AnalysisId;
+  sunglassesFrames: string[];        // e.g., "Tortoiseshell", "Gold wire"
+  bagColors: PaletteColor[];         // 4-5 ideal bag/purse colors
+  scarfColors: PaletteColor[];       // 4 scarf/wrap colors
+  shoeColors: PaletteColor[];        // 4 shoe color recs
+  beltColors: string[];              // e.g., "Cognac leather", "Tan suede"
+}
+
+/**
  * Celebrity season matches for social sharing.
  */
 export interface SeasonSiblings {

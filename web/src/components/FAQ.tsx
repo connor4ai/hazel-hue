@@ -15,7 +15,7 @@ const FAQS = [
   {
     question: "Is it really free? What's the catch?",
     answer:
-      'There is no catch. Hazel & Hue is completely free — you just share the app with 2 friends from your contacts to unlock your analysis. We believe in growing through genuine word-of-mouth recommendations rather than paywalls.',
+      'There is no catch. Hazel & Hue is completely free — no hidden fees, no trials, no premium tiers. We believe in growing through genuine word-of-mouth rather than paywalls. You get all 10 guides (palette, style, makeup, hair, nails, jewelry, accessories, and more) at no cost.',
   },
   {
     question: 'What kind of photo should I use?',
@@ -25,7 +25,7 @@ const FAQS = [
   {
     question: 'How is this different from online quizzes?',
     answer:
-      'Online quizzes rely on you self-reporting your coloring ("Are your veins blue or green?"), which is notoriously unreliable. Our AI actually analyzes the pixels of your photo to objectively measure your undertone, contrast, and chroma — no guesswork.',
+      'Online quizzes rely on you self-reporting your coloring ("Are your veins blue or green?"), which is notoriously unreliable. Our AI actually analyzes the pixels of your photo to objectively measure your undertone, contrast, and chroma — no guesswork. Plus, you get 10 full guides including nail polish, jewelry, accessories, and curated Pinterest inspiration boards.',
   },
   {
     question: 'How long does the analysis take?',

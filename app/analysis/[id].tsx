@@ -17,9 +17,12 @@ import { HairGuideSection } from '@presentation/components/results/HairGuide';
 import { SeasonSiblingsSection } from '@presentation/components/results/SeasonSiblings';
 import { ColorsToAvoid } from '@presentation/components/results/ColorsToAvoid';
 import { Toolkit } from '@presentation/components/results/Toolkit';
+import { NailGuideSection } from '@presentation/components/results/NailGuide';
+import { AccessoryGuideSection } from '@presentation/components/results/AccessoryGuide';
+import { PinterestBoardsSection } from '@presentation/components/results/PinterestBoards';
 import { ShareRefer } from '@presentation/components/results/ShareRefer';
 import { useAnalysisResults } from '@presentation/hooks/useAnalysisResults';
-import { getSeasonDisplayName } from '@domain/shared/types/Season';
+import { getSeasonDisplayName, SEASON_METADATA, Season } from '@domain/shared/types/Season';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
@@ -87,6 +90,10 @@ export default function ResultsScreen() {
     ? colors.seasonAccent[analysis.season.split('_').pop() as keyof typeof colors.seasonAccent] ?? colors.hazel
     : colors.hazel;
 
+  const seasonMeta = analysis.season
+    ? SEASON_METADATA[analysis.season as Season]
+    : null;
+
   return (
     <WatercolorBackground tint={seasonAccentColor} opacity={0.04}>
       <SafeAreaView style={styles.safe}>
@@ -147,6 +154,31 @@ export default function ResultsScreen() {
             </>
           )}
 
+          {analysis.nails && (
+            <>
+              <NailGuideSection nails={analysis.nails} />
+              <BotanicalDivider variant="minimal" />
+            </>
+          )}
+
+          {analysis.accessories && (
+            <>
+              <AccessoryGuideSection accessories={analysis.accessories} />
+              <BotanicalDivider variant="vine" />
+            </>
+          )}
+
+          {seasonMeta && (
+            <>
+              <PinterestBoardsSection
+                seasonName={seasonName}
+                makeupBoardUrl={seasonMeta.pinterest.makeup}
+                outfitsBoardUrl={seasonMeta.pinterest.outfits}
+              />
+              <BotanicalDivider variant="leaves" />
+            </>
+          )}
+
           {analysis.siblings && analysis.siblings.celebrities.length > 0 && (
             <>
               <SeasonSiblingsSection siblings={analysis.siblings} />
@@ -164,7 +196,7 @@ export default function ResultsScreen() {
           <Toolkit analysisId={id ?? ''} />
           <BotanicalDivider variant="leaves" />
 
-          <ShareRefer analysisId={id ?? ''} />
+          <ShareRefer analysisId={id ?? ''} seasonName={seasonName} />
 
           {/* Premium footer */}
           <View style={styles.footer}>
