@@ -10,15 +10,6 @@ const PALETTE_COLORS = [
   { hex: '#7B2D5F', label: 'Plum' },
 ];
 
-const FLOATING_SWATCHES = [
-  { hex: '#C67B5C', size: 64, x: '8%', y: '20%', delay: 0 },
-  { hex: '#D4A5A5', size: 48, x: '15%', y: '65%', delay: 0.5 },
-  { hex: '#A8B5A0', size: 56, x: '82%', y: '15%', delay: 1 },
-  { hex: '#B19CD9', size: 40, x: '88%', y: '55%', delay: 1.5 },
-  { hex: '#7B2D5F', size: 44, x: '5%', y: '45%', delay: 2 },
-  { hex: '#8B6F47', size: 52, x: '92%', y: '75%', delay: 0.8 },
-];
-
 function PhoneMockup() {
   return (
     <div className="relative mx-auto w-[280px]">
@@ -29,24 +20,39 @@ function PhoneMockup() {
         <div className="relative overflow-hidden rounded-[28px] bg-cream">
           {/* Mini app screen */}
           <div className="px-5 pb-8 pt-12">
-            <p className="text-center text-[8px] font-medium uppercase tracking-[0.3em] text-hazel/50">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.4 }}
+              className="text-center text-[8px] font-medium uppercase tracking-[0.3em] text-hazel/50"
+            >
               Your Season
-            </p>
-            <p className="mt-1 text-center font-display text-xl font-bold text-charcoal">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-1 text-center font-display text-xl font-bold text-charcoal"
+            >
               Soft Autumn
-            </p>
-            <p className="mt-0.5 text-center font-display text-[10px] italic text-charcoal/40">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.4 }}
+              className="mt-0.5 text-center font-display text-[10px] italic text-charcoal/40"
+            >
               &ldquo;Golden warmth meets earthy elegance&rdquo;
-            </p>
+            </motion.p>
 
             {/* Color grid */}
             <div className="mt-5 grid grid-cols-3 gap-2">
               {PALETTE_COLORS.map((color, i) => (
                 <motion.div
                   key={color.hex}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.4 + i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="flex flex-col items-center gap-1"
                 >
                   <div
@@ -58,16 +64,26 @@ function PhoneMockup() {
               ))}
             </div>
 
-            <div className="mt-4 flex items-center gap-2">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.6, duration: 0.4 }}
+              className="mt-4 flex items-center gap-2"
+            >
               <div className="h-px flex-1 bg-cream-200" />
               <span className="text-[8px] text-charcoal/25">+ 24 more colors</span>
               <div className="h-px flex-1 bg-cream-200" />
-            </div>
+            </motion.div>
 
             {/* Bottom action */}
-            <div className="mt-4 rounded-xl bg-charcoal py-2.5 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-4 rounded-xl bg-charcoal py-2.5 text-center"
+            >
               <span className="text-[10px] font-semibold text-cream-50">View Full Palette</span>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -80,8 +96,8 @@ export function Hero() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+  const springX = useSpring(mouseX, { stiffness: 75, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 75, damping: 30 });
 
   const gradientX = useTransform(springX, [-1, 1], ['35%', '65%']);
   const gradientY = useTransform(springY, [-1, 1], ['35%', '65%']);
@@ -101,38 +117,15 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-screen overflow-hidden px-6 pb-24 pt-32 md:pt-40 lg:px-12">
-      {/* Animated mesh gradient background */}
+      {/* Soft gradient background — clean, no animated blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute h-[800px] w-[800px] rounded-full bg-gradient-radial from-dusty-rose/25 via-transparent to-transparent blur-3xl"
+          className="absolute h-[800px] w-[800px] rounded-full bg-gradient-radial from-dusty-rose/20 via-transparent to-transparent blur-3xl"
           style={{ left: gradientX, top: gradientY, x: '-50%', y: '-50%' }}
         />
-        <div className="absolute -right-40 -top-40 h-[600px] w-[600px] animate-morph rounded-full bg-gradient-radial from-dusty-rose/20 via-transparent to-transparent blur-3xl" />
-        <div className="absolute -left-20 top-1/3 h-[500px] w-[500px] animate-morph rounded-full bg-gradient-radial from-sage-light/25 via-transparent to-transparent blur-3xl" style={{ animationDelay: '-3s' }} />
-        <div className="absolute -bottom-20 right-1/4 h-[400px] w-[400px] animate-morph rounded-full bg-gradient-radial from-hazel-100/40 via-transparent to-transparent blur-3xl" style={{ animationDelay: '-5s' }} />
-        <div className="absolute left-1/3 top-1/4 h-[350px] w-[350px] animate-morph rounded-full bg-gradient-radial from-lavender/10 via-transparent to-transparent blur-3xl" style={{ animationDelay: '-7s' }} />
-      </div>
-
-      {/* Floating color swatches - decorative */}
-      <div className="pointer-events-none absolute inset-0 hidden lg:block">
-        {FLOATING_SWATCHES.map((swatch, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 0.15, scale: 1 }}
-            transition={{ delay: 1.5 + swatch.delay, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute animate-float rounded-2xl"
-            style={{
-              backgroundColor: swatch.hex,
-              width: swatch.size,
-              height: swatch.size,
-              left: swatch.x,
-              top: swatch.y,
-              animationDelay: `${swatch.delay * 2}s`,
-              animationDuration: `${6 + i * 0.5}s`,
-            }}
-          />
-        ))}
+        <div className="absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full bg-gradient-radial from-dusty-rose/15 via-transparent to-transparent blur-3xl" />
+        <div className="absolute -left-20 top-1/3 h-[500px] w-[500px] rounded-full bg-gradient-radial from-sage-light/20 via-transparent to-transparent blur-3xl" />
+        <div className="absolute -bottom-20 right-1/4 h-[400px] w-[400px] rounded-full bg-gradient-radial from-hazel-100/30 via-transparent to-transparent blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-7xl">
@@ -234,43 +227,18 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: Phone mockup with 3D perspective */}
+          {/* Right: Phone mockup — clean entrance, no perpetual float */}
           <motion.div
-            initial={{ opacity: 0, y: 60, rotateY: -10 }}
-            animate={{ opacity: 1, y: 0, rotateY: 0 }}
-            transition={{ duration: 1.4, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="perspective-1000 relative hidden lg:block"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="relative hidden lg:block"
           >
-            <div className="preserve-3d relative mx-auto w-full max-w-sm">
-              {/* Glow behind phone */}
-              <div className="absolute inset-0 -z-10 animate-glow-pulse">
-                <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-hazel-200/40 via-dusty-rose/20 to-transparent blur-3xl" />
-              </div>
+            <div className="relative mx-auto w-full max-w-sm">
+              {/* Subtle static glow behind phone */}
+              <div className="absolute left-1/2 top-1/2 -z-10 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-hazel-200/30 via-dusty-rose/15 to-transparent blur-3xl" />
 
-              {/* Phone with subtle float */}
-              <motion.div
-                animate={{ y: [-8, 8, -8] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <PhoneMockup />
-              </motion.div>
-
-              {/* Floating accent elements */}
-              <motion.div
-                animate={{ y: [-12, 12, -12], rotate: [0, 5, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -right-8 -top-4 h-20 w-20 rounded-2xl bg-gradient-to-br from-dusty-rose/30 to-dusty-rose/10 backdrop-blur-sm"
-              />
-              <motion.div
-                animate={{ y: [8, -8, 8], rotate: [0, -3, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-6 -left-6 h-16 w-16 rounded-full bg-gradient-to-br from-sage/30 to-sage/10 backdrop-blur-sm"
-              />
-              <motion.div
-                animate={{ y: [5, -10, 5] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -right-12 bottom-1/3 h-12 w-12 rounded-xl bg-gradient-to-br from-lavender/25 to-lavender/5 backdrop-blur-sm"
-              />
+              <PhoneMockup />
             </div>
           </motion.div>
         </div>
