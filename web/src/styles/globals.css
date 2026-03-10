@@ -201,7 +201,26 @@
     animation: shimmer 2.5s ease-in-out infinite;
   }
 
-  /* Phone mockup */
+  /* Realistic iPhone frame */
+  .iphone-frame {
+    background: linear-gradient(
+      145deg,
+      #b8b8bd 0%,
+      #a0a0a5 15%,
+      #c8c8cd 30%,
+      #9a9a9f 50%,
+      #b0b0b5 70%,
+      #a8a8ad 85%,
+      #c0c0c5 100%
+    );
+    box-shadow:
+      0 50px 100px -20px rgba(0, 0, 0, 0.35),
+      0 30px 60px -10px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* Legacy phone mockup */
   .phone-mockup {
     border-radius: 40px;
     box-shadow:

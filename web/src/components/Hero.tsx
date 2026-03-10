@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const PALETTE_COLORS = [
   { hex: '#C67B5C', label: 'Terracotta' },
@@ -10,83 +10,241 @@ const PALETTE_COLORS = [
   { hex: '#7B2D5F', label: 'Plum' },
 ];
 
-function PhoneMockup() {
+const BEST_COLORS = [
+  { hex: '#C67B5C', name: 'Terracotta' },
+  { hex: '#D4A5A5', name: 'Dusty Rose' },
+  { hex: '#A8B5A0', name: 'Sage' },
+  { hex: '#DAB78A', name: 'Warm Gold' },
+  { hex: '#8B6F47', name: 'Hazel' },
+  { hex: '#C4956A', name: 'Camel' },
+];
+
+const AVOID_COLORS = [
+  { hex: '#FF1493', name: 'Hot Pink' },
+  { hex: '#00CED1', name: 'Bright Teal' },
+  { hex: '#7FFF00', name: 'Chartreuse' },
+];
+
+function IPhoneMockup() {
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), { stiffness: 150, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), { stiffness: 150, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!phoneRef.current) return;
+      const rect = phoneRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    const handleMouseLeave = () => {
+      mouseX.set(0.5);
+      mouseY.set(0.5);
+    };
+    const el = phoneRef.current;
+    if (el) {
+      el.addEventListener('mousemove', handleMouseMove, { passive: true });
+      el.addEventListener('mouseleave', handleMouseLeave);
+    }
+    return () => {
+      if (el) {
+        el.removeEventListener('mousemove', handleMouseMove);
+        el.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [mouseX, mouseY]);
+
+  // Clock time
+  const [time, setTime] = useState('');
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }));
+    };
+    update();
+    const id = setInterval(update, 30000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <div className="relative mx-auto w-[280px]">
-      {/* Phone frame */}
-      <div className="relative overflow-hidden rounded-[40px] bg-charcoal p-3 shadow-2xl shadow-charcoal/30">
-        <div className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-charcoal" />
-        {/* Screen content */}
-        <div className="relative overflow-hidden rounded-[28px] bg-cream">
-          {/* Mini app screen */}
-          <div className="px-5 pb-8 pt-12">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.4 }}
-              className="text-center text-[8px] font-medium uppercase tracking-[0.3em] text-hazel/50"
-            >
-              Your Season
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-1 text-center font-display text-xl font-bold text-charcoal"
-            >
-              Soft Autumn
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.4 }}
-              className="mt-0.5 text-center font-display text-[10px] italic text-charcoal/40"
-            >
-              &ldquo;Golden warmth meets earthy elegance&rdquo;
-            </motion.p>
+    <div ref={phoneRef} className="iphone-perspective" style={{ perspective: '1200px' }}>
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+        className="relative mx-auto w-[285px]"
+      >
+        {/* Outer titanium frame */}
+        <div className="iphone-frame relative rounded-[52px] p-[2px]">
+          {/* Inner frame with screen bezel */}
+          <div className="relative overflow-hidden rounded-[50px] bg-[#1a1a1a] p-[10px]">
 
-            {/* Color grid */}
-            <div className="mt-5 grid grid-cols-3 gap-2">
-              {PALETTE_COLORS.map((color, i) => (
+            {/* Side buttons - volume */}
+            <div className="absolute -left-[3.5px] top-[100px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+            <div className="absolute -left-[3.5px] top-[138px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+            {/* Side button - power */}
+            <div className="absolute -right-[3.5px] top-[120px] h-[40px] w-[3px] rounded-r-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+            {/* Silent switch */}
+            <div className="absolute -left-[3.5px] top-[72px] h-[16px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+
+            {/* Screen */}
+            <div className="relative overflow-hidden rounded-[40px] bg-cream">
+              {/* Dynamic Island */}
+              <div className="absolute left-1/2 top-[10px] z-30 -translate-x-1/2">
+                <div className="flex h-[28px] w-[100px] items-center justify-center rounded-full bg-black">
+                  {/* Camera lens */}
+                  <div className="ml-auto mr-3 h-[10px] w-[10px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3a]">
+                    <div className="ml-[2px] mt-[2px] h-[3px] w-[3px] rounded-full bg-[#191970]/40" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Status bar */}
+              <div className="relative z-20 flex items-center justify-between bg-cream px-7 pb-1 pt-[14px]">
+                <span className="text-[11px] font-semibold text-charcoal">{time}</span>
+                <div className="flex items-center gap-[5px]">
+                  {/* Signal bars */}
+                  <svg className="h-[11px] w-[15px] text-charcoal" viewBox="0 0 16 12" fill="currentColor">
+                    <rect x="0" y="9" width="3" height="3" rx="0.5" />
+                    <rect x="4.5" y="6" width="3" height="6" rx="0.5" />
+                    <rect x="9" y="3" width="3" height="9" rx="0.5" />
+                    <rect x="13.5" y="0" width="2.5" height="12" rx="0.5" opacity="0.3" />
+                  </svg>
+                  {/* WiFi */}
+                  <svg className="h-[11px] w-[13px] text-charcoal" viewBox="0 0 16 12" fill="currentColor">
+                    <path d="M8 9.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
+                    <path d="M4.46 7.88a5 5 0 017.08 0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M1.81 5.23a9 9 0 0112.38 0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                  {/* Battery */}
+                  <div className="flex items-center gap-[1px]">
+                    <div className="flex h-[11px] w-[22px] items-center rounded-[3px] border border-charcoal/40 p-[1.5px]">
+                      <div className="h-full w-[75%] rounded-[1.5px] bg-charcoal" />
+                    </div>
+                    <div className="h-[5px] w-[1.5px] rounded-r-full bg-charcoal/40" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Scrollable app content */}
+              <div className="iphone-screen-content relative h-[520px] overflow-hidden">
                 <motion.div
-                  key={color.hex}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 + i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center gap-1"
+                  initial={{ y: 0 }}
+                  animate={{ y: [0, -180, -180, 0, 0] }}
+                  transition={{
+                    duration: 12,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: [0, 0.3, 0.55, 0.85, 1],
+                  }}
+                  className="px-5 pb-12"
                 >
-                  <div
-                    className="aspect-square w-full rounded-xl"
-                    style={{ backgroundColor: color.hex }}
-                  />
-                  <span className="text-[7px] font-medium text-charcoal/30">{color.label}</span>
+                  {/* Results header */}
+                  <div className="pt-4 text-center">
+                    <p className="text-[8px] font-medium uppercase tracking-[0.3em] text-hazel/50">
+                      Your Season
+                    </p>
+                    <p className="mt-1 font-display text-[22px] font-bold leading-tight text-charcoal">
+                      Soft Autumn
+                    </p>
+                    <p className="mt-0.5 font-display text-[10px] italic text-charcoal/40">
+                      &ldquo;Golden warmth meets earthy elegance&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Season palette */}
+                  <div className="mt-5">
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-hazel/70">
+                      Your Palette
+                    </p>
+                    <div className="mt-2.5 grid grid-cols-3 gap-2">
+                      {PALETTE_COLORS.map((color) => (
+                        <div key={color.hex} className="flex flex-col items-center gap-1">
+                          <div
+                            className="aspect-square w-full rounded-[10px] shadow-sm"
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <span className="text-[6.5px] font-medium text-charcoal/30">{color.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex items-center gap-2">
+                    <div className="h-px flex-1 bg-cream-200" />
+                    <span className="text-[7px] text-charcoal/20">+ 24 more colors</span>
+                    <div className="h-px flex-1 bg-cream-200" />
+                  </div>
+
+                  {/* Best colors section */}
+                  <div className="mt-5">
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-hazel/70">
+                      Best Colors for You
+                    </p>
+                    <div className="mt-2 space-y-1.5">
+                      {BEST_COLORS.map((c) => (
+                        <div key={c.hex} className="flex items-center gap-2.5">
+                          <div className="h-5 w-5 rounded-md shadow-sm" style={{ backgroundColor: c.hex }} />
+                          <span className="text-[9px] text-charcoal/60">{c.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Colors to avoid */}
+                  <div className="mt-5">
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-charcoal/40">
+                      Colors to Minimize
+                    </p>
+                    <div className="mt-2 space-y-1.5">
+                      {AVOID_COLORS.map((c) => (
+                        <div key={c.hex} className="flex items-center gap-2.5">
+                          <div className="h-5 w-5 rounded-md opacity-60 shadow-sm" style={{ backgroundColor: c.hex }} />
+                          <span className="text-[9px] text-charcoal/35 line-through decoration-charcoal/20">{c.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Style tips card */}
+                  <div className="mt-5 rounded-xl bg-hazel-50/60 p-3.5">
+                    <p className="text-[8px] font-semibold text-hazel">Style Tip</p>
+                    <p className="mt-1 text-[8px] leading-relaxed text-charcoal/50">
+                      Pair your warm neutrals with earthy accents.
+                      Terracotta and sage are your power combination.
+                    </p>
+                  </div>
+
+                  {/* CTA button */}
+                  <div className="mt-5 rounded-xl bg-charcoal py-2.5 text-center">
+                    <span className="text-[10px] font-semibold text-cream-50">View Full Palette</span>
+                  </div>
                 </motion.div>
-              ))}
+
+                {/* Screen fade at bottom */}
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-16 bg-gradient-to-t from-cream via-cream/80 to-transparent" />
+              </div>
+
+              {/* Home indicator */}
+              <div className="absolute bottom-[6px] left-1/2 z-20 h-[4px] w-[120px] -translate-x-1/2 rounded-full bg-charcoal/20" />
+
+              {/* Glass reflection overlay */}
+              <div
+                className="pointer-events-none absolute inset-0 z-20 rounded-[40px]"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.03) 100%)',
+                }}
+              />
             </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.4 }}
-              className="mt-4 flex items-center gap-2"
-            >
-              <div className="h-px flex-1 bg-cream-200" />
-              <span className="text-[8px] text-charcoal/25">+ 24 more colors</span>
-              <div className="h-px flex-1 bg-cream-200" />
-            </motion.div>
-
-            {/* Bottom action */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.7, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-4 rounded-xl bg-charcoal py-2.5 text-center"
-            >
-              <span className="text-[10px] font-semibold text-cream-50">View Full Palette</span>
-            </motion.div>
           </div>
         </div>
-      </div>
+
+        {/* Phone shadow */}
+        <div className="absolute -bottom-6 left-1/2 -z-10 h-[30px] w-[200px] -translate-x-1/2 rounded-[50%] bg-charcoal/15 blur-xl" />
+      </motion.div>
     </div>
   );
 }
@@ -117,7 +275,7 @@ export function Hero() {
 
   return (
     <section ref={containerRef} className="relative min-h-screen overflow-hidden px-6 pb-24 pt-32 md:pt-40 lg:px-12">
-      {/* Soft gradient background — clean, no animated blobs */}
+      {/* Soft gradient background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute h-[800px] w-[800px] rounded-full bg-gradient-radial from-dusty-rose/20 via-transparent to-transparent blur-3xl"
@@ -227,7 +385,7 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: Phone mockup — clean entrance, no perpetual float */}
+          {/* Right: Realistic iPhone mockup */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -235,10 +393,10 @@ export function Hero() {
             className="relative hidden lg:block"
           >
             <div className="relative mx-auto w-full max-w-sm">
-              {/* Subtle static glow behind phone */}
-              <div className="absolute left-1/2 top-1/2 -z-10 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-hazel-200/30 via-dusty-rose/15 to-transparent blur-3xl" />
+              {/* Subtle glow behind phone */}
+              <div className="absolute left-1/2 top-1/2 -z-10 h-[500px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-radial from-hazel-200/25 via-dusty-rose/10 to-transparent blur-3xl" />
 
-              <PhoneMockup />
+              <IPhoneMockup />
             </div>
           </motion.div>
         </div>
