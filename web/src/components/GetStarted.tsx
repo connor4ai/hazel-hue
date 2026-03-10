@@ -1,13 +1,5 @@
 import { motion } from 'framer-motion';
 
-const FLOATING_COLORS = [
-  { hex: '#C67B5C', size: 80, x: '10%', y: '15%', blur: 40 },
-  { hex: '#D4A5A5', size: 100, x: '85%', y: '20%', blur: 50 },
-  { hex: '#A8B5A0', size: 70, x: '75%', y: '70%', blur: 35 },
-  { hex: '#B19CD9', size: 90, x: '15%', y: '75%', blur: 45 },
-  { hex: '#8B6F47', size: 60, x: '50%', y: '10%', blur: 30 },
-];
-
 export function GetStarted() {
   return (
     <section id="get-started" className="relative overflow-hidden">
@@ -15,26 +7,6 @@ export function GetStarted() {
       <div className="relative bg-midnight px-6 py-32 lg:px-12">
         {/* Mesh gradient overlay */}
         <div className="pointer-events-none absolute inset-0 mesh-gradient-dark" />
-
-        {/* Floating color orbs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {FLOATING_COLORS.map((c, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [-15, 15, -15], scale: [1, 1.1, 1] }}
-              transition={{ duration: 8 + i * 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute rounded-full opacity-20"
-              style={{
-                backgroundColor: c.hex,
-                width: c.size,
-                height: c.size,
-                left: c.x,
-                top: c.y,
-                filter: `blur(${c.blur}px)`,
-              }}
-            />
-          ))}
-        </div>
 
         {/* Noise texture */}
         <div className="noise pointer-events-none absolute inset-0 opacity-[0.04]" />
