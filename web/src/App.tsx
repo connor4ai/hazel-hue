@@ -1,5 +1,5 @@
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
@@ -11,16 +11,26 @@ import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsOfService } from './components/TermsOfService';
+import { AnalysisPage } from './components/AnalysisPage';
 
-function getRoute() {
+type Route = 'home' | 'privacy' | 'terms' | 'analyze';
+
+function getRoute(): Route {
   const path = window.location.pathname;
   if (path === '/privacy') return 'privacy';
   if (path === '/terms') return 'terms';
+  if (path === '/analyze') return 'analyze';
   return 'home';
 }
 
+/** Simple client-side navigation without a router library */
+export function navigate(to: string) {
+  window.history.pushState({}, '', to);
+  window.dispatchEvent(new PopStateEvent('popstate'));
+}
+
 export function App() {
-  const [route, setRoute] = useState(getRoute);
+  const [route, setRoute] = useState<Route>(getRoute);
 
   useEffect(() => {
     const onPopState = () => setRoute(getRoute());
@@ -28,10 +38,39 @@ export function App() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  // Intercept internal link clicks for SPA navigation
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement).closest('a');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return;
+      if (anchor.getAttribute('target') === '_blank') return;
+      e.preventDefault();
+      navigate(href);
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+
+  const handleGetStarted = useCallback(() => {
+    navigate('/analyze');
+  }, []);
+
+  if (route === 'analyze') {
+    return (
+      <div className="min-h-screen">
+        <Header onGetStarted={handleGetStarted} />
+        <AnalysisPage />
+        <SpeedInsights />
+      </div>
+    );
+  }
+
   if (route === 'privacy') {
     return (
       <div className="min-h-screen bg-cream-50">
-        <Header />
+        <Header onGetStarted={handleGetStarted} />
         <PrivacyPolicy />
         <Footer />
         <SpeedInsights />
@@ -42,7 +81,7 @@ export function App() {
   if (route === 'terms') {
     return (
       <div className="min-h-screen bg-cream-50">
-        <Header />
+        <Header onGetStarted={handleGetStarted} />
         <TermsOfService />
         <Footer />
         <SpeedInsights />
@@ -52,14 +91,14 @@ export function App() {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      <Header />
+      <Header onGetStarted={handleGetStarted} />
       <main>
-        <Hero />
+        <Hero onGetStarted={handleGetStarted} />
         <SeasonMarquee />
         <HowItWorks />
         <ResultsPreview />
         <Testimonials />
-        <GetStarted />
+        <GetStarted onGetStarted={handleGetStarted} />
         <FAQ />
       </main>
       <Footer />
