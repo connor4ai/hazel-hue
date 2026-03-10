@@ -249,7 +249,11 @@ function IPhoneMockup() {
   );
 }
 
-export function Hero() {
+interface HeroProps {
+  onGetStarted?: () => void;
+}
+
+export function Hero({ onGetStarted }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -337,8 +341,8 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
               className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
             >
-              <a
-                href="#get-started"
+              <button
+                onClick={onGetStarted}
                 className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-charcoal px-10 py-4.5 text-sm font-semibold text-cream-50 shadow-xl shadow-charcoal/15 transition-all duration-500 hover:shadow-2xl hover:shadow-charcoal/25"
               >
                 <span className="relative z-10">Get My Colors — Free</span>
@@ -346,7 +350,7 @@ export function Hero() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-400 to-hazel-500 transition-transform duration-500 group-hover:translate-x-0" />
-              </a>
+              </button>
               <span className="text-sm text-charcoal/35">
                 Share with 2 friends to unlock
               </span>

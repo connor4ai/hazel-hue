@@ -8,7 +8,11 @@ const NAV_LINKS = [
   { href: '#faq', label: 'FAQ' },
 ];
 
-export function Header() {
+interface Props {
+  onGetStarted?: () => void;
+}
+
+export function Header({ onGetStarted }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -17,6 +21,13 @@ export function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleCTA = (e: React.MouseEvent) => {
+    if (onGetStarted) {
+      e.preventDefault();
+      onGetStarted();
+    }
+  };
 
   return (
     <motion.header
@@ -55,13 +66,13 @@ export function Header() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#get-started"
+          <button
+            onClick={handleCTA}
             className="group relative ml-6 overflow-hidden rounded-full bg-charcoal px-7 py-2.5 text-sm font-semibold text-cream-50 transition-all duration-500 hover:shadow-xl hover:shadow-charcoal/20"
           >
             <span className="relative z-10">Get My Colors</span>
             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-400 to-hazel-500 transition-transform duration-500 group-hover:translate-x-0" />
-          </a>
+          </button>
         </nav>
 
         <button
@@ -107,16 +118,18 @@ export function Header() {
                 {link.label}
               </motion.a>
             ))}
-            <motion.a
-              href="#get-started"
-              onClick={() => setMenuOpen(false)}
+            <motion.button
+              onClick={(e) => {
+                setMenuOpen(false);
+                handleCTA(e);
+              }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 rounded-full bg-charcoal px-12 py-4 text-sm font-semibold text-cream-50 shadow-xl"
             >
               Get My Colors — Free
-            </motion.a>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
