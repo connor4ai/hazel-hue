@@ -15,7 +15,6 @@ import {
   Inter_600SemiBold,
 } from '@expo-google-fonts/inter';
 import { useAuthStore } from '@presentation/stores/useAuthStore';
-import { initializeRevenueCat } from '@infrastructure/payments/RevenueCatProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,7 +40,6 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    initializeRevenueCat();
     initialize();
   }, [initialize]);
 

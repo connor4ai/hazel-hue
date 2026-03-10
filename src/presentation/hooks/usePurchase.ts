@@ -1,74 +1,110 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import type { Contact } from 'expo-contacts';
 import {
-  purchaseAnalysis,
-  hasExistingPurchase,
-  restorePurchases,
-  type PurchaseResult,
-} from '@infrastructure/payments/RevenueCatProvider';
-import { apiClient } from '@infrastructure/api/client';
-import { endpoints } from '@infrastructure/api/endpoints';
+  requestContactsAccess,
+  shareWithContact,
+  getLocalShares,
+  hasUnlockedAccess,
+  getRemainingShares,
+  type ShareRecord,
+} from '@infrastructure/sharing/ShareGateProvider';
+import { REQUIRED_SHARES_TO_UNLOCK } from '@config/constants';
 
-interface UsePurchaseReturn {
-  isPurchasing: boolean;
-  isRestoring: boolean;
+interface UseShareGateReturn {
+  isUnlocked: boolean;
+  shares: ShareRecord[];
+  remainingShares: number;
+  contacts: Contact[];
+  isLoadingContacts: boolean;
+  isSharing: boolean;
   error: string | null;
-  purchase: () => Promise<PurchaseResult | null>;
-  restore: () => Promise<boolean>;
-  checkEntitlement: () => Promise<boolean>;
+  loadContacts: () => Promise<void>;
+  shareWith: (contact: Contact) => Promise<void>;
+  checkUnlockStatus: () => Promise<boolean>;
 }
 
-export function usePurchase(): UsePurchaseReturn {
-  const [isPurchasing, setIsPurchasing] = useState(false);
-  const [isRestoring, setIsRestoring] = useState(false);
+export function useShareGate(): UseShareGateReturn {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [shares, setShares] = useState<ShareRecord[]>([]);
+  const [remainingShares, setRemainingShares] = useState(REQUIRED_SHARES_TO_UNLOCK);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [isLoadingContacts, setIsLoadingContacts] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const purchase = useCallback(async (): Promise<PurchaseResult | null> => {
-    setIsPurchasing(true);
+  // Check initial unlock state
+  useEffect(() => {
+    (async () => {
+      const unlocked = await hasUnlockedAccess();
+      const existing = await getLocalShares();
+      const remaining = await getRemainingShares();
+      setIsUnlocked(unlocked);
+      setShares(existing);
+      setRemainingShares(remaining);
+    })();
+  }, []);
+
+  const loadContacts = useCallback(async () => {
+    setIsLoadingContacts(true);
     setError(null);
     try {
-      const result = await purchaseAnalysis();
+      const list = await requestContactsAccess();
+      // Filter out contacts already shared with
+      const existingIds = new Set(shares.map((s) => s.contactId));
+      setContacts(list.filter((c) => !existingIds.has(c.id ?? '')));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load contacts');
+    } finally {
+      setIsLoadingContacts(false);
+    }
+  }, [shares]);
 
-      // Verify purchase on backend
-      await apiClient.post(endpoints.user.purchases, {
-        platform: result.platform,
-        receiptId: result.transactionId,
-        productId: result.productId,
-      });
+  const shareWith = useCallback(async (contact: Contact) => {
+    setIsSharing(true);
+    setError(null);
+    try {
+      // Generate a simple referral code from userId or random
+      const referralCode = `HH${Date.now().toString(36).toUpperCase()}`;
+      const record = await shareWithContact(contact, referralCode);
 
-      return result;
+      const updated = [...shares, record];
+      setShares(updated);
+
+      const remaining = Math.max(0, REQUIRED_SHARES_TO_UNLOCK - updated.length);
+      setRemainingShares(remaining);
+
+      if (remaining === 0) {
+        setIsUnlocked(true);
+      }
+
+      // Remove shared contact from the list
+      setContacts((prev) => prev.filter((c) => c.id !== contact.id));
     } catch (err) {
       if (err instanceof Error && err.message.includes('cancelled')) {
-        return null;
+        return; // User dismissed share sheet
       }
-      const message = err instanceof Error ? err.message : 'Purchase failed';
-      setError(message);
-      return null;
+      setError(err instanceof Error ? err.message : 'Failed to share');
     } finally {
-      setIsPurchasing(false);
+      setIsSharing(false);
     }
+  }, [shares]);
+
+  const checkUnlockStatus = useCallback(async (): Promise<boolean> => {
+    const unlocked = await hasUnlockedAccess();
+    setIsUnlocked(unlocked);
+    return unlocked;
   }, []);
 
-  const restore = useCallback(async (): Promise<boolean> => {
-    setIsRestoring(true);
-    setError(null);
-    try {
-      return await restorePurchases();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Restore failed';
-      setError(message);
-      return false;
-    } finally {
-      setIsRestoring(false);
-    }
-  }, []);
-
-  const checkEntitlement = useCallback(async (): Promise<boolean> => {
-    try {
-      return await hasExistingPurchase();
-    } catch {
-      return false;
-    }
-  }, []);
-
-  return { isPurchasing, isRestoring, error, purchase, restore, checkEntitlement };
+  return {
+    isUnlocked,
+    shares,
+    remainingShares,
+    contacts,
+    isLoadingContacts,
+    isSharing,
+    error,
+    loadContacts,
+    shareWith,
+    checkUnlockStatus,
+  };
 }

@@ -1,5 +1,5 @@
 import { withMiddleware, getUserId } from '../shared/middleware';
-import { putItem, queryItems } from '../shared/dynamodb';
+import { putItem } from '../shared/dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -13,12 +13,8 @@ const ANALYSIS_QUEUE_URL = process.env.ANALYSIS_QUEUE_URL!;
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
 
-  // Check entitlement
-  const entitlements = await queryItems(`USER#${userId}`, 'ENTITLEMENT#ANALYSIS');
-  const valid = entitlements.find((e) => !e.consumed);
-  if (!valid) {
-    throw Object.assign(new Error('No valid analysis entitlement'), { statusCode: 403 });
-  }
+  // No entitlement/payment check — Hazel & Hue is free.
+  // Access is gated client-side by the share-to-unlock flow.
 
   const analysisId = randomUUID();
   const photoKey = `photos/${userId}/${analysisId}.jpg`;

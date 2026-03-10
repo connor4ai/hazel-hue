@@ -55,16 +55,13 @@ export default function HomeScreen() {
             </Typography>
           </View>
 
-          {/* Price anchor */}
-          <View style={styles.priceSection}>
-            <Typography variant="caption" color={colors.gray400} align="center">
-              What costs $300+ with a professional stylist
-            </Typography>
+          {/* Free badge */}
+          <View style={styles.freeSection}>
             <Typography variant="displayMedium" color={colors.hazel} align="center">
-              $19
+              100% Free
             </Typography>
             <Typography variant="caption" color={colors.gray400} align="center">
-              one time, forever yours
+              Share with 2 friends to unlock your analysis
             </Typography>
           </View>
 
@@ -84,7 +81,7 @@ export default function HomeScreen() {
               align="center"
               style={styles.guarantee}
             >
-              Not your colors? Full refund, no questions asked.
+              No payment required. Just share the love.
             </Typography>
           </View>
         </ScrollView>
@@ -116,7 +113,7 @@ const styles = StyleSheet.create({
   description: {
     maxWidth: 320,
   },
-  priceSection: {
+  freeSection: {
     alignItems: 'center',
     paddingVertical: spacing[6],
     gap: spacing[1],

@@ -3,10 +3,16 @@ import { putItem, getItem, queryGSI1 } from '../shared/dynamodb';
 import { randomUUID, randomBytes } from 'crypto';
 import { z } from 'zod';
 
-const REFERRAL_DISCOUNT_CENTS = 500; // $5 off
+const REQUIRED_SHARES = 2;
 
 const generateSchema = z.object({
   type: z.literal('generate'),
+});
+
+const shareSchema = z.object({
+  type: z.literal('share'),
+  contactName: z.string().min(1).max(200),
+  referralCode: z.string().min(1).max(32),
 });
 
 const redeemSchema = z.object({
@@ -14,19 +20,19 @@ const redeemSchema = z.object({
   referralCode: z.string().regex(/^[A-F0-9]{8}$/, 'Invalid referral code format'),
 });
 
-const referralSchema = z.discriminatedUnion('type', [generateSchema, redeemSchema]);
+const referralSchema = z.discriminatedUnion('type', [generateSchema, shareSchema, redeemSchema]);
 
 /**
- * Referral system — $5 give / $5 get.
- * - POST with type "generate": creates a unique referral code for the user
- * - POST with type "redeem": validates and records a referral redemption
+ * Referral & share-to-unlock system.
+ * - POST type "generate": creates a unique referral code for the user
+ * - POST type "share": records a share event (user shared with a contact)
+ * - POST type "redeem": records when a referred user opens the app via a referral link
  */
 export const handler = withMiddleware(async (event) => {
   const userId = getUserId(event);
   const body = referralSchema.parse(parseBody(event));
 
   if (body.type === 'generate') {
-    // Check if user already has a referral code
     const existing = await getItem(`USER#${userId}`, 'REFERRAL#CODE');
     if (existing) {
       return {
@@ -35,12 +41,11 @@ export const handler = withMiddleware(async (event) => {
           referralCode: existing.code,
           referralUrl: `https://hazelandhue.com/r/${existing.code}`,
           totalReferred: existing.totalReferred ?? 0,
-          totalEarned: existing.totalEarned ?? 0,
+          totalShares: existing.totalShares ?? 0,
         },
       };
     }
 
-    // Generate unique 8-char hex code (32-bit entropy)
     const code = randomBytes(4).toString('hex').toUpperCase();
     const now = new Date().toISOString();
 
@@ -50,9 +55,8 @@ export const handler = withMiddleware(async (event) => {
       code,
       userId,
       totalReferred: 0,
-      totalEarned: 0,
+      totalShares: 0,
       createdAt: now,
-      // GSI1 for code lookup
       GSI1PK: `REFERRAL#${code}`,
       GSI1SK: 'INFO',
     });
@@ -63,7 +67,39 @@ export const handler = withMiddleware(async (event) => {
         referralCode: code,
         referralUrl: `https://hazelandhue.com/r/${code}`,
         totalReferred: 0,
-        totalEarned: 0,
+        totalShares: 0,
+      },
+    };
+  }
+
+  if (body.type === 'share') {
+    const { contactName, referralCode } = body;
+    const now = new Date().toISOString();
+    const shareId = randomUUID();
+
+    // Record the share
+    await putItem({
+      PK: `USER#${userId}`,
+      SK: `SHARE#${shareId}`,
+      id: shareId,
+      contactName,
+      referralCode,
+      sharedAt: now,
+    });
+
+    // Check total shares for this user
+    const { queryItems } = await import('../shared/dynamodb');
+    const shares = await queryItems(`USER#${userId}`, 'SHARE#');
+    const totalShares = shares.length;
+    const isUnlocked = totalShares >= REQUIRED_SHARES;
+
+    return {
+      statusCode: 201,
+      body: {
+        shareId,
+        totalShares,
+        requiredShares: REQUIRED_SHARES,
+        isUnlocked,
       },
     };
   }
@@ -71,7 +107,6 @@ export const handler = withMiddleware(async (event) => {
   if (body.type === 'redeem') {
     const { referralCode } = body;
 
-    // Look up referral code via GSI1 (not main table PK)
     const referralItems = await queryGSI1(`REFERRAL#${referralCode}`);
     if (referralItems.length === 0) {
       throw Object.assign(new Error('Invalid referral code'), { statusCode: 400 });
@@ -80,12 +115,10 @@ export const handler = withMiddleware(async (event) => {
     const referral = referralItems[0];
     const referrerId = referral.userId as string;
 
-    // Can't refer yourself
     if (referrerId === userId) {
       throw Object.assign(new Error('Cannot use your own referral code'), { statusCode: 400 });
     }
 
-    // Check if already redeemed by this user
     const existingRedemption = await getItem(`USER#${userId}`, `REFERRAL#REDEEMED#${referralCode}`);
     if (existingRedemption) {
       throw Object.assign(new Error('Referral already redeemed'), { statusCode: 400 });
@@ -94,32 +127,29 @@ export const handler = withMiddleware(async (event) => {
     const now = new Date().toISOString();
     const redemptionId = randomUUID();
 
-    // Record redemption for the redeemer ($5 credit)
+    // Record for the new user
     await putItem({
       PK: `USER#${userId}`,
       SK: `REFERRAL#REDEEMED#${referralCode}`,
       id: redemptionId,
       referralCode,
       referrerId,
-      discountCents: REFERRAL_DISCOUNT_CENTS,
       redeemedAt: now,
     });
 
-    // Record referral credit for the referrer ($5 credit)
+    // Record for the referrer
     await putItem({
       PK: `USER#${referrerId}`,
       SK: `REFERRAL#EARNED#${redemptionId}`,
       id: redemptionId,
       referredUserId: userId,
-      creditCents: REFERRAL_DISCOUNT_CENTS,
       earnedAt: now,
     });
 
     return {
       statusCode: 200,
       body: {
-        discountCents: REFERRAL_DISCOUNT_CENTS,
-        message: 'Referral applied — $5 off your analysis!',
+        message: 'Welcome to Hazel & Hue! Share with 2 friends to unlock your analysis.',
       },
     };
   }
