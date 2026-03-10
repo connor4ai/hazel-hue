@@ -72,11 +72,6 @@ Thumbs.db
 
 # Uploaded files
 uploads/
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.webp
 
 # Replit specific
 .replit
@@ -91,13 +86,30 @@ temp/
 # PDF generation cache
 pdf-cache/
 
-# Mobile specific
-mobile/node_modules/
-mobile/.expo/
-mobile/dist/
-mobile/*.p12
-mobile/*.mobileprovision
-mobile/expo-env.d.ts
-
 # Drizzle
 drizzle/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Expo
+.expo/
+ios/
+android/
+web-build/
+
+# CDK
+infra/cdk.out/
+infra/dist/
+infra/node_modules/
+
+# Web landing page
+web/dist/
+web/node_modules/
+
+# EAS
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
