@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Svg, { Circle } from 'react-native-svg';
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { Button } from '@presentation/components/ui/Button';
@@ -27,9 +28,19 @@ export default function SignInScreen() {
     <WatercolorBackground>
       <SafeAreaView style={styles.safe}>
         <View style={styles.content}>
+          {/* Decorative color dots */}
+          <View style={styles.decoration}>
+            <Svg width={120} height={40} viewBox="0 0 120 40">
+              <Circle cx="20" cy="20" r="12" fill={colors.terracotta} opacity={0.2} />
+              <Circle cx="50" cy="15" r="8" fill={colors.sage} opacity={0.2} />
+              <Circle cx="75" cy="22" r="10" fill={colors.dustyRose} opacity={0.2} />
+              <Circle cx="100" cy="18" r="7" fill={colors.lavender} opacity={0.2} />
+            </Svg>
+          </View>
+
           <HandLetterHeading
             title="Welcome Back"
-            subtitle="Sign in to access your results"
+            subtitle="Sign in to access your color results"
           />
 
           {error && (
@@ -57,14 +68,23 @@ export default function SignInScreen() {
             >
               Continue with Google
             </Button>
-            <Button
-              variant="ghost"
-              size="md"
-              onPress={() => router.push('/(auth)/sign-up')}
-            >
-              Create an account
-            </Button>
           </View>
+
+          <View style={styles.divider}>
+            <View style={styles.dividerLine} />
+            <Typography variant="caption" color={colors.gray400}>
+              or
+            </Typography>
+            <View style={styles.dividerLine} />
+          </View>
+
+          <Button
+            variant="ghost"
+            size="md"
+            onPress={() => router.push('/(auth)/sign-up')}
+          >
+            Create an account
+          </Button>
         </View>
       </SafeAreaView>
     </WatercolorBackground>
@@ -76,15 +96,31 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: spacing[6],
-    paddingTop: spacing[16],
-    gap: spacing[10],
+    paddingTop: spacing[12],
+    gap: spacing[8],
+  },
+  decoration: {
+    alignItems: 'center',
+    paddingTop: spacing[4],
   },
   buttons: {
     gap: spacing[3],
   },
   errorBox: {
     backgroundColor: '#FEF2F2',
-    borderRadius: 8,
-    padding: spacing[3],
+    borderRadius: 16,
+    padding: spacing[4],
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.cream200,
   },
 });

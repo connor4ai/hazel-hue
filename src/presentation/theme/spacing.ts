@@ -25,6 +25,7 @@ export const borderRadius = {
   lg: 12,
   xl: 16,
   '2xl': 24,
+  '3xl': 32,
   full: 9999,
   /** Organic/asymmetric — used with SVG clip paths for painterly edges */
   organic: 20,
@@ -51,5 +52,19 @@ export const shadows = {
     shadowOpacity: 0.12,
     shadowRadius: 16,
     elevation: 6,
+  },
+  xl: {
+    shadowColor: '#8B6F47',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 24,
+    elevation: 10,
+  },
+  glow: {
+    shadowColor: '#8B6F47',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 8,
   },
 } as const;

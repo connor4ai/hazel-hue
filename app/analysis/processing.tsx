@@ -10,7 +10,8 @@ import Animated, {
   withSequence,
   Easing,
 } from 'react-native-reanimated';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
+
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { Typography } from '@presentation/components/ui/Typography';
 import { useAnalysisStore } from '@presentation/stores/useAnalysisStore';
@@ -18,16 +19,15 @@ import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
 const STAGES = [
-  { text: 'Analyzing your undertone...', duration: 8000, color: colors.terracotta },
-  { text: 'Mapping your contrast level...', duration: 8000, color: colors.sage },
-  { text: 'Identifying your season...', duration: 10000, color: colors.dustyRose },
-  { text: 'Curating your palette...', duration: 10000, color: colors.hazel },
-  { text: 'Preparing your results...', duration: 9000, color: colors.hazel },
+  { text: 'Analyzing your undertone', emoji: '', duration: 8000, color: colors.terracotta },
+  { text: 'Mapping contrast level', emoji: '', duration: 8000, color: colors.sage },
+  { text: 'Identifying your season', emoji: '', duration: 10000, color: colors.dustyRose },
+  { text: 'Curating your palette', emoji: '', duration: 10000, color: colors.hazel },
+  { text: 'Preparing your results', emoji: '', duration: 9000, color: colors.hazel },
 ];
 
 const POLL_INTERVAL_MS = 3000;
 
-/** Leaf paths arranged in a radial bloom, matching the brand icon aesthetic. */
 const LEAF_PATHS = [
   { d: 'M0 -30 Q8 -15 0 0 Q-8 -15 0 -30Z', fill: colors.sage },
   { d: 'M21 -21 Q20 -8 7 -7 Q14 -16 21 -21Z', fill: colors.terracotta },
@@ -41,6 +41,7 @@ const LEAF_PATHS = [
 function BotanicalSpinner() {
   const rotation = useSharedValue(0);
   const scale = useSharedValue(1);
+  const glowOpacity = useSharedValue(0.3);
 
   useEffect(() => {
     rotation.value = withRepeat(
@@ -50,29 +51,72 @@ function BotanicalSpinner() {
     );
     scale.value = withRepeat(
       withSequence(
-        withTiming(1.08, { duration: 2000, easing: Easing.ease }),
-        withTiming(1, { duration: 2000, easing: Easing.ease }),
+        withTiming(1.12, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
       ),
       -1,
       true,
     );
-  }, [rotation, scale]);
+    glowOpacity.value = withRepeat(
+      withSequence(
+        withTiming(0.6, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0.2, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+      ),
+      -1,
+      true,
+    );
+  }, [rotation, scale, glowOpacity]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const spinnerStyle = useAnimatedStyle(() => ({
     transform: [
       { rotate: `${rotation.value}deg` },
       { scale: scale.value },
     ],
   }));
 
+  const glowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+  }));
+
   return (
-    <Animated.View style={[styles.spinner, animatedStyle]}>
-      <Svg width={80} height={80} viewBox="-40 -40 80 80">
-        {LEAF_PATHS.map((leaf, i) => (
-          <Path key={i} d={leaf.d} fill={leaf.fill} opacity={0.6} />
-        ))}
-      </Svg>
-    </Animated.View>
+    <View style={styles.spinnerWrapper}>
+      {/* Glow ring */}
+      <Animated.View style={[styles.glow, glowStyle]} />
+
+      <Animated.View style={[styles.spinner, spinnerStyle]}>
+        <Svg width={100} height={100} viewBox="-40 -40 80 80">
+          <Defs>
+            <RadialGradient id="leafGlow" cx="0" cy="0" r="40">
+              <Stop offset="0" stopColor={colors.hazel} stopOpacity="0.15" />
+              <Stop offset="1" stopColor={colors.hazel} stopOpacity="0" />
+            </RadialGradient>
+          </Defs>
+          <Circle cx="0" cy="0" r="38" fill="url(#leafGlow)" />
+          {LEAF_PATHS.map((leaf, i) => (
+            <Path key={i} d={leaf.d} fill={leaf.fill} opacity={0.7} />
+          ))}
+        </Svg>
+      </Animated.View>
+    </View>
+  );
+}
+
+function StageIndicator({ currentStage }: { currentStage: number }) {
+  return (
+    <View style={styles.stageIndicator}>
+      {STAGES.map((_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.stageDot,
+            {
+              backgroundColor: i <= currentStage ? colors.hazel : colors.cream200,
+              width: i === currentStage ? 20 : 6,
+            },
+          ]}
+        />
+      ))}
+    </View>
   );
 }
 
@@ -81,25 +125,22 @@ export default function ProcessingScreen() {
   const [currentStage, setCurrentStage] = useState(0);
   const [email, setEmail] = useState('');
   const stageOpacity = useSharedValue(0);
+  const stageTranslateY = useSharedValue(10);
   const progressWidth = useSharedValue(0);
 
   const { analysisId, status, error, pollStatus } = useAnalysisStore();
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Start polling for analysis status
   useEffect(() => {
     if (!analysisId) return;
-
     pollRef.current = setInterval(() => {
       pollStatus();
     }, POLL_INTERVAL_MS);
-
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
   }, [analysisId, pollStatus]);
 
-  // Navigate when analysis completes or fails
   useEffect(() => {
     if (status === 'COMPLETED' && analysisId) {
       if (pollRef.current) clearInterval(pollRef.current);
@@ -107,21 +148,24 @@ export default function ProcessingScreen() {
     }
   }, [status, analysisId, router]);
 
-  // Animate stage transitions
   useEffect(() => {
-    stageOpacity.value = withTiming(1, { duration: 800, easing: Easing.ease });
+    stageOpacity.value = withTiming(1, { duration: 600, easing: Easing.out(Easing.ease) });
+    stageTranslateY.value = withTiming(0, { duration: 600, easing: Easing.out(Easing.exp) });
 
     const timer = setTimeout(() => {
       if (currentStage < STAGES.length - 1) {
-        stageOpacity.value = withTiming(0, { duration: 400 });
-        setCurrentStage((s) => s + 1);
+        stageOpacity.value = withTiming(0, { duration: 300 });
+        stageTranslateY.value = withTiming(-10, { duration: 300 });
+        setTimeout(() => {
+          setCurrentStage((s) => s + 1);
+          stageTranslateY.value = 10;
+        }, 300);
       }
     }, STAGES[currentStage].duration);
 
     return () => clearTimeout(timer);
-  }, [currentStage, stageOpacity]);
+  }, [currentStage, stageOpacity, stageTranslateY]);
 
-  // Overall progress bar
   useEffect(() => {
     const totalDuration = STAGES.reduce((sum, s) => sum + s.duration, 0);
     progressWidth.value = withTiming(100, {
@@ -132,6 +176,7 @@ export default function ProcessingScreen() {
 
   const stageAnimatedStyle = useAnimatedStyle(() => ({
     opacity: stageOpacity.value,
+    transform: [{ translateY: stageTranslateY.value }],
   }));
 
   const progressAnimatedStyle = useAnimatedStyle(() => ({
@@ -141,7 +186,7 @@ export default function ProcessingScreen() {
   const stage = STAGES[currentStage];
 
   return (
-    <WatercolorBackground tint={stage.color} opacity={0.05}>
+    <WatercolorBackground tint={stage.color} opacity={0.06}>
       <SafeAreaView style={styles.safe}>
         <View style={styles.content}>
           <View style={styles.center}>
@@ -149,13 +194,15 @@ export default function ProcessingScreen() {
 
             <Animated.View style={[styles.stageContainer, stageAnimatedStyle]}>
               <Typography
-                variant="displaySmall"
-                color={colors.hazel}
+                variant="h1"
+                color={colors.charcoal}
                 align="center"
               >
                 {stage.text}
               </Typography>
             </Animated.View>
+
+            <StageIndicator currentStage={currentStage} />
 
             {status === 'FAILED' && error && (
               <View style={styles.errorBox}>
@@ -184,7 +231,7 @@ export default function ProcessingScreen() {
           {/* Email collection */}
           <View style={styles.emailSection}>
             <Typography variant="bodySmall" color={colors.gray500} align="center">
-              Where should we send your results?
+              Get your results via email too
             </Typography>
             <TextInput
               style={styles.emailInput}
@@ -217,23 +264,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing[6],
   },
+  spinnerWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing[6],
+  },
+  glow: {
+    position: 'absolute',
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    backgroundColor: colors.hazel,
+    opacity: 0.1,
+  },
   spinner: {
-    marginBottom: spacing[4],
+    // empty — animation applied via useAnimatedStyle
   },
   stageContainer: {
     paddingHorizontal: spacing[4],
   },
+  stageIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[1],
+  },
+  stageDot: {
+    height: 6,
+    borderRadius: 3,
+  },
   errorBox: {
     backgroundColor: '#FEF2F2',
-    borderRadius: 12,
-    padding: spacing[4],
+    borderRadius: 16,
+    padding: spacing[5],
     gap: spacing[2],
+    marginTop: spacing[4],
   },
   progressContainer: {
-    gap: spacing[2],
+    gap: spacing[3],
   },
   progressTrack: {
-    height: 3,
+    height: 4,
     backgroundColor: colors.cream200,
     borderRadius: 2,
     overflow: 'hidden',
@@ -244,14 +314,14 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   emailSection: {
-    gap: spacing[2],
+    gap: spacing[3],
     paddingTop: spacing[6],
   },
   emailInput: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.cream200,
-    borderRadius: 12,
-    paddingHorizontal: spacing[4],
+    borderRadius: 16,
+    paddingHorizontal: spacing[5],
     paddingVertical: spacing[3],
     fontSize: 16,
     color: colors.charcoal,
