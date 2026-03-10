@@ -352,7 +352,7 @@ export function Hero({ onGetStarted }: HeroProps) {
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-400 to-hazel-500 transition-transform duration-500 group-hover:translate-x-0" />
               </button>
               <span className="text-sm text-charcoal/35">
-                Share with 2 friends to unlock
+                No download required
               </span>
             </motion.div>
 
