@@ -40,7 +40,7 @@ export default function ShareToUnlockScreen() {
     try {
       await startAnalysis();
       router.replace('/analysis/processing');
-    } catch (err) {
+    } catch {
       // Error handled by store
     }
   };
@@ -142,7 +142,7 @@ export default function ShareToUnlockScreen() {
               </Typography>
               <FlatList
                 data={contacts}
-                keyExtractor={(item) => item.id ?? item.name ?? ''}
+                keyExtractor={(item) => (item as { id?: string }).id ?? item.name ?? ''}
                 renderItem={renderContact}
                 showsVerticalScrollIndicator={false}
                 style={styles.list}

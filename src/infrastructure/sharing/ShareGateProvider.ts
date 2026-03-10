@@ -66,7 +66,7 @@ export async function shareWithContact(
   }
 
   const record: ShareRecord = {
-    contactId: contact.id ?? contact.name ?? '',
+    contactId: (contact as Contacts.ExistingContact).id ?? contact.name ?? '',
     contactName: contact.name ?? 'Unknown',
     sharedAt: new Date().toISOString(),
   };

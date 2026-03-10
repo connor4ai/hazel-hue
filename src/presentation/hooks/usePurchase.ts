@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import type { Contact } from 'expo-contacts';
+import type { Contact, ExistingContact } from 'expo-contacts';
 import {
   requestContactsAccess,
   shareWithContact,
@@ -51,7 +51,7 @@ export function useShareGate(): UseShareGateReturn {
       const list = await requestContactsAccess();
       // Filter out contacts already shared with
       const existingIds = new Set(shares.map((s) => s.contactId));
-      setContacts(list.filter((c) => !existingIds.has(c.id ?? '')));
+      setContacts(list.filter((c) => !existingIds.has((c as ExistingContact).id ?? '')));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load contacts');
     } finally {
@@ -78,7 +78,7 @@ export function useShareGate(): UseShareGateReturn {
       }
 
       // Remove shared contact from the list
-      setContacts((prev) => prev.filter((c) => c.id !== contact.id));
+      setContacts((prev) => prev.filter((c) => (c as ExistingContact).id !== (contact as ExistingContact).id));
     } catch (err) {
       if (err instanceof Error && err.message.includes('cancelled')) {
         return; // User dismissed share sheet

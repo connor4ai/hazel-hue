@@ -6,7 +6,7 @@ import {
   markFailed,
 } from '@domain/analysis/entities/Analysis';
 import { Season } from '@domain/shared/types/Season';
-import { createAnalysisId, createUserId, createConfidenceScore } from '@domain/shared/types/ValueObjects';
+import { createAnalysisId, createUserId, createConfidenceScore, createTenantId } from '@domain/shared/types/ValueObjects';
 import type { ColorProfile } from '@domain/analysis/entities/ColorProfile';
 import type { QualityScore } from '@domain/analysis/entities/QualityScore';
 
@@ -52,7 +52,6 @@ describe('Analysis entity', () => {
     });
 
     it('accepts optional tenantId', () => {
-      const { createTenantId } = require('@domain/shared/types/ValueObjects');
       const tenantId = createTenantId('tenant-789');
       const analysis = createAnalysis(analysisId, userId, tenantId);
 

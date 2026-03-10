@@ -7,6 +7,8 @@ export const endpoints = {
   user: {
     profile: `${BASE}/user/profile`,
     shares: `${BASE}/user/shares`,
+    purchases: `${BASE}/user/purchases`,
+    entitlements: `${BASE}/user/entitlements`,
   },
 
   // Analysis context
