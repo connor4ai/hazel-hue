@@ -1,29 +1,35 @@
 export function Footer() {
   return (
-    <footer className="border-t border-cream-200 px-6 py-16 lg:px-12">
+    <footer className="border-t border-cream-200 bg-cream-50 px-6 py-16 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-hazel">
+              <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-hazel-400 to-hazel-500 shadow-md shadow-hazel/20">
                 <span className="font-display text-sm font-bold text-cream-50">H</span>
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/20" />
               </div>
-              <span className="font-display text-xl font-semibold text-charcoal">
-                Hazel & Hue
-              </span>
+              <div className="flex flex-col">
+                <span className="font-display text-lg font-semibold leading-none text-charcoal">
+                  Hazel & Hue
+                </span>
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-hazel/50">
+                  Color Analysis
+                </span>
+              </div>
             </div>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-charcoal/40">
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-charcoal/35">
               Free AI-powered seasonal color analysis. Discover your perfect palette,
               style guide, and beauty recommendations — personalized to your unique coloring.
             </p>
             {/* Social links */}
-            <div className="mt-6 flex gap-4">
+            <div className="mt-6 flex gap-3">
               <a
                 href="https://instagram.com/hazelandhue"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-charcoal/40 transition-all hover:border-hazel/30 hover:text-hazel"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-cream-200 text-charcoal/30 transition-all duration-300 hover:border-hazel/20 hover:bg-hazel/5 hover:text-hazel"
                 aria-label="Instagram"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -34,7 +40,7 @@ export function Footer() {
                 href="https://tiktok.com/@hazelandhue"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-charcoal/40 transition-all hover:border-hazel/30 hover:text-hazel"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-cream-200 text-charcoal/30 transition-all duration-300 hover:border-hazel/20 hover:bg-hazel/5 hover:text-hazel"
                 aria-label="TikTok"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -46,32 +52,32 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/30">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/25">
               Product
             </p>
-            <nav className="mt-4 flex flex-col gap-3">
-              <a href="#how-it-works" className="text-sm text-charcoal/50 transition hover:text-hazel">How It Works</a>
-              <a href="#results" className="text-sm text-charcoal/50 transition hover:text-hazel">What You Get</a>
-              <a href="#testimonials" className="text-sm text-charcoal/50 transition hover:text-hazel">Stories</a>
-              <a href="#faq" className="text-sm text-charcoal/50 transition hover:text-hazel">FAQ</a>
+            <nav className="mt-5 flex flex-col gap-3">
+              <a href="#how-it-works" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">How It Works</a>
+              <a href="#results" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">What You Get</a>
+              <a href="#testimonials" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Stories</a>
+              <a href="#faq" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">FAQ</a>
             </nav>
           </div>
 
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-charcoal/30">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/25">
               Legal
             </p>
-            <nav className="mt-4 flex flex-col gap-3">
-              <a href="/privacy" className="text-sm text-charcoal/50 transition hover:text-hazel">Privacy Policy</a>
-              <a href="/terms" className="text-sm text-charcoal/50 transition hover:text-hazel">Terms of Service</a>
-              <a href="mailto:hello@hazelandhue.com" className="text-sm text-charcoal/50 transition hover:text-hazel">Contact</a>
+            <nav className="mt-5 flex flex-col gap-3">
+              <a href="/privacy" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Privacy Policy</a>
+              <a href="/terms" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Terms of Service</a>
+              <a href="mailto:hello@hazelandhue.com" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Contact</a>
             </nav>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center gap-4 border-t border-cream-200 pt-8 sm:flex-row sm:justify-between">
-          <p className="text-xs text-charcoal/30">
+        <div className="mt-14 flex flex-col items-center gap-4 border-t border-cream-200 pt-8 sm:flex-row sm:justify-between">
+          <p className="text-xs text-charcoal/25">
             &copy; {new Date().getFullYear()} Hazel & Hue. All rights reserved.
           </p>
           <div className="flex gap-3">
@@ -79,7 +85,7 @@ export function Footer() {
               href="https://apps.apple.com/app/hazel-hue"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/50 transition hover:border-hazel/30 hover:text-hazel"
+              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
             >
               iOS App
             </a>
@@ -87,7 +93,7 @@ export function Footer() {
               href="https://play.google.com/store/apps/details?id=com.hazelhue"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/50 transition hover:border-hazel/30 hover:text-hazel"
+              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
             >
               Android App
             </a>

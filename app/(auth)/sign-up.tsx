@@ -41,7 +41,7 @@ export default function SignUpScreen() {
         <View style={styles.content}>
           <HandLetterHeading
             title="Create Account"
-            subtitle="Save your results across devices"
+            subtitle="Save your color results across devices"
           />
 
           {error && (
@@ -74,7 +74,7 @@ export default function SignUpScreen() {
           <View style={styles.divider}>
             <View style={styles.dividerLine} />
             <Typography variant="caption" color={colors.gray400}>
-              or
+              or sign up with email
             </Typography>
             <View style={styles.dividerLine} />
           </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: spacing[6],
-    paddingTop: spacing[16],
+    paddingTop: spacing[12],
     gap: spacing[6],
   },
   buttons: {
@@ -131,8 +131,10 @@ const styles = StyleSheet.create({
   },
   errorBox: {
     backgroundColor: '#FEF2F2',
-    borderRadius: 8,
-    padding: spacing[3],
+    borderRadius: 16,
+    padding: spacing[4],
+    borderWidth: 1,
+    borderColor: '#FEE2E2',
   },
   divider: {
     flexDirection: 'row',
@@ -148,10 +150,10 @@ const styles = StyleSheet.create({
     gap: spacing[3],
   },
   input: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.cream200,
-    borderRadius: 12,
-    paddingHorizontal: spacing[4],
+    borderRadius: 16,
+    paddingHorizontal: spacing[5],
     paddingVertical: spacing[3],
     fontSize: 16,
     color: colors.charcoal,

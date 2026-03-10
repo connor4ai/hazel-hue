@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { WatercolorBackground } from '@presentation/components/brand/WatercolorBackground';
 import { BotanicalDivider } from '@presentation/components/brand/BotanicalDivider';
 import { Typography } from '@presentation/components/ui/Typography';
@@ -22,38 +23,61 @@ import { getSeasonDisplayName } from '@domain/shared/types/Season';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
+function LoadingState() {
+  return (
+    <WatercolorBackground>
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.loadingContainer}>
+          {/* Animated loading dots */}
+          <Svg width={60} height={20} viewBox="0 0 60 20">
+            <Defs>
+              <LinearGradient id="loadGrad" x1="0" y1="0" x2="1" y2="0">
+                <Stop offset="0" stopColor={colors.terracotta} />
+                <Stop offset="0.5" stopColor={colors.hazel} />
+                <Stop offset="1" stopColor={colors.sage} />
+              </LinearGradient>
+            </Defs>
+            <Circle cx="10" cy="10" r="4" fill="url(#loadGrad)" opacity={0.6} />
+            <Circle cx="30" cy="10" r="4" fill="url(#loadGrad)" opacity={0.4} />
+            <Circle cx="50" cy="10" r="4" fill="url(#loadGrad)" opacity={0.2} />
+          </Svg>
+          <Typography variant="body" color={colors.gray400}>
+            Loading your results...
+          </Typography>
+        </View>
+      </SafeAreaView>
+    </WatercolorBackground>
+  );
+}
+
+function ErrorState() {
+  return (
+    <WatercolorBackground>
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.loadingContainer}>
+          <View style={styles.errorIcon}>
+            <Typography variant="h1" color={colors.error}>
+              !
+            </Typography>
+          </View>
+          <Typography variant="body" color={colors.charcoal} align="center">
+            Unable to load your results
+          </Typography>
+          <Typography variant="bodySmall" color={colors.gray400} align="center">
+            Please try again or contact support.
+          </Typography>
+        </View>
+      </SafeAreaView>
+    </WatercolorBackground>
+  );
+}
+
 export default function ResultsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: analysis, isLoading, error } = useAnalysisResults(id ?? '');
 
-  if (isLoading) {
-    return (
-      <WatercolorBackground>
-        <SafeAreaView style={styles.safe}>
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.hazel} />
-            <Typography variant="body" color={colors.gray400}>
-              Loading your results...
-            </Typography>
-          </View>
-        </SafeAreaView>
-      </WatercolorBackground>
-    );
-  }
-
-  if (error || !analysis) {
-    return (
-      <WatercolorBackground>
-        <SafeAreaView style={styles.safe}>
-          <View style={styles.loadingContainer}>
-            <Typography variant="body" color={colors.error} align="center">
-              Unable to load your results. Please try again.
-            </Typography>
-          </View>
-        </SafeAreaView>
-      </WatercolorBackground>
-    );
-  }
+  if (isLoading) return <LoadingState />;
+  if (error || !analysis) return <ErrorState />;
 
   const seasonName = analysis.season
     ? getSeasonDisplayName(analysis.season)
@@ -64,7 +88,7 @@ export default function ResultsScreen() {
     : colors.hazel;
 
   return (
-    <WatercolorBackground tint={seasonAccentColor} opacity={0.03}>
+    <WatercolorBackground tint={seasonAccentColor} opacity={0.04}>
       <SafeAreaView style={styles.safe}>
         <ScrollView
           contentContainerStyle={styles.scroll}
@@ -142,7 +166,9 @@ export default function ResultsScreen() {
 
           <ShareRefer analysisId={id ?? ''} />
 
+          {/* Premium footer */}
           <View style={styles.footer}>
+            <View style={styles.footerDivider} />
             <Typography variant="caption" color={colors.gray400} align="center">
               Made with care by Hazel & Hue
             </Typography>
@@ -159,7 +185,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[6],
     paddingTop: spacing[10],
     paddingBottom: spacing[16],
-    gap: spacing[4],
+    gap: spacing[5],
   },
   loadingContainer: {
     flex: 1,
@@ -167,7 +193,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing[4],
   },
+  errorIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FEF2F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   footer: {
     paddingTop: spacing[8],
+    gap: spacing[4],
+  },
+  footerDivider: {
+    height: 1,
+    backgroundColor: colors.cream200,
   },
 });

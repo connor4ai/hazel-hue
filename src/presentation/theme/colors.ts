@@ -1,6 +1,6 @@
 /**
  * Hazel & Hue brand color palette.
- * Inspired by Brighten Made's artisanal aesthetic — warm, earthy, organic.
+ * Premium, artisanal aesthetic — warm, earthy, organic.
  */
 export const colors = {
   // Primary brand colors
@@ -37,12 +37,26 @@ export const colors = {
   hazel400: '#8B6F47',
   hazel500: '#6B5535',
 
+  // Extended palette
+  lavender: '#B19CD9',
+  plum: '#7B2D5F',
+  coral: '#FF8C69',
+  midnight: '#1A1A2E',
+
   // Season accent colors (used to tint the results experience)
   seasonAccent: {
     SPRING: '#FF8C69', // warm coral
     SUMMER: '#B19CD9', // soft lavender
     AUTUMN: '#C67B5C', // burnt sienna (terracotta)
     WINTER: '#7B2D5F', // deep plum
+  },
+
+  // Season gradient triplets for premium visual treatments
+  seasonGradient: {
+    SPRING: ['#FF8C69', '#FFB347', '#FFD700'] as const,
+    SUMMER: ['#B19CD9', '#9FAFD1', '#C8A2C8'] as const,
+    AUTUMN: ['#C67B5C', '#D4A574', '#A8B5A0'] as const,
+    WINTER: ['#7B2D5F', '#1A1A2E', '#C0392B'] as const,
   },
 } as const;
 

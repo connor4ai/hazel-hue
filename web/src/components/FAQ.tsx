@@ -13,7 +13,7 @@ const FAQS = [
       "Our AI has been trained on thousands of professional color analyses and uses advanced computer vision to examine your skin's undertone, contrast level, and chroma. Most users find the results match or exceed what they'd get from an in-person consultation.",
   },
   {
-    question: 'Is it really free? What\'s the catch?',
+    question: "Is it really free? What's the catch?",
     answer:
       'There is no catch. Hazel & Hue is completely free — you just share the app with 2 friends from your contacts to unlock your analysis. We believe in growing through genuine word-of-mouth recommendations rather than paywalls.',
   },
@@ -38,14 +38,14 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="px-6 py-28 lg:px-12">
+    <section id="faq" className="px-6 py-32 lg:px-12">
       <div className="mx-auto max-w-3xl">
         <div className="text-center">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs font-semibold uppercase tracking-[0.25em] text-hazel"
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-hazel"
           >
             FAQ
           </motion.p>
@@ -54,7 +54,7 @@ export function FAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 font-display text-display-lg font-bold text-charcoal"
+            className="mt-5 font-display text-display-lg font-bold text-charcoal"
           >
             Questions & answers
           </motion.h2>
@@ -71,22 +71,30 @@ export function FAQ() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-20px' }}
                 transition={{ delay: i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="overflow-hidden rounded-2xl border border-cream-200 bg-white/60 backdrop-blur-sm transition-colors hover:bg-white/80"
+                className={`overflow-hidden rounded-2xl border transition-all duration-500 ${
+                  isOpen
+                    ? 'border-hazel/20 bg-white/80 shadow-lg shadow-hazel/5'
+                    : 'border-cream-200 bg-white/50 hover:bg-white/70'
+                }`}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between px-6 py-5 text-left"
+                  className="flex w-full items-center justify-between px-7 py-6 text-left"
                 >
-                  <span className="pr-4 text-sm font-semibold text-charcoal">
+                  <span className={`pr-4 text-sm font-semibold transition-colors duration-300 ${isOpen ? 'text-hazel' : 'text-charcoal'}`}>
                     {faq.question}
                   </span>
-                  <motion.span
+                  <motion.div
                     animate={{ rotate: isOpen ? 45 : 0 }}
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-cream-100 text-sm font-light text-hazel"
+                    className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                      isOpen ? 'bg-hazel text-cream-50' : 'bg-cream-100 text-hazel'
+                    }`}
                   >
-                    +
-                  </motion.span>
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" d="M12 5v14M5 12h14" />
+                    </svg>
+                  </motion.div>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -97,7 +105,8 @@ export function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <div className="px-6 pb-5">
+                      <div className="px-7 pb-6">
+                        <div className="mb-4 h-px bg-gradient-to-r from-hazel/10 via-hazel/5 to-transparent" />
                         <p className="text-sm leading-relaxed text-charcoal/50">
                           {faq.answer}
                         </p>
