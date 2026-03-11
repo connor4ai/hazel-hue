@@ -1,8 +1,8 @@
 export type SeasonType =
-  | 'Light Spring' | 'Warm Spring' | 'Clear Spring'
-  | 'Light Summer' | 'Cool Summer' | 'Soft Summer'
-  | 'Soft Autumn' | 'Warm Autumn' | 'Deep Autumn'
-  | 'Deep Winter' | 'Cool Winter' | 'Clear Winter';
+  | 'Light Spring' | 'True Spring' | 'Bright Spring'
+  | 'Light Summer' | 'True Summer' | 'Soft Summer'
+  | 'Soft Autumn' | 'True Autumn' | 'Deep Autumn'
+  | 'Deep Winter' | 'True Winter' | 'Bright Winter';
 
 export interface ColorSwatch {
   hex: string;
@@ -197,8 +197,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#98D8C8', goodName: 'Seafoam', badHex: '#000000', badName: 'Black', explanation: 'Soft seafoam harmonizes with your light, warm coloring; black creates too harsh a contrast.' },
     ],
   },
-  'Warm Spring': {
-    season: 'Warm Spring',
+  'True Spring': {
+    season: 'True Spring',
     tagline: 'Golden warmth and vibrant energy',
     description: 'Your natural coloring is warm, clear, and vibrant. You shine in colors that are warm, saturated, and full of life — think golden hour light.',
     palette: [
@@ -315,8 +315,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#DAA520', goodName: 'Goldenrod', badHex: '#000080', badName: 'Navy', explanation: 'Golden tones echo your warm undertone; cool navy fights against it.' },
     ],
   },
-  'Clear Spring': {
-    season: 'Clear Spring',
+  'Bright Spring': {
+    season: 'Bright Spring',
     tagline: 'Bright, warm, and strikingly vivid',
     description: 'You have high contrast with warm undertones. Bold, clear, and saturated colors bring out the striking clarity in your features.',
     palette: [
@@ -551,8 +551,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#B0C4DE', goodName: 'Steel Blue', badHex: '#000000', badName: 'Black', explanation: 'Cool steel blue enhances your luminosity; black creates too stark a contrast.' },
     ],
   },
-  'Cool Summer': {
-    season: 'Cool Summer',
+  'True Summer': {
+    season: 'True Summer',
     tagline: 'Elegant coolness with refined depth',
     description: 'Your coloring is cool, moderate in depth, and slightly muted. Sophisticated cool tones — slate, dusty rose, cool berry — complement your natural elegance.',
     palette: [
@@ -905,8 +905,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#A8B5A0', goodName: 'Sage', badHex: '#7FFF00', badName: 'Chartreuse', explanation: 'Muted sage complements your soft coloring; bright chartreuse overwhelms your natural palette.' },
     ],
   },
-  'Warm Autumn': {
-    season: 'Warm Autumn',
+  'True Autumn': {
+    season: 'True Autumn',
     tagline: 'Rich, warm, and luxuriously deep',
     description: 'Your coloring is warm, rich, and saturated. Think golden hour in a forest — deep ambers, burnt oranges, and olive greens are your signature.',
     palette: [
@@ -1259,8 +1259,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#8B0000', goodName: 'Deep Crimson', badHex: '#F0E68C', badName: 'Soft Yellow', explanation: 'Rich crimson matches your dramatic contrast; soft yellow washes out your intensity.' },
     ],
   },
-  'Cool Winter': {
-    season: 'Cool Winter',
+  'True Winter': {
+    season: 'True Winter',
     tagline: 'Icy, cool, and strikingly pure',
     description: 'Your coloring is cool, high-contrast, and clear. True cool tones — icy pastels to deep jewels with blue undertones — create a striking, elegant look.',
     palette: [
@@ -1377,8 +1377,8 @@ export const SEASON_DATA: Record<SeasonType, SeasonResult> = {
       { goodHex: '#4169E1', goodName: 'Royal Blue', badHex: '#DAA520', badName: 'Goldenrod', explanation: 'Royal blue enhances your cool clarity; warm goldenrod dulls your natural brilliance.' },
     ],
   },
-  'Clear Winter': {
-    season: 'Clear Winter',
+  'Bright Winter': {
+    season: 'Bright Winter',
     tagline: 'Vivid, cool, and electrifyingly bright',
     description: 'You have cool undertones with incredibly high contrast and clarity. Bright, vivid, and clear colors — not muted — make your features pop dramatically.',
     palette: [

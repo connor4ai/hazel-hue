@@ -158,6 +158,8 @@ async function invokeClaudeVision(imageBase64: string, prompt: string): Promise<
         body: JSON.stringify({
           anthropic_version: 'bedrock-2023-05-31',
           max_tokens: 4096,
+          temperature: 0, // Deterministic for classification accuracy
+          system: COLORIST_SYSTEM_PROMPT,
           messages: [
             {
               role: 'user',
@@ -211,11 +213,58 @@ async function invokeClaudeText(prompt: string): Promise<string> {
 
 // ─── Prompts ─────────────────────────────────────────────────────
 
-const COLORIST_SYSTEM_PROMPT = `You are an expert personal color analyst with deep knowledge of seasonal color analysis, the 12-season system, fashion styling, makeup artistry, and hair color theory. You provide warm, personalized, and specific advice. Always respond with valid JSON matching the requested schema.`;
+const COLORIST_SYSTEM_PROMPT = `You are a world-class personal color analyst combining professional draping methodology with color science (Munsell color system, CIE Lab color space). You have deep expertise in the 12-season color analysis system, dermatological undertone assessment, and the perceptual science of simultaneous contrast. You are methodical, precise, and never guess — you analyze systematically. Always respond with valid JSON matching the requested schema.`;
 
-const CLASSIFICATION_PROMPT = `Analyze this person's natural coloring and determine their seasonal color type.
+const CLASSIFICATION_PROMPT = `You are performing a professional 12-season color analysis on this person's photo. Follow this rigorous methodology:
 
-Examine their skin undertone, eye color, natural hair color, and the overall contrast between these features.
+## STEP 1: EXTRACT COLOR DATA
+Sample the dominant colors from three regions:
+- **Skin**: Sample from forehead, cheek, and jawline. Identify the base hue (yellow-based = warm, pink/blue-based = cool, olive/beige = neutral). Note the Munsell value (lightness 1-10 scale) and chroma (saturation intensity).
+- **Hair**: Sample the natural root/mid-shaft color. Determine if it reads warm (golden, auburn, copper, warm brown), cool (ash, blue-black, cool brown), or neutral. Note depth (light/medium/deep).
+- **Eyes**: Identify the dominant iris color and any secondary patterns (warm flecks, cool rings). Note the clarity/saturation.
+
+## STEP 2: DETERMINE THE THREE DIMENSIONS
+These three independent dimensions determine the season:
+
+1. **Temperature (Warm vs Cool)**: Look at skin undertone — does the skin have golden/peachy/yellow undertones (warm) or pink/rosy/blue undertones (cool)? Check vein color at wrist if visible (green = warm, blue/purple = cool). Consider if hair and eyes reinforce or are neutral.
+
+2. **Value (Light vs Deep)**: Assess the overall lightness/darkness of the person's coloring as a whole. Consider hair depth, skin lightness, and eye depth together. Light = fair skin + lighter hair + lighter eyes. Deep = dark hair + deeper skin + darker eyes.
+
+3. **Chroma (Bright/Clear vs Soft/Muted)**: How saturated and clear are their features? Bright = vivid eye color, high-contrast features, clear skin. Soft/Muted = blended, low-contrast, dusty or grayed-down coloring.
+
+## STEP 3: DETERMINE CONTRAST LEVEL
+Contrast = the difference between the lightest and darkest features (usually skin vs hair):
+- **Low contrast**: Hair, skin, and eyes are similar in depth (common in Light Spring, Soft Summer, Soft Autumn)
+- **Medium contrast**: Moderate difference between features (True seasons)
+- **High contrast**: Stark difference between features, e.g. very dark hair with light skin (Deep Winter, Bright Spring, Bright Winter)
+
+## STEP 4: MAP TO ONE OF 12 SEASONS
+Each season has a **dominant** characteristic and a **secondary** one:
+
+**SPRING (Warm base)**
+- LIGHT_SPRING: Dominant = Light, Secondary = Warm. Delicate, fair, warm coloring. Low contrast. Light golden hair, light warm eyes, peachy skin.
+- TRUE_SPRING: Dominant = Warm, Secondary = Bright. The warmest season. Medium value, clear warm coloring. Golden/strawberry hair, warm eyes, warm peachy skin.
+- BRIGHT_SPRING: Dominant = Bright/Clear, Secondary = Warm. High contrast + warm undertone. Can have dark hair with light warm skin. Vivid, saturated features.
+
+**SUMMER (Cool base)**
+- LIGHT_SUMMER: Dominant = Light, Secondary = Cool. Delicate, fair, cool coloring. Low contrast. Ash-blonde hair, light cool eyes, rosy skin.
+- TRUE_SUMMER: Dominant = Cool, Secondary = Muted. The coolest season with muted quality. Ash-toned hair, cool muted eyes, pink-toned skin.
+- SOFT_SUMMER: Dominant = Soft/Muted, Secondary = Cool. Blended, low-contrast, neutral-cool. Mousy/ash hair, grayed eyes, neutral-cool skin.
+
+**AUTUMN (Warm base)**
+- SOFT_AUTUMN: Dominant = Soft/Muted, Secondary = Warm. Blended, low-contrast, neutral-warm. Mousy/golden-brown hair, hazel eyes, warm muted skin.
+- TRUE_AUTUMN: Dominant = Warm, Secondary = Muted. The warmest muted season. Rich warm hair (auburn, chestnut), warm eyes, golden skin.
+- DEEP_AUTUMN: Dominant = Deep/Dark, Secondary = Warm. Dark + warm. Deep brown/black hair with warm cast, dark warm eyes, olive/warm deeper skin.
+
+**WINTER (Cool base)**
+- DEEP_WINTER: Dominant = Deep/Dark, Secondary = Cool. Dark + cool. Very dark hair, dark cool eyes, can have deeper skin with cool/neutral undertone. High drama.
+- TRUE_WINTER: Dominant = Cool, Secondary = Bright. The coolest clear season. Dark cool hair, high contrast, striking cool coloring. Porcelain or deep cool skin.
+- BRIGHT_WINTER: Dominant = Bright/Clear, Secondary = Cool. Highest contrast + cool. Vivid eye color, dark hair, very light cool skin OR deep skin with striking clarity.
+
+## STEP 5: CROSS-CHECK
+- Verify your classification is consistent across all three dimensions
+- If the person sits between two seasons, choose the one where the dominant characteristic is strongest
+- Consider edge cases: olive skin can be warm OR cool; assess the underlying pink vs yellow base beneath the olive
 
 Respond with ONLY valid JSON in this exact format:
 {
@@ -229,7 +278,7 @@ Respond with ONLY valid JSON in this exact format:
     "dominantHairHex": "<hex>",
     "dominantEyeHex": "<hex>"
   },
-  "reasoning": "<brief explanation>"
+  "reasoning": "<detailed explanation covering: (1) skin undertone analysis, (2) hair temperature and depth, (3) eye color and clarity, (4) overall contrast level, (5) which dominant dimension led to the classification>"
 }`;
 
 function palettePrompt(classification: Record<string, unknown>): string {
