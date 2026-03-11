@@ -52,6 +52,19 @@ export interface AnalysisResult extends Analysis {
   siblings?: {
     celebrities: { name: string; description: string }[];
   };
+  nails?: {
+    everyday: PaletteColor[];
+    statement: PaletteColor[];
+    frenchTip: PaletteColor;
+    avoidShades: PaletteColor[];
+  };
+  accessories?: {
+    sunglassesFrames: string[];
+    bagColors: PaletteColor[];
+    scarfColors: PaletteColor[];
+    shoeColors: PaletteColor[];
+    beltColors: string[];
+  };
   avoid?: {
     colorsToAvoid: { hex: string; name: string; reason: string }[];
   };
