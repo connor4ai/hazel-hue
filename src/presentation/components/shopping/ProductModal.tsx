@@ -20,7 +20,6 @@ import { spacing, borderRadius, shadows } from '@presentation/theme/spacing';
 import type {
   ShoppableProduct,
   ClickSource,
-  ProductCategory,
 } from '@presentation/hooks/useShoppingApi';
 import { trackProductClick, formatPrice } from '@presentation/hooks/useShoppingApi';
 

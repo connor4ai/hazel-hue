@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Pressable, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import Svg, { Path, Line } from 'react-native-svg';
 import { Typography } from '@presentation/components/ui/Typography';
 import { colors } from '@presentation/theme/colors';

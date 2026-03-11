@@ -1,5 +1,3 @@
-import type { PaletteColor } from '@domain/shared/types';
-
 /**
  * A product from an external retailer, enriched with palette matching data.
  */

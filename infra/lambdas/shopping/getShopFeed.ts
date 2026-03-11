@@ -16,7 +16,7 @@ import {
   hexToLab,
   ciede2000,
   type Lab,
-} from '../../../src/domain/shopping/services/ColorMatcher';
+} from '../shared/colorMatcher';
 import { z } from 'zod';
 
 // ─── Validation ────────────────────────────────────────────────────
