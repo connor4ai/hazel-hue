@@ -5,8 +5,9 @@ const STEPS = [
     number: '01',
     title: 'Upload a selfie',
     description: 'Take a photo in natural light. No makeup, no filters — just you. We guide you through it.',
-    gradient: 'from-dusty-rose/20 to-dusty-rose/5',
-    iconBg: 'bg-dusty-rose/15',
+    gradient: 'from-dusty-rose/30 via-dusty-rose/10 to-transparent',
+    accentColor: '#D4A5A5',
+    iconBg: 'bg-gradient-to-br from-dusty-rose/25 to-dusty-rose/10',
     iconColor: 'text-dusty-rose',
     icon: (
       <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -19,8 +20,9 @@ const STEPS = [
     number: '02',
     title: 'AI analyzes your coloring',
     description: 'Computer vision examines your skin undertone, eye color, and natural hair to classify your season.',
-    gradient: 'from-sage/20 to-sage/5',
-    iconBg: 'bg-sage/15',
+    gradient: 'from-sage/30 via-sage/10 to-transparent',
+    accentColor: '#A8B5A0',
+    iconBg: 'bg-gradient-to-br from-sage/25 to-sage/10',
     iconColor: 'text-sage-dark',
     icon: (
       <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -31,9 +33,10 @@ const STEPS = [
   {
     number: '03',
     title: 'Get your complete guide',
-    description: 'Receive 10 personalized guides — palette, style lookbook, makeup, hair, nails, jewelry, accessories & more — in under 60 seconds.',
-    gradient: 'from-hazel-100 to-hazel-50/50',
-    iconBg: 'bg-hazel-100',
+    description: 'Receive 10 personalized guides — palette, style lookbook, makeup, hair, nails, jewelry, accessories & more.',
+    gradient: 'from-hazel-200/40 via-hazel-100/20 to-transparent',
+    accentColor: '#8B6F47',
+    iconBg: 'bg-gradient-to-br from-hazel-200/40 to-hazel-100/20',
     iconColor: 'text-hazel',
     icon: (
       <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -46,7 +49,11 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative px-6 py-32 lg:px-12">
-      <div className="mx-auto max-w-6xl">
+      {/* Subtle background accents */}
+      <div className="pointer-events-none absolute left-0 top-1/4 h-[400px] w-[400px] rounded-full bg-gradient-radial from-dusty-rose/10 via-transparent to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute right-0 bottom-1/4 h-[400px] w-[400px] rounded-full bg-gradient-radial from-sage-light/10 via-transparent to-transparent blur-3xl" />
+
+      <div className="relative mx-auto max-w-6xl">
         <div className="text-center">
           <motion.p
             initial={{ opacity: 0 }}
@@ -65,52 +72,89 @@ export function HowItWorks() {
           >
             Three steps to your
             <br className="hidden sm:block" />
-            perfect palette
+            <span className="italic text-gradient">perfect palette</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto mt-5 max-w-md text-charcoal/45"
+          >
+            From selfie to personalized color guide in under 60 seconds.
+            No appointments, no guesswork.
+          </motion.p>
         </div>
 
-        {/* Bento grid layout */}
-        <div className="mt-20 grid gap-5 md:grid-cols-3">
-          {STEPS.map((step, i) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={`bento-card group relative overflow-hidden rounded-3xl p-8 ${
-                i === 0 ? 'md:row-span-1' : ''
-              }`}
-            >
-              {/* Gradient background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
+        {/* Steps — stacked cards with connecting line */}
+        <div className="relative mt-20">
+          {/* Vertical connecting line (desktop) */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-cream-200 via-hazel/15 to-cream-200 md:block" />
 
-              <div className="relative">
-                {/* Step number */}
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-5xl font-bold text-cream-200">
-                    {step.number}
-                  </span>
-                  {/* Connector line (except last) */}
-                  {i < STEPS.length - 1 && (
-                    <div className="hidden h-px w-8 bg-gradient-to-r from-cream-200 to-transparent md:block" />
-                  )}
+          <div className="grid gap-8 md:gap-0">
+            {STEPS.map((step, i) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ delay: i * 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className={`relative md:flex md:items-center md:gap-16 ${
+                  i % 2 === 0 ? '' : 'md:flex-row-reverse'
+                } ${i > 0 ? 'md:mt-[-2rem]' : ''}`}
+              >
+                {/* Step number badge on the connecting line (desktop) */}
+                <div className="absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-2xl border-4 border-cream bg-white shadow-lg"
+                    style={{ boxShadow: `0 8px 30px -6px ${step.accentColor}30` }}
+                  >
+                    <span className="font-display text-lg font-bold text-charcoal">{step.number}</span>
+                  </div>
                 </div>
 
-                {/* Icon */}
-                <div className={`mt-6 flex h-14 w-14 items-center justify-center rounded-2xl ${step.iconBg} ${step.iconColor} transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg`}>
-                  {step.icon}
+                {/* Content card */}
+                <div className={`md:w-[calc(50%-3.5rem)] ${i % 2 === 0 ? 'md:text-right' : ''}`}>
+                  <div
+                    className="group relative overflow-hidden rounded-3xl border border-cream-200/80 bg-white/80 p-8 shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:p-10"
+                    style={{
+                      boxShadow: `0 4px 20px -4px ${step.accentColor}15`,
+                    }}
+                  >
+                    {/* Background gradient on hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
+
+                    <div className="relative">
+                      {/* Mobile step number */}
+                      <div className="mb-5 flex items-center gap-4 md:hidden">
+                        <div
+                          className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-cream-200 bg-white shadow-sm"
+                        >
+                          <span className="font-display text-sm font-bold text-charcoal">{step.number}</span>
+                        </div>
+                        <div className="h-px flex-1 bg-cream-200" />
+                      </div>
+
+                      {/* Icon */}
+                      <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.iconBg} ${step.iconColor} shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg`}>
+                        {step.icon}
+                      </div>
+
+                      <h3 className="mt-6 font-display text-2xl font-bold text-charcoal">
+                        {step.title}
+                      </h3>
+                      <p className="mt-3 text-[15px] leading-relaxed text-charcoal/50">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                <h3 className="mt-6 font-display text-xl font-semibold text-charcoal">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/45">
-                  {step.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                {/* Empty space for the other side */}
+                <div className="hidden md:block md:w-[calc(50%-3.5rem)]" />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Time indicator */}
@@ -119,13 +163,13 @@ export function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto mt-12 flex max-w-xs items-center justify-center gap-3 rounded-full border border-cream-200 bg-white/60 px-6 py-3 backdrop-blur-sm"
+          className="mx-auto mt-16 flex max-w-xs items-center justify-center gap-3 rounded-full border border-cream-200 bg-white/70 px-8 py-4 shadow-md shadow-hazel/5 backdrop-blur-sm"
         >
-          <svg className="h-4 w-4 text-hazel" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <svg className="h-5 w-5 text-hazel" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <span className="text-sm font-medium text-charcoal/50">
-            The entire process takes <span className="font-semibold text-charcoal/70">under 60 seconds</span>
+          <span className="text-sm font-semibold text-charcoal/55">
+            The entire process takes <span className="font-bold text-charcoal/75">under 60 seconds</span>
           </span>
         </motion.div>
       </div>

@@ -71,27 +71,27 @@ function IPhoneMockup() {
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
         className="relative mx-auto w-[285px]"
       >
-        {/* Outer titanium frame */}
-        <div className="iphone-frame relative rounded-[52px] p-[2px]">
-          {/* Inner frame with screen bezel */}
-          <div className="relative overflow-hidden rounded-[50px] bg-[#1a1a1a] p-[10px]">
+        {/* Outer titanium frame — iPhone 17 style with thinner bezels */}
+        <div className="iphone-frame relative rounded-[56px] p-[2px]">
+          {/* Inner frame with ultra-thin bezel */}
+          <div className="relative overflow-hidden rounded-[54px] bg-[#111111] p-[6px]">
 
             {/* Side buttons - volume */}
             <div className="absolute -left-[3.5px] top-[100px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
             <div className="absolute -left-[3.5px] top-[138px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
             {/* Side button - power */}
             <div className="absolute -right-[3.5px] top-[120px] h-[40px] w-[3px] rounded-r-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
-            {/* Silent switch */}
-            <div className="absolute -left-[3.5px] top-[72px] h-[16px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+            {/* Camera Control button — iPhone 17 */}
+            <div className="absolute -right-[3px] top-[260px] h-[20px] w-[3px] rounded-r-sm bg-gradient-to-b from-[#7a7a7e] via-[#909095] to-[#7a7a7e]" />
 
             {/* Screen */}
-            <div className="relative overflow-hidden rounded-[40px] bg-cream">
-              {/* Dynamic Island */}
-              <div className="absolute left-1/2 top-[10px] z-30 -translate-x-1/2">
-                <div className="flex h-[28px] w-[100px] items-center justify-center rounded-full bg-black">
+            <div className="relative overflow-hidden rounded-[48px] bg-cream">
+              {/* Dynamic Island — iPhone 17 smaller pill */}
+              <div className="absolute left-1/2 top-[8px] z-30 -translate-x-1/2">
+                <div className="flex h-[24px] w-[85px] items-center justify-center rounded-full bg-black shadow-sm">
                   {/* Camera lens */}
-                  <div className="ml-auto mr-3 h-[10px] w-[10px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3a]">
-                    <div className="ml-[2px] mt-[2px] h-[3px] w-[3px] rounded-full bg-[#191970]/40" />
+                  <div className="ml-auto mr-2.5 h-[8px] w-[8px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3a]">
+                    <div className="ml-[1.5px] mt-[1.5px] h-[2.5px] w-[2.5px] rounded-full bg-[#191970]/40" />
                   </div>
                 </div>
               </div>
@@ -124,7 +124,7 @@ function IPhoneMockup() {
               </div>
 
               {/* Scrollable app content */}
-              <div className="iphone-screen-content relative h-[520px] overflow-hidden">
+              <div className="iphone-screen-content relative h-[540px] overflow-hidden">
                 <motion.div
                   initial={{ y: 0 }}
                   animate={{ y: [0, -280, -280, -520, -520, 0, 0] }}
@@ -285,7 +285,7 @@ function IPhoneMockup() {
 
               {/* Glass reflection overlay */}
               <div
-                className="pointer-events-none absolute inset-0 z-20 rounded-[40px]"
+                className="pointer-events-none absolute inset-0 z-20 rounded-[48px]"
                 style={{
                   background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.03) 100%)',
                 }}
@@ -395,10 +395,10 @@ export function Hero({ onGetStarted }: HeroProps) {
             >
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-charcoal px-10 py-4.5 text-sm font-semibold text-cream-50 shadow-xl shadow-charcoal/15 transition-all duration-500 hover:shadow-2xl hover:shadow-charcoal/25"
+                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-charcoal px-14 py-5 text-lg font-bold text-cream-50 shadow-2xl shadow-charcoal/20 transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-charcoal/30 sm:px-16 sm:py-6 sm:text-xl"
               >
                 <span className="relative z-10">Get My Colors — Free</span>
-                <svg className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-400 to-hazel-500 transition-transform duration-500 group-hover:translate-x-0" />
