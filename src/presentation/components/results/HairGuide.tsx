@@ -4,6 +4,7 @@ import Svg, { Path, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
+import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { borderRadius, spacing } from '@presentation/theme/spacing';
 
@@ -22,6 +23,7 @@ interface HairData {
 
 interface HairGuideProps {
   hair: HairData;
+  onShop?: (query: string) => void;
 }
 
 /** A flowing gradient strip showing hair color recommendations */
@@ -150,10 +152,13 @@ const termStyles = StyleSheet.create({
   },
 });
 
-export function HairGuideSection({ hair }: HairGuideProps) {
+export function HairGuideSection({ hair, onShop }: HairGuideProps) {
   return (
     <View style={styles.container}>
-      <HandLetterHeading title="Hair Guide" subtitle="What to ask for at the salon" />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <HandLetterHeading title="Hair Guide" subtitle="What to ask for at the salon" />
+        {onShop && <ShopButton label="Shop Hair" onPress={() => onShop('hair color')} />}
+      </View>
 
       {/* Best hair colors as a flowing gradient strip */}
       <OrganicCard variant="subtle">

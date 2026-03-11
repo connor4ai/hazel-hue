@@ -49,6 +49,40 @@ export interface AccessoryData {
   beltColors: string[];
 }
 
+// ─── Shopping Types ─────────────────────────────────────────────────
+
+export interface ShoppableProduct {
+  id: string;
+  name: string;
+  priceInCents: number;
+  currency: string;
+  imageUrl: string;
+  merchantName: string;
+  affiliateUrl: string;
+  merchantUrl: string;
+  matchScore: number;
+  matchedPaletteHex: string;
+  dominantColors: string[];
+  category: ProductCategory;
+}
+
+export type ProductCategory =
+  | 'clothing'
+  | 'makeup'
+  | 'nails'
+  | 'jewelry'
+  | 'accessories'
+  | 'hair';
+
+export type ClickSource =
+  | 'lookbook'
+  | 'makeup_guide'
+  | 'hair_guide'
+  | 'nail_guide'
+  | 'jewelry_guide'
+  | 'accessory_guide'
+  | 'shop_tab';
+
 export interface DrapeComparison {
   goodHex: string;
   goodName: string;

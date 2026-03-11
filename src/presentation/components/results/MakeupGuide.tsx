@@ -5,6 +5,7 @@ import { HandLetterHeading } from '@presentation/components/brand/HandLetterHead
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
 import { ColorSwatch } from '@presentation/components/ui/ColorSwatch';
+import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { borderRadius, spacing } from '@presentation/theme/spacing';
 
@@ -23,6 +24,7 @@ interface MakeupData {
 
 interface MakeupGuideProps {
   makeup: MakeupData;
+  onShop?: (query: string) => void;
 }
 
 /** A horizontal color bar showing a curated set of shades */
@@ -183,10 +185,13 @@ const heroStyles = StyleSheet.create({
   },
 });
 
-export function MakeupGuideSection({ makeup }: MakeupGuideProps) {
+export function MakeupGuideSection({ makeup, onShop }: MakeupGuideProps) {
   return (
     <View style={styles.container}>
-      <HandLetterHeading title="Makeup Guide" subtitle="Your most flattering shades" />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <HandLetterHeading title="Makeup Guide" subtitle="Your most flattering shades" />
+        {onShop && <ShopButton label="Shop Makeup" onPress={() => onShop('makeup')} />}
+      </View>
 
       {/* Foundation zone */}
       <OrganicCard variant="subtle">
