@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, StyleSheet, Linking, TouchableOpacity } from 'react-native';
-import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
+import Svg, { Path, Defs, LinearGradient, Stop, Rect, Circle } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
-import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
 import { colors } from '@presentation/theme/colors';
-import { spacing } from '@presentation/theme/spacing';
+import { borderRadius, spacing, shadows } from '@presentation/theme/spacing';
 
 interface PinterestBoardsProps {
   seasonName: string;
   makeupBoardUrl: string;
   outfitsBoardUrl: string;
+  accentColor?: string;
 }
 
-function PinterestIcon() {
+function PinterestIcon({ size = 16 }: { size?: number }) {
   return (
-    <Svg width={20} height={20} viewBox="0 0 24 24">
+    <Svg width={size} height={size} viewBox="0 0 24 24">
       <Defs>
         <LinearGradient id="pinGrad" x1="0" y1="0" x2="1" y2="1">
           <Stop offset="0" stopColor={colors.terracotta} />
@@ -30,47 +30,160 @@ function PinterestIcon() {
   );
 }
 
-function BoardButton({ label, url }: { label: string; url: string }) {
+/** A decorative mini moodboard grid rendered in SVG to evoke Pinterest's visual feel */
+function MoodboardPreview({ palette, variant }: { palette: string[]; variant: 'makeup' | 'outfits' }) {
+  const c = palette.length >= 3 ? palette : [colors.dustyRose, colors.hazel, colors.sage];
   return (
-    <TouchableOpacity
-      style={styles.boardButton}
-      onPress={() => Linking.openURL(url)}
-      activeOpacity={0.7}
-    >
-      <PinterestIcon />
-      <View style={styles.boardTextContainer}>
-        <Typography variant="label" color={colors.charcoal}>
-          {label}
-        </Typography>
-        <Typography variant="caption" color={colors.gray400}>
-          Curated inspiration board
-        </Typography>
-      </View>
-      <Svg width={16} height={16} viewBox="0 0 24 24">
+    <Svg width={80} height={80} viewBox="0 0 80 80">
+      <Defs>
+        <LinearGradient id={`bg_${variant}`} x1="0" y1="0" x2="1" y2="1">
+          <Stop offset="0" stopColor={c[0]} stopOpacity={0.15} />
+          <Stop offset="1" stopColor={c[2]} stopOpacity={0.08} />
+        </LinearGradient>
+      </Defs>
+      <Rect width="80" height="80" rx="12" fill={`url(#bg_${variant})`} />
+      {/* Pinterest-style pin grid */}
+      <Rect x="6" y="6" width="32" height="42" rx="6" fill={c[0]} opacity={0.6} />
+      <Rect x="42" y="6" width="32" height="20" rx="6" fill={c[1]} opacity={0.5} />
+      <Rect x="42" y="30" width="32" height="18" rx="6" fill={c[2]} opacity={0.4} />
+      <Rect x="6" y="52" width="20" height="22" rx="6" fill={c[1]} opacity={0.35} />
+      <Rect x="30" y="52" width="44" height="22" rx="6" fill={c[0]} opacity={0.25} />
+      {/* Center icon overlay */}
+      <Circle cx="40" cy="40" r="14" fill="white" opacity={0.85} />
+      {variant === 'makeup' ? (
+        <Rect x="36" y="30" width="8" height="16" rx="2" fill={c[0]} />
+      ) : (
         <Path
-          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-          stroke={colors.gray400}
-          strokeWidth="1.5"
+          d="M40 32C40 32 42 32 42 33.5C42 35 40 35 40 35L33 41H47L40 35"
+          stroke={c[0]}
+          strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
           fill="none"
         />
-      </Svg>
+      )}
+    </Svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <Svg width={14} height={14} viewBox="0 0 24 24">
+      <Path
+        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+        stroke={colors.gray400}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
+function BoardCard({
+  label,
+  description,
+  url,
+  palette,
+  variant,
+}: {
+  label: string;
+  description: string;
+  url: string;
+  palette: string[];
+  variant: 'makeup' | 'outfits';
+}) {
+  return (
+    <TouchableOpacity
+      style={cardStyles.container}
+      onPress={() => Linking.openURL(url)}
+      activeOpacity={0.7}
+    >
+      <MoodboardPreview palette={palette} variant={variant} />
+      <View style={cardStyles.content}>
+        <View style={cardStyles.titleRow}>
+          <PinterestIcon />
+          <Typography variant="label" color={colors.charcoal}>
+            {label}
+          </Typography>
+        </View>
+        <Typography variant="caption" color={colors.gray500} numberOfLines={2}>
+          {description}
+        </Typography>
+        <View style={cardStyles.ctaRow}>
+          <Typography variant="caption" color={colors.terracotta}>
+            View board
+          </Typography>
+          <ExternalLinkIcon />
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }
 
-export function PinterestBoardsSection({ seasonName, makeupBoardUrl, outfitsBoardUrl }: PinterestBoardsProps) {
+const cardStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[4],
+    padding: spacing[4],
+    backgroundColor: colors.white,
+    borderTopLeftRadius: borderRadius.xl,
+    borderTopRightRadius: borderRadius.lg,
+    borderBottomLeftRadius: borderRadius.lg,
+    borderBottomRightRadius: borderRadius['2xl'],
+    borderWidth: 1,
+    borderColor: colors.cream200,
+    ...shadows.sm,
+  },
+  content: {
+    flex: 1,
+    gap: spacing[1],
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
+  },
+  ctaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[1],
+    marginTop: spacing[1],
+  },
+});
+
+export function PinterestBoardsSection({
+  seasonName,
+  makeupBoardUrl,
+  outfitsBoardUrl,
+  accentColor,
+}: PinterestBoardsProps) {
+  const palette = accentColor
+    ? [accentColor, colors.hazel, colors.sage]
+    : [colors.dustyRose, colors.hazel, colors.sage];
+
   return (
     <View style={styles.container}>
-      <HandLetterHeading title="Curated Inspiration" />
-      <OrganicCard variant="subtle" style={styles.card}>
-        <Typography variant="body" color={colors.gray500} align="center">
-          Hand-picked {seasonName} inspiration boards
-        </Typography>
-        <BoardButton label={`${seasonName} Makeup`} url={makeupBoardUrl} />
-        <BoardButton label={`${seasonName} Outfits`} url={outfitsBoardUrl} />
-      </OrganicCard>
+      <HandLetterHeading
+        title="Curated Inspiration"
+        subtitle={`Hand-picked ${seasonName} boards on Pinterest`}
+      />
+      <BoardCard
+        label={`${seasonName} Makeup`}
+        description={`Lipstick, eyeshadow & blush looks curated for your ${seasonName} palette`}
+        url={makeupBoardUrl}
+        palette={palette}
+        variant="makeup"
+      />
+      <BoardCard
+        label={`${seasonName} Outfits`}
+        description="Complete outfits, color combos & seasonal styling in your colors"
+        url={outfitsBoardUrl}
+        palette={palette}
+        variant="outfits"
+      />
     </View>
   );
 }
@@ -78,22 +191,5 @@ export function PinterestBoardsSection({ seasonName, makeupBoardUrl, outfitsBoar
 const styles = StyleSheet.create({
   container: {
     gap: spacing[4],
-  },
-  card: {
-    gap: spacing[3],
-  },
-  boardButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing[3],
-    padding: spacing[4],
-    borderRadius: 16,
-    backgroundColor: colors.cream50,
-    borderWidth: 1,
-    borderColor: colors.cream200,
-  },
-  boardTextContainer: {
-    flex: 1,
-    gap: 2,
   },
 });

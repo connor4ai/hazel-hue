@@ -174,6 +174,7 @@ export default function ResultsScreen() {
                 seasonName={seasonName}
                 makeupBoardUrl={seasonMeta.pinterest.makeup}
                 outfitsBoardUrl={seasonMeta.pinterest.outfits}
+                accentColor={seasonAccentColor}
               />
               <BotanicalDivider variant="leaves" />
             </>
