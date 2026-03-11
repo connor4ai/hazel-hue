@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Svg, { Defs, LinearGradient, Stop, Rect, Circle, Path } from 'react-native-svg';
+import Svg, { Defs, LinearGradient, Stop, Rect, Path } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
 import { colors } from '@presentation/theme/colors';
-import { borderRadius, spacing, shadows } from '@presentation/theme/spacing';
+import { borderRadius, spacing } from '@presentation/theme/spacing';
 
 interface JewelryData {
   bestMetals: string[];

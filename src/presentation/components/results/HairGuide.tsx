@@ -5,7 +5,7 @@ import { HandLetterHeading } from '@presentation/components/brand/HandLetterHead
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
 import { colors } from '@presentation/theme/colors';
-import { borderRadius, spacing, shadows } from '@presentation/theme/spacing';
+import { borderRadius, spacing } from '@presentation/theme/spacing';
 
 interface PaletteColor {
   hex: string;
