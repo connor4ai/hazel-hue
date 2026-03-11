@@ -11,7 +11,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import type { ShoppableProduct, ClickSource, ProductCategory } from '../../data/seasons';
+import type { ShoppableProduct, ClickSource } from '../../data/seasons';
 import { trackProductClick, formatPrice } from '../../hooks/useShoppingApi';
 
 interface ProductModalProps {
