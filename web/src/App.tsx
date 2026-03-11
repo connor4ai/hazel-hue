@@ -5,7 +5,6 @@ import { Hero } from './components/Hero';
 import { HowItWorks } from './components/HowItWorks';
 import { ResultsPreview } from './components/ResultsPreview';
 import { SeasonMarquee } from './components/SeasonMarquee';
-import { Testimonials } from './components/Testimonials';
 import { GetStarted } from './components/GetStarted';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
@@ -44,8 +43,25 @@ export function App() {
       const anchor = (e.target as HTMLElement).closest('a');
       if (!anchor) return;
       const href = anchor.getAttribute('href');
-      if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return;
+      if (!href || href.startsWith('http') || href.startsWith('mailto:')) return;
       if (anchor.getAttribute('target') === '_blank') return;
+
+      // Handle anchor links — if not on home page, navigate home first then scroll
+      if (href.startsWith('#')) {
+        if (window.location.pathname !== '/') {
+          e.preventDefault();
+          navigate('/');
+          // Wait for home page to render, then scroll to the section
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              const el = document.querySelector(href);
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          });
+        }
+        return;
+      }
+
       e.preventDefault();
       navigate(href);
     };
@@ -97,7 +113,6 @@ export function App() {
         <SeasonMarquee />
         <HowItWorks />
         <ResultsPreview />
-        <Testimonials />
         <GetStarted onGetStarted={handleGetStarted} />
         <FAQ />
       </main>

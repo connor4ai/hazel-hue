@@ -124,6 +124,11 @@
     animation-play-state: paused;
   }
 
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+
   /* Noise texture overlay */
   .noise::after {
     content: '';

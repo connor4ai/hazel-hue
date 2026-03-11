@@ -90,7 +90,6 @@ export function PhotoUpload({ onPhotoSelected }: Props) {
               ref={inputRef}
               type="file"
               accept="image/*"
-              capture="user"
               onChange={onFileChange}
               className="hidden"
             />

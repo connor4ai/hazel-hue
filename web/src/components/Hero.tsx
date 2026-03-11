@@ -19,12 +19,6 @@ const BEST_COLORS = [
   { hex: '#C4956A', name: 'Camel' },
 ];
 
-const AVOID_COLORS = [
-  { hex: '#FF1493', name: 'Hot Pink' },
-  { hex: '#00CED1', name: 'Bright Teal' },
-  { hex: '#7FFF00', name: 'Chartreuse' },
-];
-
 function IPhoneMockup() {
   const phoneRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
@@ -77,27 +71,27 @@ function IPhoneMockup() {
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
         className="relative mx-auto w-[285px]"
       >
-        {/* Outer titanium frame */}
-        <div className="iphone-frame relative rounded-[52px] p-[2px]">
-          {/* Inner frame with screen bezel */}
-          <div className="relative overflow-hidden rounded-[50px] bg-[#1a1a1a] p-[10px]">
+        {/* Outer titanium frame — iPhone 17 style with thinner bezels */}
+        <div className="iphone-frame relative rounded-[56px] p-[2px]">
+          {/* Inner frame with ultra-thin bezel */}
+          <div className="relative overflow-hidden rounded-[54px] bg-[#111111] p-[6px]">
 
             {/* Side buttons - volume */}
             <div className="absolute -left-[3.5px] top-[100px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
             <div className="absolute -left-[3.5px] top-[138px] h-[28px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
             {/* Side button - power */}
             <div className="absolute -right-[3.5px] top-[120px] h-[40px] w-[3px] rounded-r-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
-            {/* Silent switch */}
-            <div className="absolute -left-[3.5px] top-[72px] h-[16px] w-[3px] rounded-l-sm bg-gradient-to-b from-[#8a8a8e] via-[#a0a0a5] to-[#8a8a8e]" />
+            {/* Camera Control button — iPhone 17 */}
+            <div className="absolute -right-[3px] top-[260px] h-[20px] w-[3px] rounded-r-sm bg-gradient-to-b from-[#7a7a7e] via-[#909095] to-[#7a7a7e]" />
 
             {/* Screen */}
-            <div className="relative overflow-hidden rounded-[40px] bg-cream">
-              {/* Dynamic Island */}
-              <div className="absolute left-1/2 top-[10px] z-30 -translate-x-1/2">
-                <div className="flex h-[28px] w-[100px] items-center justify-center rounded-full bg-black">
+            <div className="relative overflow-hidden rounded-[48px] bg-cream">
+              {/* Dynamic Island — iPhone 17 smaller pill */}
+              <div className="absolute left-1/2 top-[8px] z-30 -translate-x-1/2">
+                <div className="flex h-[24px] w-[85px] items-center justify-center rounded-full bg-black shadow-sm">
                   {/* Camera lens */}
-                  <div className="ml-auto mr-3 h-[10px] w-[10px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3a]">
-                    <div className="ml-[2px] mt-[2px] h-[3px] w-[3px] rounded-full bg-[#191970]/40" />
+                  <div className="ml-auto mr-2.5 h-[8px] w-[8px] rounded-full bg-[#1a1a2e] ring-1 ring-[#2a2a3a]">
+                    <div className="ml-[1.5px] mt-[1.5px] h-[2.5px] w-[2.5px] rounded-full bg-[#191970]/40" />
                   </div>
                 </div>
               </div>
@@ -130,15 +124,15 @@ function IPhoneMockup() {
               </div>
 
               {/* Scrollable app content */}
-              <div className="iphone-screen-content relative h-[520px] overflow-hidden">
+              <div className="iphone-screen-content relative h-[540px] overflow-hidden">
                 <motion.div
                   initial={{ y: 0 }}
-                  animate={{ y: [0, -180, -180, 0, 0] }}
+                  animate={{ y: [0, -280, -280, -520, -520, 0, 0] }}
                   transition={{
-                    duration: 12,
+                    duration: 18,
                     repeat: Infinity,
                     ease: 'easeInOut',
-                    times: [0, 0.3, 0.55, 0.85, 1],
+                    times: [0, 0.2, 0.35, 0.55, 0.75, 0.9, 1],
                   }}
                   className="px-5 pb-12"
                 >
@@ -194,33 +188,91 @@ function IPhoneMockup() {
                     </div>
                   </div>
 
-                  {/* Colors to avoid */}
+                  {/* Makeup preview */}
                   <div className="mt-5">
-                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-charcoal/40">
-                      Colors to Minimize
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-hazel/70">
+                      Your Makeup Guide
                     </p>
-                    <div className="mt-2 space-y-1.5">
-                      {AVOID_COLORS.map((c) => (
-                        <div key={c.hex} className="flex items-center gap-2.5">
-                          <div className="h-5 w-5 rounded-md opacity-60 shadow-sm" style={{ backgroundColor: c.hex }} />
-                          <span className="text-[9px] text-charcoal/35 line-through decoration-charcoal/20">{c.name}</span>
-                        </div>
-                      ))}
+                    <div className="mt-2.5 rounded-xl bg-dusty-rose/10 p-3">
+                      <p className="text-[7px] font-semibold text-dusty-rose">Your Perfect Red</p>
+                      <div className="mt-1.5 flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full shadow-sm" style={{ backgroundColor: '#B5443C' }} />
+                        <span className="text-[8px] text-charcoal/50">Spiced Brick Red</span>
+                      </div>
+                      <div className="mt-2.5 flex gap-1.5">
+                        {['#C4756A', '#D4A5A5', '#A0695C', '#E8B4A0', '#8B5E5E', '#CC8B72'].map((hex) => (
+                          <div key={hex} className="h-4 w-4 rounded-full shadow-sm" style={{ backgroundColor: hex }} />
+                        ))}
+                      </div>
+                      <p className="mt-1.5 text-[6.5px] text-charcoal/30">6 lip shades from nude to bold</p>
                     </div>
                   </div>
 
-                  {/* Style tips card */}
+                  {/* Hair guide preview */}
+                  <div className="mt-5">
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-hazel/70">
+                      Hair Color Guide
+                    </p>
+                    <div className="mt-2 space-y-1.5">
+                      {[
+                        { hex: '#8B6F47', name: 'Golden Bronde' },
+                        { hex: '#A0845C', name: 'Honey Caramel' },
+                        { hex: '#6B4F35', name: 'Chestnut' },
+                      ].map((c) => (
+                        <div key={c.hex} className="flex items-center gap-2.5">
+                          <div className="h-5 w-5 rounded-md shadow-sm" style={{ backgroundColor: c.hex }} />
+                          <span className="text-[9px] text-charcoal/60">{c.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[7px] italic text-charcoal/30">+ salon terminology to bring to your stylist</p>
+                  </div>
+
+                  {/* Nail polish preview */}
+                  <div className="mt-5">
+                    <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-hazel/70">
+                      Nail Polish Guide
+                    </p>
+                    <div className="mt-2.5 flex gap-2">
+                      {['#D4A5A5', '#C4A882', '#9B4F3A', '#B19CD9'].map((hex) => (
+                        <div key={hex} className="h-7 w-7 rounded-lg shadow-sm" style={{ backgroundColor: hex }} />
+                      ))}
+                    </div>
+                    <p className="mt-1.5 text-[6.5px] text-charcoal/30">Everyday + statement shades</p>
+                  </div>
+
+                  {/* Jewelry preview */}
                   <div className="mt-5 rounded-xl bg-hazel-50/60 p-3.5">
-                    <p className="text-[8px] font-semibold text-hazel">Style Tip</p>
+                    <p className="text-[8px] font-semibold text-hazel">Jewelry & Metals</p>
                     <p className="mt-1 text-[8px] leading-relaxed text-charcoal/50">
-                      Pair your warm neutrals with earthy accents.
-                      Terracotta and sage are your power combination.
+                      Gold, Rose Gold, Brass · Amber, Citrine, Carnelian
                     </p>
                   </div>
 
-                  {/* CTA button */}
+                  {/* Accessories preview */}
+                  <div className="mt-5 rounded-xl bg-sage/10 p-3.5">
+                    <p className="text-[8px] font-semibold text-sage-dark">Accessories</p>
+                    <p className="mt-1 text-[8px] leading-relaxed text-charcoal/50">
+                      Tortoiseshell frames · Cognac bags · Camel shoes
+                    </p>
+                  </div>
+
+                  {/* Pinterest CTA */}
+                  <div className="mt-5 flex items-center gap-2.5 rounded-xl border border-cream-200 bg-white/60 p-3">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-terracotta/10">
+                      <svg className="h-3.5 w-3.5 text-terracotta" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.425 1.808-2.425.853 0 1.265.64 1.265 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.282a.3.3 0 01.069.288l-.278 1.133c-.044.183-.145.222-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.527-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-[8px] font-semibold text-charcoal">Curated Inspiration</p>
+                      <p className="text-[6.5px] text-charcoal/40">Soft Autumn makeup & outfit boards</p>
+                    </div>
+                  </div>
+
+                  {/* Share CTA */}
                   <div className="mt-5 rounded-xl bg-charcoal py-2.5 text-center">
-                    <span className="text-[10px] font-semibold text-cream-50">View Full Palette</span>
+                    <span className="text-[10px] font-semibold text-cream-50">Share My Results</span>
                   </div>
                 </motion.div>
 
@@ -233,7 +285,7 @@ function IPhoneMockup() {
 
               {/* Glass reflection overlay */}
               <div
-                className="pointer-events-none absolute inset-0 z-20 rounded-[40px]"
+                className="pointer-events-none absolute inset-0 z-20 rounded-[48px]"
                 style={{
                   background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.03) 100%)',
                 }}
@@ -329,9 +381,9 @@ export function Hero({ onGetStarted }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 max-w-md text-lg leading-relaxed text-charcoal/55"
             >
-              Upload a selfie. In under a minute, get your seasonal color palette,
-              style guide, and beauty recommendations — personalized to your
-              unique coloring.{' '}
+              Upload a selfie and get your complete color guide in under a minute —
+              palette, style lookbook, makeup, hair, nails, jewelry, and accessories,
+              all personalized to your unique coloring.{' '}
               <span className="font-semibold text-charcoal/70">Completely free.</span>
             </motion.p>
 
@@ -343,10 +395,10 @@ export function Hero({ onGetStarted }: HeroProps) {
             >
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-charcoal px-10 py-4.5 text-sm font-semibold text-cream-50 shadow-xl shadow-charcoal/15 transition-all duration-500 hover:shadow-2xl hover:shadow-charcoal/25"
+                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full bg-charcoal px-14 py-5 text-lg font-bold text-cream-50 shadow-2xl shadow-charcoal/20 transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-charcoal/30 sm:px-16 sm:py-6 sm:text-xl"
               >
                 <span className="relative z-10">Get My Colors — Free</span>
-                <svg className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-400 to-hazel-500 transition-transform duration-500 group-hover:translate-x-0" />

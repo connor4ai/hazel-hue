@@ -29,6 +29,8 @@ export const endpoints = {
     hairGuide: (analysisId: string) => `${BASE}/recommendation/${analysisId}/hair`,
     jewelryGuide: (analysisId: string) => `${BASE}/recommendation/${analysisId}/jewelry`,
     seasonSiblings: (analysisId: string) => `${BASE}/recommendation/${analysisId}/siblings`,
+    nailGuide: (analysisId: string) => `${BASE}/recommendation/${analysisId}/nails`,
+    accessoryGuide: (analysisId: string) => `${BASE}/recommendation/${analysisId}/accessories`,
   },
 
   // Experience context

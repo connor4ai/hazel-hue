@@ -14,7 +14,8 @@ const SEASONS = [
 ];
 
 export function SeasonMarquee() {
-  const items = [...SEASONS, ...SEASONS];
+  // Triple the items for seamless loop
+  const items = [...SEASONS, ...SEASONS, ...SEASONS];
 
   return (
     <section className="relative overflow-hidden border-y border-cream-200/60 py-6">
@@ -22,7 +23,12 @@ export function SeasonMarquee() {
       <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-cream to-transparent" />
       <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-cream to-transparent" />
 
-      <div className="marquee-track">
+      <div
+        className="flex w-max gap-0"
+        style={{
+          animation: 'marquee-scroll 35s linear infinite',
+        }}
+      >
         {items.map((season, i) => (
           <div key={i} className="group flex items-center gap-3 px-8">
             {/* Mini gradient swatch */}

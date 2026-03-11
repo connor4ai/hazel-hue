@@ -37,6 +37,11 @@ export function getSeasonDisplayName(season: Season): string {
     .join(' ');
 }
 
+export interface SeasonPinterestBoards {
+  makeup: string;
+  outfits: string;
+}
+
 export interface SeasonMetadata {
   season: Season;
   family: SeasonFamily;
@@ -46,6 +51,7 @@ export interface SeasonMetadata {
   temperature: 'warm' | 'cool';
   value: 'light' | 'medium' | 'deep';
   chroma: 'bright' | 'soft' | 'true';
+  pinterest: SeasonPinterestBoards;
 }
 
 export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
@@ -58,6 +64,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'light',
     chroma: 'soft',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/light-spring-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/light-spring-outfits/',
+    },
   },
   [Season.TrueSpring]: {
     season: Season.TrueSpring,
@@ -68,6 +78,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'medium',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/true-spring-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/true-spring-outfits/',
+    },
   },
   [Season.BrightSpring]: {
     season: Season.BrightSpring,
@@ -78,6 +92,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'medium',
     chroma: 'bright',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/bright-spring-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/bright-spring-outfits/',
+    },
   },
   [Season.LightSummer]: {
     season: Season.LightSummer,
@@ -88,6 +106,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'light',
     chroma: 'soft',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/light-summer-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/light-summer-outfits/',
+    },
   },
   [Season.TrueSummer]: {
     season: Season.TrueSummer,
@@ -98,6 +120,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'medium',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/true-summer-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/true-summer-outfits/',
+    },
   },
   [Season.SoftSummer]: {
     season: Season.SoftSummer,
@@ -108,6 +134,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'medium',
     chroma: 'soft',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/soft-summer-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/soft-summer-outfits/',
+    },
   },
   [Season.SoftAutumn]: {
     season: Season.SoftAutumn,
@@ -118,6 +148,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'medium',
     chroma: 'soft',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/soft-autumn-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/soft-autumn-outfits/',
+    },
   },
   [Season.TrueAutumn]: {
     season: Season.TrueAutumn,
@@ -128,6 +162,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'medium',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/true-autumn-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/true-autumn-outfits/',
+    },
   },
   [Season.DeepAutumn]: {
     season: Season.DeepAutumn,
@@ -138,6 +176,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'warm',
     value: 'deep',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/deep-autumn-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/deep-autumn-outfits/',
+    },
   },
   [Season.DeepWinter]: {
     season: Season.DeepWinter,
@@ -148,6 +190,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'deep',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/deep-winter-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/deep-winter-outfits/',
+    },
   },
   [Season.TrueWinter]: {
     season: Season.TrueWinter,
@@ -158,6 +204,10 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'medium',
     chroma: 'true',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/true-winter-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/true-winter-outfits/',
+    },
   },
   [Season.BrightWinter]: {
     season: Season.BrightWinter,
@@ -168,5 +218,9 @@ export const SEASON_METADATA: Record<Season, SeasonMetadata> = {
     temperature: 'cool',
     value: 'medium',
     chroma: 'bright',
+    pinterest: {
+      makeup: 'https://www.pinterest.com/hazelandhue/bright-winter-makeup/',
+      outfits: 'https://www.pinterest.com/hazelandhue/bright-winter-outfits/',
+    },
   },
 };
