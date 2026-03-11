@@ -5,7 +5,7 @@ const FAQS = [
   {
     question: 'What is seasonal color analysis?',
     answer:
-      'Seasonal color analysis determines which colors look best on you based on your natural coloring — skin undertone, eye color, and hair color. It categorizes you into one of 12 seasons (e.g., Warm Spring, Cool Summer, Deep Autumn) each with a curated palette of 30+ colors that harmonize with your features.',
+      'Seasonal color analysis determines which colors look best on you based on your natural coloring — skin undertone, eye color, and hair color. It categorizes you into one of 12 seasons (e.g., True Spring, True Summer, Deep Autumn) each with a curated palette of 30+ colors that harmonize with your features.',
   },
   {
     question: 'How accurate is AI color analysis?',
