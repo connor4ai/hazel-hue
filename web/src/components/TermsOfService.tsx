@@ -119,7 +119,26 @@ export function TermsOfService() {
         </section>
 
         <section>
-          <h2>13. Contact Us</h2>
+          <h2>13. Affiliate Links & Shopping</h2>
+          <p>
+            The Service may include links to third-party retailer websites ("Affiliate Links"). When you click
+            on an Affiliate Link and make a purchase, Hazel & Hue may earn a small commission at no additional
+            cost to you. This commission helps support the continued development and operation of the Service.
+          </p>
+          <p>
+            Affiliate relationships do not influence our color analysis results or product recommendations.
+            Our color-matching algorithm scores products purely based on perceptual color distance from your
+            personal palette. We do not accept payment from retailers to influence product rankings or recommendations.
+          </p>
+          <p>
+            Product availability, pricing, and shipping are determined entirely by the third-party retailers.
+            Hazel & Hue is not responsible for the quality, availability, or delivery of products purchased
+            through Affiliate Links. Any issues with purchases should be directed to the relevant retailer.
+          </p>
+        </section>
+
+        <section>
+          <h2>14. Contact Us</h2>
           <p>
             If you have any questions about these Terms, please contact us at{' '}
             <a href="mailto:support@hazelandhue.com" className="text-hazel underline">support@hazelandhue.com</a>.

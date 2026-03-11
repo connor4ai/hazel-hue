@@ -221,6 +221,42 @@ export class ApiStack extends cdk.Stack {
     table.grantReadWriteData(generateGuidesFn);
     generateGuidesFn.addToRolePolicy(bedrockPolicy);
 
+    // ─── Shopping Context Lambdas ──────────────────────────────────
+    const shoppingEnv = {
+      ...lambdaEnv,
+      SKIMLINKS_PUBLISHER_ID: process.env.SKIMLINKS_PUBLISHER_ID ?? '',
+      SKIMLINKS_CLIENT_ID: process.env.SKIMLINKS_CLIENT_ID ?? '',
+      SKIMLINKS_API_KEY: process.env.SKIMLINKS_API_KEY ?? '',
+      IMAGGA_API_KEY: process.env.IMAGGA_API_KEY ?? '',
+      IMAGGA_API_SECRET: process.env.IMAGGA_API_SECRET ?? '',
+    };
+
+    const shoppingDefaults: nodejs.NodejsFunctionProps = {
+      ...readDefaults,
+      memorySize: 512,
+      timeout: cdk.Duration.seconds(30),
+      environment: shoppingEnv,
+    };
+
+    const searchProductsFn = new nodejs.NodejsFunction(this, 'SearchProducts', {
+      ...shoppingDefaults,
+      entry: path.join(__dirname, '../../lambdas/shopping/searchProducts.ts'),
+    });
+    table.grantReadData(searchProductsFn);
+
+    const getShopFeedFn = new nodejs.NodejsFunction(this, 'GetShopFeed', {
+      ...shoppingDefaults,
+      timeout: cdk.Duration.minutes(2), // Feed generation can take longer
+      entry: path.join(__dirname, '../../lambdas/shopping/getShopFeed.ts'),
+    });
+    table.grantReadWriteData(getShopFeedFn);
+
+    const trackClickFn = new nodejs.NodejsFunction(this, 'TrackClick', {
+      ...writeDefaults,
+      entry: path.join(__dirname, '../../lambdas/shopping/trackClick.ts'),
+    });
+    table.grantReadWriteData(trackClickFn);
+
     // ─── Routes ──────────────────────────────────────────────────
     this.httpApi.addRoutes({
       path: '/user/entitlements',
@@ -317,6 +353,28 @@ export class ApiStack extends cdk.Stack {
       path: '/recommendation/{id}/guides',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('GenerateGuides', generateGuidesFn),
+      authorizer,
+    });
+
+    // ─── Shopping Context Routes ────────────────────────────────────
+    this.httpApi.addRoutes({
+      path: '/shopping/search',
+      methods: [apigatewayv2.HttpMethod.GET],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('SearchProducts', searchProductsFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/shopping/feed',
+      methods: [apigatewayv2.HttpMethod.GET],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('GetShopFeed', getShopFeedFn),
+      authorizer,
+    });
+
+    this.httpApi.addRoutes({
+      path: '/shopping/click',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('TrackClick', trackClickFn),
       authorizer,
     });
 

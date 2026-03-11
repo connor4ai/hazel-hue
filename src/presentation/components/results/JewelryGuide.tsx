@@ -4,6 +4,7 @@ import Svg, { Defs, LinearGradient, Stop, Rect, Path } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
+import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { borderRadius, spacing } from '@presentation/theme/spacing';
 
@@ -15,6 +16,7 @@ interface JewelryData {
 
 interface JewelryGuideProps {
   jewelry: JewelryData;
+  onShop?: (query: string) => void;
 }
 
 /** Map common metal names to gradient colors for visual swatches */
@@ -126,10 +128,13 @@ const gemStyles = StyleSheet.create({
   },
 });
 
-export function JewelryGuideSection({ jewelry }: JewelryGuideProps) {
+export function JewelryGuideSection({ jewelry, onShop }: JewelryGuideProps) {
   return (
     <View style={styles.container}>
-      <HandLetterHeading title="Jewelry & Metals" subtitle="Metals and stones that complement you" />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <HandLetterHeading title="Jewelry & Metals" subtitle="Metals and stones that complement you" />
+        {onShop && <ShopButton label="Shop Jewelry" onPress={() => onShop(`${jewelry.bestMetals[0]} jewelry`)} />}
+      </View>
 
       {/* Best metals as visual swatches */}
       {jewelry.bestMetals.length > 0 && (

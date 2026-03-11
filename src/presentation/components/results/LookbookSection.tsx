@@ -4,6 +4,7 @@ import Svg, { Path, Circle, Line } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
+import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { borderRadius, spacing, shadows } from '@presentation/theme/spacing';
 
@@ -25,6 +26,7 @@ interface StyleGuideData {
 
 interface LookbookSectionProps {
   styleGuide: StyleGuideData;
+  onShop?: (query: string, targetHex: string) => void;
 }
 
 /** A mini hanger icon rendered in SVG */
@@ -44,8 +46,8 @@ function HangerIcon({ color: iconColor }: { color: string }) {
   );
 }
 
-/** Visual outfit piece showing a color chip + garment name */
-function OutfitPiece({ item, color: pieceColor }: { item: string; color: PaletteColor }) {
+/** Visual outfit piece showing a color chip + garment name + shop button */
+function OutfitPiece({ item, color: pieceColor, onShop }: { item: string; color: PaletteColor; onShop?: (query: string, hex: string) => void }) {
   return (
     <View style={pieceStyles.container}>
       <View
@@ -68,6 +70,9 @@ function OutfitPiece({ item, color: pieceColor }: { item: string; color: Palette
           {pieceColor.name}
         </Typography>
       </View>
+      {onShop && (
+        <ShopButton compact onPress={() => onShop(item, pieceColor.hex)} />
+      )}
     </View>
   );
 }
@@ -93,7 +98,7 @@ const pieceStyles = StyleSheet.create({
 });
 
 /** Visual outfit card that looks like a styled moodboard entry */
-function OutfitCard({ outfit, index }: { outfit: StyleGuideData['outfits'][number]; index: number }) {
+function OutfitCard({ outfit, index, onShop }: { outfit: StyleGuideData['outfits'][number]; index: number; onShop?: (query: string, hex: string) => void }) {
   // Extract a mini color palette strip from the outfit pieces
   const outfitColors = outfit.pieces.map((p) => p.color.hex);
 
@@ -137,7 +142,7 @@ function OutfitCard({ outfit, index }: { outfit: StyleGuideData['outfits'][numbe
           </Typography>
         </View>
         {outfit.pieces.map((piece, i) => (
-          <OutfitPiece key={i} item={piece.item} color={piece.color} />
+          <OutfitPiece key={i} item={piece.item} color={piece.color} onShop={onShop} />
         ))}
       </View>
     </OrganicCard>
@@ -232,7 +237,7 @@ const chipStyles = StyleSheet.create({
   },
 });
 
-export function LookbookSection({ styleGuide }: LookbookSectionProps) {
+export function LookbookSection({ styleGuide, onShop }: LookbookSectionProps) {
   return (
     <View style={styles.container}>
       <HandLetterHeading
@@ -242,7 +247,7 @@ export function LookbookSection({ styleGuide }: LookbookSectionProps) {
 
       {/* Outfit cards */}
       {styleGuide.outfits.map((outfit, i) => (
-        <OutfitCard key={i} outfit={outfit} index={i} />
+        <OutfitCard key={i} outfit={outfit} index={i} onShop={onShop} />
       ))}
 
       {/* Patterns & Fabrics section */}

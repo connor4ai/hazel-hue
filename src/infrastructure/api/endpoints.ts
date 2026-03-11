@@ -33,6 +33,13 @@ export const endpoints = {
     accessoryGuide: (analysisId: string) => `${BASE}/recommendation/${analysisId}/accessories`,
   },
 
+  // Shopping context
+  shopping: {
+    search: `${BASE}/shopping/search`,
+    feed: `${BASE}/shopping/feed`,
+    trackClick: `${BASE}/shopping/click`,
+  },
+
   // Experience context
   experience: {
     shareImage: `${BASE}/experience/share-image`,
