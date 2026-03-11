@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import type { SeasonResult } from '../data/seasons';
+import type { SeasonResult, ColorSwatch } from '../data/seasons';
 
 interface Props {
   result: SeasonResult;
@@ -13,6 +13,16 @@ const fadeUp = {
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-40px' },
   transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
+};
+
+type TabType = 'palette' | 'style' | 'beauty' | 'accessories' | 'inspiration';
+
+const TAB_LABELS: Record<TabType, string> = {
+  palette: 'Color Palette',
+  style: 'Style & Lookbook',
+  beauty: 'Beauty',
+  accessories: 'Accessories',
+  inspiration: 'Inspiration',
 };
 
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -29,9 +39,36 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ColorChip({ color, size = 'md' }: { color: ColorSwatch; size?: 'sm' | 'md' }) {
+  const sizeClass = size === 'sm' ? 'h-8 w-8 rounded-lg' : 'h-12 w-12 rounded-xl';
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className={`${sizeClass} flex-shrink-0 shadow-md ring-1 ring-black/5`}
+        style={{ backgroundColor: color.hex, boxShadow: `0 4px 12px -2px ${color.hex}40` }}
+      />
+      <div>
+        <p className="text-sm font-medium text-charcoal">{color.name}</p>
+        <p className="text-[10px] font-mono text-charcoal/30">{color.hex}</p>
+      </div>
+    </div>
+  );
+}
+
+function Chip({ children, variant = 'default' }: { children: React.ReactNode; variant?: 'default' | 'muted' }) {
+  const classes = variant === 'muted'
+    ? 'border-cream-200 bg-cream-50 text-charcoal/40'
+    : 'border-hazel/15 bg-hazel/5 text-hazel';
+  return (
+    <span className={`inline-flex items-center rounded-full border px-4 py-1.5 text-xs font-semibold ${classes}`}>
+      {children}
+    </span>
+  );
+}
+
 export function AnalysisResults({ result, preview, onStartOver }: Props) {
   const [showAllColors, setShowAllColors] = useState(false);
-  const [activeTab, setActiveTab] = useState<'palette' | 'style' | 'beauty'>('palette');
+  const [activeTab, setActiveTab] = useState<TabType>('palette');
 
   const visiblePalette = showAllColors ? result.palette : result.palette.slice(0, 8);
 
@@ -117,18 +154,16 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
       {/* Tab navigation */}
       <div className="sticky top-[72px] z-20 border-b border-cream-200 bg-cream/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-4xl">
-          {(['palette', 'style', 'beauty'] as const).map((tab) => (
+        <div className="mx-auto flex max-w-4xl overflow-x-auto">
+          {(Object.keys(TAB_LABELS) as TabType[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`relative flex-1 px-4 py-4 text-center text-sm font-semibold transition-colors ${
+              className={`relative flex-1 whitespace-nowrap px-4 py-4 text-center text-sm font-semibold transition-colors ${
                 activeTab === tab ? 'text-hazel' : 'text-charcoal/35 hover:text-charcoal/60'
               }`}
             >
-              {tab === 'palette' && 'Color Palette'}
-              {tab === 'style' && 'Style Guide'}
-              {tab === 'beauty' && 'Makeup & Hair'}
+              {TAB_LABELS[tab]}
               {activeTab === tab && (
                 <motion.div
                   layoutId="activeTab"
@@ -143,7 +178,7 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
       {/* Content */}
       <div className="mx-auto max-w-4xl px-6 py-16 lg:px-12">
-        {/* Palette Tab */}
+        {/* ── Palette Tab ── */}
         {activeTab === 'palette' && (
           <div className="space-y-20">
             {/* Full palette */}
@@ -242,12 +277,62 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
                 ))}
               </div>
             </Section>
+
+            {/* Drape Comparison */}
+            {result.drapeComparisons.length > 0 && (
+              <Section>
+                <SectionLabel>The Drape Room</SectionLabel>
+                <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                  See why your colors work
+                </h2>
+                <div className="mt-8 space-y-4">
+                  {result.drapeComparisons.map((drape, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm"
+                    >
+                      <div className="flex items-center justify-center gap-8">
+                        <div className="flex flex-col items-center gap-2">
+                          <div
+                            className="h-16 w-16 rounded-2xl shadow-lg ring-1 ring-black/5"
+                            style={{ backgroundColor: drape.goodHex, boxShadow: `0 8px 20px -4px ${drape.goodHex}50` }}
+                          />
+                          <p className="text-sm font-semibold text-charcoal">{drape.goodName}</p>
+                          <span className="rounded-full bg-sage/15 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sage-dark">Yes</span>
+                        </div>
+                        <div className="text-charcoal/20">
+                          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                          </svg>
+                        </div>
+                        <div className="flex flex-col items-center gap-2">
+                          <div
+                            className="h-16 w-16 rounded-2xl opacity-50 shadow-md ring-1 ring-black/5"
+                            style={{ backgroundColor: drape.badHex }}
+                          />
+                          <p className="text-sm font-medium text-charcoal/40 line-through">{drape.badName}</p>
+                          <span className="rounded-full bg-red-50 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-red-400">Avoid</span>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-center text-sm leading-relaxed text-charcoal/50">
+                        {drape.explanation}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </Section>
+            )}
           </div>
         )}
 
-        {/* Style Tab */}
+        {/* ── Style & Lookbook Tab ── */}
         {activeTab === 'style' && (
           <div className="space-y-20">
+            {/* Style Tips */}
             <Section>
               <SectionLabel>Style Tips</SectionLabel>
               <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
@@ -272,21 +357,80 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
               </div>
             </Section>
 
+            {/* Lookbook */}
             <Section>
-              <SectionLabel>Best Metal</SectionLabel>
+              <SectionLabel>Your Lookbook</SectionLabel>
               <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
-                Jewelry & accessories
+                Complete outfits in your palette
               </h2>
-              <div className="mt-8 rounded-3xl border border-cream-200 bg-white/70 p-8 shadow-sm">
-                <div className="flex items-center gap-5">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-hazel-100 to-hazel-200 text-hazel shadow-md shadow-hazel/10">
-                    <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+              <div className="mt-8 space-y-6">
+                {result.styleGuide.outfits.map((outfit, i) => (
+                  <motion.div
+                    key={outfit.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-lg"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-hazel text-xs font-bold text-white">
+                        {String(i + 1).padStart(2, '0')}
+                      </div>
+                      <div>
+                        <p className="font-display text-lg font-semibold text-hazel">{outfit.name}</p>
+                        <p className="mt-0.5 text-sm italic text-charcoal/40">{outfit.description}</p>
+                      </div>
+                    </div>
+                    {/* Color strip */}
+                    <div className="mt-4 flex h-2 overflow-hidden rounded-full">
+                      {outfit.pieces.map((p, j) => (
+                        <div key={j} className="flex-1" style={{ backgroundColor: p.color.hex }} />
+                      ))}
+                    </div>
+                    {/* Pieces */}
+                    <div className="mt-4 space-y-2">
+                      {outfit.pieces.map((piece, j) => (
+                        <div key={j} className="flex items-center gap-3">
+                          <div
+                            className="h-9 w-9 flex-shrink-0 rounded-lg shadow-sm ring-1 ring-black/5"
+                            style={{ backgroundColor: piece.color.hex }}
+                          />
+                          <div>
+                            <p className="text-sm font-medium text-charcoal">{piece.item}</p>
+                            <p className="text-[10px] text-charcoal/35">{piece.color.name}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Patterns & Fabrics */}
+            <Section>
+              <SectionLabel>Patterns & Fabrics</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                Materials that complement you
+              </h2>
+              <div className="mt-8 space-y-6">
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Best Patterns</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {result.styleGuide.bestPatterns.map((p) => <Chip key={p}>{p}</Chip>)}
                   </div>
-                  <div>
-                    <p className="font-display text-2xl font-bold text-charcoal">{result.metallic}</p>
-                    <p className="mt-1 text-sm text-charcoal/40">Your most harmonizing metal tone</p>
+                </div>
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Best Fabrics</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {result.styleGuide.bestFabrics.map((f) => <Chip key={f}>{f}</Chip>)}
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-cream-200 bg-white/40 p-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal/40">Patterns to Skip</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {result.styleGuide.patternsToAvoid.map((p) => <Chip key={p} variant="muted">{p}</Chip>)}
                   </div>
                 </div>
               </div>
@@ -314,9 +458,10 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
           </div>
         )}
 
-        {/* Beauty Tab */}
+        {/* ── Beauty Tab ── */}
         {activeTab === 'beauty' && (
           <div className="space-y-20">
+            {/* Makeup Guide */}
             <Section>
               <SectionLabel>Makeup Guide</SectionLabel>
               <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
@@ -343,34 +488,301 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
               </div>
             </Section>
 
+            {/* Hair Guide */}
             <Section>
-              <SectionLabel>Hair Colors</SectionLabel>
+              <SectionLabel>Hair Guide</SectionLabel>
               <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
-                Flattering hair shades
+                What to ask for at the salon
               </h2>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                {result.hairColors.map((color, i) => (
-                  <motion.div
-                    key={color.hex}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="group flex items-center gap-5 rounded-2xl border border-cream-200 bg-white/70 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-lg"
-                  >
-                    <div
-                      className="h-14 w-14 flex-shrink-0 rounded-2xl shadow-lg ring-1 ring-black/5"
-                      style={{
-                        backgroundColor: color.hex,
-                        boxShadow: `0 8px 20px -4px ${color.hex}50`,
-                      }}
-                    />
-                    <div>
-                      <p className="font-display text-base font-semibold text-charcoal">{color.name}</p>
-                      <p className="mt-1 text-xs font-mono font-medium text-charcoal/25">{color.hex}</p>
+              <div className="mt-8 space-y-6">
+                {/* Hair color strip */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Best Hair Colors</p>
+                  <div className="mt-4 flex h-8 overflow-hidden rounded-full">
+                    {result.hair.bestColors.map((c, i) => (
+                      <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} />
+                    ))}
+                  </div>
+                  <div className="mt-2 flex">
+                    {result.hair.bestColors.map((c, i) => (
+                      <p key={i} className="flex-1 text-center text-[10px] text-charcoal/40">{c.name}</p>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Highlights & Lowlights */}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded-full bg-gradient-to-br from-amber-100 to-amber-300" />
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Highlights</p>
                     </div>
-                  </motion.div>
-                ))}
+                    <p className="mt-3 text-sm leading-relaxed text-charcoal/55">{result.hair.highlightRecommendation}</p>
+                  </div>
+                  <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded-full bg-gradient-to-br from-amber-700 to-amber-900" />
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Lowlights</p>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-charcoal/55">{result.hair.lowlightRecommendation}</p>
+                  </div>
+                </div>
+
+                {/* Salon terminology */}
+                {result.hair.salonTerminology.length > 0 && (
+                  <div className="rounded-2xl border border-cream-200 bg-gradient-to-br from-white/80 to-hazel/5 p-6 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <svg className="h-4 w-4 text-hazel" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                      </svg>
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Show Your Stylist</p>
+                    </div>
+                    <p className="mt-1 text-[11px] text-charcoal/35">Use these exact terms at the salon</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {result.hair.salonTerminology.map((term) => <Chip key={term}>{term}</Chip>)}
+                    </div>
+                  </div>
+                )}
+
+                {/* Colors to avoid */}
+                {result.hair.colorsToAvoid.length > 0 && (
+                  <div className="rounded-2xl border border-cream-200 bg-white/40 p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal/40">Hair Colors to Avoid</p>
+                    <div className="mt-4 flex h-6 overflow-hidden rounded-full opacity-50">
+                      {result.hair.colorsToAvoid.map((c, i) => (
+                        <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} />
+                      ))}
+                    </div>
+                    <div className="mt-2 flex">
+                      {result.hair.colorsToAvoid.map((c, i) => (
+                        <p key={i} className="flex-1 text-center text-[10px] text-charcoal/30 line-through">{c.name}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Section>
+
+            {/* Nail Polish Guide */}
+            <Section>
+              <SectionLabel>Nail Polish Guide</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                Shades curated for your hands
+              </h2>
+              <div className="mt-8 space-y-6">
+                {/* Everyday shades */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Everyday Shades</p>
+                  <div className="mt-4 flex flex-wrap gap-6 justify-center">
+                    {result.nails.everyday.map((shade) => (
+                      <div key={shade.hex} className="flex flex-col items-center gap-2">
+                        <div
+                          className="h-14 w-8 rounded-t-lg rounded-b-2xl shadow-lg ring-1 ring-black/5"
+                          style={{ backgroundColor: shade.hex, boxShadow: `0 6px 16px -3px ${shade.hex}50` }}
+                        />
+                        <p className="text-[10px] font-medium text-charcoal/50">{shade.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Statement shades */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Statement Shades</p>
+                  <div className="mt-4 flex flex-wrap gap-6 justify-center">
+                    {result.nails.statement.map((shade) => (
+                      <div key={shade.hex} className="flex flex-col items-center gap-2">
+                        <div
+                          className="h-14 w-8 rounded-t-lg rounded-b-2xl shadow-lg ring-1 ring-black/5"
+                          style={{ backgroundColor: shade.hex, boxShadow: `0 6px 16px -3px ${shade.hex}50` }}
+                        />
+                        <p className="text-[10px] font-medium text-charcoal/50">{shade.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* French tip */}
+                <div className="rounded-2xl border border-cream-200 bg-gradient-to-br from-white/80 to-hazel/5 p-6 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-14 w-10">
+                      {/* Nail shape with french tip */}
+                      <div className="absolute inset-0 rounded-t-lg rounded-b-[1.25rem] bg-gradient-to-b from-pink-100 to-pink-50" />
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-4 rounded-b-[1.25rem]"
+                        style={{ backgroundColor: result.nails.frenchTip.hex }}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal/40">Your French Tip</p>
+                      <p className="mt-1 font-display text-lg font-semibold text-hazel">{result.nails.frenchTip.name}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Avoid shades */}
+                <div className="rounded-2xl border border-cream-200 bg-white/40 p-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal/40">Shades to Skip</p>
+                  <div className="mt-4 flex flex-wrap gap-6 justify-center">
+                    {result.nails.avoidShades.map((shade) => (
+                      <div key={shade.hex} className="flex flex-col items-center gap-2 opacity-50">
+                        <div
+                          className="h-14 w-8 rounded-t-lg rounded-b-2xl shadow-sm ring-1 ring-black/5"
+                          style={{ backgroundColor: shade.hex }}
+                        />
+                        <p className="text-[10px] font-medium text-charcoal/30 line-through">{shade.name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Section>
+          </div>
+        )}
+
+        {/* ── Accessories Tab ── */}
+        {activeTab === 'accessories' && (
+          <div className="space-y-20">
+            {/* Jewelry Guide */}
+            <Section>
+              <SectionLabel>Jewelry & Metals</SectionLabel>
+              <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
+                Metals and stones that complement you
+              </h2>
+              <div className="mt-8 space-y-6">
+                {/* Best metals */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Your Best Metals</p>
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {result.jewelry.bestMetals.map((metal) => (
+                      <span key={metal} className="rounded-2xl border border-cream-200 bg-gradient-to-br from-white to-cream-50 px-5 py-3 text-sm font-semibold text-charcoal shadow-sm">
+                        {metal}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Metals to minimize */}
+                <div className="rounded-2xl border border-cream-200 bg-white/40 p-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal/40">Metals to Minimize</p>
+                  <p className="mt-2 text-sm text-charcoal/40">{result.jewelry.metalsToMinimize.join(' · ')}</p>
+                </div>
+
+                {/* Gemstones */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Recommended Gemstones</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {result.jewelry.gemstoneRecommendations.map((gem) => (
+                      <span key={gem} className="inline-flex items-center gap-1.5 rounded-full border border-hazel/15 bg-hazel/5 px-4 py-1.5 text-xs font-semibold text-hazel">
+                        <svg className="h-3 w-3 opacity-50" viewBox="0 0 14 14" fill="currentColor">
+                          <path d="M3 2h8l3 4-7 8-7-8 3-4z" />
+                        </svg>
+                        {gem}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Section>
+
+            {/* Accessories */}
+            <Section>
+              <SectionLabel>Accessories</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                Complete your look
+              </h2>
+              <div className="mt-8 space-y-6">
+                {/* Sunglasses */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Sunglasses Frames</p>
+                  <p className="mt-2 text-sm text-charcoal/55">{result.accessories.sunglassesFrames.join(' · ')}</p>
+                </div>
+
+                {/* Bags */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Bag Colors</p>
+                  <div className="mt-4 space-y-3">
+                    {result.accessories.bagColors.map((c) => <ColorChip key={c.hex} color={c} size="sm" />)}
+                  </div>
+                </div>
+
+                {/* Scarves */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Scarves & Wraps</p>
+                  <div className="mt-4 space-y-3">
+                    {result.accessories.scarfColors.map((c) => <ColorChip key={c.hex} color={c} size="sm" />)}
+                  </div>
+                </div>
+
+                {/* Shoes */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Shoe Colors</p>
+                  <div className="mt-4 space-y-3">
+                    {result.accessories.shoeColors.map((c) => <ColorChip key={c.hex} color={c} size="sm" />)}
+                  </div>
+                </div>
+
+                {/* Belts */}
+                <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Belts</p>
+                  <p className="mt-2 text-sm text-charcoal/55">{result.accessories.beltColors.join(' · ')}</p>
+                </div>
+              </div>
+            </Section>
+          </div>
+        )}
+
+        {/* ── Inspiration Tab ── */}
+        {activeTab === 'inspiration' && (
+          <div className="space-y-20">
+            {/* Pinterest Boards */}
+            <Section>
+              <SectionLabel>Curated Inspiration</SectionLabel>
+              <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
+                Hand-picked {result.season} boards
+              </h2>
+              <div className="mt-8 space-y-4">
+                {/* Makeup board */}
+                <a
+                  href={result.pinterest.makeup}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-5 rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg hover:shadow-hazel/8"
+                >
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-pink-50 shadow-sm">
+                    <svg className="h-7 w-7 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.425 1.808-2.425.853 0 1.265.64 1.265 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.282a.3.3 0 01.069.288l-.278 1.133c-.044.183-.145.222-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.527-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-display text-base font-semibold text-charcoal">{result.season} Makeup</p>
+                    <p className="mt-0.5 text-sm text-charcoal/40">Lipstick, eyeshadow & blush looks curated for your palette</p>
+                  </div>
+                  <svg className="h-5 w-5 text-charcoal/25 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
+
+                {/* Outfits board */}
+                <a
+                  href={result.pinterest.outfits}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-5 rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg hover:shadow-hazel/8"
+                >
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-pink-50 shadow-sm">
+                    <svg className="h-7 w-7 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.237 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.425 1.808-2.425.853 0 1.265.64 1.265 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.282a.3.3 0 01.069.288l-.278 1.133c-.044.183-.145.222-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.527-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-display text-base font-semibold text-charcoal">{result.season} Outfits</p>
+                    <p className="mt-0.5 text-sm text-charcoal/40">Complete outfits, color combos & seasonal styling in your colors</p>
+                  </div>
+                  <svg className="h-5 w-5 text-charcoal/25 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
               </div>
             </Section>
           </div>
