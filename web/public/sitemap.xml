@@ -10,6 +10,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <!-- Pillar Content -->
   <url>
     <loc>https://hazelandhue.com/blog/what-is-seasonal-color-analysis</loc>
     <lastmod>2026-03-10</lastmod>
@@ -17,11 +18,55 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hazelandhue.com/blog/warm-autumn-vs-warm-spring</loc>
-    <lastmod>2026-03-10</lastmod>
+    <loc>https://hazelandhue.com/blog/best-colors-for-your-skin-tone</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/what-season-am-i</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Guides -->
+  <url>
+    <loc>https://hazelandhue.com/blog/how-to-find-your-skin-undertone</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/color-analysis-dark-skin-tones</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/korean-color-analysis</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/diy-color-analysis-at-home</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/color-analysis-for-men</loc>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/color-analysis-myths</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Season Guides -->
   <url>
     <loc>https://hazelandhue.com/blog/soft-autumn-color-palette-guide</loc>
     <lastmod>2026-03-11</lastmod>
@@ -35,16 +80,53 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hazelandhue.com/blog/how-to-find-your-skin-undertone</loc>
-    <lastmod>2026-03-12</lastmod>
+    <loc>https://hazelandhue.com/blog/true-summer-color-palette-guide</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hazelandhue.com/blog/best-colors-for-your-skin-tone</loc>
-    <lastmod>2026-03-12</lastmod>
+    <loc>https://hazelandhue.com/blog/bright-spring-color-palette-guide</loc>
+    <lastmod>2026-03-13</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/light-summer-color-palette-guide</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/true-autumn-color-palette-guide</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/true-winter-color-palette-guide</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/bright-winter-color-palette-guide</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/light-spring-color-palette-guide</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Season Comparisons -->
+  <url>
+    <loc>https://hazelandhue.com/blog/warm-autumn-vs-warm-spring</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hazelandhue.com/blog/cool-summer-vs-soft-summer</loc>
@@ -52,6 +134,51 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/soft-summer-vs-soft-autumn</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/deep-winter-vs-deep-autumn</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/light-spring-vs-light-summer</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/bright-winter-vs-bright-spring</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Beauty & Style -->
+  <url>
+    <loc>https://hazelandhue.com/blog/best-makeup-colors-every-season</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hazelandhue.com/blog/capsule-wardrobe-color-season</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Trends -->
+  <url>
+    <loc>https://hazelandhue.com/blog/color-analysis-tiktok</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Legal -->
   <url>
     <loc>https://hazelandhue.com/privacy</loc>
     <changefreq>monthly</changefreq>
