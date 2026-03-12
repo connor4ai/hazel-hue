@@ -222,11 +222,11 @@ export class ImaggaClient {
 }
 
 /**
- * Create an Imagga client from environment variables.
+ * Create an Imagga client from explicit config or environment variables.
  */
-export function createImaggaClient(): ImaggaClient {
-  const apiKey = process.env.IMAGGA_API_KEY;
-  const apiSecret = process.env.IMAGGA_API_SECRET;
+export function createImaggaClient(config?: Partial<ImaggaConfig>): ImaggaClient {
+  const apiKey = config?.apiKey ?? process.env.IMAGGA_API_KEY;
+  const apiSecret = config?.apiSecret ?? process.env.IMAGGA_API_SECRET;
 
   if (!apiKey || !apiSecret) {
     throw new Error('Missing Imagga configuration: IMAGGA_API_KEY, IMAGGA_API_SECRET');

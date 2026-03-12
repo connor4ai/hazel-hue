@@ -9,6 +9,7 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -222,13 +223,26 @@ export class ApiStack extends cdk.Stack {
     generateGuidesFn.addToRolePolicy(bedrockPolicy);
 
     // ─── Shopping Context Lambdas ──────────────────────────────────
+
+    // Secrets Manager for affiliate/color API credentials
+    const shoppingSecret = new secretsmanager.Secret(this, 'ShoppingApiSecrets', {
+      secretName: 'hazel-hue/shopping-api',
+      description: 'Skimlinks and Imagga API credentials for the shopping integration',
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({
+          SKIMLINKS_PUBLISHER_ID: '',
+          SKIMLINKS_CLIENT_ID: '',
+          SKIMLINKS_API_KEY: '',
+          IMAGGA_API_KEY: '',
+          IMAGGA_API_SECRET: '',
+        }),
+        generateStringKey: '_placeholder',
+      },
+    });
+
     const shoppingEnv = {
       ...lambdaEnv,
-      SKIMLINKS_PUBLISHER_ID: process.env.SKIMLINKS_PUBLISHER_ID ?? '',
-      SKIMLINKS_CLIENT_ID: process.env.SKIMLINKS_CLIENT_ID ?? '',
-      SKIMLINKS_API_KEY: process.env.SKIMLINKS_API_KEY ?? '',
-      IMAGGA_API_KEY: process.env.IMAGGA_API_KEY ?? '',
-      IMAGGA_API_SECRET: process.env.IMAGGA_API_SECRET ?? '',
+      SHOPPING_SECRET_ARN: shoppingSecret.secretArn,
     };
 
     const shoppingDefaults: nodejs.NodejsFunctionProps = {
@@ -243,6 +257,7 @@ export class ApiStack extends cdk.Stack {
       entry: path.join(__dirname, '../../lambdas/shopping/searchProducts.ts'),
     });
     table.grantReadData(searchProductsFn);
+    shoppingSecret.grantRead(searchProductsFn);
 
     const getShopFeedFn = new nodejs.NodejsFunction(this, 'GetShopFeed', {
       ...shoppingDefaults,
@@ -250,6 +265,7 @@ export class ApiStack extends cdk.Stack {
       entry: path.join(__dirname, '../../lambdas/shopping/getShopFeed.ts'),
     });
     table.grantReadWriteData(getShopFeedFn);
+    shoppingSecret.grantRead(getShopFeedFn);
 
     const trackClickFn = new nodejs.NodejsFunction(this, 'TrackClick', {
       ...writeDefaults,

@@ -102,6 +102,7 @@ export function Testimonials() {
           >
             <button
               onClick={() => scroll('left')}
+              aria-label="Previous testimonial"
               className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ${
                 canScrollLeft
                   ? 'border-charcoal/20 text-charcoal hover:bg-charcoal hover:text-cream-50'
@@ -115,6 +116,7 @@ export function Testimonials() {
             </button>
             <button
               onClick={() => scroll('right')}
+              aria-label="Next testimonial"
               className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ${
                 canScrollRight
                   ? 'border-charcoal/20 text-charcoal hover:bg-charcoal hover:text-cream-50'

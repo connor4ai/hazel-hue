@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const NAV_LINKS = [
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#results', label: 'Results' },
+  { href: '/blog', label: 'Blog' },
   { href: '#faq', label: 'FAQ' },
 ];
 
@@ -29,6 +30,13 @@ export function Header({ onGetStarted }: Props) {
   };
 
   return (
+    <>
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-charcoal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cream-50 focus:shadow-lg"
+    >
+      Skip to main content
+    </a>
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -133,5 +141,6 @@ export function Header({ onGetStarted }: Props) {
         )}
       </AnimatePresence>
     </motion.header>
+    </>
   );
 }
