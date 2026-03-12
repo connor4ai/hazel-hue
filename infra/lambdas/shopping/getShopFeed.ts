@@ -10,8 +10,9 @@
 
 import { withMiddleware, getUserId } from '../shared/middleware';
 import { getItem, putItem, queryItems } from '../shared/dynamodb';
-import { createSkimlinksClient } from './skimlinksClient';
-import { createImaggaClient } from './imaggaClient';
+import { createSkimlinksClient, type SkimlinksClient } from './skimlinksClient';
+import { createImaggaClient, type ImaggaClient } from './imaggaClient';
+import { getShoppingSecrets } from '../shared/shoppingSecrets';
 import {
   hexToLab,
   ciede2000,
@@ -63,18 +64,31 @@ function getTemperature(season: string): 'warm' | 'cool' {
     : 'cool';
 }
 
-// ─── Lazy-initialized clients ──────────────────────────────────────
+// ─── Lazy-initialized clients (created after secrets load) ─────────
 
-let skimlinks: ReturnType<typeof createSkimlinksClient> | null = null;
-let imagga: ReturnType<typeof createImaggaClient> | null = null;
+let skimlinks: SkimlinksClient | null = null;
+let imagga: ImaggaClient | null = null;
 
-function getSkimlinks() {
-  if (!skimlinks) skimlinks = createSkimlinksClient();
+async function getSkimlinks() {
+  if (!skimlinks) {
+    const secrets = await getShoppingSecrets();
+    skimlinks = createSkimlinksClient({
+      publisherId: secrets.SKIMLINKS_PUBLISHER_ID,
+      clientId: secrets.SKIMLINKS_CLIENT_ID,
+      apiKey: secrets.SKIMLINKS_API_KEY,
+    });
+  }
   return skimlinks;
 }
 
-function getImagga() {
-  if (!imagga) imagga = createImaggaClient();
+async function getImagga() {
+  if (!imagga) {
+    const secrets = await getShoppingSecrets();
+    imagga = createImaggaClient({
+      apiKey: secrets.IMAGGA_API_KEY,
+      apiSecret: secrets.IMAGGA_API_SECRET,
+    });
+  }
   return imagga;
 }
 
@@ -133,9 +147,10 @@ export const handler = withMiddleware(async (event) => {
   }
 
   // Search across multiple queries in parallel
+  const skimlinksClient = await getSkimlinks();
   const searchResults = await Promise.allSettled(
     queries.map((q) =>
-      getSkimlinks().searchProducts({ query: q, limit: 10 }),
+      skimlinksClient.searchProducts({ query: q, limit: 10 }),
     ),
   );
 
@@ -159,7 +174,8 @@ export const handler = withMiddleware(async (event) => {
 
   // Extract colors
   const imageUrls = products.filter((p) => p.imageUrl).map((p) => p.imageUrl);
-  const colorMap = await getImagga().batchExtractColors(imageUrls, 3);
+  const imaggaClient = await getImagga();
+  const colorMap = await imaggaClient.batchExtractColors(imageUrls, 3);
 
   // Pre-compute palette Labs
   const paletteLabs = paletteHexes.map((hex) => ({ hex, lab: hexToLab(hex) }));
@@ -208,7 +224,7 @@ export const handler = withMiddleware(async (event) => {
     .slice(0, 20);
 
   // Wrap in affiliate links
-  const affiliateLinks = await getSkimlinks().getAffiliateLinks(scored.map((p) => p.merchantUrl));
+  const affiliateLinks = await skimlinksClient.getAffiliateLinks(scored.map((p) => p.merchantUrl));
   const finalProducts = scored.map((p) => ({
     ...p,
     affiliateUrl: affiliateLinks.get(p.merchantUrl) ?? p.merchantUrl,

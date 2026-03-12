@@ -272,12 +272,12 @@ export class SkimlinksClient {
 }
 
 /**
- * Create a Skimlinks client from environment variables.
+ * Create a Skimlinks client from explicit config or environment variables.
  */
-export function createSkimlinksClient(): SkimlinksClient {
-  const publisherId = process.env.SKIMLINKS_PUBLISHER_ID;
-  const clientId = process.env.SKIMLINKS_CLIENT_ID;
-  const apiKey = process.env.SKIMLINKS_API_KEY;
+export function createSkimlinksClient(config?: Partial<SkimlinksConfig>): SkimlinksClient {
+  const publisherId = config?.publisherId ?? process.env.SKIMLINKS_PUBLISHER_ID;
+  const clientId = config?.clientId ?? process.env.SKIMLINKS_CLIENT_ID;
+  const apiKey = config?.apiKey ?? process.env.SKIMLINKS_API_KEY;
 
   if (!publisherId || !clientId || !apiKey) {
     throw new Error('Missing Skimlinks configuration: SKIMLINKS_PUBLISHER_ID, SKIMLINKS_CLIENT_ID, SKIMLINKS_API_KEY');

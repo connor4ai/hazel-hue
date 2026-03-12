@@ -10,8 +10,9 @@
 
 import { withMiddleware, getUserId } from '../shared/middleware';
 import { getItem } from '../shared/dynamodb';
-import { createSkimlinksClient } from './skimlinksClient';
-import { createImaggaClient } from './imaggaClient';
+import { createSkimlinksClient, type SkimlinksClient } from './skimlinksClient';
+import { createImaggaClient, type ImaggaClient } from './imaggaClient';
+import { getShoppingSecrets } from '../shared/shoppingSecrets';
 import {
   hexToLab,
   ciede2000,
@@ -31,18 +32,31 @@ const searchParamsSchema = z.object({
   limit: z.coerce.number().int().min(1).max(20).optional().default(5),
 });
 
-// ─── Lazy-initialized clients ──────────────────────────────────────
+// ─── Lazy-initialized clients (created after secrets load) ─────────
 
-let skimlinks: ReturnType<typeof createSkimlinksClient> | null = null;
-let imagga: ReturnType<typeof createImaggaClient> | null = null;
+let skimlinks: SkimlinksClient | null = null;
+let imagga: ImaggaClient | null = null;
 
-function getSkimlinks() {
-  if (!skimlinks) skimlinks = createSkimlinksClient();
+async function getSkimlinks() {
+  if (!skimlinks) {
+    const secrets = await getShoppingSecrets();
+    skimlinks = createSkimlinksClient({
+      publisherId: secrets.SKIMLINKS_PUBLISHER_ID,
+      clientId: secrets.SKIMLINKS_CLIENT_ID,
+      apiKey: secrets.SKIMLINKS_API_KEY,
+    });
+  }
   return skimlinks;
 }
 
-function getImagga() {
-  if (!imagga) imagga = createImaggaClient();
+async function getImagga() {
+  if (!imagga) {
+    const secrets = await getShoppingSecrets();
+    imagga = createImaggaClient({
+      apiKey: secrets.IMAGGA_API_KEY,
+      apiSecret: secrets.IMAGGA_API_SECRET,
+    });
+  }
   return imagga;
 }
 
@@ -77,7 +91,7 @@ export const handler = withMiddleware(async (event) => {
     ? params.q
     : params.q;
 
-  const rawProducts = await getSkimlinks().searchProducts({
+  const rawProducts = await (await getSkimlinks()).searchProducts({
     query: searchQuery,
     limit: Math.min(params.limit * 3, 60), // Fetch extra for color filtering
     category: params.category,
@@ -92,7 +106,7 @@ export const handler = withMiddleware(async (event) => {
     .filter((p) => p.imageUrl)
     .map((p) => p.imageUrl);
 
-  const colorMap = await getImagga().batchExtractColors(imageUrls, 3);
+  const colorMap = await (await getImagga()).batchExtractColors(imageUrls, 3);
 
   // Score and rank products by palette match
   const scoredProducts = rawProducts
@@ -155,7 +169,7 @@ export const handler = withMiddleware(async (event) => {
 
   // Wrap URLs in affiliate links
   const merchantUrls = scoredProducts.map((p) => p.merchantUrl);
-  const affiliateLinks = await getSkimlinks().getAffiliateLinks(merchantUrls);
+  const affiliateLinks = await (await getSkimlinks()).getAffiliateLinks(merchantUrls);
 
   const products = scoredProducts.map((p) => ({
     ...p,
