@@ -7,6 +7,7 @@ export interface BlogPost {
   readTime: string;
   category: string;
   keywords: string[];
+  relatedSlugs?: string[];
   content: string;
 }
 
@@ -19,6 +20,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: '8 min read',
     category: 'Guides',
     keywords: ['seasonal color analysis', 'color analysis', 'what is color analysis', '12 seasons color analysis', 'personal color analysis'],
+    relatedSlugs: ['how-to-find-your-skin-undertone', 'best-colors-for-your-skin-tone', 'what-season-am-i'],
     content: `
 Seasonal color analysis is a method of determining which colors look most flattering on you based on your natural coloring — your skin undertone, eye color, and hair color. Rather than following trends or picking colors you simply "like," color analysis identifies the specific hues, saturations, and values that harmonize with your unique features.
 
@@ -105,6 +107,7 @@ The easiest way to discover your season is with an AI color analysis. Upload a n
     readTime: '6 min read',
     category: 'Season Comparisons',
     keywords: ['warm autumn vs warm spring', 'true autumn vs true spring', 'warm autumn colors', 'warm spring colors', 'autumn or spring'],
+    relatedSlugs: ['soft-autumn-color-palette-guide', 'true-autumn-color-palette-guide', 'deep-winter-vs-deep-autumn'],
     content: `
 If you've gotten mixed results from color quizzes — sometimes landing in Autumn, sometimes Spring — you're not alone. True Autumn and True Spring are the two "pure warm" seasons, meaning both have strongly warm undertones. The difference lies in depth, chroma, and energy.
 
@@ -187,6 +190,7 @@ The easiest way to settle the question is with an AI color analysis. Upload a se
     readTime: '7 min read',
     category: 'Season Guides',
     keywords: ['soft autumn', 'soft autumn color palette', 'soft autumn colors', 'soft autumn makeup', 'soft autumn hair color', 'soft autumn wardrobe'],
+    relatedSlugs: ['soft-summer-vs-soft-autumn', 'warm-autumn-vs-warm-spring', 'true-autumn-color-palette-guide'],
     content: `
 Soft Autumn is one of the most common — and most beautiful — color seasons. If you're a Soft Autumn, your coloring has a warm-neutral undertone with a distinctly muted, blended quality. Nothing about your features screams for attention individually, but together they create an effortlessly elegant, earthy harmony.
 
@@ -281,6 +285,7 @@ If you color your hair, stay within your season:
     readTime: '7 min read',
     category: 'Season Guides',
     keywords: ['deep winter', 'deep winter color palette', 'deep winter colors', 'deep winter makeup', 'deep winter hair color', 'deep winter wardrobe'],
+    relatedSlugs: ['deep-winter-vs-deep-autumn', 'true-winter-color-palette-guide', 'bright-winter-color-palette-guide'],
     content: `
 Deep Winter is one of the most dramatic and striking color seasons. If you're a Deep Winter, you have cool-to-neutral undertones with rich depth and high contrast. Your coloring is bold, intense, and commands attention — and your best colors match that energy.
 
@@ -376,6 +381,7 @@ Your naturally dark hair is one of your greatest assets. If you color:
     readTime: '5 min read',
     category: 'Guides',
     keywords: ['skin undertone', 'how to find undertone', 'warm or cool undertone', 'skin undertone test', 'warm undertone', 'cool undertone', 'neutral undertone'],
+    relatedSlugs: ['what-season-am-i', 'best-colors-for-your-skin-tone', 'diy-color-analysis-at-home'],
     content: `
 Your skin undertone is the subtle hue beneath your skin's surface — and it's the single most important factor in determining which colors look best on you. Unlike your surface skin tone (which can change with sun exposure or skincare), your undertone stays constant throughout your life.
 
@@ -470,6 +476,7 @@ At-home tests give you a general direction, but they rely on subjective judgment
     readTime: '10 min read',
     category: 'Guides',
     keywords: ['best colors for skin tone', 'colors for my skin tone', 'what colors look good on me', 'flattering colors', 'colors for warm skin', 'colors for cool skin'],
+    relatedSlugs: ['what-season-am-i', 'capsule-wardrobe-color-season', 'best-makeup-colors-every-season'],
     content: `
 The colors that look best on you aren't random — they're determined by your skin's undertone, your natural contrast level, and the clarity of your features. This guide breaks down the most flattering colors for each of the 12 seasonal color types.
 
@@ -620,6 +627,7 @@ Reading about all 12 can feel overwhelming. The fastest way to land on your spec
     readTime: '6 min read',
     category: 'Season Comparisons',
     keywords: ['cool summer vs soft summer', 'true summer vs soft summer', 'summer color analysis', 'soft summer colors', 'true summer colors', 'am I soft summer'],
+    relatedSlugs: ['true-summer-color-palette-guide', 'soft-summer-vs-soft-autumn', 'light-summer-color-palette-guide'],
     content: `
 True Summer and Soft Summer are both cool-toned seasons with a gentle, muted quality — which is exactly why they're so often confused. If you've narrowed yourself down to "some kind of Summer" but can't pin down which one, this comparison will help.
 

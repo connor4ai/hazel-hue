@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { type BlogPost as BlogPostType } from '../data/blogPosts';
+import { BLOG_POSTS, type BlogPost as BlogPostType } from '../data/blogPosts';
 
 interface Props {
   post: BlogPostType;
@@ -21,22 +21,33 @@ export function BlogPost({ post }: Props) {
     const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
     if (ogUrl) ogUrl.content = `https://hazelandhue.com/blog/${post.slug}`;
 
-    // Add Article structured data
+    // Add Article + BreadcrumbList structured data
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.id = 'blog-article-schema';
-    script.textContent = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: post.title,
-      description: post.description,
-      datePublished: post.publishedAt,
-      dateModified: post.updatedAt || post.publishedAt,
-      author: { '@type': 'Organization', name: 'Hazel & Hue', url: 'https://hazelandhue.com' },
-      publisher: { '@type': 'Organization', name: 'Hazel & Hue', logo: { '@type': 'ImageObject', url: 'https://hazelandhue.com/favicon.svg' } },
-      mainEntityOfPage: { '@type': 'WebPage', '@id': `https://hazelandhue.com/blog/${post.slug}` },
-      keywords: post.keywords.join(', '),
-    });
+    script.textContent = JSON.stringify([
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.description,
+        datePublished: post.publishedAt,
+        dateModified: post.updatedAt || post.publishedAt,
+        author: { '@type': 'Organization', name: 'Hazel & Hue', url: 'https://hazelandhue.com' },
+        publisher: { '@type': 'Organization', name: 'Hazel & Hue', logo: { '@type': 'ImageObject', url: 'https://hazelandhue.com/favicon.svg' } },
+        mainEntityOfPage: { '@type': 'WebPage', '@id': `https://hazelandhue.com/blog/${post.slug}` },
+        keywords: post.keywords.join(', '),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hazelandhue.com' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://hazelandhue.com/blog' },
+          { '@type': 'ListItem', position: 3, name: post.title, item: `https://hazelandhue.com/blog/${post.slug}` },
+        ],
+      },
+    ]);
     document.head.appendChild(script);
 
     return () => {
@@ -50,6 +61,12 @@ export function BlogPost({ post }: Props) {
       if (existing) existing.remove();
     };
   }, [post]);
+
+  // Get related posts
+  const relatedPosts = (post.relatedSlugs || [])
+    .map((slug) => BLOG_POSTS.find((p) => p.slug === slug))
+    .filter((p): p is BlogPostType => p != null)
+    .slice(0, 3);
 
   // Convert markdown-like content to simple HTML
   const renderContent = (content: string) => {
@@ -76,6 +93,7 @@ export function BlogPost({ post }: Props) {
 
     const formatInline = (text: string): string => {
       return text
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-hazel underline decoration-hazel/30 underline-offset-2 transition hover:decoration-hazel">$1</a>')
         .replace(/\*\*(.+?)\*\*/g, '<strong class="text-charcoal font-semibold">$1</strong>')
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
         .replace(/`(.+?)`/g, '<code>$1</code>');
@@ -91,16 +109,20 @@ export function BlogPost({ post }: Props) {
       // Headings
       if (trimmed.startsWith('### ')) {
         flushList();
+        const headingText = trimmed.slice(4);
+        const headingId = headingText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         elements.push(
-          <h3 key={key++} className="mt-8 mb-3 font-display text-lg font-semibold text-charcoal">
-            {trimmed.slice(4)}
+          <h3 key={key++} id={headingId} className="mt-8 mb-3 font-display text-lg font-semibold text-charcoal">
+            {headingText}
           </h3>
         );
       } else if (trimmed.startsWith('## ')) {
         flushList();
+        const headingText = trimmed.slice(3);
+        const headingId = headingText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         elements.push(
-          <h2 key={key++} className="mt-12 mb-4 font-display text-xl font-bold text-charcoal">
-            {trimmed.slice(3)}
+          <h2 key={key++} id={headingId} className="mt-12 mb-4 font-display text-xl font-bold text-charcoal">
+            {headingText}
           </h2>
         );
       }
@@ -191,6 +213,32 @@ export function BlogPost({ post }: Props) {
             </svg>
           </a>
         </div>
+
+        {/* Related Posts */}
+        {relatedPosts.length > 0 && (
+          <div className="mt-16">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/25">
+              Keep reading
+            </h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              {relatedPosts.map((related) => (
+                <a
+                  key={related.slug}
+                  href={`/blog/${related.slug}`}
+                  className="group rounded-xl border border-cream-200 bg-white/50 p-4 transition-all duration-300 hover:border-hazel/20 hover:bg-white/80 hover:shadow-md hover:shadow-hazel/5"
+                >
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-hazel/60">
+                    {related.category}
+                  </span>
+                  <h4 className="mt-1.5 text-sm font-semibold leading-snug text-charcoal transition-colors group-hover:text-hazel line-clamp-2">
+                    {related.title}
+                  </h4>
+                  <p className="mt-1.5 text-xs text-charcoal/30">{related.readTime}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Back link */}
         <div className="mt-12">
