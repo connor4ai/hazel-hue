@@ -372,7 +372,7 @@ export function Hero({ onGetStarted }: HeroProps) {
               <br />
               the colors
               <br />
-              <span className="text-gradient-animated italic pr-1">made for you</span>
+              <span className="text-gradient-animated italic pr-3">made for you</span>
             </motion.h1>
 
             <motion.p
