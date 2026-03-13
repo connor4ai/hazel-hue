@@ -9,57 +9,6 @@ interface Props {
 export function BlogPost({ post }: Props) {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = `${post.title} | Hazel & Hue`;
-    const link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (link) link.href = `https://hazelandhue.com/blog/${post.slug}`;
-    const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (desc) desc.content = post.description;
-    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
-    if (ogTitle) ogTitle.content = post.title;
-    const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
-    if (ogDesc) ogDesc.content = post.description;
-    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
-    if (ogUrl) ogUrl.content = `https://hazelandhue.com/blog/${post.slug}`;
-
-    // Add Article + BreadcrumbList structured data
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = 'blog-article-schema';
-    script.textContent = JSON.stringify([
-      {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: post.title,
-        description: post.description,
-        datePublished: post.publishedAt,
-        dateModified: post.updatedAt || post.publishedAt,
-        author: { '@type': 'Organization', name: 'Hazel & Hue', url: 'https://hazelandhue.com' },
-        publisher: { '@type': 'Organization', name: 'Hazel & Hue', logo: { '@type': 'ImageObject', url: 'https://hazelandhue.com/favicon.svg' } },
-        mainEntityOfPage: { '@type': 'WebPage', '@id': `https://hazelandhue.com/blog/${post.slug}` },
-        keywords: post.keywords.join(', '),
-      },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hazelandhue.com' },
-          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://hazelandhue.com/blog' },
-          { '@type': 'ListItem', position: 3, name: post.title, item: `https://hazelandhue.com/blog/${post.slug}` },
-        ],
-      },
-    ]);
-    document.head.appendChild(script);
-
-    return () => {
-      document.title = 'AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue';
-      if (link) link.href = 'https://hazelandhue.com';
-      if (desc) desc.content = 'Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 2,400+ users.';
-      if (ogTitle) ogTitle.content = 'AI Color Analysis Online — Discover Your Season Free | Hazel & Hue';
-      if (ogDesc) ogDesc.content = 'Free AI-powered seasonal color analysis. Upload a selfie and get your personalized color palette, style guide, makeup & hair recommendations in under a minute.';
-      if (ogUrl) ogUrl.content = 'https://hazelandhue.com';
-      const existing = document.getElementById('blog-article-schema');
-      if (existing) existing.remove();
-    };
   }, [post]);
 
   // Get related posts

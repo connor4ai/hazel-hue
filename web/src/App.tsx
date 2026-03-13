@@ -14,6 +14,7 @@ import { TermsOfService } from './components/TermsOfService';
 import { AnalysisPage } from './components/AnalysisPage';
 import { BlogList } from './components/BlogList';
 import { BlogPost } from './components/BlogPost';
+import { SEO } from './components/SEO';
 import { BLOG_POSTS } from './data/blogPosts';
 
 type Route = { page: 'home' } | { page: 'privacy' } | { page: 'terms' } | { page: 'analyze' } | { page: 'blog' } | { page: 'blog-post'; slug: string };
@@ -85,6 +86,11 @@ export function App() {
   if (route.page === 'analyze') {
     return (
       <div className="min-h-screen">
+        <SEO
+          title="Get Your AI Color Analysis — Free | Hazel & Hue"
+          description="Upload a selfie and get your personalized seasonal color palette, style guide, makeup, and hair recommendations in under 60 seconds. Completely free."
+          canonical="/analyze"
+        />
         <Header onGetStarted={handleGetStarted} />
         <AnalysisPage />
         <SpeedInsights />
@@ -95,6 +101,11 @@ export function App() {
   if (route.page === 'privacy') {
     return (
       <div className="min-h-screen bg-cream-50">
+        <SEO
+          title="Privacy Policy | Hazel & Hue"
+          description="Read the Hazel & Hue privacy policy. Learn how we handle your data, photos, and personal information."
+          canonical="/privacy"
+        />
         <Header onGetStarted={handleGetStarted} />
         <PrivacyPolicy />
         <Footer />
@@ -106,6 +117,11 @@ export function App() {
   if (route.page === 'terms') {
     return (
       <div className="min-h-screen bg-cream-50">
+        <SEO
+          title="Terms of Service | Hazel & Hue"
+          description="Read the Hazel & Hue terms of service. Understand the terms and conditions for using our AI color analysis platform."
+          canonical="/terms"
+        />
         <Header onGetStarted={handleGetStarted} />
         <TermsOfService />
         <Footer />
@@ -117,6 +133,11 @@ export function App() {
   if (route.page === 'blog') {
     return (
       <div className="min-h-screen bg-cream-50">
+        <SEO
+          title="Blog — Color Analysis Guides & Tips | Hazel & Hue"
+          description="Expert guides on seasonal color analysis, finding your undertone, building a palette-based wardrobe, and more. Learn everything about color analysis from Hazel & Hue."
+          canonical="/blog"
+        />
         <Header onGetStarted={handleGetStarted} />
         <BlogList />
         <Footer />
@@ -134,6 +155,35 @@ export function App() {
     }
     return (
       <div className="min-h-screen bg-cream-50">
+        <SEO
+          title={`${post.title} | Hazel & Hue`}
+          description={post.description}
+          canonical={`/blog/${post.slug}`}
+          ogType="article"
+          structuredData={[
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: post.title,
+              description: post.description,
+              datePublished: post.publishedAt,
+              dateModified: post.updatedAt || post.publishedAt,
+              author: { '@type': 'Organization', name: 'Hazel & Hue', url: 'https://hazelandhue.com' },
+              publisher: { '@type': 'Organization', name: 'Hazel & Hue', logo: { '@type': 'ImageObject', url: 'https://hazelandhue.com/favicon.svg' } },
+              mainEntityOfPage: { '@type': 'WebPage', '@id': `https://hazelandhue.com/blog/${post.slug}` },
+              keywords: post.keywords.join(', '),
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hazelandhue.com' },
+                { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://hazelandhue.com/blog' },
+                { '@type': 'ListItem', position: 3, name: post.title, item: `https://hazelandhue.com/blog/${post.slug}` },
+              ],
+            },
+          ]}
+        />
         <Header onGetStarted={handleGetStarted} />
         <BlogPost post={post} />
         <Footer />
@@ -144,6 +194,13 @@ export function App() {
 
   return (
     <div className="min-h-screen overflow-hidden">
+      <SEO
+        title="AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue"
+        description="Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 2,400+ users."
+        canonical="/"
+        ogTitle="AI Color Analysis Online — Discover Your Season Free | Hazel & Hue"
+        ogDescription="Free AI-powered seasonal color analysis. Upload a selfie and get your personalized color palette, style guide, makeup & hair recommendations in under a minute."
+      />
       <Header onGetStarted={handleGetStarted} />
       <main id="main-content">
         <Hero onGetStarted={handleGetStarted} />
