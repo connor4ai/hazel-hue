@@ -49,10 +49,6 @@ export function Header({ onGetStarted }: Props) {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-12">
         <a href="/" className="group flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-hazel-400 to-hazel-500 shadow-md shadow-hazel/20 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-hazel/30">
-            <span className="font-display text-sm font-bold text-cream-50">H</span>
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/20" />
-          </div>
           <div className="flex flex-col">
             <span className="font-display text-lg font-semibold leading-none tracking-tight text-charcoal">
               Hazel & Hue
