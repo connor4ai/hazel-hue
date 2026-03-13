@@ -202,57 +202,183 @@ function watercolorSvg(width, height) {
 
 /**
  * OG share image — optimized for social card previews (1200x630).
- * Shows brand name, tagline, price anchor, and leaf motif.
+ * Bold, colorful design that communicates AI color analysis at a glance.
+ * Shows seasonal palette swatches, clear value prop, and strong CTA.
  */
 function ogImageSvg() {
+  // Season palette colors for the swatch display
+  const SPRING_COLORS = ['#FF8C69', '#FFB347', '#FFDAB9', '#98D8C8', '#F7DC6F'];
+  const SUMMER_COLORS = ['#B19CD9', '#FFB6C1', '#87CEEB', '#C9A0DC', '#E6E6FA'];
+  const AUTUMN_COLORS = ['#C67B5C', '#8B6F47', '#A8B5A0', '#D4A574', '#8B4513'];
+  const WINTER_COLORS = ['#7B2D5F', '#1B4F72', '#C0392B', '#2C3E50', '#E8E8E8'];
+
+  // Build swatch circles for each season column
+  function seasonSwatches(colors, baseX, baseY) {
+    return colors.map((c, i) =>
+      `<circle cx="${baseX}" cy="${baseY + i * 34}" r="13" fill="${c}"/>`
+    ).join('\n    ');
+  }
+
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="${CREAM}"/>
+  <defs>
+    <!-- Rich warm gradient background -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDF6EE"/>
+      <stop offset="35%" stop-color="#F8EDE0"/>
+      <stop offset="100%" stop-color="#F0DED0"/>
+    </linearGradient>
+    <!-- Accent gradient for the CTA pill -->
+    <linearGradient id="ctaGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${TERRACOTTA}"/>
+      <stop offset="100%" stop-color="#D4896E"/>
+    </linearGradient>
+    <!-- Glow behind the brand name -->
+    <radialGradient id="nameGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="${HAZEL}" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="${HAZEL}" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Vibrant accent blob gradients -->
+    <radialGradient id="blobSage" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="${SAGE}" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="${SAGE}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobRose" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="${DUSTY_ROSE}" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="${DUSTY_ROSE}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobTerra" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="${TERRACOTTA}" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="${TERRACOTTA}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobHazel" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="${HAZEL_LIGHT}" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="${HAZEL_LIGHT}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
 
-  <!-- Subtle texture blobs -->
-  <ellipse cx="100" cy="100" rx="200" ry="150" fill="${SAGE}" opacity="0.04" transform="rotate(20, 100, 100)"/>
-  <ellipse cx="1100" cy="530" rx="200" ry="150" fill="${TERRACOTTA}" opacity="0.04" transform="rotate(-15, 1100, 530)"/>
-  <ellipse cx="1000" cy="100" rx="180" ry="120" fill="${DUSTY_ROSE}" opacity="0.03"/>
-  <ellipse cx="200" cy="500" rx="160" ry="130" fill="${HAZEL_LIGHT}" opacity="0.03"/>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
 
-  <!-- Leaf cluster (left side) -->
-  <g transform="translate(180, 315) scale(1.8)">
-    <path d="M0 -30 Q8 -15 0 0 Q-8 -15 0 -30Z" fill="${SAGE}" opacity="0.6"/>
-    <path d="M21 -21 Q20 -8 7 -7 Q14 -16 21 -21Z" fill="${TERRACOTTA}" opacity="0.5"/>
-    <path d="M30 0 Q15 0 7 -7 Q18 -2 30 0Z" fill="${DUSTY_ROSE}" opacity="0.5"/>
-    <path d="M-21 -21 Q-20 -8 -7 -7 Q-14 -16 -21 -21Z" fill="${DUSTY_ROSE}" opacity="0.5"/>
-    <path d="M-30 0 Q-15 0 -7 -7 Q-18 -2 -30 0Z" fill="${HAZEL_LIGHT}" opacity="0.5"/>
-    <circle cx="0" cy="-5" r="14" fill="${CREAM}"/>
-    <circle cx="0" cy="-5" r="13" fill="none" stroke="${HAZEL}" stroke-width="0.8" opacity="0.3"/>
-    <text x="0" y="0" text-anchor="middle" font-family="Georgia, serif" font-size="10" font-weight="bold" fill="${HAZEL}">H&amp;H</text>
-  </g>
+  <!-- Large colorful ambient blobs — visible and vibrant -->
+  <ellipse cx="0" cy="0" rx="350" ry="300" fill="url(#blobSage)" transform="rotate(-20, 0, 0)"/>
+  <ellipse cx="1200" cy="630" rx="400" ry="320" fill="url(#blobRose)" transform="rotate(15, 1200, 630)"/>
+  <ellipse cx="1100" cy="80" rx="280" ry="220" fill="url(#blobTerra)" transform="rotate(-10, 1100, 80)"/>
+  <ellipse cx="100" cy="580" rx="300" ry="200" fill="url(#blobHazel)" transform="rotate(25, 100, 580)"/>
+  <ellipse cx="600" cy="315" rx="500" ry="250" fill="url(#nameGlow)"/>
 
-  <!-- Brand name -->
-  <text x="600" y="230" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="${HAZEL}">Hazel &amp; Hue</text>
+  <!-- ============ LEFT SIDE: Branding & Copy ============ -->
+
+  <!-- Overline label -->
+  <rect x="60" y="62" width="200" height="30" rx="15" fill="${SAGE}" opacity="0.18"/>
+  <text x="160" y="83" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="${HAZEL}" letter-spacing="2.5" opacity="0.85">AI COLOR ANALYSIS</text>
+
+  <!-- Brand name — large and commanding -->
+  <text x="60" y="170" font-family="Georgia, 'Playfair Display', serif" font-size="80" font-weight="bold" fill="${HAZEL}">Hazel</text>
+  <text x="60" y="245" font-family="Georgia, 'Playfair Display', serif" font-size="80" font-weight="bold" fill="${HAZEL}">&amp; Hue</text>
 
   <!-- Tagline -->
-  <text x="600" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="${CHARCOAL}" opacity="0.6">Discover the colors that were made for you</text>
+  <text x="62" y="292" font-family="system-ui, 'DM Sans', sans-serif" font-size="22" fill="${CHARCOAL}" opacity="0.7">Discover the colors that were made for you.</text>
 
-  <!-- Divider line -->
-  <line x1="480" y1="320" x2="720" y2="320" stroke="${SAGE}" stroke-width="1" opacity="0.4"/>
+  <!-- Feature pills row -->
+  <g transform="translate(60, 322)">
+    <rect x="0" y="0" width="110" height="32" rx="16" fill="${DUSTY_ROSE}" opacity="0.2"/>
+    <text x="55" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="${CHARCOAL}" opacity="0.75">Your Palette</text>
 
-  <!-- Features -->
-  <text x="600" y="370" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="${CHARCOAL}" opacity="0.5">AI-Powered Seasonal Color Analysis</text>
-  <text x="600" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" fill="${CHARCOAL}" opacity="0.4">Palette  ·  Style Guide  ·  Makeup  ·  Hair  ·  Jewelry</text>
+    <rect x="120" y="0" width="110" height="32" rx="16" fill="${SAGE}" opacity="0.2"/>
+    <text x="175" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="${CHARCOAL}" opacity="0.75">Style Guide</text>
 
-  <!-- Price -->
-  <rect x="520" y="440" width="160" height="50" rx="12" fill="${HAZEL}" opacity="0.9"/>
-  <text x="600" y="473" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="${CREAM}">Just $19</text>
+    <rect x="240" y="0" width="90" height="32" rx="16" fill="${TERRACOTTA}" opacity="0.15"/>
+    <text x="285" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="${CHARCOAL}" opacity="0.75">Makeup</text>
 
-  <!-- Sub-price -->
-  <text x="600" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="${CHARCOAL}" opacity="0.35" font-style="italic">vs. $300+ for an in-person consultation</text>
-
-  <!-- Bottom botanical vine -->
-  <g opacity="0.2" transform="translate(350, 580)">
-    <path d="M0 10 Q125 0 250 10 Q375 20 500 10" stroke="${SAGE}" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-    <path d="M120 10 Q115 2 125 3 Q130 5 125 10" fill="${SAGE}" opacity="0.5"/>
-    <path d="M250 10 Q245 18 255 19 Q260 17 255 10" fill="${SAGE}" opacity="0.5"/>
-    <path d="M380 10 Q375 2 385 3 Q390 5 385 10" fill="${SAGE}" opacity="0.5"/>
+    <rect x="340" y="0" width="80" height="32" rx="16" fill="${HAZEL_LIGHT}" opacity="0.18"/>
+    <text x="380" y="21" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="${CHARCOAL}" opacity="0.75">Hair</text>
   </g>
+
+  <!-- CTA button -->
+  <rect x="60" y="388" width="220" height="54" rx="27" fill="url(#ctaGrad)"/>
+  <text x="170" y="422" text-anchor="middle" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="white">Download Free App</text>
+
+  <!-- Social proof -->
+  <text x="62" y="474" font-family="system-ui, sans-serif" font-size="15" fill="${CHARCOAL}" opacity="0.5">
+    <tspan font-weight="600" fill="${HAZEL}" opacity="1">2,400+</tspan>
+    <tspan> users  </tspan>
+    <tspan dx="8" fill="${HAZEL_LIGHT}" opacity="0.5">|</tspan>
+    <tspan dx="8" font-weight="600" fill="${HAZEL}" opacity="1">4.9</tspan>
+    <tspan> rating  </tspan>
+    <tspan dx="8" fill="${HAZEL_LIGHT}" opacity="0.5">|</tspan>
+    <tspan dx="8">60 seconds</tspan>
+  </text>
+
+  <!-- ============ RIGHT SIDE: Season Palette Showcase ============ -->
+
+  <!-- Background card for swatches area -->
+  <rect x="580" y="50" width="570" height="530" rx="28" fill="white" opacity="0.45"/>
+  <rect x="580" y="50" width="570" height="530" rx="28" fill="none" stroke="${HAZEL}" stroke-width="1" opacity="0.08"/>
+
+  <!-- Section heading -->
+  <text x="865" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="${HAZEL}" opacity="0.8">Your Season, Your Colors</text>
+  <line x1="740" y1="115" x2="990" y2="115" stroke="${HAZEL}" stroke-width="0.8" opacity="0.15"/>
+
+  <!-- Four season columns with labels and color swatches -->
+  <!-- SPRING -->
+  <g transform="translate(655, 140)">
+    <text x="0" y="14" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="bold" fill="#D4896E">Spring</text>
+    ${seasonSwatches(SPRING_COLORS, 0, 40)}
+    <!-- Warm coral highlight ring on first swatch -->
+    <circle cx="0" cy="40" r="16" fill="none" stroke="#FF8C69" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- SUMMER -->
+  <g transform="translate(790, 140)">
+    <text x="0" y="14" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="bold" fill="#9B8EC4">Summer</text>
+    ${seasonSwatches(SUMMER_COLORS, 0, 40)}
+    <circle cx="0" cy="40" r="16" fill="none" stroke="#B19CD9" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- AUTUMN -->
+  <g transform="translate(925, 140)">
+    <text x="0" y="14" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="bold" fill="${TERRACOTTA}">Autumn</text>
+    ${seasonSwatches(AUTUMN_COLORS, 0, 40)}
+    <circle cx="0" cy="40" r="16" fill="none" stroke="${TERRACOTTA}" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- WINTER -->
+  <g transform="translate(1060, 140)">
+    <text x="0" y="14" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="bold" fill="#5B2D4F">Winter</text>
+    ${seasonSwatches(WINTER_COLORS, 0, 40)}
+    <circle cx="0" cy="40" r="16" fill="none" stroke="#7B2D5F" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <!-- Large decorative color fan / bloom at bottom-right of swatch card -->
+  <g transform="translate(865, 440)">
+    <!-- Overlapping color petals radiating outward -->
+    <ellipse cx="-70" cy="15" rx="50" ry="22" fill="${SAGE}" opacity="0.5" transform="rotate(-30, -70, 15)"/>
+    <ellipse cx="-35" cy="-30" rx="50" ry="22" fill="${TERRACOTTA}" opacity="0.45" transform="rotate(-60, -35, -30)"/>
+    <ellipse cx="20" cy="-45" rx="50" ry="22" fill="${DUSTY_ROSE}" opacity="0.5" transform="rotate(-85, 20, -45)"/>
+    <ellipse cx="70" cy="-30" rx="50" ry="22" fill="#B19CD9" opacity="0.4" transform="rotate(-110, 70, -30)"/>
+    <ellipse cx="100" cy="15" rx="50" ry="22" fill="${HAZEL_LIGHT}" opacity="0.45" transform="rotate(-140, 100, 15)"/>
+    <ellipse cx="70" cy="55" rx="50" ry="22" fill="#7B2D5F" opacity="0.3" transform="rotate(-165, 70, 55)"/>
+    <ellipse cx="15" cy="65" rx="50" ry="22" fill="#FF8C69" opacity="0.35" transform="rotate(-195, 15, 65)"/>
+    <ellipse cx="-45" cy="50" rx="50" ry="22" fill="${SAGE}" opacity="0.35" transform="rotate(-220, -45, 50)"/>
+    <!-- Center dot -->
+    <circle cx="15" cy="12" r="18" fill="white" opacity="0.85"/>
+    <circle cx="15" cy="12" r="16" fill="none" stroke="${HAZEL}" stroke-width="1.2" opacity="0.3"/>
+    <text x="15" y="18" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="bold" fill="${HAZEL}">H&amp;H</text>
+  </g>
+
+  <!-- Decorative floating squares (echoing the current site style) -->
+  <g opacity="0.35">
+    <rect x="540" y="45" width="18" height="18" rx="3" fill="${DUSTY_ROSE}" transform="rotate(15, 549, 54)"/>
+    <rect x="1125" y="555" width="22" height="22" rx="4" fill="${SAGE}" transform="rotate(-20, 1136, 566)"/>
+    <rect x="565" y="560" width="14" height="14" rx="2" fill="${TERRACOTTA}" transform="rotate(25, 572, 567)"/>
+    <rect x="1100" y="80" width="16" height="16" rx="3" fill="${HAZEL_LIGHT}" transform="rotate(-10, 1108, 88)"/>
+  </g>
+
+  <!-- Bottom edge accent line -->
+  <rect x="0" y="620" width="1200" height="10" fill="${HAZEL}" opacity="0.08"/>
+  <rect x="60" y="622" width="120" height="6" rx="3" fill="${TERRACOTTA}" opacity="0.5"/>
+  <rect x="190" y="622" width="60" height="6" rx="3" fill="${SAGE}" opacity="0.4"/>
+  <rect x="260" y="622" width="40" height="6" rx="3" fill="${DUSTY_ROSE}" opacity="0.4"/>
 </svg>`;
 }
 
