@@ -5,6 +5,7 @@ import { ShopButton } from './shopping/ShopButton';
 import { ProductModal } from './shopping/ProductModal';
 import { ShopTab } from './shopping/ShopTab';
 import { useProductSearch } from '../hooks/useShoppingApi';
+import { ShareResultCardSection } from './ShareResultCard';
 
 interface Props {
   result: SeasonResult;
@@ -69,6 +70,27 @@ function Chip({ children, variant = 'default' }: { children: React.ReactNode; va
       {children}
     </span>
   );
+}
+
+/**
+ * Curate 10-12 swatches for the share card: best colors first, then fill from palette.
+ */
+function buildShareSwatches(result: SeasonResult): ColorSwatch[] {
+  const picks: ColorSwatch[] = [];
+  const seen = new Set<string>();
+
+  // Best colors first (up to 4)
+  for (const c of result.bestColors.slice(0, 4)) {
+    if (!seen.has(c.hex)) { picks.push(c); seen.add(c.hex); }
+  }
+
+  // Fill remaining from full palette
+  for (const c of result.palette) {
+    if (picks.length >= 12) break;
+    if (!seen.has(c.hex)) { picks.push(c); seen.add(c.hex); }
+  }
+
+  return picks.slice(0, 12);
 }
 
 export function AnalysisResults({ result, preview, onStartOver }: Props) {
@@ -865,6 +887,16 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
             palette={result.palette}
           />
         )}
+
+        {/* ── Shareable Palette Card ── */}
+        <div className="mt-24">
+          <ShareResultCardSection
+            season={result.season}
+            tagline={result.tagline}
+            swatches={buildShareSwatches(result)}
+            celebrityName={result.celebrities[0] ?? 'someone iconic'}
+          />
+        </div>
 
         {/* Actions footer */}
         <Section className="mt-24 text-center">
