@@ -66,10 +66,9 @@ export function ShopFeedSection({ season, palette, analysisId }: ShopFeedSection
           clickSource: 'shop_tab',
           category: product.category,
           matchScore: product.matchScore,
-          affiliateUrl: product.affiliateUrl,
         });
       }
-      Linking.openURL(product.affiliateUrl);
+      Linking.openURL(product.merchantUrl);
     },
     [analysisId],
   );
@@ -160,12 +159,6 @@ export function ShopFeedSection({ season, palette, analysisId }: ShopFeedSection
         />
       ))}
 
-      {/* Disclosure */}
-      <View style={styles.disclosure}>
-        <Typography variant="caption" color={colors.gray300} align="center" style={{ fontSize: 9, lineHeight: 14 }}>
-          Some links are affiliate links. Hazel & Hue may earn a commission at no extra cost to you.
-        </Typography>
-      </View>
     </View>
   );
 }
@@ -269,10 +262,6 @@ const styles = StyleSheet.create({
   retryButton: {
     marginTop: spacing[3],
     alignSelf: 'center',
-  },
-  disclosure: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[3],
   },
 });
 

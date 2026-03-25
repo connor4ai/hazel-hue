@@ -157,7 +157,6 @@ export const handler = withMiddleware(async (event) => {
         imageUrl: product.imageUrl,
         merchantName: product.merchantName,
         merchantUrl: product.url,
-        affiliateUrl: '', // Will be populated below
         matchScore,
         matchedPaletteHex,
         dominantColors: dominantHexes,
@@ -167,22 +166,13 @@ export const handler = withMiddleware(async (event) => {
     .sort((a, b) => b.matchScore - a.matchScore)
     .slice(0, params.limit);
 
-  // Wrap URLs in affiliate links
-  const merchantUrls = scoredProducts.map((p) => p.merchantUrl);
-  const affiliateLinks = await (await getSkimlinks()).getAffiliateLinks(merchantUrls);
-
-  const products = scoredProducts.map((p) => ({
-    ...p,
-    affiliateUrl: affiliateLinks.get(p.merchantUrl) ?? p.merchantUrl,
-  }));
-
   return {
     statusCode: 200,
     body: {
-      products,
+      products: scoredProducts,
       query: params.q,
       targetHex: params.targetHex,
-      resultCount: products.length,
+      resultCount: scoredProducts.length,
     },
   };
 });

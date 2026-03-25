@@ -26,7 +26,6 @@ const clickEventSchema = z.object({
   ]),
   category: z.enum(['clothing', 'makeup', 'nails', 'jewelry', 'accessories', 'hair']),
   matchScore: z.number().int().min(0).max(100),
-  affiliateUrl: z.string().url().max(2000),
 });
 
 export const handler = withMiddleware(async (event) => {
@@ -53,7 +52,6 @@ export const handler = withMiddleware(async (event) => {
     clickSource: body.clickSource,
     category: body.category,
     matchScore: body.matchScore,
-    affiliateUrl: body.affiliateUrl,
     clickedAt: now.toISOString(),
 
     // TTL: keep click data for 90 days

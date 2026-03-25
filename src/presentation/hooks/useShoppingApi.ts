@@ -1,5 +1,5 @@
 /**
- * React Native hooks for the shopping/affiliate API.
+ * React Native hooks for the shopping API.
  */
 
 import { useState, useCallback, useRef } from 'react';
@@ -15,7 +15,6 @@ export interface ShoppableProduct {
   currency: string;
   imageUrl: string;
   merchantName: string;
-  affiliateUrl: string;
   merchantUrl: string;
   matchScore: number;
   matchedPaletteHex: string;
@@ -157,7 +156,6 @@ export function trackProductClick(params: {
   clickSource: ClickSource;
   category: ProductCategory;
   matchScore: number;
-  affiliateUrl: string;
 }): void {
   apiClient.post(endpoints.shopping.trackClick, params).catch(() => {});
 }

@@ -53,10 +53,9 @@ export function ProductModal({
         clickSource,
         category: product.category,
         matchScore: product.matchScore,
-        affiliateUrl: product.affiliateUrl,
       });
     }
-    Linking.openURL(product.affiliateUrl);
+    Linking.openURL(product.merchantUrl);
   };
 
   return (
@@ -125,11 +124,7 @@ export function ProductModal({
           </ScrollView>
 
           {/* Footer */}
-          <View style={modalStyles.footer}>
-            <Typography variant="caption" color={colors.gray300} align="center" style={{ fontSize: 9 }}>
-              Affiliate links — Hazel & Hue may earn a commission at no extra cost to you.
-            </Typography>
-          </View>
+          <View style={modalStyles.footer} />
         </View>
       </View>
     </Modal>

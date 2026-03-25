@@ -1,5 +1,5 @@
 /**
- * React hooks for the shopping/affiliate API.
+ * React hooks for the shopping API.
  * Handles product search, feed loading, and click tracking.
  */
 
@@ -157,7 +157,6 @@ export function trackProductClick(params: {
   clickSource: ClickSource;
   category: ProductCategory;
   matchScore: number;
-  affiliateUrl: string;
 }): void {
   fetch(`${API_BASE}/shopping/click`, {
     method: 'POST',

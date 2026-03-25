@@ -213,7 +213,6 @@ export const handler = withMiddleware(async (event) => {
         imageUrl: product.imageUrl,
         merchantName: product.merchantName,
         merchantUrl: product.url,
-        affiliateUrl: product.url, // Will be wrapped client-side or in a follow-up
         matchScore,
         matchedPaletteHex,
         dominantColors,
@@ -223,19 +222,12 @@ export const handler = withMiddleware(async (event) => {
     .sort((a, b) => b.matchScore - a.matchScore)
     .slice(0, 20);
 
-  // Wrap in affiliate links
-  const affiliateLinks = await skimlinksClient.getAffiliateLinks(scored.map((p) => p.merchantUrl));
-  const finalProducts = scored.map((p) => ({
-    ...p,
-    affiliateUrl: affiliateLinks.get(p.merchantUrl) ?? p.merchantUrl,
-  }));
-
   // Cache the feed (without user-specific palette scoring, we'll rescore on read)
   const now = Math.floor(Date.now() / 1000);
   await putItem({
     PK: pk,
     SK: sk,
-    products: finalProducts,
+    products: scored,
     season: params.season,
     category: params.category,
     generatedAt: new Date().toISOString(),
@@ -249,7 +241,7 @@ export const handler = withMiddleware(async (event) => {
   return {
     statusCode: 200,
     body: {
-      products: finalProducts,
+      products: scored,
       season: params.season,
       category: params.category,
       cached: false,

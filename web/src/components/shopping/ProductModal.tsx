@@ -6,7 +6,7 @@
  *   - Palette match score badge
  *   - Price
  *   - Retailer name
- *   - Affiliate "Shop" link
+ *   - "Shop" link
  */
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -63,11 +63,10 @@ export function ProductModal({
         clickSource,
         category: product.category,
         matchScore: product.matchScore,
-        affiliateUrl: product.affiliateUrl,
       });
     }
     // Open in new tab
-    window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
+    window.open(product.merchantUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -142,11 +141,7 @@ export function ProductModal({
             </div>
 
             {/* Footer */}
-            <div className="border-t border-cream-200 px-6 py-3">
-              <p className="text-[9px] text-charcoal/25 text-center leading-relaxed">
-                Affiliate links — Hazel & Hue may earn a commission at no extra cost to you.
-              </p>
-            </div>
+            <div className="border-t border-cream-200 px-6 py-3" />
           </motion.div>
         </motion.div>
       )}

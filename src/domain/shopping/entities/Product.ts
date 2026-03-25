@@ -14,9 +14,7 @@ export interface ShoppableProduct {
   imageUrl: string;
   /** Retailer / merchant name */
   merchantName: string;
-  /** Affiliate-tracked URL */
-  affiliateUrl: string;
-  /** Original merchant URL (before affiliate wrapping) */
+  /** Merchant URL */
   merchantUrl: string;
   /** 0-100 palette match score */
   matchScore: number;

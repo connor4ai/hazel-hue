@@ -16,14 +16,11 @@ import { JewelryGuideSection } from '@presentation/components/results/JewelryGui
 import { HairGuideSection } from '@presentation/components/results/HairGuide';
 import { SeasonSiblingsSection } from '@presentation/components/results/SeasonSiblings';
 import { ColorsToAvoid } from '@presentation/components/results/ColorsToAvoid';
-import { Toolkit } from '@presentation/components/results/Toolkit';
 import { NailGuideSection } from '@presentation/components/results/NailGuide';
 import { AccessoryGuideSection } from '@presentation/components/results/AccessoryGuide';
 import { PinterestBoardsSection } from '@presentation/components/results/PinterestBoards';
-import { ShareRefer } from '@presentation/components/results/ShareRefer';
-import { ShareResultCard } from '@presentation/components/results/ShareResultCard';
 import { useAnalysisResults } from '@presentation/hooks/useAnalysisResults';
-import { getSeasonDisplayName, getSeasonFamily, SEASON_METADATA, Season } from '@domain/shared/types/Season';
+import { getSeasonDisplayName, SEASON_METADATA, Season } from '@domain/shared/types/Season';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
@@ -74,26 +71,6 @@ function ErrorState() {
       </SafeAreaView>
     </WatercolorBackground>
   );
-}
-
-/**
- * Curate 10-12 of the best swatches for the share card from the full palette.
- * Picks: signature + 3 neutrals + 4 statements + 3 accents = 11 swatches.
- */
-function buildShareSwatches(palette: {
-  signatureColor: { hex: string; name: string };
-  neutrals: { hex: string; name: string }[];
-  statements: { hex: string; name: string }[];
-  accents: { hex: string; name: string }[];
-}): { hex: string; name: string }[] {
-  const picks: { hex: string; name: string }[] = [];
-
-  if (palette.signatureColor) picks.push(palette.signatureColor);
-  if (palette.neutrals) picks.push(...palette.neutrals.slice(0, 3));
-  if (palette.statements) picks.push(...palette.statements.slice(0, 4));
-  if (palette.accents) picks.push(...palette.accents.slice(0, Math.max(0, 12 - picks.length)));
-
-  return picks.slice(0, 12);
 }
 
 export default function ResultsScreen() {
@@ -213,29 +190,6 @@ export default function ResultsScreen() {
               <ColorsToAvoid avoid={analysis.avoid} />
               <BotanicalDivider variant="vine" />
             </>
-          )}
-
-          <Toolkit analysisId={id ?? ''} />
-          <BotanicalDivider variant="leaves" />
-
-          {/* Legacy share link (fallback) */}
-          <ShareRefer analysisId={id ?? ''} seasonName={seasonName} />
-
-          {/* ─── Viral share card ─── */}
-          {analysis.palette && (
-            <ShareResultCard
-              analysisId={id ?? ''}
-              seasonName={seasonName}
-              seasonFamily={analysis.season ? getSeasonFamily(analysis.season as Season) : 'AUTUMN'}
-              poeticDescription={
-                seasonMeta?.poeticDescription ?? 'Your unique palette, curated just for you'
-              }
-              accentColor={seasonAccentColor}
-              swatches={buildShareSwatches(analysis.palette)}
-              celebrityName={
-                analysis.siblings?.celebrities?.[0]?.name ?? 'someone iconic'
-              }
-            />
           )}
 
           {/* Premium footer */}
