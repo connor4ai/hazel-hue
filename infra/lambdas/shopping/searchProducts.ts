@@ -172,7 +172,7 @@ export const handler = withMiddleware(async (event) => {
       products: scoredProducts,
       query: params.q,
       targetHex: params.targetHex,
-      resultCount: products.length,
+      resultCount: scoredProducts.length,
     },
   };
 });

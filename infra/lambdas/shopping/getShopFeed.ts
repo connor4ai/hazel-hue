@@ -241,7 +241,7 @@ export const handler = withMiddleware(async (event) => {
   return {
     statusCode: 200,
     body: {
-      products: finalProducts,
+      products: scored,
       season: params.season,
       category: params.category,
       cached: false,
