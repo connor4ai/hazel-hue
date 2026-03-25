@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { SeasonResult, ColorSwatch, ClickSource, ProductCategory } from '../data/seasons';
 import { ShopButton } from './shopping/ShopButton';
 import { ProductModal } from './shopping/ProductModal';
@@ -74,6 +74,7 @@ function Chip({ children, variant = 'default' }: { children: React.ReactNode; va
 export function AnalysisResults({ result, preview, onStartOver }: Props) {
   const [showAllColors, setShowAllColors] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('palette');
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Shopping state
   const paletteHexes = result.palette.map((c) => c.hex);
@@ -180,7 +181,11 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
           {(Object.keys(TAB_LABELS) as TabType[]).map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                // Scroll to top of content area so the new tab isn't pre-scrolled
+                contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
               className={`relative flex-1 whitespace-nowrap px-4 py-4 text-center text-sm font-semibold transition-colors ${
                 activeTab === tab ? 'text-hazel' : 'text-charcoal/35 hover:text-charcoal/60'
               }`}
@@ -199,7 +204,7 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16 lg:px-12">
+      <div ref={contentRef} className="mx-auto max-w-4xl scroll-mt-[130px] px-6 py-16 lg:px-12">
         {/* ── Palette Tab ── */}
         {activeTab === 'palette' && (
           <div className="space-y-20">

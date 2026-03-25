@@ -11,16 +11,6 @@ const CATEGORY_ORDER = ['Guides', 'Season Guides', 'Season Comparisons', 'Beauty
 export function BlogList() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Blog — Color Analysis Guides & Tips | Hazel & Hue';
-    const link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (link) link.href = 'https://hazelandhue.com/blog';
-    const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (desc) desc.content = 'Expert guides on seasonal color analysis, finding your undertone, building a palette-based wardrobe, and more. Learn everything about color analysis from Hazel & Hue.';
-    return () => {
-      document.title = 'AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue';
-      if (link) link.href = 'https://hazelandhue.com';
-      if (desc) desc.content = 'Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 2,400+ users.';
-    };
   }, []);
 
   const featured = BLOG_POSTS.find((p) => p.slug === FEATURED_SLUG);

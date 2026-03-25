@@ -1,16 +1,4 @@
-import { useEffect } from 'react';
-
 export function TermsOfService() {
-  useEffect(() => {
-    document.title = 'Terms of Service | Hazel & Hue';
-    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (link) link.href = 'https://hazelandhue.com/terms';
-    return () => {
-      document.title = 'AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue';
-      if (link) link.href = 'https://hazelandhue.com';
-    };
-  }, []);
-
   return (
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-32 lg:px-12">
       <h1 className="font-display text-display-lg font-bold text-charcoal">Terms of Service</h1>
