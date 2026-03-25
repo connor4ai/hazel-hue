@@ -16,11 +16,9 @@ import { JewelryGuideSection } from '@presentation/components/results/JewelryGui
 import { HairGuideSection } from '@presentation/components/results/HairGuide';
 import { SeasonSiblingsSection } from '@presentation/components/results/SeasonSiblings';
 import { ColorsToAvoid } from '@presentation/components/results/ColorsToAvoid';
-import { Toolkit } from '@presentation/components/results/Toolkit';
 import { NailGuideSection } from '@presentation/components/results/NailGuide';
 import { AccessoryGuideSection } from '@presentation/components/results/AccessoryGuide';
 import { PinterestBoardsSection } from '@presentation/components/results/PinterestBoards';
-import { ShareRefer } from '@presentation/components/results/ShareRefer';
 import { useAnalysisResults } from '@presentation/hooks/useAnalysisResults';
 import { getSeasonDisplayName, SEASON_METADATA, Season } from '@domain/shared/types/Season';
 import { colors } from '@presentation/theme/colors';
@@ -193,11 +191,6 @@ export default function ResultsScreen() {
               <BotanicalDivider variant="vine" />
             </>
           )}
-
-          <Toolkit analysisId={id ?? ''} />
-          <BotanicalDivider variant="leaves" />
-
-          <ShareRefer analysisId={id ?? ''} seasonName={seasonName} />
 
           {/* Premium footer */}
           <View style={styles.footer}>

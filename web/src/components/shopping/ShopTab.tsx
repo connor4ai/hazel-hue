@@ -56,10 +56,9 @@ export function ShopTab({ season, palette, analysisId }: ShopTabProps) {
           clickSource: 'shop_tab',
           category: product.category,
           matchScore: product.matchScore,
-          affiliateUrl: product.affiliateUrl,
         });
       }
-      window.open(product.affiliateUrl, '_blank', 'noopener,noreferrer');
+      window.open(product.merchantUrl, '_blank', 'noopener,noreferrer');
     },
     [analysisId],
   );
@@ -154,13 +153,6 @@ export function ShopTab({ season, palette, analysisId }: ShopTabProps) {
         )}
       </div>
 
-      {/* Affiliate disclosure */}
-      <div className="rounded-2xl border border-cream-200 bg-cream-50/50 px-6 py-4 text-center">
-        <p className="text-[10px] text-charcoal/30 leading-relaxed">
-          Some links on this page are affiliate links. Hazel & Hue may earn a small commission
-          at no extra cost to you when you make a purchase through these links.
-        </p>
-      </div>
     </div>
   );
 }

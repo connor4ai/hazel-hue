@@ -58,7 +58,6 @@ export interface ShoppableProduct {
   currency: string;
   imageUrl: string;
   merchantName: string;
-  affiliateUrl: string;
   merchantUrl: string;
   matchScore: number;
   matchedPaletteHex: string;

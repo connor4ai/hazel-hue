@@ -868,47 +868,12 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
         {/* Actions footer */}
         <Section className="mt-24 text-center">
-          <div className="rounded-3xl border border-cream-200 bg-gradient-to-b from-white/80 to-cream-50/60 px-8 py-14 shadow-lg shadow-hazel/5">
-            <h2 className="font-display text-display-sm font-bold text-charcoal">
-              Want to save your results?
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-charcoal/45 leading-relaxed">
-              Download the Hazel & Hue app to save your palette, get outfit ideas,
-              and access your color guide anytime.
-            </p>
-            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
-                href="https://apps.apple.com/app/hazel-hue"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full bg-charcoal px-8 py-4 text-sm font-semibold text-cream-50 shadow-lg shadow-charcoal/20 transition-all hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                App Store
-              </a>
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hazelhue"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full border border-cream-300 bg-white px-8 py-4 text-sm font-semibold text-charcoal shadow-sm transition-all hover:-translate-y-0.5 hover:bg-cream-50 hover:shadow-lg"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302c.433.289.744.765.744 1.19 0 .425-.311.901-.744 1.19l-2.56 1.484-2.544-2.544 2.802-2.622zM5.864 2.658l10.937 6.333-2.302 2.302-8.635-8.635z" />
-                </svg>
-                Google Play
-              </a>
-            </div>
-            <div className="mt-8">
-              <button
-                onClick={onStartOver}
-                className="text-sm font-semibold text-charcoal/35 underline-offset-4 transition hover:text-hazel hover:underline"
-              >
-                Try with a different photo
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={onStartOver}
+            className="text-sm font-semibold text-charcoal/35 underline-offset-4 transition hover:text-hazel hover:underline"
+          >
+            Try with a different photo
+          </button>
         </Section>
       </div>
 
@@ -923,14 +888,6 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
         clickSource={modalSource}
       />
 
-      {/* FTC Disclosure */}
-      <div className="border-t border-cream-200 bg-cream-50/50 px-6 py-4 text-center">
-        <p className="mx-auto max-w-2xl text-[10px] text-charcoal/25 leading-relaxed">
-          Some links on this page are affiliate links. Hazel & Hue may earn a small commission
-          at no extra cost to you when you make a purchase through these links. This does not
-          influence our color recommendations.
-        </p>
-      </div>
     </div>
   );
 }
