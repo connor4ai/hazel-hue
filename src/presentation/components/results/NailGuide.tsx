@@ -4,7 +4,6 @@ import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
-import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
@@ -22,7 +21,6 @@ interface NailData {
 
 interface NailGuideProps {
   nails: NailData;
-  onShop?: (query: string) => void;
 }
 
 /** A nail polish bottle swatch rendered in SVG */
@@ -181,13 +179,10 @@ const heroStyles = StyleSheet.create({
   },
 });
 
-export function NailGuideSection({ nails, onShop }: NailGuideProps) {
+export function NailGuideSection({ nails }: NailGuideProps) {
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <HandLetterHeading title="Nail Polish Guide" subtitle="Shades curated for your hands" />
-        {onShop && <ShopButton label="Shop Nails" onPress={() => onShop('nail polish')} />}
-      </View>
+      <HandLetterHeading title="Nail Polish Guide" subtitle="Shades curated for your hands" />
 
       <PolishCollection title="Everyday Shades" shades={nails.everyday} />
       <PolishCollection title="Statement Shades" shades={nails.statement} />

@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import { HandLetterHeading } from '@presentation/components/brand/HandLetterHeading';
 import { OrganicCard } from '@presentation/components/brand/OrganicCard';
 import { Typography } from '@presentation/components/ui/Typography';
-import { ShopButton } from '@presentation/components/shopping/ShopButton';
 import { colors } from '@presentation/theme/colors';
 import { spacing } from '@presentation/theme/spacing';
 
@@ -22,7 +21,6 @@ interface AccessoryData {
 
 interface AccessoryGuideProps {
   accessories: AccessoryData;
-  onShop?: (query: string) => void;
 }
 
 function ColorSwatchRow({ color }: { color: PaletteColor }) {
@@ -36,13 +34,10 @@ function ColorSwatchRow({ color }: { color: PaletteColor }) {
   );
 }
 
-export function AccessoryGuideSection({ accessories, onShop }: AccessoryGuideProps) {
+export function AccessoryGuideSection({ accessories }: AccessoryGuideProps) {
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <HandLetterHeading title="Accessories" />
-        {onShop && <ShopButton label="Shop" onPress={() => onShop('accessories')} />}
-      </View>
+      <HandLetterHeading title="Accessories" />
 
       <OrganicCard variant="subtle">
         <Typography variant="label" color={colors.hazel}>Sunglasses Frames</Typography>
