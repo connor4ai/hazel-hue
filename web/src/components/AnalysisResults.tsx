@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion';
-import { useState, useCallback, useRef } from 'react';
-import type { SeasonResult, ColorSwatch, ClickSource, ProductCategory } from '../data/seasons';
-import { ShopButton } from './shopping/ShopButton';
-import { ProductModal } from './shopping/ProductModal';
-import { ShopTab } from './shopping/ShopTab';
-import { useProductSearch } from '../hooks/useShoppingApi';
+import { useState, useRef } from 'react';
+import type { SeasonResult, ColorSwatch } from '../data/seasons';
 
 interface Props {
   result: SeasonResult;
@@ -19,7 +15,7 @@ const fadeUp = {
   transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
 };
 
-type TabType = 'palette' | 'style' | 'beauty' | 'accessories' | 'inspiration' | 'shop';
+type TabType = 'palette' | 'style' | 'beauty' | 'accessories' | 'inspiration';
 
 const TAB_LABELS: Record<TabType, string> = {
   palette: 'Color Palette',
@@ -27,7 +23,6 @@ const TAB_LABELS: Record<TabType, string> = {
   beauty: 'Beauty',
   accessories: 'Accessories',
   inspiration: 'Inspiration',
-  shop: 'Shop Your Colors',
 };
 
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -75,23 +70,6 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
   const [showAllColors, setShowAllColors] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('palette');
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // Shopping state
-  const paletteHexes = result.palette.map((c) => c.hex);
-  const { products: searchProducts, loading: searchLoading, error: searchError, query: searchQuery, search, clear: clearSearch } = useProductSearch(paletteHexes);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalSource, setModalSource] = useState<ClickSource>('lookbook');
-
-  const openShopModal = useCallback((query: string, targetHex: string | undefined, source: ClickSource, category?: ProductCategory) => {
-    setModalSource(source);
-    setModalOpen(true);
-    search(query, targetHex, category);
-  }, [search]);
-
-  const closeShopModal = useCallback(() => {
-    setModalOpen(false);
-    clearSearch();
-  }, [clearSearch]);
 
   const visiblePalette = showAllColors ? result.palette : result.palette.slice(0, 8);
 
@@ -427,10 +405,6 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
                             <p className="text-sm font-medium text-charcoal">{piece.item}</p>
                             <p className="text-[10px] text-charcoal/35">{piece.color.name}</p>
                           </div>
-                          <ShopButton
-                            compact
-                            onClick={() => openShopModal(piece.item, piece.color.hex, 'lookbook', 'clothing')}
-                          />
                         </div>
                       ))}
                     </div>
@@ -508,16 +482,9 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
                     transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg hover:shadow-hazel/5"
                   >
-                    <div className="flex items-start justify-between">
-                      <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-hazel">
-                        {tip.category}
-                      </p>
-                      <ShopButton
-                        compact
-                        label={`Shop ${tip.category}`}
-                        onClick={() => openShopModal(`${tip.category} ${tip.recommendation}`, undefined, 'makeup_guide', 'makeup')}
-                      />
-                    </div>
+                    <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-hazel">
+                      {tip.category}
+                    </p>
                     <p className="mt-3 text-[15px] leading-relaxed text-charcoal/55">
                       {tip.recommendation}
                     </p>
@@ -528,18 +495,10 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
             {/* Hair Guide */}
             <Section>
-              <div className="flex items-start justify-between">
-                <div>
-                  <SectionLabel>Hair Guide</SectionLabel>
-                  <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
-                    What to ask for at the salon
-                  </h2>
-                </div>
-                <ShopButton
-                  label="Shop Hair Color"
-                  onClick={() => openShopModal(`${result.season} hair color products`, undefined, 'hair_guide', 'hair')}
-                />
-              </div>
+              <SectionLabel>Hair Guide</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                What to ask for at the salon
+              </h2>
               <div className="mt-8 space-y-6">
                 {/* Hair color strip */}
                 <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
@@ -611,18 +570,10 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
             {/* Nail Polish Guide */}
             <Section>
-              <div className="flex items-start justify-between">
-                <div>
-                  <SectionLabel>Nail Polish Guide</SectionLabel>
-                  <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
-                    Shades curated for your hands
-                  </h2>
-                </div>
-                <ShopButton
-                  label="Shop Nails"
-                  onClick={() => openShopModal(`nail polish ${result.season}`, undefined, 'nail_guide', 'nails')}
-                />
-              </div>
+              <SectionLabel>Nail Polish Guide</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                Shades curated for your hands
+              </h2>
               <div className="mt-8 space-y-6">
                 {/* Everyday shades */}
                 <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
@@ -699,32 +650,22 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
           <div className="space-y-20">
             {/* Jewelry Guide */}
             <Section>
-              <div className="flex items-start justify-between">
-                <div>
-                  <SectionLabel>Jewelry & Metals</SectionLabel>
-                  <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
-                    Metals and stones that complement you
-                  </h2>
-                </div>
-                <ShopButton
-                  label="Shop Jewelry"
-                  onClick={() => openShopModal(`${result.jewelry.bestMetals[0]} jewelry`, undefined, 'jewelry_guide', 'jewelry')}
-                />
-              </div>
+              <SectionLabel>Jewelry & Metals</SectionLabel>
+              <h2 className="mt-3 font-display text-display-md font-bold text-charcoal">
+                Metals and stones that complement you
+              </h2>
               <div className="mt-8 space-y-6">
                 {/* Best metals */}
                 <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-hazel">Your Best Metals</p>
                   <div className="mt-4 flex flex-wrap gap-3">
                     {result.jewelry.bestMetals.map((metal) => (
-                      <button
+                      <span
                         key={metal}
-                        onClick={() => openShopModal(`${metal} jewelry`, undefined, 'jewelry_guide', 'jewelry')}
-                        className="group rounded-2xl border border-cream-200 bg-gradient-to-br from-white to-cream-50 px-5 py-3 text-sm font-semibold text-charcoal shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:border-hazel/20"
+                        className="rounded-2xl border border-cream-200 bg-gradient-to-br from-white to-cream-50 px-5 py-3 text-sm font-semibold text-charcoal shadow-sm"
                       >
                         {metal}
-                        <span className="ml-2 text-[9px] font-bold uppercase tracking-wider text-hazel/50 opacity-0 transition-opacity group-hover:opacity-100">Shop</span>
-                      </button>
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -754,18 +695,10 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
 
             {/* Accessories */}
             <Section>
-              <div className="flex items-start justify-between">
-                <div>
-                  <SectionLabel>Accessories</SectionLabel>
-                  <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
-                    Complete your look
-                  </h2>
-                </div>
-                <ShopButton
-                  label="Shop Accessories"
-                  onClick={() => openShopModal(`${result.season} accessories`, undefined, 'accessory_guide', 'accessories')}
-                />
-              </div>
+              <SectionLabel>Accessories</SectionLabel>
+              <h2 className="mt-3 font-display text-display-sm font-bold text-charcoal">
+                Complete your look
+              </h2>
               <div className="mt-8 space-y-6">
                 {/* Sunglasses */}
                 <div className="rounded-2xl border border-cream-200 bg-white/70 p-6 shadow-sm">
@@ -863,14 +796,6 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
           </div>
         )}
 
-        {/* ── Shop Your Colors Tab ── */}
-        {activeTab === 'shop' && (
-          <ShopTab
-            season={result.season}
-            palette={result.palette}
-          />
-        )}
-
         {/* Actions footer */}
         <Section className="mt-24 text-center">
           <button
@@ -881,17 +806,6 @@ export function AnalysisResults({ result, preview, onStartOver }: Props) {
           </button>
         </Section>
       </div>
-
-      {/* Product search modal */}
-      <ProductModal
-        isOpen={modalOpen}
-        onClose={closeShopModal}
-        products={searchProducts}
-        loading={searchLoading}
-        error={searchError}
-        query={searchQuery}
-        clickSource={modalSource}
-      />
 
     </div>
   );
