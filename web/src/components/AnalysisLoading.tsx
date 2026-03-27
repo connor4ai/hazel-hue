@@ -3,14 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import { pollStatus } from '../api/client';
 
 const ANALYSIS_STEPS = [
-  { label: 'Uploading your photo', minDuration: 2000 },
-  { label: 'Detecting face & features', minDuration: 3000 },
-  { label: 'Analyzing skin undertone', minDuration: 4000 },
-  { label: 'Mapping contrast level', minDuration: 4000 },
-  { label: 'Evaluating chroma depth', minDuration: 4000 },
-  { label: 'Identifying your season', minDuration: 5000 },
-  { label: 'Curating your palette', minDuration: 5000 },
-  { label: 'Generating your guides', minDuration: 5000 },
+  { label: 'Uploading your photo', minDuration: 1500 },
+  { label: 'Detecting face & features', minDuration: 2000 },
+  { label: 'Analyzing skin undertone', minDuration: 2500 },
+  { label: 'Mapping contrast level', minDuration: 2000 },
+  { label: 'Identifying your season', minDuration: 2500 },
+  { label: 'Curating your palette', minDuration: 2000 },
 ];
 
 interface Props {
@@ -21,7 +19,7 @@ interface Props {
 export function AnalysisLoading({ preview, analysisId }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState<string>('PENDING');
+  const [backendDone, setBackendDone] = useState(false);
   const startTimeRef = useRef(Date.now());
 
   // Poll for real status
@@ -31,21 +29,26 @@ export function AnalysisLoading({ preview, analysisId }: Props) {
     const interval = setInterval(async () => {
       try {
         const result = await pollStatus(analysisId);
-        setStatus(result.status);
+        if (result.status === 'COMPLETED' || result.status === 'FAILED') {
+          setBackendDone(true);
+          clearInterval(interval);
+        }
       } catch {
-        // Polling errors are non-fatal, the parent handles the real error
+        // Polling errors are non-fatal
       }
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [analysisId]);
 
-  // Animate progress based on elapsed time and real status
+  // Animate progress
   useEffect(() => {
+    const totalDuration = ANALYSIS_STEPS.reduce((s, st) => s + st.minDuration, 0);
+
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTimeRef.current;
 
-      // Calculate step based on elapsed time
+      // Calculate current step
       let accumulated = 0;
       let step = 0;
       for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
@@ -56,26 +59,21 @@ export function AnalysisLoading({ preview, analysisId }: Props) {
         }
         step = i;
       }
-
-      // If processing, advance to at least step 2
-      if (status === 'PROCESSING' && step < 2) step = 2;
-
       setCurrentStep(step);
 
-      // Progress: smooth advancement, capped at 90% until completed
-      const totalMinDuration = ANALYSIS_STEPS.reduce((s, st) => s + st.minDuration, 0);
-      const rawPct = Math.min((elapsed / totalMinDuration) * 90, 90);
+      // Progress caps at 85% until backend is done
+      const rawPct = Math.min((elapsed / totalDuration) * 85, 85);
 
-      // If status is COMPLETED, jump to 100%
-      if (status === 'COMPLETED') {
-        setProgress(100);
+      if (backendDone) {
+        // Quickly fill to 100%
+        setProgress((prev) => Math.min(prev + 3, 100));
       } else {
         setProgress(rawPct);
       }
-    }, 100);
+    }, 80);
 
     return () => clearInterval(interval);
-  }, [status]);
+  }, [backendDone]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-6">
@@ -113,7 +111,7 @@ export function AnalysisLoading({ preview, analysisId }: Props) {
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-hazel to-terracotta"
               style={{ width: `${progress}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.1 }}
             />
           </div>
           <p className="mt-3 text-sm font-medium text-hazel">
@@ -148,10 +146,6 @@ export function AnalysisLoading({ preview, analysisId }: Props) {
             />
           ))}
         </div>
-
-        <p className="mt-8 text-xs text-charcoal/30">
-          Real-time AI analysis — this may take 1-2 minutes
-        </p>
       </div>
     </div>
   );

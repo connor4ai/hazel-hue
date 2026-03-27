@@ -31,23 +31,6 @@ export interface PollStatusResponse {
   failureReason: string | null;
 }
 
-export interface AnalysisResultResponse {
-  id: string;
-  status: string;
-  season: string;
-  confidenceScore: number;
-  colorProfile: {
-    undertone: string;
-    chroma: string;
-    contrastLevel: string;
-    dominantSkinHex: string;
-    dominantHairHex: string;
-    dominantEyeHex: string;
-  };
-  createdAt: string;
-  completedAt: string;
-  results: Record<string, unknown>;
-}
 
 export async function requestAnalysis(): Promise<RequestAnalysisResponse> {
   const res = await fetch(`${getBaseUrl()}/analysis`, {
@@ -82,17 +65,6 @@ export async function pollStatus(analysisId: string): Promise<PollStatusResponse
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error ?? `Poll failed: ${res.status}`);
-  }
-  return res.json();
-}
-
-export async function getAnalysisResult(analysisId: string): Promise<AnalysisResultResponse> {
-  const res = await fetch(`${getBaseUrl()}/analysis/${analysisId}`, {
-    headers: { 'X-Anonymous-Id': getAnonymousId() },
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body.error ?? `Get result failed: ${res.status}`);
   }
   return res.json();
 }

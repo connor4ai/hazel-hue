@@ -2,9 +2,24 @@ import { useCallback, useRef, useState } from 'react';
 import { PhotoUpload } from './PhotoUpload';
 import { AnalysisLoading } from './AnalysisLoading';
 import { AnalysisResults } from './AnalysisResults';
-import { requestAnalysis, uploadPhoto, pollStatus, getAnalysisResult } from '../api/client';
-import { mapApiResultToSeasonResult } from '../api/mapResult';
-import type { SeasonResult } from '../data/seasons';
+import { requestAnalysis, uploadPhoto, pollStatus } from '../api/client';
+import { SEASON_DATA } from '../data/seasons';
+import type { SeasonResult, SeasonType } from '../data/seasons';
+
+const SEASON_ID_TO_DISPLAY: Record<string, SeasonType> = {
+  LIGHT_SPRING: 'Light Spring',
+  TRUE_SPRING: 'True Spring',
+  BRIGHT_SPRING: 'Bright Spring',
+  LIGHT_SUMMER: 'Light Summer',
+  TRUE_SUMMER: 'True Summer',
+  SOFT_SUMMER: 'Soft Summer',
+  SOFT_AUTUMN: 'Soft Autumn',
+  TRUE_AUTUMN: 'True Autumn',
+  DEEP_AUTUMN: 'Deep Autumn',
+  DEEP_WINTER: 'Deep Winter',
+  TRUE_WINTER: 'True Winter',
+  BRIGHT_WINTER: 'Bright Winter',
+};
 
 type Step = 'upload' | 'analyzing' | 'results' | 'error';
 
@@ -39,20 +54,22 @@ export function AnalysisPage() {
       if (abort.signal.aborted) return;
 
       // 3. Poll for completion
-      const maxPolls = 120; // 120 * 3s = 6 minutes max
+      const maxPolls = 60; // 60 * 2s = 2 minutes max
       for (let i = 0; i < maxPolls; i++) {
         if (abort.signal.aborted) return;
 
-        await new Promise((r) => setTimeout(r, 3000));
+        await new Promise((r) => setTimeout(r, 2000));
         if (abort.signal.aborted) return;
 
         const status = await pollStatus(analysisId);
 
-        if (status.status === 'COMPLETED') {
-          // 4. Fetch full results
-          const fullResult = await getAnalysisResult(analysisId);
-          const mapped = mapApiResultToSeasonResult(fullResult);
-          setResult(mapped);
+        if (status.status === 'COMPLETED' && status.season) {
+          // Look up preset results by season — no extra API call needed
+          const displaySeason = SEASON_ID_TO_DISPLAY[status.season];
+          if (!displaySeason || !SEASON_DATA[displaySeason]) {
+            throw new Error(`Unknown season: ${status.season}`);
+          }
+          setResult(SEASON_DATA[displaySeason]);
           setStep('results');
           window.scrollTo({ top: 0 });
           return;
