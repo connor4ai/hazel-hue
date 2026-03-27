@@ -1,51 +1,81 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { pollStatus } from '../api/client';
 
 const ANALYSIS_STEPS = [
-  { label: 'Detecting face & features', duration: 2000 },
-  { label: 'Analyzing skin undertone', duration: 2500 },
-  { label: 'Mapping contrast level', duration: 2000 },
-  { label: 'Evaluating chroma depth', duration: 1500 },
-  { label: 'Identifying your season', duration: 2000 },
-  { label: 'Curating your palette', duration: 1500 },
+  { label: 'Uploading your photo', minDuration: 2000 },
+  { label: 'Detecting face & features', minDuration: 3000 },
+  { label: 'Analyzing skin undertone', minDuration: 4000 },
+  { label: 'Mapping contrast level', minDuration: 4000 },
+  { label: 'Evaluating chroma depth', minDuration: 4000 },
+  { label: 'Identifying your season', minDuration: 5000 },
+  { label: 'Curating your palette', minDuration: 5000 },
+  { label: 'Generating your guides', minDuration: 5000 },
 ];
 
 interface Props {
   preview: string;
-  onComplete: () => void;
+  analysisId: string | null;
 }
 
-export function AnalysisLoading({ preview, onComplete }: Props) {
+export function AnalysisLoading({ preview, analysisId }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState<string>('PENDING');
+  const startTimeRef = useRef(Date.now());
 
+  // Poll for real status
   useEffect(() => {
-    let totalElapsed = 0;
-    const totalDuration = ANALYSIS_STEPS.reduce((s, step) => s + step.duration, 0);
+    if (!analysisId) return;
 
-    const interval = setInterval(() => {
-      totalElapsed += 50;
-      const pct = Math.min((totalElapsed / totalDuration) * 100, 100);
-      setProgress(pct);
-
-      // Determine current step
-      let elapsed = 0;
-      for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
-        elapsed += ANALYSIS_STEPS[i].duration;
-        if (totalElapsed < elapsed) {
-          setCurrentStep(i);
-          break;
-        }
+    const interval = setInterval(async () => {
+      try {
+        const result = await pollStatus(analysisId);
+        setStatus(result.status);
+      } catch {
+        // Polling errors are non-fatal, the parent handles the real error
       }
-
-      if (totalElapsed >= totalDuration) {
-        clearInterval(interval);
-        setTimeout(onComplete, 400);
-      }
-    }, 50);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [analysisId]);
+
+  // Animate progress based on elapsed time and real status
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTimeRef.current;
+
+      // Calculate step based on elapsed time
+      let accumulated = 0;
+      let step = 0;
+      for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
+        accumulated += ANALYSIS_STEPS[i].minDuration;
+        if (elapsed < accumulated) {
+          step = i;
+          break;
+        }
+        step = i;
+      }
+
+      // If processing, advance to at least step 2
+      if (status === 'PROCESSING' && step < 2) step = 2;
+
+      setCurrentStep(step);
+
+      // Progress: smooth advancement, capped at 90% until completed
+      const totalMinDuration = ANALYSIS_STEPS.reduce((s, st) => s + st.minDuration, 0);
+      const rawPct = Math.min((elapsed / totalMinDuration) * 90, 90);
+
+      // If status is COMPLETED, jump to 100%
+      if (status === 'COMPLETED') {
+        setProgress(100);
+      } else {
+        setProgress(rawPct);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [status]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-6">
@@ -83,7 +113,7 @@ export function AnalysisLoading({ preview, onComplete }: Props) {
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-hazel to-terracotta"
               style={{ width: `${progress}%` }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.3 }}
             />
           </div>
           <p className="mt-3 text-sm font-medium text-hazel">
@@ -118,6 +148,10 @@ export function AnalysisLoading({ preview, onComplete }: Props) {
             />
           ))}
         </div>
+
+        <p className="mt-8 text-xs text-charcoal/30">
+          Real-time AI analysis — this may take 1-2 minutes
+        </p>
       </div>
     </div>
   );

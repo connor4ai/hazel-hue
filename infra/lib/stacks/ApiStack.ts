@@ -57,7 +57,12 @@ export class ApiStack extends cdk.Stack {
           apigatewayv2.CorsHttpMethod.DELETE,
           apigatewayv2.CorsHttpMethod.OPTIONS,
         ],
-        allowOrigins: ['https://hazelandhue.com', 'https://www.hazelandhue.com'],
+        allowOrigins: [
+          'https://hazelandhue.com',
+          'https://www.hazelandhue.com',
+          'http://localhost:5173',
+          'http://localhost:3000',
+        ],
         maxAge: cdk.Duration.hours(1),
       },
     });
@@ -288,25 +293,23 @@ export class ApiStack extends cdk.Stack {
       authorizer,
     });
 
+    // Analysis routes are public (no auth) — the web app uses these without login
     this.httpApi.addRoutes({
       path: '/analysis',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('RequestAnalysis', requestAnalysisFn),
-      authorizer,
     });
 
     this.httpApi.addRoutes({
       path: '/analysis/{id}',
       methods: [apigatewayv2.HttpMethod.GET],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('GetResult', getResultFn),
-      authorizer,
     });
 
     this.httpApi.addRoutes({
       path: '/analysis/{id}/status',
       methods: [apigatewayv2.HttpMethod.GET],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('PollStatus', pollStatusFn),
-      authorizer,
     });
 
     this.httpApi.addRoutes({
@@ -348,7 +351,6 @@ export class ApiStack extends cdk.Stack {
       path: '/analysis/check-quality',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('CheckPhotoQuality', checkPhotoQualityFn),
-      authorizer,
     });
 
     this.httpApi.addRoutes({
@@ -365,11 +367,11 @@ export class ApiStack extends cdk.Stack {
       authorizer,
     });
 
+    // Guides route is public for web access
     this.httpApi.addRoutes({
       path: '/recommendation/{id}/guides',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('GenerateGuides', generateGuidesFn),
-      authorizer,
     });
 
     // ─── Shopping Context Routes ────────────────────────────────────

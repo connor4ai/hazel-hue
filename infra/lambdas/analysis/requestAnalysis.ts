@@ -1,4 +1,4 @@
-import { withMiddleware, getUserId } from '../shared/middleware';
+import { withMiddleware, getUserIdOrAnonymous } from '../shared/middleware';
 import { putItem } from '../shared/dynamodb';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
@@ -11,7 +11,7 @@ const PHOTO_BUCKET = process.env.PHOTO_BUCKET!;
 const ANALYSIS_QUEUE_URL = process.env.ANALYSIS_QUEUE_URL!;
 
 export const handler = withMiddleware(async (event) => {
-  const userId = getUserId(event);
+  const userId = getUserIdOrAnonymous(event);
 
   // No entitlement/payment check — Hazel & Hue is free.
   // Access is gated client-side by the share-to-unlock flow.

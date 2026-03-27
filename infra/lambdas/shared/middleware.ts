@@ -1,5 +1,6 @@
-import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda';
+import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import type { ZodSchema, ZodError } from 'zod';
+import { randomUUID } from 'crypto';
 
 const MAX_BODY_BYTES = 1_048_576; // 1MB
 
@@ -78,6 +79,28 @@ export function getUserId(event: APIGatewayProxyEventV2WithJWTAuthorizer): strin
     throw Object.assign(new Error('Unauthorized'), { statusCode: 401 });
   }
   return sub;
+}
+
+/**
+ * Extracts user ID from JWT if present, otherwise uses X-Anonymous-Id header
+ * or generates a new anonymous ID. For public routes (no authorizer).
+ */
+export function getUserIdOrAnonymous(event: APIGatewayProxyEventV2WithJWTAuthorizer | APIGatewayProxyEventV2): string {
+  // Try JWT first
+  const claims = (event.requestContext as any)?.authorizer?.jwt?.claims;
+  const sub = claims?.sub;
+  if (sub && typeof sub === 'string') {
+    return sub;
+  }
+
+  // Fall back to anonymous ID from header
+  const anonId = event.headers?.['x-anonymous-id'];
+  if (anonId && UUID_REGEX.test(anonId)) {
+    return `anon_${anonId}`;
+  }
+
+  // Generate a one-time anonymous ID
+  return `anon_${randomUUID()}`;
 }
 
 /**

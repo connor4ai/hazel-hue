@@ -1,19 +1,13 @@
-import { withMiddleware, getUserId, getPathParamUUID } from '../shared/middleware';
+import { withMiddleware, getPathParamUUID } from '../shared/middleware';
 import { getItem, queryItems } from '../shared/dynamodb';
 
 export const handler = withMiddleware(async (event) => {
-  const userId = getUserId(event);
   const analysisId = getPathParamUUID(event, 'id');
 
   // Get analysis metadata
   const metadata = await getItem(`ANALYSIS#${analysisId}`, 'METADATA');
   if (!metadata) {
     throw Object.assign(new Error('Analysis not found'), { statusCode: 404 });
-  }
-
-  // Verify ownership
-  if (metadata.userId !== userId) {
-    throw Object.assign(new Error('Unauthorized'), { statusCode: 403 });
   }
 
   // If still processing, return status only

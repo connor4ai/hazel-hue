@@ -1,5 +1,5 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
-import { withMiddleware, getUserId, parseAndValidate } from '../shared/middleware';
+import { withMiddleware, getUserIdOrAnonymous, parseAndValidate } from '../shared/middleware';
 import { getItem, putItem } from '../shared/dynamodb';
 import { z } from 'zod';
 
@@ -11,16 +11,13 @@ const generateGuidesSchema = z.object({
 });
 
 export const handler = withMiddleware(async (event) => {
-  const userId = getUserId(event);
+  getUserIdOrAnonymous(event); // validate header presence but don't enforce ownership
   const body = parseAndValidate(event, generateGuidesSchema);
 
   // Load analysis metadata
   const metadata = await getItem(`ANALYSIS#${body.analysisId}`, 'METADATA');
   if (!metadata) {
     throw Object.assign(new Error('Analysis not found'), { statusCode: 404 });
-  }
-  if (metadata.userId !== userId) {
-    throw Object.assign(new Error('Forbidden'), { statusCode: 403 });
   }
   if (metadata.status !== 'COMPLETED') {
     throw Object.assign(new Error('Analysis not yet complete'), { statusCode: 400 });
