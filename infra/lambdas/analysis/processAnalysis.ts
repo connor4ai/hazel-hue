@@ -83,9 +83,8 @@ export const handler = async (event: SQSEvent): Promise<void> => {
     } catch (error) {
       console.error(`Analysis ${analysisId} failed:`, error);
 
-      // Check SQS receive count — only mark as FAILED on the final attempt
       const receiveCount = parseInt(record.attributes?.ApproximateReceiveCount ?? '1', 10);
-      const maxRetries = 3; // Matches DLQ maxReceiveCount in ApiStack
+      const maxRetries = 3;
 
       const failureReason =
         error instanceof Error && error.name === 'AbortError'
@@ -94,19 +93,20 @@ export const handler = async (event: SQSEvent): Promise<void> => {
             ? error.message
             : 'Unknown error';
 
-      if (receiveCount >= maxRetries) {
-        // Final attempt — mark as permanently failed
-        await updateItem(`ANALYSIS#${analysisId}`, 'METADATA', {
-          status: 'FAILED',
-          failureReason,
-        });
-        await updateItem(`USER#${userId}`, `ANALYSIS#${analysisId}`, {
-          status: 'FAILED',
-        });
-      }
-      // Otherwise leave status as PROCESSING so the client doesn't see a premature failure
+      // Always write FAILED so the client sees the error immediately
+      await updateItem(`ANALYSIS#${analysisId}`, 'METADATA', {
+        status: 'FAILED',
+        failureReason,
+      });
+      await updateItem(`USER#${userId}`, `ANALYSIS#${analysisId}`, {
+        status: 'FAILED',
+      });
 
-      throw error; // Let SQS retry
+      // Only rethrow for SQS retry if we haven't exhausted retries
+      if (receiveCount < maxRetries) {
+        throw error;
+      }
+      // On final attempt, don't rethrow — let the message be consumed
     }
   }
 };
