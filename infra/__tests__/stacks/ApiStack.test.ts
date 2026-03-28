@@ -73,6 +73,7 @@ const canBundle = (() => {
       'POST /analysis',
       'GET /analysis/{id}',
       'GET /analysis/{id}/status',
+      'POST /analysis/{id}/start',
       'POST /analysis/check-quality',
       'POST /recommendation/{id}/guides',
     ];

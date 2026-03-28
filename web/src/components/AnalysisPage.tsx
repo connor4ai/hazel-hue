@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import { PhotoUpload } from './PhotoUpload';
 import { AnalysisLoading } from './AnalysisLoading';
 import { AnalysisResults } from './AnalysisResults';
-import { requestAnalysis, uploadPhoto, pollStatus } from '../api/client';
+import { requestAnalysis, uploadPhoto, startAnalysis, pollStatus } from '../api/client';
 import { SEASON_DATA } from '../data/seasons';
 import type { SeasonResult, SeasonType } from '../data/seasons';
 
@@ -20,6 +20,37 @@ const SEASON_ID_TO_DISPLAY: Record<string, SeasonType> = {
   TRUE_WINTER: 'True Winter',
   BRIGHT_WINTER: 'Bright Winter',
 };
+
+/**
+ * Convert any image file to JPEG via canvas.
+ * The presigned S3 URL requires Content-Type: image/jpeg.
+ */
+function convertToJpeg(file: File): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    if (file.type === 'image/jpeg') {
+      resolve(file);
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Failed to convert image to JPEG'));
+        },
+        'image/jpeg',
+        0.92,
+      );
+    };
+    img.onerror = () => reject(new Error('Failed to load image'));
+    img.src = URL.createObjectURL(file);
+  });
+}
 
 type Step = 'upload' | 'analyzing' | 'results' | 'error';
 
@@ -48,13 +79,23 @@ export function AnalysisPage() {
 
       if (abort.signal.aborted) return;
 
-      // 2. Upload photo to S3 via presigned URL
-      await uploadPhoto(uploadUrl, file);
+      // 2. Convert to JPEG (presigned URL expects image/jpeg)
+      const jpegBlob = await convertToJpeg(file);
 
       if (abort.signal.aborted) return;
 
-      // 3. Poll for completion
-      const maxPolls = 60; // 60 * 2s = 2 minutes max
+      // 3. Upload JPEG to S3 via presigned URL
+      await uploadPhoto(uploadUrl, new File([jpegBlob], 'photo.jpg', { type: 'image/jpeg' }));
+
+      if (abort.signal.aborted) return;
+
+      // 4. Tell backend the photo is uploaded — triggers SQS processing
+      await startAnalysis(analysisId);
+
+      if (abort.signal.aborted) return;
+
+      // 5. Poll for completion
+      const maxPolls = 90; // 90 * 2s = 3 minutes max
       for (let i = 0; i < maxPolls; i++) {
         if (abort.signal.aborted) return;
 
@@ -64,7 +105,6 @@ export function AnalysisPage() {
         const status = await pollStatus(analysisId);
 
         if (status.status === 'COMPLETED' && status.season) {
-          // Look up preset results by season — no extra API call needed
           const displaySeason = SEASON_ID_TO_DISPLAY[status.season];
           if (!displaySeason || !SEASON_DATA[displaySeason]) {
             throw new Error(`Unknown season: ${status.season}`);
