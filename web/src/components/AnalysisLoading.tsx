@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { pollStatus } from '../api/client';
 
 const ANALYSIS_STEPS = [
   { label: 'Uploading your photo', minDuration: 1500 },
@@ -16,39 +15,19 @@ interface Props {
   analysisId: string | null;
 }
 
-export function AnalysisLoading({ preview, analysisId }: Props) {
+export function AnalysisLoading({ preview }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [backendDone, setBackendDone] = useState(false);
   const startTimeRef = useRef(Date.now());
 
-  // Poll for real status
-  useEffect(() => {
-    if (!analysisId) return;
-
-    const interval = setInterval(async () => {
-      try {
-        const result = await pollStatus(analysisId);
-        if (result.status === 'COMPLETED' || result.status === 'FAILED') {
-          setBackendDone(true);
-          clearInterval(interval);
-        }
-      } catch {
-        // Polling errors are non-fatal
-      }
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [analysisId]);
-
-  // Animate progress
+  // Animate progress — caps at 90% and loops through steps.
+  // AnalysisPage handles polling and will unmount this component when done.
   useEffect(() => {
     const totalDuration = ANALYSIS_STEPS.reduce((s, st) => s + st.minDuration, 0);
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTimeRef.current;
 
-      // Calculate current step
       let accumulated = 0;
       let step = 0;
       for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
@@ -61,19 +40,13 @@ export function AnalysisLoading({ preview, analysisId }: Props) {
       }
       setCurrentStep(step);
 
-      // Progress caps at 85% until backend is done
-      const rawPct = Math.min((elapsed / totalDuration) * 85, 85);
-
-      if (backendDone) {
-        // Quickly fill to 100%
-        setProgress((prev) => Math.min(prev + 3, 100));
-      } else {
-        setProgress(rawPct);
-      }
+      // Ease toward 90% — never reaches 100% (parent transitions on completion)
+      const rawPct = Math.min((elapsed / totalDuration) * 85, 90);
+      setProgress(rawPct);
     }, 80);
 
     return () => clearInterval(interval);
-  }, [backendDone]);
+  }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-6">

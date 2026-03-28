@@ -58,6 +58,20 @@ export async function uploadPhoto(uploadUrl: string, file: File): Promise<void> 
   }
 }
 
+export async function startAnalysis(analysisId: string): Promise<void> {
+  const res = await fetch(`${getBaseUrl()}/analysis/${analysisId}/start`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Anonymous-Id': getAnonymousId(),
+    },
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? `Start analysis failed: ${res.status}`);
+  }
+}
+
 export async function pollStatus(analysisId: string): Promise<PollStatusResponse> {
   const res = await fetch(`${getBaseUrl()}/analysis/${analysisId}/status`, {
     headers: { 'X-Anonymous-Id': getAnonymousId() },

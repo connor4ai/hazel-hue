@@ -131,14 +131,21 @@ export class ApiStack extends cdk.Stack {
     const requestAnalysisFn = new nodejs.NodejsFunction(this, 'RequestAnalysis', {
       ...writeDefaults,
       entry: path.join(__dirname, '../../lambdas/analysis/requestAnalysis.ts'),
+    });
+    table.grantReadWriteData(requestAnalysisFn);
+    photoBucket.grantPut(requestAnalysisFn);
+
+    const startAnalysisFn = new nodejs.NodejsFunction(this, 'StartAnalysis', {
+      ...writeDefaults,
+      entry: path.join(__dirname, '../../lambdas/analysis/startAnalysis.ts'),
       environment: {
         ...lambdaEnv,
         ANALYSIS_QUEUE_URL: this.analysisQueue.queueUrl,
       },
     });
-    table.grantReadWriteData(requestAnalysisFn);
-    photoBucket.grantPut(requestAnalysisFn);
-    this.analysisQueue.grantSendMessages(requestAnalysisFn);
+    table.grantReadData(startAnalysisFn);
+    photoBucket.grantRead(startAnalysisFn);
+    this.analysisQueue.grantSendMessages(startAnalysisFn);
 
     const getResultFn = new nodejs.NodejsFunction(this, 'GetResult', {
       ...readDefaults,
@@ -298,6 +305,12 @@ export class ApiStack extends cdk.Stack {
       path: '/analysis',
       methods: [apigatewayv2.HttpMethod.POST],
       integration: new apigatewayv2Integrations.HttpLambdaIntegration('RequestAnalysis', requestAnalysisFn),
+    });
+
+    this.httpApi.addRoutes({
+      path: '/analysis/{id}/start',
+      methods: [apigatewayv2.HttpMethod.POST],
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration('StartAnalysis', startAnalysisFn),
     });
 
     this.httpApi.addRoutes({
