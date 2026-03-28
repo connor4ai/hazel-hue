@@ -83,6 +83,10 @@ export const handler = async (event: SQSEvent): Promise<void> => {
     } catch (error) {
       console.error(`Analysis ${analysisId} failed:`, error);
 
+      // Check SQS receive count — only mark as FAILED on the final attempt
+      const receiveCount = parseInt(record.attributes?.ApproximateReceiveCount ?? '1', 10);
+      const maxRetries = 3; // Matches DLQ maxReceiveCount in ApiStack
+
       const failureReason =
         error instanceof Error && error.name === 'AbortError'
           ? 'Analysis timed out — please try again'
@@ -90,13 +94,18 @@ export const handler = async (event: SQSEvent): Promise<void> => {
             ? error.message
             : 'Unknown error';
 
-      await updateItem(`ANALYSIS#${analysisId}`, 'METADATA', {
-        status: 'FAILED',
-        failureReason,
-      });
-      await updateItem(`USER#${userId}`, `ANALYSIS#${analysisId}`, {
-        status: 'FAILED',
-      });
+      if (receiveCount >= maxRetries) {
+        // Final attempt — mark as permanently failed
+        await updateItem(`ANALYSIS#${analysisId}`, 'METADATA', {
+          status: 'FAILED',
+          failureReason,
+        });
+        await updateItem(`USER#${userId}`, `ANALYSIS#${analysisId}`, {
+          status: 'FAILED',
+        });
+      }
+      // Otherwise leave status as PROCESSING so the client doesn't see a premature failure
+
       throw error; // Let SQS retry
     }
   }
