@@ -13,7 +13,7 @@ const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 
 const analysisMessageSchema = z.object({
   analysisId: z.string().regex(UUID_REGEX),
-  userId: z.string().regex(UUID_REGEX),
+  userId: z.string().min(1).max(256),
   photoKey: z.string().min(1).max(512),
 });
 
