@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'infra/**'
+      - 'web/**'
   workflow_dispatch:
 
 jobs:
@@ -14,9 +15,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    defaults:
-      run:
-        working-directory: infra
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,11 +27,18 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
 
-      - name: Install dependencies
+      - name: Build web app
+        working-directory: web
+        run: npm ci && npm run build
+
+      - name: Install infra dependencies
+        working-directory: infra
         run: npm ci
 
       - name: CDK Diff
+        working-directory: infra
         run: npx cdk diff --all
 
       - name: CDK Deploy
+        working-directory: infra
         run: npx cdk deploy --all --require-approval never
