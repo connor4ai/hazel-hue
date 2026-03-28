@@ -44,14 +44,13 @@ export const handler = withMiddleware(async (event) => {
     createdAt: now,
   });
 
-  // Generate presigned upload URL (10MB max, JPEG only)
+  // Generate presigned upload URL (JPEG only)
   const uploadUrl = await getSignedUrl(
     s3,
     new PutObjectCommand({
       Bucket: PHOTO_BUCKET,
       Key: photoKey,
       ContentType: 'image/jpeg',
-      ContentLength: 10_485_760, // 10MB max
     }),
     { expiresIn: 300 }, // 5 minutes
   );
