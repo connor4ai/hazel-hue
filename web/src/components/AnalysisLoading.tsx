@@ -1,51 +1,79 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { pollStatus } from '../api/client';
 
 const ANALYSIS_STEPS = [
-  { label: 'Detecting face & features', duration: 2000 },
-  { label: 'Analyzing skin undertone', duration: 2500 },
-  { label: 'Mapping contrast level', duration: 2000 },
-  { label: 'Evaluating chroma depth', duration: 1500 },
-  { label: 'Identifying your season', duration: 2000 },
-  { label: 'Curating your palette', duration: 1500 },
+  { label: 'Uploading your photo', minDuration: 1500 },
+  { label: 'Detecting face & features', minDuration: 2000 },
+  { label: 'Analyzing skin undertone', minDuration: 2500 },
+  { label: 'Mapping contrast level', minDuration: 2000 },
+  { label: 'Identifying your season', minDuration: 2500 },
+  { label: 'Curating your palette', minDuration: 2000 },
 ];
 
 interface Props {
   preview: string;
-  onComplete: () => void;
+  analysisId: string | null;
 }
 
-export function AnalysisLoading({ preview, onComplete }: Props) {
+export function AnalysisLoading({ preview, analysisId }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [backendDone, setBackendDone] = useState(false);
+  const startTimeRef = useRef(Date.now());
 
+  // Poll for real status
   useEffect(() => {
-    let totalElapsed = 0;
-    const totalDuration = ANALYSIS_STEPS.reduce((s, step) => s + step.duration, 0);
+    if (!analysisId) return;
 
-    const interval = setInterval(() => {
-      totalElapsed += 50;
-      const pct = Math.min((totalElapsed / totalDuration) * 100, 100);
-      setProgress(pct);
-
-      // Determine current step
-      let elapsed = 0;
-      for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
-        elapsed += ANALYSIS_STEPS[i].duration;
-        if (totalElapsed < elapsed) {
-          setCurrentStep(i);
-          break;
+    const interval = setInterval(async () => {
+      try {
+        const result = await pollStatus(analysisId);
+        if (result.status === 'COMPLETED' || result.status === 'FAILED') {
+          setBackendDone(true);
+          clearInterval(interval);
         }
+      } catch {
+        // Polling errors are non-fatal
       }
-
-      if (totalElapsed >= totalDuration) {
-        clearInterval(interval);
-        setTimeout(onComplete, 400);
-      }
-    }, 50);
+    }, 2000);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [analysisId]);
+
+  // Animate progress
+  useEffect(() => {
+    const totalDuration = ANALYSIS_STEPS.reduce((s, st) => s + st.minDuration, 0);
+
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTimeRef.current;
+
+      // Calculate current step
+      let accumulated = 0;
+      let step = 0;
+      for (let i = 0; i < ANALYSIS_STEPS.length; i++) {
+        accumulated += ANALYSIS_STEPS[i].minDuration;
+        if (elapsed < accumulated) {
+          step = i;
+          break;
+        }
+        step = i;
+      }
+      setCurrentStep(step);
+
+      // Progress caps at 85% until backend is done
+      const rawPct = Math.min((elapsed / totalDuration) * 85, 85);
+
+      if (backendDone) {
+        // Quickly fill to 100%
+        setProgress((prev) => Math.min(prev + 3, 100));
+      } else {
+        setProgress(rawPct);
+      }
+    }, 80);
+
+    return () => clearInterval(interval);
+  }, [backendDone]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream px-6">

@@ -1,4 +1,4 @@
-import { withMiddleware, getUserId, getPathParamUUID } from '../shared/middleware';
+import { withMiddleware, getPathParamUUID } from '../shared/middleware';
 import { getItem } from '../shared/dynamodb';
 
 /**
@@ -6,16 +6,11 @@ import { getItem } from '../shared/dynamodb';
  * Designed for frequent polling during the processing theater.
  */
 export const handler = withMiddleware(async (event) => {
-  const userId = getUserId(event);
   const analysisId = getPathParamUUID(event, 'id');
 
   const metadata = await getItem(`ANALYSIS#${analysisId}`, 'METADATA');
   if (!metadata) {
     throw Object.assign(new Error('Analysis not found'), { statusCode: 404 });
-  }
-
-  if (metadata.userId !== userId) {
-    throw Object.assign(new Error('Unauthorized'), { statusCode: 403 });
   }
 
   return {

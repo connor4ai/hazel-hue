@@ -67,12 +67,17 @@ describe('DataStack', () => {
     });
   });
 
-  it('restricts S3 CORS to hazelandhue.com only', () => {
+  it('restricts S3 CORS to allowed origins', () => {
     template.hasResourceProperties('AWS::S3::Bucket', {
       CorsConfiguration: {
         CorsRules: [
           {
-            AllowedOrigins: ['https://hazelandhue.com', 'https://www.hazelandhue.com'],
+            AllowedOrigins: [
+              'https://hazelandhue.com',
+              'https://www.hazelandhue.com',
+              'http://localhost:5173',
+              'http://localhost:3000',
+            ],
           },
         ],
       },

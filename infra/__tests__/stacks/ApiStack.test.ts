@@ -67,12 +67,25 @@ const canBundle = (() => {
     }
   });
 
-  it('all routes have an authorizer', () => {
+  it('protected routes have an authorizer', () => {
+    // Analysis and recommendation/guides routes are intentionally public (no auth)
+    const publicRoutes = [
+      'POST /analysis',
+      'GET /analysis/{id}',
+      'GET /analysis/{id}/status',
+      'POST /analysis/check-quality',
+      'POST /recommendation/{id}/guides',
+    ];
+
     const routes = template.findResources('AWS::ApiGatewayV2::Route');
     for (const [, resource] of Object.entries(routes)) {
       const routeKey = (resource.Properties as any).RouteKey;
       if (routeKey?.startsWith('OPTIONS')) continue;
-      expect((resource.Properties as any).AuthorizationType).toBe('JWT');
+      if (publicRoutes.includes(routeKey)) {
+        expect((resource.Properties as any).AuthorizationType).toBe('NONE');
+      } else {
+        expect((resource.Properties as any).AuthorizationType).toBe('JWT');
+      }
     }
   });
 });
