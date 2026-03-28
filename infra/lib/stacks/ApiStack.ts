@@ -49,7 +49,7 @@ export class ApiStack extends cdk.Stack {
     this.httpApi = new apigatewayv2.HttpApi(this, 'HazelHueApi', {
       apiName: 'hazel-hue-api',
       corsPreflight: {
-        allowHeaders: ['Content-Type', 'Authorization'],
+        allowHeaders: ['Content-Type', 'Authorization', 'X-Anonymous-Id'],
         allowMethods: [
           apigatewayv2.CorsHttpMethod.GET,
           apigatewayv2.CorsHttpMethod.POST,
