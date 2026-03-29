@@ -45,13 +45,13 @@ export class ProcessingStack extends cdk.Stack {
     table.grantReadWriteData(processAnalysisFn);
     photoBucket.grantRead(processAnalysisFn);
 
-    // Bedrock access — Claude 3.7 Sonnet via cross-region inference profile
+    // Bedrock access — Claude Sonnet 4 via cross-region inference profile
     processAnalysisFn.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ['bedrock:InvokeModel'],
         resources: [
-          `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/us.anthropic.claude-3-7-sonnet-20250219-v1:0`,
-          `arn:aws:bedrock:*::foundation-model/anthropic.claude-3-7-sonnet-20250219-v1:0`,
+          `arn:aws:bedrock:${this.region}:${this.account}:inference-profile/us.anthropic.claude-sonnet-4-20250514-v1:0`,
+          `arn:aws:bedrock:*::foundation-model/anthropic.claude-sonnet-4-20250514-v1:0`,
         ],
       }),
     );
