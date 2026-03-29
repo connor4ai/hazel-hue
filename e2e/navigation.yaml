@@ -1,0 +1,24 @@
+appId: com.hazelhue.app
+name: Tab Navigation
+---
+# Verify all tabs are reachable
+
+- launchApp
+
+# Home tab (default)
+- assertVisible: "Start Analysis"
+
+# Results tab
+- tapOn:
+    id: "tab-results"
+- assertVisible: "Past Analyses"
+
+# Profile tab
+- tapOn:
+    id: "tab-profile"
+- assertVisible: "Settings"
+
+# Return to Home
+- tapOn:
+    id: "tab-home"
+- assertVisible: "Start Analysis"

@@ -1,0 +1,29 @@
+appId: com.hazelhue.app
+name: Analysis Flow - Happy Path
+---
+# User can navigate the core analysis flow on iOS
+
+- launchApp
+
+# Verify home screen loads
+- assertVisible: "Start Analysis"
+
+# Navigate to onboarding tips
+- tapOn: "Start Analysis"
+- assertVisible: "Photo Tips"
+
+# Proceed to capture screen
+- tapOn:
+    text: "Continue"
+- assertVisible: "Take a Photo"
+
+# Tap camera or upload option
+- tapOn: "Upload from Library"
+
+# Wait for image picker — in CI this will be stubbed
+- extendedWaitUntil:
+    visible: "Checkout"
+    timeout: 10000
+
+# Verify checkout screen
+- assertVisible: "Unlock Your Colors"

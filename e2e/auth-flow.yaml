@@ -1,0 +1,22 @@
+appId: com.hazelhue.app
+name: Authentication Flow
+---
+# Verify sign-in and sign-up screens are accessible
+
+- launchApp
+- clearState
+
+# Should show sign-in when not authenticated
+- assertVisible: "Sign In"
+
+# Navigate to sign-up
+- tapOn: "Create Account"
+- assertVisible: "Sign Up"
+
+# Verify form fields are present
+- assertVisible: "Email"
+- assertVisible: "Password"
+
+# Go back to sign-in
+- tapOn: "Already have an account?"
+- assertVisible: "Sign In"

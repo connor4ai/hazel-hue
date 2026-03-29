@@ -39,8 +39,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
+      - name: Run unit tests
         run: npx jest --config jest.config.cjs
+
+      - name: Run component tests
+        run: npx jest --config jest.config.components.cjs
 
   infra-test:
     name: Infrastructure Tests
