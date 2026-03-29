@@ -56,6 +56,18 @@ export class ProcessingStack extends cdk.Stack {
       }),
     );
 
+    // AWS Marketplace permissions — required for first-time model auto-enablement
+    processAnalysisFn.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'aws-marketplace:Subscribe',
+          'aws-marketplace:Unsubscribe',
+          'aws-marketplace:ViewSubscriptions',
+        ],
+        resources: ['*'],
+      }),
+    );
+
     // Rekognition access for face detection
     // Note: DetectFaces does not support resource-level permissions (AWS limitation)
     processAnalysisFn.addToRolePolicy(
