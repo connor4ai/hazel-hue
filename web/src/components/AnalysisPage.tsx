@@ -22,29 +22,32 @@ const SEASON_ID_TO_DISPLAY: Record<string, SeasonType> = {
 };
 
 /**
- * Convert any image file to JPEG via canvas.
- * The presigned S3 URL requires Content-Type: image/jpeg.
+ * Convert and resize any image to JPEG via canvas.
+ * Ensures the image stays under Bedrock's 5MB base64 limit.
  */
 function convertToJpeg(file: File): Promise<Blob> {
   return new Promise((resolve, reject) => {
-    if (file.type === 'image/jpeg') {
-      resolve(file);
-      return;
-    }
     const img = new Image();
     img.onload = () => {
+      const MAX_DIM = 1536; // Max width or height — keeps base64 well under 5MB
+      let { naturalWidth: w, naturalHeight: h } = img;
+      if (w > MAX_DIM || h > MAX_DIM) {
+        const scale = MAX_DIM / Math.max(w, h);
+        w = Math.round(w * scale);
+        h = Math.round(h * scale);
+      }
       const canvas = document.createElement('canvas');
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
+      canvas.width = w;
+      canvas.height = h;
       const ctx = canvas.getContext('2d')!;
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, w, h);
       canvas.toBlob(
         (blob) => {
           if (blob) resolve(blob);
           else reject(new Error('Failed to convert image to JPEG'));
         },
         'image/jpeg',
-        0.92,
+        0.85,
       );
     };
     img.onerror = () => reject(new Error('Failed to load image'));
