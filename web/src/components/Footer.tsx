@@ -58,7 +58,6 @@ export function Footer() {
             <nav className="mt-5 flex flex-col gap-3">
               <a href="#how-it-works" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">How It Works</a>
               <a href="#results" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">What You Get</a>
-              <a href="#testimonials" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Stories</a>
               <a href="/blog" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Blog</a>
               <a href="#faq" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">FAQ</a>
             </nav>

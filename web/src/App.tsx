@@ -7,7 +7,6 @@ import { ResultsPreview } from './components/ResultsPreview';
 import { SeasonMarquee } from './components/SeasonMarquee';
 import { GetStarted } from './components/GetStarted';
 import { FAQ } from './components/FAQ';
-import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsOfService } from './components/TermsOfService';
@@ -208,7 +207,6 @@ export function App() {
         <HowItWorks />
         <ResultsPreview />
         <GetStarted onGetStarted={handleGetStarted} />
-        <Testimonials />
         <FAQ />
       </main>
       <Footer />
