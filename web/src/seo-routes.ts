@@ -16,7 +16,7 @@ const STATIC_ROUTES: RouteMeta[] = [
     path: '/',
     title: 'AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue',
     description:
-      'Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 2,400+ users.',
+      'Get your AI color analysis online for free. Upload a selfie and discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI.',
     canonical: 'https://hazelandhue.com',
     ogTitle: 'AI Color Analysis Online — Discover Your Season Free | Hazel & Hue',
     ogDescription:
