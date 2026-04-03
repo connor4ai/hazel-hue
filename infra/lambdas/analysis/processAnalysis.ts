@@ -167,26 +167,48 @@ async function invokeClaudeVision(imageBase64: string, prompt: string): Promise<
 
 // ─── Prompts ─────────────────────────────────────────────────────
 
-const COLORIST_SYSTEM_PROMPT = `You are a professional 12-season color analyst using the Sci/ART method. You classify people into exactly one of 12 seasons based on their natural coloring. You focus on the person's inherent skin undertone, hair color, and eye color — ignoring makeup, lighting artifacts, and filters as much as possible. Any ethnicity can be any season. You always respond with valid JSON only.`;
+const COLORIST_SYSTEM_PROMPT = `You are a professional 12-season color analyst using the Sci/ART method. You classify people into exactly one of 12 seasons based on their natural coloring. You focus on the person's inherent skin undertone, hair color, and eye color. Any ethnicity can be any season. You always respond with valid JSON only.
+
+CRITICAL — PHOTO NORMALIZATION:
+Before analyzing, mentally white-balance the image. Phone cameras shift colors depending on lighting (warm indoor light adds yellow; cool fluorescent adds blue; overexposure washes out depth; underexposure deepens everything). To compensate:
+- Find neutral anchors: the whites of the eyes, teeth, any white/gray clothing or walls. If these appear yellowish, the whole image skews warm — mentally subtract that cast. If bluish, subtract the cool cast.
+- Judge undertone from RELATIVE color relationships, not absolute pixel colors. Compare lip color to surrounding skin, the contrast between inner arm/wrist and outer arm, and the hue shift from skin to hair. These relative contrasts are stable across lighting.
+- Vein color at the inner wrist (if visible) is a strong lighting-invariant signal: green-tinted veins = warm undertone, blue/purple veins = cool undertone.
+- Depth should be judged by the CONTRAST RATIO between skin, hair, and eyes — not by how light or dark the skin appears in absolute terms (which shifts with exposure).
+- Chroma should be judged by how SATURATED features appear relative to each other, not in absolute terms. In washed-out photos, look at whether eye color still reads as vivid against the skin.
+- Ignore clothing, background colors, and jewelry entirely — they do not reflect the person's coloring.
+- If you detect makeup, hair dye, or colored contacts, try to assess the NATURAL coloring beneath. If heavy makeup makes this impossible, base your assessment on the features that appear most natural.`;
 
 const CLASSIFICATION_PROMPT = `Classify this person into one of 12 color seasons. Follow this EXACT decision tree — commit to each answer before moving to the next step.
 
+IMPORTANT — LIGHTING-INVARIANT ANALYSIS:
+Before starting the decision tree, mentally white-balance this photo using the whites of the eyes, teeth, or any neutral gray/white surfaces visible. All color judgments below must be based on the person's TRUE coloring after compensating for any warm/cool lighting cast, over/underexposure, or camera white balance shifts. Use RELATIVE color relationships between features (skin vs hair, skin vs eyes, lip vs skin) rather than absolute colors, because relative contrasts are stable across different lighting.
+
 DECISION TREE:
 
-1. SKIN UNDERTONE (most important — look at inner wrist, jawline, forehead):
-   - Golden/peachy/yellow base → WARM
-   - Pink/rosy/blue base → COOL
-   - Olive: look beneath — yellow-olive = WARM, gray-olive = COOL
+1. SKIN UNDERTONE (most important — this is the PRIMARY axis and must be determined with high confidence):
+   Use MULTIPLE signals and require agreement before committing:
+   a) Inner wrist/forearm: Do veins appear more green-tinted (warm) or blue-purple (cool)?
+   b) Jawline/neck: After mentally removing any lighting cast, does the base tone lean golden/peachy (warm) or pink/rosy (cool)?
+   c) Lip-to-skin relationship: Are the lips a warm peach/coral against the skin (warm) or a cool pink/berry (cool)?
+   d) How the skin interacts with the hair at the hairline: Does the transition feel harmoniously warm or cool?
 
-2. OVERALL DEPTH (combine skin + hair + eyes):
-   - Fair skin + light hair + light eyes → LIGHT
-   - Dark hair + deep features → DEEP
-   - Neither extreme → MEDIUM
+   - If 3+ signals agree on golden/peachy/yellow → WARM
+   - If 3+ signals agree on pink/rosy/blue → COOL
+   - Olive skin: look at the UNDERLYING base beneath the olive — yellow-olive = WARM, gray-olive = COOL
+   - If signals conflict, weight vein color and lip-to-skin contrast most heavily (these are most resistant to lighting shifts)
 
-3. CHROMA (how vivid/saturated are the features?):
-   - Vivid eye color, clear skin, high-definition features → BRIGHT
-   - Dusty, blended, grayed-down, soft-focus features → SOFT/MUTED
+2. OVERALL DEPTH (judge by CONTRAST RATIOS between features, not absolute lightness):
+   - Low contrast between skin, hair, and eyes + generally lighter features → LIGHT
+   - High contrast + generally darker/richer features → DEEP
+   - Moderate contrast → MEDIUM
+   NOTE: A photo taken in dim light can make a Light person look Medium. Judge depth by the RANGE of values across features (hair vs skin vs eyes), not by how dark any single feature appears.
+
+3. CHROMA (how vivid/saturated are the features RELATIVE TO EACH OTHER?):
+   - Eye color reads as vivid and distinct against skin, clear skin, crisp definition between features → BRIGHT
+   - Features blend into each other, soft transitions, muted tones throughout → SOFT/MUTED
    - Neither extreme → MODERATE
+   NOTE: Overexposed photos desaturate everything. If the photo looks washed out, check whether the EYES still hold strong color — if so, the person is likely brighter than the photo suggests.
 
 4. MAP using this table (pick the BEST match):
 
@@ -207,9 +229,9 @@ DECISION TREE:
 
 CONSISTENCY RULES:
 - The undertone MUST match the season family: Spring/Autumn = Warm, Summer/Winter = Cool.
-- If torn between two sister seasons, skin undertone is the tiebreaker.
-- Ignore clothing and background colors.
-- If you detect makeup or hair dye, try to assess NATURAL coloring beneath.
+- If torn between two adjacent seasons (e.g., Soft Summer vs Soft Autumn, or True Spring vs Bright Spring), commit to the one where the PRIMARY axis (undertone) is most clearly supported by the lighting-invariant signals (veins, lip-to-skin contrast, hair-to-skin warmth).
+- NEVER let background, clothing, or environmental light color influence your season choice.
+- Depth and chroma are SECONDARY to undertone. If undertone clearly points warm but depth/chroma are ambiguous, choose the warm season that best fits and note lower confidence — do NOT flip to a cool season because of a depth/chroma ambiguity.
 
 Respond with ONLY this JSON — no other text:
 {
@@ -223,5 +245,5 @@ Respond with ONLY this JSON — no other text:
     "dominantHairHex": "<hex>",
     "dominantEyeHex": "<hex>"
   },
-  "reasoning": "<2-3 sentences: what undertone you see, what depth, what chroma, and why this season>"
+  "reasoning": "<2-3 sentences: what undertone you see (and which lighting-invariant signals confirmed it), what depth, what chroma, and why this season>"
 }`;
