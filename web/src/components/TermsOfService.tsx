@@ -18,7 +18,7 @@ export function TermsOfService() {
           <p>
             Hazel & Hue provides AI-powered seasonal color analysis. Users upload a selfie photo, and our AI generates a
             personalized color palette, style guide, makeup recommendations, and hair color suggestions based on their
-            unique coloring. The Service is available via our mobile application (iOS and Android) and website.
+            unique coloring. The Service is available via our website.
           </p>
         </section>
 

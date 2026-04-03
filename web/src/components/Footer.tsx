@@ -58,7 +58,6 @@ export function Footer() {
             <nav className="mt-5 flex flex-col gap-3">
               <a href="#how-it-works" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">How It Works</a>
               <a href="#results" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">What You Get</a>
-              <a href="#testimonials" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Stories</a>
               <a href="/blog" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">Blog</a>
               <a href="#faq" className="underline-animate text-sm text-charcoal/45 transition hover:text-hazel">FAQ</a>
             </nav>
@@ -81,24 +80,6 @@ export function Footer() {
           <p className="text-xs text-charcoal/25">
             &copy; {new Date().getFullYear()} Hazel & Hue. All rights reserved.
           </p>
-          <div className="flex gap-3">
-            <a
-              href="https://apps.apple.com/app/hazel-hue"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
-            >
-              iOS App
-            </a>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.hazelhue"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
-            >
-              Android App
-            </a>
-          </div>
         </div>
       </div>
     </footer>
