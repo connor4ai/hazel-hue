@@ -80,24 +80,6 @@ export function Footer() {
           <p className="text-xs text-charcoal/25">
             &copy; {new Date().getFullYear()} Hazel & Hue. All rights reserved.
           </p>
-          <div className="flex gap-3">
-            <a
-              href="https://apps.apple.com/app/hazel-hue"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
-            >
-              iOS App
-            </a>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.hazelhue"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-cream-200 px-4 py-2 text-xs font-medium text-charcoal/40 transition-all duration-300 hover:border-hazel/20 hover:text-hazel"
-            >
-              Android App
-            </a>
-          </div>
         </div>
       </div>
     </footer>

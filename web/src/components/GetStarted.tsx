@@ -43,7 +43,6 @@ export function GetStarted({ onGetStarted }: Props) {
             className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-cream-100/40"
           >
             Upload a selfie and discover your seasonal color palette in under 60 seconds.
-            Try it right here on the web, or download the app.
           </motion.p>
 
           <motion.div
@@ -65,34 +64,6 @@ export function GetStarted({ onGetStarted }: Props) {
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-hazel-100 to-cream-100 transition-transform duration-500 group-hover:translate-x-0" />
             </button>
 
-            {/* Secondary app links */}
-            <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
-              <span className="text-xs text-cream-100/25">or get the app</span>
-              <div className="flex gap-3">
-                <a
-                  href="https://apps.apple.com/app/hazel-hue"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 text-cream-50 backdrop-blur-sm transition-all duration-500 hover:bg-white/20"
-                >
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                  </svg>
-                  <span className="text-xs font-medium">iOS</span>
-                </a>
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.hazelhue"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 text-cream-50 backdrop-blur-sm transition-all duration-500 hover:bg-white/20"
-                >
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302c.433.289.744.765.744 1.19 0 .425-.311.901-.744 1.19l-2.56 1.484-2.544-2.544 2.802-2.622zM5.864 2.658l10.937 6.333-2.302 2.302-8.635-8.635z" />
-                  </svg>
-                  <span className="text-xs font-medium">Android</span>
-                </a>
-              </div>
-            </div>
           </motion.div>
 
           {/* How it's free */}
@@ -111,8 +82,7 @@ export function GetStarted({ onGetStarted }: Props) {
             <div>
               <p className="text-sm font-semibold text-cream-50/90">Completely free on the web</p>
               <p className="mt-1 text-sm leading-relaxed text-cream-100/35">
-                Try your color analysis right here — no download required. Want to save your results
-                and get ongoing recommendations? Download the app.
+                Try your color analysis right here — no download required.
               </p>
             </div>
           </motion.div>
