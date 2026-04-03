@@ -195,7 +195,7 @@ export function App() {
     <div className="min-h-screen overflow-hidden">
       <SEO
         title="AI Color Analysis Online — Free Seasonal Color Palette | Hazel & Hue"
-        description="Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 2,400+ users."
+        description="Get your AI color analysis online for free. Discover your seasonal color palette in under 60 seconds — personalized style, makeup, and hair recommendations powered by AI. Trusted by 300+ users."
         canonical="/"
         ogTitle="AI Color Analysis Online — Discover Your Season Free | Hazel & Hue"
         ogDescription="Free AI-powered seasonal color analysis. Upload a selfie and get your personalized color palette, style guide, makeup & hair recommendations in under a minute."
